@@ -1,0 +1,31 @@
+{
+    "family": "%ECS_FAMILY%",
+    "containerDefinitions": [
+        {
+            "image": "%REPOSITORY_URI_WEB%:v_%BUILD_NUMBER%",
+            "name": "adpq-web",
+            "cpu": 10,
+            "memory": 256,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80
+                }
+            ]
+        },
+        {
+            "image": "%REPOSITORY_URI_SERVER%:v_%BUILD_NUMBER%",
+            "name": "adpq-server",
+            "cpu": 10,
+            "memory": 256,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 3001,
+                    "hostPort": 3001
+                }
+            ]
+        }
+    ]
+}

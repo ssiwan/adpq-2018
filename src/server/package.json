@@ -1,0 +1,66 @@
+{
+  "name": "adpq2018-server",
+  "version": "0.0.1",
+  "description": "Homeowners Toolbox Inc. DBA HOTB Software submission for the California Department of Technology ADPQ in 2018",
+  "keywords": [
+    "ADPQ",
+    "2018"
+  ],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HOTB-Software/adpq-2018"
+  },
+  "contributors": [
+    {
+      "name": "Noel Eom",
+      "email": "neom@hotbsoftware.com"
+    },
+    {
+      "name": "Raghu Jonnala",
+      "email": "rjonnala@counselordirect.com"
+    },
+    {
+      "name": "Eric Dobyns",
+      "email": "edobyns@hotbsoftware.com"
+    },
+    {
+      "name": "Ken Baker",
+      "email": "kbaker@hotbsoftware.com"
+    },
+    {
+      "name": "Mike Firoved",
+      "email": "mfiroved@counselordirect.com"
+    },
+    {
+      "name": "Luis Escobar-Driver",
+      "email": "ldriver@hotbsoftware.com"
+    },
+    {
+      "name": "Jason Connolly",
+      "email": "jconnolly@hotbsoftware.com"
+    },
+    {
+      "name": "Mark Witte",
+      "email": "mark.witte@hotbsoftware.com"
+    }
+  ],
+  "main": "./src/app.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "build": "",
+    "clean": "",
+    "lint": "./node_modules/.bin/eslint . --fix",
+    "test": ""
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": "9.5.0",
+    "npm": "5.5.1"
+  },
+  "os": [
+    "any"
+  ],
+  "private": false
+}
