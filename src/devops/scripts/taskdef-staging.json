@@ -28,6 +28,12 @@
             "cpu": 10,
             "memory": 256,
             "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 27017,
+                    "hostPort": 29716
+                }
+            ],
             "mountPoints": [
                 {
                     "sourceVolume": "adpq-db",
