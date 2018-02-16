@@ -31,18 +31,6 @@
     {
       "name": "Mike Firoved",
       "email": "mfiroved@counselordirect.com"
-    },
-    {
-      "name": "Luis Escobar-Driver",
-      "email": "ldriver@hotbsoftware.com"
-    },
-    {
-      "name": "Jason Connolly",
-      "email": "jconnolly@hotbsoftware.com"
-    },
-    {
-      "name": "Mark Witte",
-      "email": "mark.witte@hotbsoftware.com"
     }
   ],
   "main": "./src/app.js",
@@ -53,8 +41,16 @@
     "lint": "./node_modules/.bin/eslint . --fix",
     "test": ""
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "body-parser": "1.16.0",
+    "cors": "2.8.4",
+    "express": "4.16.2",
+    "helmet": "3.10.0",
+    "mongoose": "5.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0"
+  },
   "engines": {
     "node": "9.5.0",
     "npm": "5.5.1"
