@@ -31,7 +31,6 @@ node {
 def build() {
     stage('Build') { // Build Docker Images
         sh 'docker build -t adpq-server ./src/server'
-        sh 'docker build -t adpq-web ./src/web'
     }
 }
 
@@ -45,12 +44,6 @@ def publish() {
 
             docker tag adpq-server 485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-server:v_${BUILD_NUMBER}
             docker push 485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-server:v_${BUILD_NUMBER}
-
-            docker tag adpq-web 485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-web:latest
-            docker push 485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-web:latest
-
-            docker tag adpq-web 485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-web:v_${BUILD_NUMBER}
-            docker push 485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-web:v_${BUILD_NUMBER}
         '''
     }
 }
@@ -64,7 +57,6 @@ def deployStaging() {
             ### Constants
             ECS_REGION=us-west-1
             ECR_REPOSITORY_NAME_SERVER=adpq-server
-            ECR_REPOSITORY_NAME_WEB=adpq-web
             ECS_CLUSTER=adpq-staging
             ECS_SERVICE=adpq-staging-service
             ECS_FAMILY=adpq-staging
@@ -181,7 +173,6 @@ def deployProduction() {
             ### Constants
             ECS_REGION=us-west-1
             ECR_REPOSITORY_NAME_SERVER=adpq-server
-            ECR_REPOSITORY_NAME_WEB=adpq-web
             ECS_CLUSTER=adpq-production
             ECS_SERVICE=adpq-production-service
             ECS_FAMILY=adpq-production
