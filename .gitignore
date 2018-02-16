@@ -5,6 +5,7 @@ data/
 
 # Configuration
 config.json
+config.js
 
 # Logs
 logs/
