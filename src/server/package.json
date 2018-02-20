@@ -11,6 +11,36 @@
     "type": "git",
     "url": "https://github.com/HOTB-Software/adpq-2018"
   },
+  "main": "./src/app.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "build": "",
+    "clean": "",
+    "lint": "./node_modules/.bin/eslint . --fix",
+    "test": "",
+    "docker:start": "npm run docker:build && docker run -e NODE_ENV=production -d --restart=always -p 3001:3001 --name api -i api && clear",
+    "docker:build": "docker build --force-rm --no-cache -t api . && clear",
+    "docker:stop": "docker stop api && clear",
+    "docker:teardown": "npm run docker:stop && docker rm api && docker rmi api -f && clear"
+  },
+  "dependencies": {
+    "body-parser": "1.16.0",
+    "cors": "2.8.4",
+    "express": "4.16.2",
+    "helmet": "3.10.0",
+    "mongoose": "5.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.17.0"
+  },
+  "engines": {
+    "node": "9.5.0",
+    "npm": "5.5.1"
+  },
+  "os": [
+    "any"
+  ],
+  "private": false,
   "contributors": [
     {
       "name": "Noel Eom",
@@ -32,31 +62,5 @@
       "name": "Mike Firoved",
       "email": "mfiroved@counselordirect.com"
     }
-  ],
-  "main": "./src/app.js",
-  "scripts": {
-    "start": "node ./src/app.js",
-    "build": "",
-    "clean": "",
-    "lint": "./node_modules/.bin/eslint . --fix",
-    "test": ""
-  },
-  "dependencies": {
-    "body-parser": "1.16.0",
-    "cors": "2.8.4",
-    "express": "4.16.2",
-    "helmet": "3.10.0",
-    "mongoose": "5.0.3"
-  },
-  "devDependencies": {
-    "eslint": "^4.17.0"
-  },
-  "engines": {
-    "node": "9.5.0",
-    "npm": "5.5.1"
-  },
-  "os": [
-    "any"
-  ],
-  "private": false
+  ]
 }

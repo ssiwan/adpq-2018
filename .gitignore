@@ -4,6 +4,7 @@
 data/
 
 # Configuration
+.env
 config.json
 config.js
 

@@ -11,10 +11,10 @@ exports.getTags = function (req, res) {
     var query = tag.find();
     
     query.exec().catch(function (err) {
-            res.json({'error':'Query error'});
-        });  
+        res.json({'error':'Query error'});
+    });  
     
-    query.then(function(tags) {
+    query.then(function(tags, blah) {
         tags.forEach(function(tg) {
                 var obj = {};
                 obj["name"] = tg.value;

@@ -2,26 +2,12 @@ version: "2.1"
 
 services:
 
-  server:
+  api:
     build: ./src/server
-    container_name: "server"
+    container_name: "api"
+    image: "api"
     restart: always
+    environment:
+      - NODE_ENV=production
     ports:
       - "3001:3001"      
-    links:
-      - db      
-    depends_on:
-      db:
-        condition: service_healthy
-
-  db:
-    image: "mongo:3.6.2"
-    container_name: "db"
-    restart: always
-    volumes:
-      - ./data/db:/data/db  
-    healthcheck:
-      test: echo 'db.stats().ok'
-      interval: 15s
-      timeout: 10s
-      retries: 5
