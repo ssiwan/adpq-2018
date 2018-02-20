@@ -18,7 +18,7 @@ exports.getAgencies = function (req, res) {
             obj['name'] = ag.value;
             obj['id'] = ag._id;
             //getArticleCount function here?
-            obj['articleCount'] = index; // query to get article count?            
+            obj['articleCount'] = index; // query to get article count            
             returnlist.push(obj); 
         })
         res.json({'data': returnlist});//will probably standardize later

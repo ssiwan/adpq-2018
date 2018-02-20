@@ -16,7 +16,8 @@ var articleModel = new Schema({
         tags: [String],
         views: Number,
         description: [{role: Number, value: String}],
-        attachments: [{role: Number, value: [String]}]
+        attachments: [{role: Number, value: [String]}],
+        sharedUsers: [Schema.Types.ObjectId]
     }, {
         collection: 'articles'
     });
