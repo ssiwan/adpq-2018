@@ -36,7 +36,7 @@ mongoose.connect(config.dbUrl, options).then(() => {
     var routes = require('./routes'); //import routes
     routes(app);
 
-    app.use(cors); 
+    app.use(cors()); 
     app.use(express.static(require('path').join(__dirname, 'public')));
 
     app.get('/', (req, res) => {
