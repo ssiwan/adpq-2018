@@ -28,6 +28,9 @@ mongoose.connect(config.dbUrl, options).then(() => {
     require('./models/agency');
     require('./models/article');
 
+    //cors 
+    app.use(cors()); 
+
     //body parser
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json()); 
@@ -36,7 +39,6 @@ mongoose.connect(config.dbUrl, options).then(() => {
     var routes = require('./routes'); //import routes
     routes(app);
 
-    app.use(cors()); 
     app.use(express.static(require('path').join(__dirname, 'public')));
 
     app.get('/', (req, res) => {
