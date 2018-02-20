@@ -35,8 +35,9 @@ exports.search = function (req, res) {
             articleobj['status'] = art.status;
             articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
             articleobj['description'] = art.description[role];
-            articleobj['attachments'] = art.attachments[role]; 
-            articleobj['views'] = art.views; 
+            articleobj['attachments'] = art.attachments[role];
+            articleobj['views'] = art.views;
+            articleobj['sharedCount'] = 12;//art.sharedUsers.length; 
 
             returnlist.push(articleobj);   
         }); 
@@ -51,7 +52,7 @@ exports.getArticles = function(req, res) {
     var orderString = req.query.order;
     var limitString = req.query.limit;
     
-    //to be modified
+    //to be modified - get user role 
     var role = 0; 
 
     var returnlist = []; 
@@ -97,7 +98,8 @@ exports.getArticles = function(req, res) {
             articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
             articleobj['description'] = art.description[role];
             articleobj['attachments'] = art.attachments[role]; 
-            articleobj['views'] = art.views; 
+            articleobj['views'] = art.views;
+            articleobj['sharedCount'] = 12;//art.sharedUsers.length;  
 
             returnlist.push(articleobj);   
         }); 
