@@ -2,6 +2,9 @@
 
 var mongoose = require('mongoose'),
     agency = mongoose.model('agency');
+var articleController = require('./articleController');
+
+//var ObjectId = mongoose.Types.ObjectId; 
 
 //GET /agencies
 exports.getAgencies = function (req, res) {
@@ -25,4 +28,7 @@ exports.getAgencies = function (req, res) {
     })
 };
 
-//function getArticleCount?(agencyId) {};    
+//**************************** API internal functions ***********//
+exports.getAgencyName = function(oid) {
+
+}

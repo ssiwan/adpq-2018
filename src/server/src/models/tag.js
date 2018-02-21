@@ -8,4 +8,4 @@ var tagModel = new Schema({
         collection: 'tags'
     });
 
-module.exports = mongoose.model('tag', tagModel);
+module.exports = mongoose.model('tags', tagModel);

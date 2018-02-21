@@ -1,21 +1,21 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    tag = mongoose.model('tag');
+    tags = mongoose.model('tags');
 mongoose.Promise = Promise;
 
 //GET /tags
 exports.getTags = function (req, res) {
     var returnlist = []; 
 
-    var query = tag.find();
+    var query = tags.find();
     
     query.exec().catch(function (err) {
         res.json({'error':'Query error'});
     });  
     
-    query.then(function(tags, blah) {
-        tags.forEach(function(tg) {
+    query.then(function(tgs, blah) {
+        tgs.forEach(function(tg) {
                 var obj = {};
                 obj["id"] = tg._id.toString(); 
                 obj["name"] = tg.value;
