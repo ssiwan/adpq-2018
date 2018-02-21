@@ -13,7 +13,7 @@ var articleModel = new Schema({
         title: String,
         summary: String,
         approvedBy: Schema.Types.ObjectId,
-        tags: [String],
+        tags: [Schema.Types.ObjectId],
         views: Number,
         description: [{role: Number, value: String}],
         attachments: [{role: Number, value: [String]}],

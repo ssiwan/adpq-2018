@@ -17,6 +17,7 @@ exports.getTags = function (req, res) {
     query.then(function(tags, blah) {
         tags.forEach(function(tg) {
                 var obj = {};
+                obj["id"] = tg._id.toString(); 
                 obj["name"] = tg.value;
                 returnlist.push(obj);
             });
