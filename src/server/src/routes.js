@@ -1,6 +1,9 @@
 'use strict';
+var express = require('express');
+var router = express.Router();
 
-module.exports = function (app) {
+module.exports = function (app, apiKey) {
+
 //***********CONTROLLERS****************************//
     var tagsController = require('./controllers/tagsController');
     var agencyController = require('./controllers/agencyController');
@@ -9,11 +12,19 @@ module.exports = function (app) {
 
 //***********ROUTES****************************//
 
-var prefix = '/api/v1'; 
+//apiKey check 
+    router.use(function(req, res, next) {
+        if (req.header('apiKey') != apiKey) {
+            res.send({'error': 'Invalid api key'}); 
+        }
+        else {             
+            next();
+        }
+    });
 
 //tagRoutes
     //GET    
-        app.route(prefix + '/tags').get(tagsController.getTags);
+        router.get('/tags', tagsController.getTags); 
 
     //POST
 
@@ -23,7 +34,7 @@ var prefix = '/api/v1';
 
 //agencyRoutes
     //GET
-        app.route(prefix + '/agencies').get(agencyController.getAgencies);
+        router.get('/agencies', agencyController.getAgencies);
     
     //POST
 
@@ -33,13 +44,16 @@ var prefix = '/api/v1';
 
 //articleRoutes
     //GET
-        app.route(prefix + '/searchArticles').get(articleController.search);
-        app.route(prefix + '/articles').get(articleController.getArticles);
-        //app.route(prefix + '/createTempArticle').get(articleController.createTempArticle); 
-        //app.route('/api/v1/articles').get(articleController.getArticles);
+        router.get('/searchArticles', articleController.search);
+        router.get('/articles', articleController.getArticles);
+        router.get('/articleDetails', articleController.getArticleDetails); 
+
     //POST
 
     //PUT
 
     //DELETE
+
+//**************MOUNT ROUTER********************//
+    app.use('/api/v1', router); 
 };

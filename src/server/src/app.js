@@ -37,7 +37,7 @@ mongoose.connect(config.dbUrl, options).then(() => {
     
     //routes
     var routes = require('./routes'); //import routes
-    routes(app);
+    routes(app, config.apiKey);
 
     app.use(express.static(require('path').join(__dirname, 'public')));
 

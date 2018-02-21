@@ -3,18 +3,20 @@
 var mongoose = require('mongoose'),
     article = mongoose.model('article');
 
+var ObjectId = mongoose.Types.ObjectId; 
+var userRole = 0; //to be modified - get user role 
+
 //GET /searchArticles
 exports.search = function (req, res) {
     var keyword = req.query.keyword;
     var returnlist = []; 
-    var role = 0;
     var query = {};
 
     if (keyword != null && keyword.length > 0) {
         query.title = {'$regex': keyword, '$options': 'i'};
     }
 
-    query.role = role;
+    query.role = userRole;
 
     var prom = article.find(query);
     
@@ -26,18 +28,19 @@ exports.search = function (req, res) {
     prom.then(function(articles) {
         articles.forEach(function (art, index) {
             var articleobj = {};
+            articleobj['id'] = art._id.toString();
             articleobj['title'] = art.title;
             articleobj['summary'] = art.summary;
-            articleobj['tags'] = art.tags;
+            articleobj['tags'] = getTagNames('');
             articleobj['createdAt'] = art.createdAt;
             articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
             articleobj['agency'] = getAgencyName('tempName');
             articleobj['status'] = art.status;
             articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
-            articleobj['description'] = art.description[role];
-            articleobj['attachments'] = art.attachments[role];
+            articleobj['description'] = art.description[userRole];
+            articleobj['attachments'] = art.attachments[userRole];
             articleobj['views'] = art.views;
-            articleobj['sharedCount'] = 12;//art.sharedUsers.length; 
+            articleobj['sharedCount'] = art.sharedUsers.length; 
 
             returnlist.push(articleobj);   
         }); 
@@ -45,18 +48,25 @@ exports.search = function (req, res) {
     });      
 };
 
-//Get /articles
+//GET /articles
 exports.getArticles = function(req, res) {
     //sort, order, limit
     var sortField = req.query.sort;
     var orderString = req.query.order;
     var limitString = req.query.limit;
-    
-    //to be modified - get user role 
-    var role = 0; 
+    var agencyId = req.query.agencyId;
+    var tagId = req.query.tagId; 
 
     var returnlist = []; 
     var queryParams = {};
+    
+    if (agencyId != null || agencyId != '') {
+        queryParams.agencyId = new ObjectId(agencyId); 
+    }
+
+    if (tagId != null || tagId != '') {//automatically searches array.contains
+        queryParams.tags = new ObjectId(tagId); 
+    }
     
     var query = article.find(queryParams);
     
@@ -88,24 +98,65 @@ exports.getArticles = function(req, res) {
     query.then(function(articles) {
         articles.forEach(function (art, index) {
             var articleobj = {};
+            articleobj['id'] = art._id.toString();
             articleobj['title'] = art.title;
             articleobj['summary'] = art.summary;
-            articleobj['tags'] = art.tags;
+            articleobj['tags'] = getTagNames('');
             articleobj['createdAt'] = art.createdAt;
             articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
             articleobj['agency'] = getAgencyName('tempName');
             articleobj['status'] = art.status;
             articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
-            articleobj['description'] = art.description[role];
-            articleobj['attachments'] = art.attachments[role]; 
+            articleobj['description'] = art.description[userRole];
+            articleobj['attachments'] = art.attachments[userRole]; 
             articleobj['views'] = art.views;
-            articleobj['sharedCount'] = 12;//art.sharedUsers.length;  
+            articleobj['sharedCount'] = art.sharedUsers.length;  
 
             returnlist.push(articleobj);   
         }); 
         res.json({'data':returnlist}); 
     });
 
+}
+
+//GET /articleDetails
+exports.getArticleDetails = function(req, res) {
+    var articleId = req.query.articleId; 
+
+    //param check
+    if (articleId == null || articleId == '') {
+        res.send({'error': 'Please submit an articleId'});
+    }
+
+    var queryParams = {};
+    queryParams._id = new ObjectId(articleId); 
+
+    var query = article.find(queryParams);
+    query.limit(1);
+
+    query.exec()
+        .catch(function (err) {
+            res.send(err);
+        });
+    
+    query.then(function(art) {
+        var articleobj = {};
+        articleobj['id'] = art._id.toString();
+        articleobj['title'] = art.title;
+        articleobj['summary'] = art.summary;
+        articleobj['tags'] = getTagNames('');
+        articleobj['createdAt'] = art.createdAt;
+        articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
+        articleobj['agency'] = getAgencyName('tempName');
+        articleobj['status'] = art.status;
+        articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
+        articleobj['description'] = art.description[userRole];
+        articleobj['attachments'] = art.attachments[userRole]; 
+        articleobj['views'] = art.views;
+        articleobj['sharedCount'] = art.sharedUsers.length;
+
+        res.json({'data': articleobj}); 
+    }); 
 }
 
 //tempcreate not actually going to be a GET - will convert to Post /createArticle
@@ -178,6 +229,10 @@ exports.createTempArticle = function(req, res) {
         res.json({'error': err.toString() });//will standardize return types next sprint
     });
 }    
+
+function getTagNames(tags) {
+    return ['tag one', 'tag two', 'tag three']; 
+}
 
 function getAgencyName(name) {
     return name; 
