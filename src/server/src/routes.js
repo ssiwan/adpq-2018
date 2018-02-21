@@ -46,7 +46,8 @@ module.exports = function (app, apiKey) {
     //GET
         router.get('/searchArticles', articleController.search);
         router.get('/articles', articleController.getArticles);
-        router.get('/articleDetails', articleController.getArticleDetails); 
+        router.get('/articleDetails', articleController.getArticleDetails);
+        //router.get('/createTempArticle', articleController.createTempArticle);  
 
     //POST
 

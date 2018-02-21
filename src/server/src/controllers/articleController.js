@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
     article = mongoose.model('article');
+var agencyController = require('./agencyController');
 
 var ObjectId = mongoose.Types.ObjectId; 
 var userRole = 0; //to be modified - get user role 
@@ -18,7 +19,7 @@ exports.search = function (req, res) {
 
     query.role = userRole;
 
-    var prom = article.find(query);
+    var prom = article.find(query).populate('agency').populate('tags');
     
     prom.exec()
         .catch(function (err) {
@@ -28,17 +29,18 @@ exports.search = function (req, res) {
     prom.then(function(articles) {
         articles.forEach(function (art, index) {
             var articleobj = {};
+
             articleobj['id'] = art._id.toString();
             articleobj['title'] = art.title;
             articleobj['summary'] = art.summary;
-            articleobj['tags'] = getTagNames('');
+            articleobj['tags'] = getTagNames(art.tags); 
             articleobj['createdAt'] = art.createdAt;
             articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
-            articleobj['agency'] = getAgencyName('tempName');
+            articleobj['agency'] = art.agency.value;
             articleobj['status'] = art.status;
             articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
-            articleobj['description'] = art.description[userRole];
-            articleobj['attachments'] = art.attachments[userRole];
+            articleobj['description'] = art.description;
+            articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
             articleobj['sharedCount'] = art.sharedUsers.length; 
 
@@ -60,15 +62,15 @@ exports.getArticles = function(req, res) {
     var returnlist = []; 
     var queryParams = {};
     
-    if (agencyId != null || agencyId != '') {
-        queryParams.agencyId = new ObjectId(agencyId); 
+    if (agencyId != null && agencyId != '') {
+        queryParams.agency = new ObjectId(agencyId); 
     }
 
-    if (tagId != null || tagId != '') {//automatically searches array.contains
+    if (tagId != null && tagId != '') {//automatically searches array.contains
         queryParams.tags = new ObjectId(tagId); 
     }
     
-    var query = article.find(queryParams);
+    var query = article.find(queryParams).populate('agency').populate('tags');
     
     if (orderString != null) {
         var order = parseInt(orderString);
@@ -101,16 +103,16 @@ exports.getArticles = function(req, res) {
             articleobj['id'] = art._id.toString();
             articleobj['title'] = art.title;
             articleobj['summary'] = art.summary;
-            articleobj['tags'] = getTagNames('');
+            articleobj['tags'] = getTagNames(art.tags); 
             articleobj['createdAt'] = art.createdAt;
             articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
-            articleobj['agency'] = getAgencyName('tempName');
+            articleobj['agency'] = art.agency.value;
             articleobj['status'] = art.status;
             articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
-            articleobj['description'] = art.description[userRole];
-            articleobj['attachments'] = art.attachments[userRole]; 
+            articleobj['description'] = art.description;
+            articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
-            articleobj['sharedCount'] = art.sharedUsers.length;  
+            articleobj['sharedCount'] = art.sharedUsers.length; 
 
             returnlist.push(articleobj);   
         }); 
@@ -161,7 +163,12 @@ exports.getArticleDetails = function(req, res) {
 
 //tempcreate not actually going to be a GET - will convert to Post /createArticle
 exports.createTempArticle = function(req, res) {
-    var tagArray = ['fire'];
+    var tag1 = new ObjectId('5a8b55bca2d13ad4ba5369e3');
+    var tag2 = new ObjectId('5a8b55bca2d13ad4ba5369ef'); 
+    var tagArray = [tag1];
+
+    var sharedUsersArray = [tag1]; 
+
     var descriptionArray = [
         {
             role: 0,
@@ -210,32 +217,35 @@ exports.createTempArticle = function(req, res) {
     var tempArticle = new article({
         createdAt: Date.now(),
         createdBy: mongoose.Types.ObjectId('5a84ad66cb1d2c84e88d5132'),
-        agency: mongoose.Types.ObjectId('5a84ad66cb1d2c84e88d5132'),
-        role: 1,
+        agency: mongoose.Types.ObjectId('5a8b73f94212d1f20f847b9d'),
+        role: 0,
         status: 0,
-        title: 'Fire article #2 role 1',
-        summary: 'summary for Fire article 2',
+        title: 'Test Article 5',
+        summary: 'Test Article 5 Summary',
         approvedBy: mongoose.Types.ObjectId('5a84ad66cb1d2c84e88d5132'),
         tags: tagArray,
-        views: 0,
+        views: 15,
         description: descriptionArray,
-        attachments: attachmentArray
+        attachments: attachmentArray,
+        sharedUsers: sharedUsersArray
     });
     var prom = tempArticle.save();
     prom.then(function() {
         res.send('saved!');
     })
     .catch(function(err) {
-        res.json({'error': err.toString() });//will standardize return types next sprint
+        res.json({'error': err.toString() });
     });
 }    
 
-function getTagNames(tags) {
-    return ['tag one', 'tag two', 'tag three']; 
-}
+//*****************************API internal functions****************//
 
-function getAgencyName(name) {
-    return name; 
+function getTagNames(tags) {
+    var returnarray = []; 
+    tags.forEach(function(tag) {
+        returnarray.push(tag.value); 
+    })
+    return returnarray; 
 }
 
 function getAuthorName(name) {

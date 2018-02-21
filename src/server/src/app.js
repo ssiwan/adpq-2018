@@ -3,7 +3,6 @@ var config = require('./config'),
     app = express(),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
-    tag = require('./models/tag'),
     port = process.env.port || 3001;
 
 var cors = require('cors');
