@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var agencyModel = new Schema({
-        value: String
+        value: String, 
+        articleCount: Number
     }, {
         collection: 'agencies'
     });

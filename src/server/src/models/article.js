@@ -8,7 +8,7 @@ var articleModel = new Schema({
         createdBy: Schema.Types.ObjectId,//mongoose.Types.ObjectId(string)
         agency: {type: Schema.Types.ObjectId, ref: 'agency'},
         role: Number,//0 - 4
-        status: Number,//0 - closed, 1-open
+        status: Number,//0 - open, 1 - published, 2 - declined
         title: String,
         summary: String,
         approvedBy: Schema.Types.ObjectId,

@@ -24,6 +24,7 @@ mongoose.connect(config.dbUrl, options).then(() => {
     
     //models
     require('./models/tag');
+    require('./models/user');
     require('./models/agency');
     require('./models/article');
 

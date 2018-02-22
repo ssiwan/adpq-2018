@@ -29,6 +29,3 @@ exports.getAgencies = function (req, res) {
 };
 
 //**************************** API internal functions ***********//
-exports.getAgencyName = function(oid) {
-
-}
