@@ -8,13 +8,13 @@ module.exports = function (app, apiKey) {
     var tagsController = require('./controllers/tagsController');
     var agencyController = require('./controllers/agencyController');
     var articleController = require('./controllers/articleController');
-
+    var userController = require('./controllers/userController'); 
 
 //***********ROUTES****************************//
 
 //apiKey check 
     router.use(function(req, res, next) {
-        if (req.header('apiKey') != apiKey) {
+        if (req.header('api_key') != apiKey) {
             res.send({'error': 'Invalid api key'}); 
         }
         else {             
@@ -48,6 +48,15 @@ module.exports = function (app, apiKey) {
         router.get('/articles', articleController.getArticles);
         router.get('/articleDetails', articleController.getArticleDetails);
         //router.get('/createTempArticle', articleController.createTempArticle);  
+
+    //POST
+
+    //PUT
+
+    //DELETE
+
+//userRoutes
+    //GET 
 
     //POST
 

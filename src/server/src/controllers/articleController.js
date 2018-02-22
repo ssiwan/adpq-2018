@@ -2,7 +2,6 @@
 
 var mongoose = require('mongoose'),
     article = mongoose.model('article');
-var agencyController = require('./agencyController');
 
 var ObjectId = mongoose.Types.ObjectId; 
 var userRole = 0; //to be modified - get user role 
@@ -33,7 +32,8 @@ exports.search = function (req, res) {
             articleobj['id'] = art._id.toString();
             articleobj['title'] = art.title;
             articleobj['summary'] = art.summary;
-            articleobj['tags'] = getTagNames(art.tags); 
+            articleobj['tags'] = getTagNames(art.tags);
+            articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit 
             articleobj['createdAt'] = art.createdAt;
             articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
             articleobj['agency'] = art.agency.value;
@@ -51,27 +51,59 @@ exports.search = function (req, res) {
 };
 
 //GET /articles
-exports.getArticles = function(req, res) {
-    //sort, order, limit
+exports.getArticles = function(req, res, next) {
+    var returnlist = []; 
+    var queryParams = {};
+
     var sortField = req.query.sort;
     var orderString = req.query.order;
     var limitString = req.query.limit;
     var agencyId = req.query.agencyId;
-    var tagId = req.query.tagId; 
+    var tagId = req.query.tagId;
+    var startDateString = req.query.dateStart;//mm-dd-yyyy
+    var endDateString = req.query.dateEnd;        
 
-    var returnlist = []; 
-    var queryParams = {};
-    
+
+    // if filtering by start date and/or end date
+    var startDate = null;
+    var endDate = null; 
+
+    if (startDateString != null) {
+        var tempArray = startDateString.split('-');
+        startDate = new Date(parseInt(tempArray[2]), parseInt(tempArray[0])-1, parseInt(tempArray[1]));
+    }
+
+    if (endDateString != null) {
+        var tempArray = endDateString.split('-');
+        endDate = new Date(parseInt(tempArray[2]), parseInt(tempArray[0])-1, parseInt(tempArray[1]));
+    }
+
+    if (startDate != null && endDate != null) {
+        queryParams.createdAt = {"$gte": startDate, "$lt": endDate}
+    }
+    else if (startDate != null && endDate == null) {
+        queryParams.createdAt = {"$gte": startDate}     
+    }
+    else if (startDate == null && endDate != null) {
+        queryParams.createdAt = {"$lt": endDate}     
+    }
+
+
+    //if filtering by enddate
     if (agencyId != null && agencyId != '') {
         queryParams.agency = new ObjectId(agencyId); 
     }
 
+
+    //if filtering by tag
     if (tagId != null && tagId != '') {//automatically searches array.contains
         queryParams.tags = new ObjectId(tagId); 
     }
     
     var query = article.find(queryParams).populate('agency').populate('tags');
     
+
+    //if filtering by sort and order 
     if (orderString != null) {
         var order = parseInt(orderString);
         
@@ -84,6 +116,8 @@ exports.getArticles = function(req, res) {
         }
     }
 
+
+    //if filtering by limit
     if (limitString != null) {
         var limit = parseInt(limitString);
 
@@ -92,6 +126,7 @@ exports.getArticles = function(req, res) {
         }
     }
 
+    //execute query
     query.exec()
         .catch(function (err) {
             res.send(err);
@@ -104,6 +139,7 @@ exports.getArticles = function(req, res) {
             articleobj['title'] = art.title;
             articleobj['summary'] = art.summary;
             articleobj['tags'] = getTagNames(art.tags); 
+            articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
             articleobj['createdAt'] = art.createdAt;
             articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
             articleobj['agency'] = art.agency.value;
