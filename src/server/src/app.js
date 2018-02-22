@@ -42,7 +42,7 @@ mongoose.connect(config.dbUrl, options).then(() => {
     app.use(express.static(require('path').join(__dirname, 'public')));
 
     app.get('/', (req, res) => {
-        res.sendFile('/index.html', {root : __dirname + 'public'})
+        res.sendFile('/landing.html', {root : __dirname + 'public'})
     })
 
     app.listen(port, () => {
