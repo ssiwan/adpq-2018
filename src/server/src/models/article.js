@@ -5,17 +5,19 @@ var Schema = mongoose.Schema;
 
 var articleModel = new Schema({
         createdAt: Date,
-        createdBy: Schema.Types.ObjectId,//mongoose.Types.ObjectId(string)
+        createdBy: {type: Schema.Types.ObjectId, ref: 'user'},
         agency: {type: Schema.Types.ObjectId, ref: 'agency'},
-        role: Number,//0 - 4
+        role: Number,//0 - 2
         status: Number,//0 - open, 1 - published, 2 - declined
         title: String,
         summary: String,
-        approvedBy: Schema.Types.ObjectId,
+        approvedBy: Schema.Types.ObjectId,//{type: Schema.Types.ObjectId, ref: 'users'},
         tags: [{type: Schema.Types.ObjectId, ref: 'tags'}],
+        comments: [{type: Schema.Types.ObjectId}],//ref article comments
         views: Number,
-        description: [{role: Number, value: String}],
-        attachments: [{role: Number, value: [String]}],
+        type: Number, //dud for now
+        description: String,
+        attachments: [String],
         sharedUsers: [Schema.Types.ObjectId]
     }, {
         collection: 'articles'

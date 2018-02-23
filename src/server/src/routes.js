@@ -18,7 +18,7 @@ module.exports = function (app, apiParseKey) {
         //routes allowed 
         const permissibleRoutes = ['/user/signIn', 
                                     '/articles', 
-                                    //'/tags', 
+                                    '/tags', 
                                     '/agencies', 
                                     '/searchArticles']; //(permissibleRoutes.indexOf(req.url) < 0)
 
@@ -30,7 +30,8 @@ module.exports = function (app, apiParseKey) {
                     return res.json({error: 'Failed to authenticate token'});
                 }
                 else {
-                    req.userRole = decoded.role; 
+                    req.userRole = decoded.role;
+                    req.userId = decoded.userId;
                     next(); 
                 }
             });
@@ -72,8 +73,8 @@ module.exports = function (app, apiParseKey) {
     //GET
         router.get('/searchArticles', articleController.search);
         router.get('/articles', articleController.getArticles);
-        router.get('/articleDetails', articleController.getArticleDetails);
-        //router.get('/createTempArticle', articleController.createTempArticle);  
+        router.post('/articles', articleController.createArticle); 
+        //router.get('/articleDetails', articleController.getArticleDetails);         
 
     //POST
 
