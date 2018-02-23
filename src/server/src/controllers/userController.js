@@ -10,7 +10,6 @@ var userRole = 0; //to be modified - get user role
 //temp function 
 exports.signIn = function(req, res) {
     var userEmail = req.body.email; 
-    console.log(req.PK);
     var queryParams = {};
     queryParams.email = userEmail;
 
