@@ -5,7 +5,6 @@ var mongoose = require('mongoose'),
     tag = mongoose.model('tags');  
 
 var ObjectId = mongoose.Types.ObjectId; 
-var userRole = 0; //to be modified - get user role 
 
 //GET /searchArticles
 exports.search = function (req, res) {
@@ -19,7 +18,7 @@ exports.search = function (req, res) {
         queryParams.description = {'$regex': {value: keyword}, '$options': 'i'};
     }
 
-    queryParams.role = userRole;
+    queryParams.role = parseInt(req.userRole);
 
     var query = article.find(queryParams).populate('agency').populate('tags');
 
@@ -68,6 +67,7 @@ exports.getArticles = function(req, res, next) {
     var startDateString = req.query.dateStart;//mm-dd-yyyy
     var endDateString = req.query.dateEnd;        
 
+    queryParams.role = parseInt(req.userRole); 
 
     // if filtering by start date and/or end date
     var startDate = null;
@@ -170,6 +170,8 @@ exports.getArticleDetails = function(req, res) {
     if (articleId == null || articleId == '') {
         res.send({'error': 'Please submit an articleId'});
     }
+
+    var userRole = parseInt(req.userRole); 
 
     var queryParams = {};
     queryParams._id = new ObjectId(articleId); 
