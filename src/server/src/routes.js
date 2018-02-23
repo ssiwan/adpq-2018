@@ -75,6 +75,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //GET
         router.get('/searchArticles', articleController.search);
         router.get('/articles', articleController.getArticles);
+        //router.get('/articles?id', articleController.getArticleDetails);
         //router.get('/articleDetails', articleController.getArticleDetails);         
 
     //POST
@@ -102,8 +103,10 @@ module.exports = function (app, apiParseKey, AWSKeys) {
 //UTILIES - will create utility file if need grows
 //presigned s3 url
     //GET
-        router.get('/preS3', function(req, res) {
+        router.post('/preS3', function(req, res) {
             
+            var contenttype = req.body.mime; 
+
             function guid() {
                 function s4() {
                     return Math.floor((1 + Math.random()) * 0x10000)
@@ -125,7 +128,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
             var params = {
                 Bucket: myBucket,
                 Key: tempKey,
-                ContentType:"",
+                ContentType:contenttype,
                 Expires: signedUrlExpireSeconds
             };            
 
