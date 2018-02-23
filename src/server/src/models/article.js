@@ -13,7 +13,7 @@ var articleModel = new Schema({
         summary: String,
         approvedBy: Schema.Types.ObjectId,//{type: Schema.Types.ObjectId, ref: 'users'},
         tags: [{type: Schema.Types.ObjectId, ref: 'tags'}],
-        comments: [{type: Schema.Types.ObjectId}],//ref article comments
+        comments: [{type: Schema.Types.ObjectId, ref: 'articleComment'}],//ref article comments
         views: Number,
         type: Number, //dud for now
         description: String,

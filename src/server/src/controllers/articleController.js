@@ -175,8 +175,8 @@ exports.getArticleDetails = function(req, res) {
     var queryParams = {};
     queryParams._id = new ObjectId(articleId); 
 
-    var query = article.find(queryParams);
-    query.limit(1);
+    var query = article.findOne(queryParams);
+    //query.limit(1);
 
     query.exec()
         .catch(function (err) {
@@ -194,8 +194,8 @@ exports.getArticleDetails = function(req, res) {
         articleobj['agency'] = getAgencyName('tempName');
         articleobj['status'] = art.status;
         articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
-        articleobj['description'] = art.description[userRole];
-        articleobj['attachments'] = art.attachments[userRole]; 
+        articleobj['description'] = art.description;
+        articleobj['attachments'] = art.attachments; 
         articleobj['views'] = art.views;
         articleobj['sharedCount'] = art.sharedUsers.length;
 
@@ -249,10 +249,27 @@ exports.createArticle = function(req, res) {
 
 //*****************************API internal functions****************//
 
+exports.addCommentToArticle = function(articleId, commentId) {
+    var queryParams = {};
+    queryParams._id = new ObjectId(articleId); 
+    
+    var query = article.findOne(queryParams);
+    query.exec()
+        .catch(function (err) {
+            res.send(err);
+        });
+    
+    query.then(function(art) {
+        art.comments.push(new ObjectId(commentId)); 
+        art.save();
+        return;  
+    });
+}
+
 function getTagNames(tags) {
     var returnarray = []; 
     tags.forEach(function(tag) {
         returnarray.push(tag.value); 
     })
     return returnarray; 
-}
+}; 
