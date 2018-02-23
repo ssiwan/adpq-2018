@@ -1,31 +1,35 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    article = mongoose.model('article');
+    article = mongoose.model('article'),
+    tag = mongoose.model('tags');  
 
 var ObjectId = mongoose.Types.ObjectId; 
-var userRole = 0; //to be modified - get user role 
 
 //GET /searchArticles
 exports.search = function (req, res) {
     var keyword = req.query.keyword;
     var returnlist = []; 
-    var query = {};
+    var queryParams = {};
 
+    //if keyword exists in any title or description
     if (keyword != null && keyword.length > 0) {
-        query.title = {'$regex': keyword, '$options': 'i'};
+        queryParams.title = {'$regex': keyword, '$options': 'i'};
+        //queryParams.description = {'$regex': {value: keyword}, '$options': 'i'};
     }
 
-    query.role = userRole;
+    queryParams.role = {"$lte": parseInt(req.userRole)};
 
-    var prom = article.find(query).populate('agency').populate('tags');
-    
-    prom.exec()
+    var query = article.find(queryParams).populate('agency').populate('tags');
+
+    //if keyword exists in any tags
+
+    query.exec()
         .catch(function (err) {
             res.send(err);
         });  
     
-    prom.then(function(articles) {
+    query.then(function(articles) {
         articles.forEach(function (art, index) {
             var articleobj = {};
 
@@ -63,6 +67,7 @@ exports.getArticles = function(req, res, next) {
     var startDateString = req.query.dateStart;//mm-dd-yyyy
     var endDateString = req.query.dateEnd;        
 
+    queryParams.role = {"$lte": parseInt(req.userRole)}; //set logic to less than 
 
     // if filtering by start date and/or end date
     var startDate = null;
@@ -79,10 +84,10 @@ exports.getArticles = function(req, res, next) {
     }
 
     if (startDate != null && endDate != null) {
-        queryParams.createdAt = {"$gte": startDate, "$lt": endDate}
+        queryParams.createdAt = {"$gt": startDate, "$lt": endDate}
     }
     else if (startDate != null && endDate == null) {
-        queryParams.createdAt = {"$gte": startDate}     
+        queryParams.createdAt = {"$gt": startDate}     
     }
     else if (startDate == null && endDate != null) {
         queryParams.createdAt = {"$lt": endDate}     
@@ -165,6 +170,8 @@ exports.getArticleDetails = function(req, res) {
     if (articleId == null || articleId == '') {
         res.send({'error': 'Please submit an articleId'});
     }
+
+    var userRole = parseInt(req.userRole); 
 
     var queryParams = {};
     queryParams._id = new ObjectId(articleId); 

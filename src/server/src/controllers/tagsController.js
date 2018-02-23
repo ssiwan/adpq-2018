@@ -6,8 +6,7 @@ mongoose.Promise = Promise;
 
 //GET /tags
 exports.getTags = function (req, res) {
-    var returnlist = []; 
-
+    var returnlist = [];  
     var query = tags.find();
     
     query.exec().catch(function (err) {
