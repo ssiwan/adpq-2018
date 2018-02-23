@@ -18,7 +18,7 @@ exports.search = function (req, res) {
         queryParams.description = {'$regex': {value: keyword}, '$options': 'i'};
     }
 
-    queryParams.role = parseInt(req.userRole);
+    queryParams.role = {"$lte": parseInt(req.userRole)};
 
     var query = article.find(queryParams).populate('agency').populate('tags');
 
@@ -67,7 +67,7 @@ exports.getArticles = function(req, res, next) {
     var startDateString = req.query.dateStart;//mm-dd-yyyy
     var endDateString = req.query.dateEnd;        
 
-    queryParams.role = parseInt(req.userRole); 
+    queryParams.role = {"$lte": parseInt(req.userRole)}; //set logic to less than 
 
     // if filtering by start date and/or end date
     var startDate = null;
@@ -84,10 +84,10 @@ exports.getArticles = function(req, res, next) {
     }
 
     if (startDate != null && endDate != null) {
-        queryParams.createdAt = {"$gte": startDate, "$lt": endDate}
+        queryParams.createdAt = {"$gt": startDate, "$lt": endDate}
     }
     else if (startDate != null && endDate == null) {
-        queryParams.createdAt = {"$gte": startDate}     
+        queryParams.createdAt = {"$gt": startDate}     
     }
     else if (startDate == null && endDate != null) {
         queryParams.createdAt = {"$lt": endDate}     
