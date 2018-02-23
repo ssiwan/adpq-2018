@@ -23,7 +23,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
                                     '/agencies', 
                                     '/searchArticles']; //(permissibleRoutes.indexOf(req.url) < 0)
 
-        var token = req.header('Authentication');         
+        var token = req.header('Authorization');         
 
         if (token && token.length > 0) {
             jwt.verify(token, apiParseKey, function(err, decoded) {
@@ -102,6 +102,18 @@ module.exports = function (app, apiParseKey, AWSKeys) {
 //presigned s3 url
     //GET
         router.get('/preS3', function(req, res) {
+            
+            function guid() {
+                function s4() {
+                    return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1);
+                    }
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+            }
+
+            var tempKey = guid(); 
+
             AWS.config.update({accessKeyId: AWSKeys.AccessKey, secretAccessKey: AWSKeys.SecretAccessKey});
             var s3 = new AWS.S3(); 
 
@@ -111,12 +123,13 @@ module.exports = function (app, apiParseKey, AWSKeys) {
 
             var params = {
                 Bucket: myBucket,
-                Key: myKey,
+                Key: tempKey,
+                ContentType:"",
                 Expires: signedUrlExpireSeconds
-            }; 
+            };            
 
             var url = s3.getSignedUrl('putObject', params, function(err, url) {
-                return res.json({'url':url, 'fileKey': AWSKeys.FileKey});
+                return res.json({'url':url, 'fileKey': tempKey});
             });
         });
 
