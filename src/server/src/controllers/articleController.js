@@ -1,8 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    article = mongoose.model('article'),
-    tag = mongoose.model('tags');  
+    article = mongoose.model('article'); 
 
 var ObjectId = mongoose.Types.ObjectId; 
 
@@ -20,7 +19,7 @@ exports.search = function (req, res) {
 
     queryParams.role = {"$lte": parseInt(req.userRole)};
 
-    var query = article.find(queryParams).populate('agency').populate('tags');
+    var query = article.find(queryParams).populate('createdBy').populate('agency').populate('tags');
 
     //if keyword exists in any tags
 
@@ -39,10 +38,10 @@ exports.search = function (req, res) {
             articleobj['tags'] = getTagNames(art.tags);
             articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit 
             articleobj['createdAt'] = art.createdAt;
-            articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
+            articleobj['createdBy'] = art.createdBy; 
             articleobj['agency'] = art.agency.value;
             articleobj['status'] = art.status;
-            articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
+            articleobj['approvedBy'] =  art.approvedBy; 
             articleobj['description'] = art.description;
             articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
@@ -105,7 +104,7 @@ exports.getArticles = function(req, res, next) {
         queryParams.tags = new ObjectId(tagId); 
     }
     
-    var query = article.find(queryParams).populate('agency').populate('tags');
+    var query = article.find(queryParams).populate('agency').populate('tags').populate('createdBy');
     
 
     //if filtering by sort and order 
@@ -146,10 +145,10 @@ exports.getArticles = function(req, res, next) {
             articleobj['tags'] = getTagNames(art.tags); 
             articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
             articleobj['createdAt'] = art.createdAt;
-            articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
+            articleobj['createdBy'] = art.createdBy; 
             articleobj['agency'] = art.agency.value;
             articleobj['status'] = art.status;
-            articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
+            articleobj['approvedBy'] =  art.approvedBy; 
             articleobj['description'] = art.description;
             articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
@@ -205,74 +204,41 @@ exports.getArticleDetails = function(req, res) {
 }
 
 //tempcreate not actually going to be a GET - will convert to Post /createArticle
-exports.createTempArticle = function(req, res) {
-    var tag1 = new ObjectId('5a8b55bca2d13ad4ba5369e3');
-    var tag2 = new ObjectId('5a8b55bca2d13ad4ba5369ef'); 
-    var tagArray = [tag1];
+exports.createArticle = function(req, res) {
 
-    var sharedUsersArray = [tag1]; 
+    if (req.userRole == '0') {
+        return res.json({error: 'User not permitted'});
+    }
+    var userRole = parseInt(req.userRole); 
 
-    var descriptionArray = [
-        {
-            role: 0,
-            value: 'role 0 description'
-        },
-        {
-            role: 1,
-            value: 'role 1 description'
-        },
-        {
-            role: 2,
-            value: 'role 2 description'
-        },
-        {
-            role: 3,
-            value: 'role 3 description'
-        },
-        {
-            role: 4,
-            value: 'role 4 description'
-        }
-    ];
-    var attachmentArray = [
-        {
-            role: 0,
-            value: ['role 0 attachment 1', 'role 0 attachment 2']
-        },
-        {
-            role: 1,
-            value: ['role 1 attachment 1', 'role 1 attachment 2']
-        },
-        {
-            role: 2,
-            value: ['role 2 attachment 1', 'role 2 attachment 2']
-        },
-        {
-            role: 3,
-            value: ['role 3 attachment 1', 'role 3 attachment 2']
-        },
-        {
-            role: 4,
-            value: ['role 4 attachment 1', 'role 4 attachment 2']
-        }
-    ]; 
+    var tagArray = []; 
+    var tagpreArray = (req.body.tags).split(','); //hopefully will be a string of tagIds
+    tagpreArray.forEach(function (tid) {
+        tagArray.push(mongoose.Types.ObjectId(tid)); 
+    });    
 
-    var tempArticle = new article({
-        createdAt: Date.now(),
-        createdBy: mongoose.Types.ObjectId('5a84ad66cb1d2c84e88d5132'),
-        agency: mongoose.Types.ObjectId('5a8b73f94212d1f20f847b9d'),
-        role: 0,
-        status: 0,
-        title: 'Test Article 5',
-        summary: 'Test Article 5 Summary',
-        approvedBy: mongoose.Types.ObjectId('5a84ad66cb1d2c84e88d5132'),
+    //turn tag stringIds into objectIds 
+
+    var newArticle = new article({
+        createdBy: mongoose.Types.ObjectId(req.userId),
+        agency: mongoose.Types.ObjectId(req.body.agencyId),
+        role: req.body.audience,     
+        title: req.body.title,
+        summary: req.body.shortDesc,       
         tags: tagArray,
-        views: 15,
-        description: descriptionArray,
-        attachments: attachmentArray,
-        sharedUsers: sharedUsersArray
+        description: req.body.longDesc,
+        attachments: req.body.attachments,       
+        //approvedBy: mongoose.Types.ObjectId('none'),
+        views: 0,//default fields
+        sharedUsers: [],
+        comments: [],
+        createdAt: Date.now(),
+        status: 0,
+        type: 0 // dud for now
     });
-    var prom = tempArticle.save();
+
+    var prom = newArticle.save();
+
     prom.then(function() {
         res.send('saved!');
     })
@@ -289,12 +255,4 @@ function getTagNames(tags) {
         returnarray.push(tag.value); 
     })
     return returnarray; 
-}
-
-function getAuthorName(name) {
-    return name; 
-}
-
-function getApproverName(name) {
-    return name; 
 }
