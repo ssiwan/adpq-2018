@@ -18,11 +18,11 @@ module.exports = function (app, apiParseKey) {
         //routes allowed 
         const permissibleRoutes = ['/user/signIn', 
                                     '/articles', 
-                                    '/tags', 
+                                    //'/tags', 
                                     '/agencies', 
                                     '/searchArticles']; //(permissibleRoutes.indexOf(req.url) < 0)
 
-        var token = req.header('Authentication'); 
+        var token = req.header('Authentication');         
 
         if (token && token.length > 0) {
             jwt.verify(token, apiParseKey, function(err, decoded) {
@@ -35,9 +35,9 @@ module.exports = function (app, apiParseKey) {
                 }
             });
         }
-        else if (permissibleRoutes.indexOf(req.url) > -1) {             
+        else if (permissibleRoutes.includes(req.path)) {             
             req.userRole = 0; 
-            if (permissibleRoutes.indexOf(req.url) == 0) {//sign in
+            if (permissibleRoutes.indexOf(req.path) == 0) {//sign in
                 req.PK = apiParseKey; 
             }
             next(); 
