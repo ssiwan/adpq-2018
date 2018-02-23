@@ -124,6 +124,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
             var params = {
                 Bucket: myBucket,
                 Key: tempKey,
+                ContentType:"",
                 Expires: signedUrlExpireSeconds
             };            
 
