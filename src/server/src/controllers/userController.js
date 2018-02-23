@@ -11,7 +11,6 @@ exports.signIn = function(req, res) {
     var userEmail = req.body.email; 
     var queryParams = {};
     queryParams.email = userEmail;
-
     var query = users.findOne(queryParams);
 
     query.exec()

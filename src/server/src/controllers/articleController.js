@@ -15,7 +15,7 @@ exports.search = function (req, res) {
     //if keyword exists in any title or description
     if (keyword != null && keyword.length > 0) {
         queryParams.title = {'$regex': keyword, '$options': 'i'};
-        queryParams.description = {'$regex': {value: keyword}, '$options': 'i'};
+        //queryParams.description = {'$regex': {value: keyword}, '$options': 'i'};
     }
 
     queryParams.role = {"$lte": parseInt(req.userRole)};
