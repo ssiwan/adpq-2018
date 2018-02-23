@@ -4,9 +4,12 @@ $(document).ready(function(){
     var tagschk = $('#chkTags');
     var datechk = $('#chkDate');
     var url = "";
+    //var APIKey = "";
+
     SetUrl();
     DatePicker();
     Load();
+
 
     // Set the URL based on the searchvalue parameter
     function SetUrl() {
@@ -26,10 +29,7 @@ $(document).ready(function(){
         url: APIURL + "agencies",
         type: 'GET',
         dataType: 'json',
-        cache:false,
-        headers:{
-            "api_key": APIKey
-        }
+        cache:false
       })
       .done(function(response) {
         if (response.data != null) {
@@ -56,10 +56,7 @@ $(document).ready(function(){
                 url: APIURL + "tags",
                 type: 'GET',
                 dataType: 'json',
-                cache:false,
-                headers:{
-                    "api_key": APIKey
-                }
+                cache:false
               })
               .done(function(response) {
                 if (response.data != null) {
@@ -117,9 +114,6 @@ $(document).ready(function(){
                 type: "GET",
                 url: url,
                 cache:false,
-                headers:{
-                    "api_key": APIKey
-                },
                contentType: "application/json;",
                "dataSrc": function (json) {
                    //console.log(json);
@@ -253,9 +247,6 @@ $(document).ready(function(){
                 type: "GET",
                 cache:false,
                 url: APIURL + "articles?sort=createdAt&order=1&" + finalsearchfilter,
-                headers:{
-                    "api_key": APIKey
-                },
                 contentType: "application/json",
                 "dataSrc": function (json) {
                     //console.log(json);
