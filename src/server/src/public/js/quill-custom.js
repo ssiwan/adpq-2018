@@ -13,7 +13,7 @@
           [{ 'align': [] }],
           ['clean']                                         
         ];
-        var quill = new Quill('#editor', {
+        var quill = new Quill('#longdesc', {
           modules: {
             toolbar: toolbarOptions
           },
