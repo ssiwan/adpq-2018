@@ -11,6 +11,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     var agencyController = require('./controllers/agencyController');
     var articleController = require('./controllers/articleController');
     var userController = require('./controllers/userController'); 
+    var articleCommentController = require('./controllers/articleCommentController'); 
 
 //***********ROUTES****************************//
 
@@ -87,7 +88,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //GET
 
     //POST
-        //articleComment
+        router.post('/articleComment', articleCommentController.createArticleComment)
 
 //userRoutes
     //GET 
