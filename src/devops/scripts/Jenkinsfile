@@ -170,7 +170,7 @@ def deployStaging() {
         sh '''#!/bin/bash
             sleep 10
             logs=$(git log -1 origin/staging)
-            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Staging Build Available*:\nhttp://adpq-staging.hotbsoftware.com\n$logs"
+            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Staging Build Available*:\nhttp://adpq-staging.hotbsoftware.com\n```$logs```"
         '''
     }
 }
@@ -297,7 +297,7 @@ def deployProduction() {
         sh '''#!/bin/bash
             sleep 10
             logs=$(git log -1 origin/production)
-            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Production Build Available*:\nhttp://adpq.hotbsoftware.com\n$logs"
+            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Production Build Available*:\nhttp://adpq.hotbsoftware.com\n```$logs```"
         '''
     }
 }
