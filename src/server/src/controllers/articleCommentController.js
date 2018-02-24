@@ -8,7 +8,7 @@ mongoose.Promise = Promise;
 exports.createArticleComment = function(req, res) {
 
     var newComment = new articleComment({
-        commenterId: mongoose.Types.ObjectId(req.userId),
+        commenter: mongoose.Types.ObjectId(req.userId),
         articleId: mongoose.Types.ObjectId(req.body.articleId),
         comment: req.body.comment,
         createdAt: Date.now() 

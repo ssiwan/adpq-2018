@@ -163,19 +163,20 @@ exports.getArticles = function(req, res, next) {
 
 //GET /articleDetails
 exports.getArticleDetails = function(req, res) {
-    var articleId = req.query.articleId; 
+    var articleId = req.params.articleId; 
 
     //param check
     if (articleId == null || articleId == '') {
         return res.send({'error': 'Please submit an articleId'});
     }
 
-    var userRole = parseInt(req.userRole); 
-
     var queryParams = {};
     queryParams._id = new ObjectId(articleId); 
+    queryParams.role = {"$lte": parseInt(req.userRole)};
 
-    var query = article.findOne(queryParams);
+    var query = article.findOne(queryParams).populate('tags')
+                                            .populate('createdBy')
+                                            .populate({path: 'comments', populate: {path: 'commenter', model: 'user'}});
     //query.limit(1);
 
     query.exec()
@@ -184,23 +185,24 @@ exports.getArticleDetails = function(req, res) {
         });
     
     query.then(function(art) {
-        // var articleobj = {};
-        // articleobj['id'] = art._id.toString();
-        // articleobj['title'] = art.title;
-        // articleobj['summary'] = art.summary;
-        // articleobj['tags'] = getTagNames('');
-        // articleobj['createdAt'] = art.createdAt;
-        // articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
-        // articleobj['agency'] = getAgencyName('tempName');
-        // articleobj['status'] = art.status;
-        // articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
-        // articleobj['description'] = art.description;
-        // articleobj['attachments'] = art.attachments; 
-        // articleobj['views'] = art.views;
-        // articleobj['sharedCount'] = art.sharedUsers.length;
-        
-        return res.send('hit'); 
-        //res.json({'data': articleobj}); 
+        var articleobj = {};
+        if (art != null) {
+            articleobj['id'] = art._id.toString();
+            articleobj['title'] = art.title;
+            articleobj['summary'] = art.summary;
+            articleobj['tags'] = getTagNames(art.tags);
+            articleobj['createdAt'] = art.createdAt;
+            articleobj['createdBy'] = art.createdBy; 
+            articleobj['agency'] = art.agency.value;
+            articleobj['status'] = art.status;
+            articleobj['approvedBy'] =  art.approvedBy; 
+            articleobj['description'] = art.description;
+            articleobj['attachments'] = art.attachments;
+            articleobj['comments'] = art.comments;  
+            articleobj['views'] = art.views;
+            articleobj['sharedCount'] = art.sharedUsers.length;
+        }
+        res.json({'data': articleobj}); 
     }); 
 }
 
