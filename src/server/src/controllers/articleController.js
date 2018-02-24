@@ -167,7 +167,7 @@ exports.getArticleDetails = function(req, res) {
 
     //param check
     if (articleId == null || articleId == '') {
-        res.send({'error': 'Please submit an articleId'});
+        return res.send({'error': 'Please submit an articleId'});
     }
 
     var userRole = parseInt(req.userRole); 
@@ -184,22 +184,23 @@ exports.getArticleDetails = function(req, res) {
         });
     
     query.then(function(art) {
-        var articleobj = {};
-        articleobj['id'] = art._id.toString();
-        articleobj['title'] = art.title;
-        articleobj['summary'] = art.summary;
-        articleobj['tags'] = getTagNames('');
-        articleobj['createdAt'] = art.createdAt;
-        articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
-        articleobj['agency'] = getAgencyName('tempName');
-        articleobj['status'] = art.status;
-        articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
-        articleobj['description'] = art.description;
-        articleobj['attachments'] = art.attachments; 
-        articleobj['views'] = art.views;
-        articleobj['sharedCount'] = art.sharedUsers.length;
-
-        res.json({'data': articleobj}); 
+        // var articleobj = {};
+        // articleobj['id'] = art._id.toString();
+        // articleobj['title'] = art.title;
+        // articleobj['summary'] = art.summary;
+        // articleobj['tags'] = getTagNames('');
+        // articleobj['createdAt'] = art.createdAt;
+        // articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
+        // articleobj['agency'] = getAgencyName('tempName');
+        // articleobj['status'] = art.status;
+        // articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
+        // articleobj['description'] = art.description;
+        // articleobj['attachments'] = art.attachments; 
+        // articleobj['views'] = art.views;
+        // articleobj['sharedCount'] = art.sharedUsers.length;
+        
+        return res.send('hit'); 
+        //res.json({'data': articleobj}); 
     }); 
 }
 

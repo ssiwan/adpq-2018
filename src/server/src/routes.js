@@ -74,8 +74,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
 //articleRoutes
     //GET
         router.get('/searchArticles', articleController.search);
+        router.get('/articles/:articleId', articleController.getArticleDetails);
         router.get('/articles', articleController.getArticles);
-        //router.get('/articles?id', articleController.getArticleDetails);
         //router.get('/articleDetails', articleController.getArticleDetails);         
 
     //POST
@@ -105,7 +105,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //GET
         router.post('/preS3', function(req, res) {
             
-            var contenttype = req.body.mime; 
+            var filename = req.body.name; 
 
             function guid() {
                 function s4() {
@@ -119,17 +119,18 @@ module.exports = function (app, apiParseKey, AWSKeys) {
             var tempKey = guid(); 
 
             AWS.config.update({accessKeyId: AWSKeys.AccessKey, secretAccessKey: AWSKeys.SecretAccessKey});
-            var s3 = new AWS.S3(); 
+            var s3 = new AWS.S3({
+                signature: 'v2'
+            }); 
 
             var myBucket = 'adpq-assets';
-            var myKey = AWSKeys.MySecretKey;
             var signedUrlExpireSeconds = 60 * 30;
 
             var params = {
                 Bucket: myBucket,
-                Key: tempKey,
-                ContentType:contenttype,
-                Expires: signedUrlExpireSeconds
+                Key: filename,
+                Expires: signedUrlExpireSeconds,
+                ACL: 'public-read'
             };            
 
             var url = s3.getSignedUrl('putObject', params, function(err, url) {
