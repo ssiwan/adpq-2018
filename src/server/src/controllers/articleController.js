@@ -222,6 +222,14 @@ exports.createArticle = function(req, res) {
         });    
     }
 
+    var attachmentsArray = []; 
+    var baseUrl = 'https://s3-us-west-1.amazonaws.com/adpq-assets/'; 
+    if (req.body.attachments != null && req.body.attachments.length > 0) {
+        req.body.attachments.forEach(function(atchmt) {
+            attachmentsArray.push(baseUrl + atchmt); 
+        });
+    }
+
     //turn tag stringIds into objectIds 
 
     var newArticle = new article({
@@ -232,7 +240,7 @@ exports.createArticle = function(req, res) {
         summary: req.body.shortDesc,       
         tags: tagArray,
         description: req.body.longDesc,
-        attachments: req.body.attachments,       
+        attachments: attachmentsArray,       
         //approvedBy: mongoose.Types.ObjectId('none'),
         views: 0,//default fields
         sharedUsers: [],
