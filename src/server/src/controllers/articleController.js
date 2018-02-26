@@ -252,8 +252,12 @@ exports.createArticle = function(req, res) {
 
     var prom = newArticle.save();
 
-    prom.then(function() {
-        res.send('saved!');
+    prom.then(function(artreturn) {
+        var jsonreturn = {
+            status: 'saved!',
+            articleId: artreturn._id.toString() 
+        }
+        res.json(jsonreturn);
     })
     .catch(function(err) {
         res.json({'error': err.toString() });
@@ -275,7 +279,11 @@ exports.addCommentToArticle = function(articleId, commentId) {
     query.then(function(art) {
         art.comments.push(new ObjectId(commentId)); 
         art.save();
-        return;  
+        var jsonreturn = {
+            status: 'saved!',
+            articleId: art._id.toString()
+        }
+        return res.json(jsonreturn);  
     });
 }
 
