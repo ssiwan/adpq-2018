@@ -429,9 +429,9 @@ div.kpi-lastupdate {
 a.viewmore-link:focus {
 }
 #resetPassword.cs-button { position: relative!important; bottom: 25px;  }
-.cs-button {	position:relative;
-	top:24px;}
-.cs-button, #resetPassword.cs-button {
+.approve-btn { position:relative; top:6px; float: left; }
+.cs-button { position:relative; top:24px;}
+.cs-button, #resetPassword.cs-button, .approve-btn {
 	border: 1px solid #999999;
 	background: #ebebeb;
 	background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#ebebeb));
@@ -453,10 +453,9 @@ a.viewmore-link:focus {
 	font-family: "roboto", serif;
 	text-decoration: none;
 	vertical-align: middle;
-
 	margin: 0 30px;
 }
-.cs-button:hover, #resetPassword.cs-button:hover {
+.cs-button:hover, #resetPassword.cs-button:hover, .approve-btn:hover {
 	border: 1px solid #046a99;
 	text-shadow: #60676b 0 1px 0;
 	background: #095db6;
@@ -468,7 +467,7 @@ a.viewmore-link:focus {
 	background-image: -ms-linear-gradient(top, #5aa8d8 0%, #095db6 100%);
 	color: #fff;
 }
-.cs-button:active, #resetPassword.cs-button:active {
+.cs-button:active, #resetPassword.cs-button:active, .approve-btn:active {
 	text-shadow: #60676b 0 1px 0;
 	border: 1px solid #0a3c59;
 	background: #5aa8d8;
@@ -895,26 +894,198 @@ a.viewmore-link:focus {
 	font-weight: bold;
 
 }
+.artcles-details-view { width:870px; position:relative; float:left; left:100px; }
+.details-title-wrap { width: 868px; height:50px; position:relative; float:left; border-bottom: 1px solid #000; }
+.details-title {
+	font-family: "Roboto Condensed", serif; font-size: 24px; font-weight: bold;
+	color:#000;
+    display: block;
+    float: left;
+    height: 50px;
+    width: 468px;
+    
+    position: relative;
+	padding-top:13px;	
+}
+.details-agency-name {
+	font-family: "Roboto Condensed", serif; font-size: 18px; font-weight: bold; 	
+	color:#000;    
+	display: block;
+    float: left;
+    height: 30px;
+    width: 870px;
+    position: relative;
+	padding-top:10px;
+}
+.details-tools {
+    display: block;
+    float: left;
+    height: 24px;
+    width: 400px;
+    position: relative;
+}
+.details-icon-wrap {
+    display: block;
+    float: left;
+    height: 24px;
+    width: 102px;
+    position: relative;
+	padding-top: 12px;
+}
+.tool-history {
+    background-image: url(../img/historyart-n.png);
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    height: 24px;
+    width: 34px;
+    position: relative;
+}
+.tools-edit {
+    background-image: url(../img/editart-n.png);
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    height: 24px;
+    width: 34px;
+    position: relative;
+}
+.tool-delete {
+    background-image: url(../img/deleteart-n.png);
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    height: 24px;
+    width: 34px;
+    position: relative;
+}
+.tool-dropdwn {
+    display: block;
+    float: left;
+    height: 30px;
+    width: 110px;
+	top:12px;
+	position: relative;
+	right: 70px;
+}
+.tool-status {
+    font-family:"Roboto", serif; 
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+    color: rgba(0,0,0,1);
+    float: left;
+    height: 30px;
+    width: 55px;
+	padding-top: 18px;
+    position: relative;
+	text-align:right;
+}
+.tool-approve-btn {
+    display: block;
+    float: left;
+    height: 30px;
+    width: 100px;
+    position: relative;
+}
+.details-paragraph {
+    font-family: "Roboto", serif; 
+    font-size: 14px;
+    font-weight: normal;
+    display: block;
+    float: left;
+    height: auto;
+    width: 870px;
+    position: relative;
+}
+.details-paragraph p { padding: 5px 0px; }
+.details-tags-wrap {
+    display: block;
+    float: left;
+    height: 36px;
+    width: 870px;
+    margin-bottom: 10px;
+    position: relative;
+}
+.details-tags {
+    font-family: "Roboto", serif; 
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    float: left;
+    height: 30px;
+    width: 45px;
+    position: relative;
+	top:11px;	
+}
+.details-tags-field {
+    display: block;
+    float: left;
+    height: 36px;
+    width: 800px;
+    position: relative;
+}
+.details-stats {
+    background-color: #efefef;
+    display: block;
+    float: left;
+    height: 60px;
+    width: 870px;
+    border: 1px solid #dcdcdc;
+	border-radius: 3px;
+    position: relative;
+}
+.details-stats-one {
+    display: block;
+    float: left;
+    height: 30px;
+    width: 868px;
+    font-family: "Roboto", serif; 
+    font-size: 14px;
+    font-weight: bold;	
+    position: relative;
+}
+.details-stats-two{
+    display: block;
+    float: left;
+    height: 30px;
+    width: 868px;
+    font-family: "Roboto", serif; 
+    font-size: 14px;
+    font-weight: normal;	
+    position: relative;
+}
 
+.stat-row-one {
+    font-family: "Roboto", serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+    display: block;
+    float: left;
+    height: 30px;
+    width: 96px;
+    position: relative;
+	background-color: #f00;
+}
 /*Stepped on default boostrap styles begins */
 .control-label { font-family: "Roboto", serif; font-size: 14px; font-weight: normal; display: block; padding-bottom: 3px; }
 .adpq-form-control {
   display: block;
   width: 100%;
-  height: 40px;
+  height: 37px;
   padding: 6px 6px;
   font-size: 14px;
   line-height: 1.42857143;
   color: #555;
   background-color: #fff;
   background-image: none;
-  border: 1px solid #ccc;
+  border: 1px solid #999;
   border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	-webkit-box-shadow: 1px 1px 3px 0px rgba(15, 15, 15, 0.4);
+	-moz-box-shadow: 1px 1px 3px 0px rgba(15, 15, 15, 0.4);
+	box-shadow: 1px 1px 3px 0px rgba(15, 15, 15, 0.4);
+	text-shadow: #60676b 0 1px 0;	
   position:relative;
   float:right;	
   left:85px;
@@ -926,3 +1097,4 @@ bottom:6px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
           box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
 }
+
