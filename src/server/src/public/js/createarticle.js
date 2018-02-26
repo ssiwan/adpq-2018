@@ -22,7 +22,7 @@ $(document).ready(function(){
                  }
                  options = options.substring(0, options.length - 1)
                  console.log(options);
-                 //$("#tags").val(options);
+                 $('#suggestedtags').importTags(options);
             }
             else
             {
@@ -136,8 +136,7 @@ $(document).ready(function(){
 
 
    $('#tags').tagsInput({
-    width: 'auto',
-    'autocomplete': options,
+    width: 'auto'
   });
 
 
@@ -161,13 +160,13 @@ article.audience = $("#audience").val();
 article.type = $("#articletype").val();
 article.shortDesc = $("#shortdesc").val();
 article.longDesc = JSON.stringify(quill.getContents());
-//article.tags = $("#tags").val();
+article.tags = $("#tags").val();
 article.attachments = attachments;
 //article.URLs = $("#articletype").val();
 
 console.log("Request JSON" + JSON.stringify(article));
     
-    /*$.ajax({
+    $.ajax({
         url: APIURL + "articles",
         type: 'POST',
         dataType: 'json',
@@ -187,7 +186,7 @@ console.log("Request JSON" + JSON.stringify(article));
       })
       .fail(function(data, textStatus, xhr) {
         alert(data.responseJSON.Error);
-      });*/
+      });
 
 
 });

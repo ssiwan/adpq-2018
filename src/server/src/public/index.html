@@ -1,29 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto Condensed" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">   
+        <link rel="stylesheet" href="css/adpq-styles.css">
 </head>
 <body>
-
-    <div class="container">
-            <div class="form-group">
-                    <input type="text" class="form-control" id="txtsearch"> 
-            </div> <br> <br>
-            <div class="form-group">
-                    <input type="button" class="form-control" id="btnsearch" value="Search"> 
-            </div>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu ultricies lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse in arcu arcu. Sed accumsan justo ligula, ac convallis risus tincidunt vitae. Duis sapien elit, tempor nec metus nec, congue lacinia eros. Suspendisse nec finibus justo. Sed fermentum posuere metus vel congue. In at nunc ut enim laoreet blandit sit amet nec sem. Fusce imperdiet, dolor ut ornare rutrum, libero augue blandit quam, sit amet feugiat orci mauris at libero. Curabitur ornare tortor lacinia, tincidunt neque eget, euismod libero. Pellentesque nec ornare risus. Donec volutpat hendrerit maximus.</p>
-            <br/>
-            <input type="button" value="View" id="btnArticles"> <br/>
-    </div>
-  
-
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<div class="main-wrapper-sm">
+        <div class="adpq-container">
+                <header class="adpq-headcontainer">
+                        <div class="adpq-brand"></div>
+                        <div class="adpq-loginwrap">
+                                <div class="adpq-log-input"><input type="text" class="adpq-user" id="email"><input type="text" class="adpq-pass" id="password"></div>
+                                <div class="adpq-log-arrow"><button type="button" id="signin">Submit</button></div>
+                        </div>
+               </header>
+                <div class="form-group">
+                   <input type="text" class="form-control adpq-search-field" id="txtsearch">
+                </div>
+                <br>
+                <br>
+                <form class="search_bar">
+                <input type="text" placeholder="Search Agency, Tags, Title and More..." >
+                <button type="button" id="btnsearch" value="Search">Search</button>
+                </form>
+                <div class="adpq-blurb">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu ultricies lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse in arcu arcu. Sed accumsan justo ligula, ac convallis risus tincidunt vitae. Duis sapien elit, tempor nec metus nec, congue lacinia eros. Suspendisse nec finibus justo. Sed fermentum posuere metus vel congue. In at nunc ut enim laoreet blandit sit amet nec sem. Fusce imperdiet, dolor ut ornare rutrum, libero augue blandit quam, sit amet feugiat orci mauris at libero. Curabitur ornare tortor lacinia, tincidunt neque eget, euismod libero. Pellentesque nec ornare risus. Donec volutpat hendrerit maximus.</p>
+                <br/>
+                <div class="landing-view-btn">
+                <input type="button" value="View" class="adpq-default-btn" id="btnArticles">
+                </div>
+                <br/>
+                </div>
+        </div>
+</div>
+      <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="js/constants.js"></script>
     <script src="js/landing.js"></script>
+    <script src="js/login.js"></script>
     <script src="js/utility.js"></script>
 </body>
 </html>

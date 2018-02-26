@@ -123,7 +123,7 @@ $(document).ready(function(){
                             'articleinfo': "<strong>" + json.data[index].title + "</strong><br/>"
                                              + "<strong>Agency:" + json.data[index].agency + "</strong><br/>" 
                                              + json.data[index].summary + "<br/>" 
-                                             + "<strong>Author: </strong>" + json.data[index].createdBy + "<br/>"
+                                             + "<strong>Author: </strong>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last + "<br/>"
                                              + "PublishedDate:</strong> " + convertToLocalDate(json.data[index].createdAt),
                             'lastupdated': convertToLocalDate(json.data[index].createdAt),
                             'views': json.data[index].views,
@@ -256,7 +256,7 @@ $(document).ready(function(){
                              'articleinfo': "<strong>" + json.data[index].title + "</strong><br/>"
                                               + "<strong>Agency: " + json.data[index].agency + "</strong><br/>" 
                                               + json.data[index].summary + "<br/>" 
-                                              + "<strong>Author: " + json.data[index].createdBy + "</strong><br/>"
+                                              + "<strong>Author: "+ json.data[index].createdBy.name.first + " " +  json.data[index].createdBy.name.last + "</strong><br/>"
                                               + "PublishedDate: " + convertToLocalDate(json.data[index].createdAt),
                              'lastupdated': convertToLocalDate(json.data[index].createdAt),
                              'views': json.data[index].views,
