@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
     <link href="https://cdn.quilljs.com/1.3.5/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.min.css" />
 </head>
 <body>
 
@@ -47,13 +48,17 @@
                 </div>
             </div>
             <div class="form-group"> 
-                <label class="control-label " for="tags">Tags</label>
+                <label class="control-label " for="tags">Suggested Tags</label>
+                <input class="form-control" id="suggestedtags" name="title" type="text" disabled="disabled"/>
+            </div>
+            <div class="form-group"> 
+                <label class="control-label " for="tags">Tags (Comma delimited)</label>
                 <input class="form-control" id="tags" name="title" type="text"/>
             </div>
             <form>
                 <div class="form-group"> 
                     <label class="control-label " for="file">File Uploads:</label>
-                    <input class="form-control" id="file" name="file" type="file" multiple/>
+                    <input class="form-control" id="fileattachments" name="file" type="file" multiple/>
                     <button class="btn btn-primary " id="btnUpload" type="button">Upload files</button>
                 </div>
             </form>
@@ -73,6 +78,7 @@
     <script src="js/constants.js"></script>
     <script src="js/utility.js"></script>
     <script src="js/quill-custom.js"></script>
+    <script src="js/jquery.tagsinput.min.js"></script>
     <script src="js/createarticle.js"></script>
 </body>
 </html>

@@ -2,40 +2,84 @@ $(document).ready(function(){
     LoadAgencies();
     SuggestedTitles();
     //UploadToS3();
+  
+    var attachments =[];
+    var FileJSON = { "mime":"","name":""};
+    var options = "";
+    LoadTags();
+    function LoadTags() {
+       
+        $.ajax({
+            url: APIURL + "tags",
+            type: 'GET',
+            dataType: 'json',
+            cache:false
+          })
+          .done(function(response) {
+            if (response.data != null) {
+                for (let index = 0; index < response.data.length; index++) {
+                    options += response.data[index].name + ",";
+                 }
+                 options = options.substring(0, options.length - 1)
+                 console.log(options);
+                 $('#suggestedtags').importTags(options);
+            }
+            else
+            {
+                alert(response.error);
+            }
+    
+          })
+          .fail(function(xhr) {
+            console.log('error', xhr);
+          });
+}
 
+    
+        $("#btnUpload").click(function () {
+            var x = document.getElementById("fileattachments");
+            console.log(x.files.length);
 
-
-    function UploadToS3() {
-        $("input[type=file]").onchange = function () {
-            for (var file, i = 0; i < this.files.length; i++) {
-                file = this.files[i];
+            for (var file, i = 0; i < x.files.length; i++) {
+                file = x.files[i];
+                //console.log(x.files[i].type);
+                //console.log(x.files[i].name);
+                FileJSON.mime = x.files[i].type;
+                FileJSON.name = x.files[i].name;
+                attachments.push(x.files[i].name);
                 $.ajax({
-                    url : s3presignedApiUri,
-                    data: 'file='+ file.name + '&mime=' + file.type,
-                    type : "GET",
+                    url : APIURL + "preS3",
+                    data: JSON.stringify(FileJSON),
+                    type : "POST",
                     dataType : "json",
-                    cache : false,
+                    headers:{
+                        //'Authorization':sessionStorage.getItem("token"),
+                        'Authorization':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MjAwMjEwODIsInVzZXJJZCI6IjVhOGJiZjIzYTJkMTNhZDRiYTUzOTFmNiIsInJvbGUiOjEsImlhdCI6MTUxOTQxNjI4Mn0.OLeF3j2EqlvaGSsblcufC1afpZ0gHkQegnzn8X-ohsA',
+                        'Content-Type' :'application/json'
+                    }
                 })
                 .done(function(s3presignedUrl) {
-                    $.ajax({
-                        url : s3presignedUrl,
-                        type : "PUT",
+                    console.log(s3presignedUrl);
+                    //console.log(file.type);
+                    //console.log(file);
+                   $.ajax({
+                        url : s3presignedUrl.url,
+                        method : 'PUT',
                         data : file,
-                        dataType : "text",
-                        cache : false,
-                        contentType : file.type,
-                        processData : false
+                        headers: {'Content-Type': ''},
+                        processData:false
                     })
                     .done(function(){
-                        console.info('YEAH', s3presignedUrl.split('?')[0].substr(6));
+                        console.log("Success file uploaded " + file.name);
+                        
                     })
                     .fail(function(){
-                        console.error('damn...');
+                        console.log("S3 file upload failed" + file.name);
                     })
                 })
             }
-        };
-    }
+        });
+    
 
 
     function SuggestedTitles() {
@@ -91,15 +135,19 @@ $(document).ready(function(){
    }
 
 
+   $('#tags').tagsInput({
+    width: 'auto'
+  });
+
+
 var article = {
     title:"",
-    agencyid:"",
+    agencyId:"",
     audience:"",
-    type:"",
-    shortdesc: "",
-    longdesc:"",
-    tags: "",
-    URLs:""
+    shortDesc: "",
+    longDesc:"",
+    //tags: "",
+    attachments:""
 }
 
 
@@ -107,22 +155,24 @@ $("#btnSave").click(function(){
 
     // Add Validation
 article.title = $("#title").val();
-article.agencyid = $("#agency").val();
+article.agencyId = $("#agency").val();
 article.audience = $("#audience").val();
 article.type = $("#articletype").val();
-article.shortdesc = $("#shortdesc").val();
-article.longdesc = JSON.stringify(quill.getContents());
+article.shortDesc = $("#shortdesc").val();
+article.longDesc = JSON.stringify(quill.getContents());
 article.tags = $("#tags").val();
+article.attachments = attachments;
 //article.URLs = $("#articletype").val();
 
 console.log("Request JSON" + JSON.stringify(article));
     
-    /*$.ajax({
-        url: APIURL + "article",
+    $.ajax({
+        url: APIURL + "articles",
         type: 'POST',
         dataType: 'json',
         headers:{
-            'Authorization':sessionStorage.getItem("token"),
+            //'Authorization':sessionStorage.getItem("token"),
+            'Authorization':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MjAwMjEwODIsInVzZXJJZCI6IjVhOGJiZjIzYTJkMTNhZDRiYTUzOTFmNiIsInJvbGUiOjEsImlhdCI6MTUxOTQxNjI4Mn0.OLeF3j2EqlvaGSsblcufC1afpZ0gHkQegnzn8X-ohsA',
             'Content-Type':'application/json'
         },
         data: JSON.stringify(article)
@@ -136,7 +186,7 @@ console.log("Request JSON" + JSON.stringify(article));
       })
       .fail(function(data, textStatus, xhr) {
         alert(data.responseJSON.Error);
-      });*/
+      });
 
 
 });
