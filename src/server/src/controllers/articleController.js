@@ -215,10 +215,12 @@ exports.createArticle = function(req, res) {
     var userRole = parseInt(req.userRole); 
 
     var tagArray = []; 
-    var tagpreArray = (req.body.tags).split(','); //hopefully will be a string of tagIds
-    tagpreArray.forEach(function (tid) {
-        tagArray.push(mongoose.Types.ObjectId(tid)); 
-    });    
+    if (req.body.tags != null && req.body.tags.length > 0) {
+        var tagpreArray = (req.body.tags).split(','); //hopefully will be a string of tagIds
+        tagpreArray.forEach(function (tid) {
+            tagArray.push(mongoose.Types.ObjectId(tid)); 
+        });    
+    }
 
     //turn tag stringIds into objectIds 
 
