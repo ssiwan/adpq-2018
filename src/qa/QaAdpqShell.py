@@ -1,28 +1,32 @@
-import requests, sys, json
+import requests, sys, json, os
 
 environmentBody = { 'staging':'http://adpq-staging-loadbalancer-777882718.us-west-1.elb.amazonaws.com/api/v1/',
                     'production':'http://adpq-production-loadbalancer-557804625.us-west-1.elb.amazonaws.com/'
                   }
 setEnv = ''
 
-# Takes care of the out of index error in sys.argv
-if len(sys.argv) == 2:
-    if sys.argv[1] not in environmentBody.keys():
-        print('\n[AutoScript] Defaulting to staging.\n')
-        setEnv = environmentBody['staging']
-    else:
-        setEnv = environmentBody[sys.argv[1]]  
-else:
+
+
+
+if 'Environment' not in os.environ.keys():
     print('\n[AutoScript] Defaulting to staging.\n')
     setEnv = environmentBody['staging']
+else:
+    print('\n[AutoScript] Setting environment to', os.environ['Environment'], '\n')
+    setEnv = os.environ['Environment']
 
+# print(os.environ['ADPQEnvironment'])
+# print()
+# 
+# for keys in os.environ:
+#     print(keys)
+# print()
+# 
+# print(os.environ.get("ADPQEnvironment"))
+# print()
+ 
 setEnv.strip()
 
-
-## Extract all json data out of the config file into var data.
-#
-with open('config.json', encoding='utf-8') as data_file:
-    data = json.loads(data_file.read())
 
 ## @class ADPQ Test Automation Shell 
 # This shell provides a mechanisms from which to run python3 unittest 
@@ -67,7 +71,7 @@ class QaADPQShell:
     def __init__(self, env=setEnv):
         # Essential information used to successfully run calling scripts.
         self.ClientID = QaADPQShell.ClientId
-        self.apiKey = data['api_key']
+#         self.apiKey = data['api_key']
         self.UserNetwork = ''
         self.AuthKey = ''
         self.UserID = ''
@@ -318,8 +322,8 @@ class QaADPQShell:
     
     
 
-    def GetApiKey(self):
-        return self.apiKey
+#     def GetApiKey(self):
+#         return self.apiKey
     
     def GetAuthKey(self):
         return self.AuthKey
@@ -340,14 +344,14 @@ def Test_Class():
 #     # sign_in(self, email='', emailExclude=False):
 #     user.sign_in(email = 'jlennon@hotbsoftware.com')
     
-    # Method signature. DONE
-    # get_agencies():
-    user.get_agencies()
+#     # Method signature. DONE
+#     # get_agencies():
+#     user.get_agencies()
     
     
-    # Method signature. DONE
-    # get_tags():
-    user.get_tags()
+#     # Method signature. DONE
+#     # get_tags():
+#     user.get_tags()
      
      
 #     # Method signature. 
@@ -357,9 +361,9 @@ def Test_Class():
 #                   Authorization = user.GetAuthKey(), AuthorizationExclude=False)
      
      
-    # Method signature. DONE
-    # search_articles():
-    user.search_articles()
+#     # Method signature. DONE
+#     # search_articles():
+#     user.search_articles()
     
     
 #     # Method signature. MAY NOT BE NEEDED
