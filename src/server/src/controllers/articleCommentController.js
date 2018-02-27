@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose'),
     articleComment = mongoose.model('articleComment'),
-    articleController = require('./articleController');;
+    articleController = require('./articleController');
 mongoose.Promise = Promise;
 
 exports.createArticleComment = function(req, res) {
@@ -19,7 +19,11 @@ exports.createArticleComment = function(req, res) {
     prom.then(function(savedComment) {
         //update article object, can run async
         articleController.addCommentToArticle(savedComment.articleId.toString(), savedComment._id.toString()); 
-        return res.send('saved!');
+        var jsonreturn = {
+            status: 'saved!',
+            articleId: savedComment.articleId.toString()
+        };     
+        return res.json(jsonreturn); 
     })
     .catch(function(err) {
         return res.json({'error': err.toString() });

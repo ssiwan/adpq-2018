@@ -11,7 +11,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     var agencyController = require('./controllers/agencyController');
     var articleController = require('./controllers/articleController');
     var userController = require('./controllers/userController'); 
-    var articleCommentController = require('./controllers/articleCommentController'); 
+    var articleCommentController = require('./controllers/articleCommentController');
+    var articleEditController = require('./controllers/articleEditController');  
 
 //***********ROUTES****************************//
 
@@ -75,30 +76,22 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //GET
         router.get('/searchArticles', articleController.search);
         router.get('/articles/:articleId', articleController.getArticleDetails);
-        router.get('/articles', articleController.getArticles);
-        //router.get('/articleDetails', articleController.getArticleDetails);         
+        router.get('/articles', articleController.getArticles);        
 
     //POST
-        router.post('/articles', articleController.createArticle); 
+        router.post('/articles', articleController.createArticle);
 
-    //PUT
-
-    //DELETE
+//articleEditRoutes
+    //POST
+        router.post('/editArticle', articleEditController.editArticle); 
 
 //articleCommentRoutes
-    //GET
-
     //POST
-        router.post('/articleComment', articleCommentController.createArticleComment)
+        router.post('/articleComment', articleCommentController.createArticleComment);
 
 //userRoutes
-    //GET 
-
     //POST
         router.post('/user/signIn', userController.signIn);
-    //PUT
-
-    //DELETE
 
 //UTILIES - will create utility file if need grows
 //presigned s3 url

@@ -27,6 +27,7 @@ mongoose.connect(config.dbUrl, options).then(() => {
     require('./models/user');
     require('./models/agency');
     require('./models/articleComment');
+    require('./models/articleEdit');
     require('./models/article');
 
     //cors 

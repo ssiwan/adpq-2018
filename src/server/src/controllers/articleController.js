@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
     article = mongoose.model('article'); 
+    
 
 var ObjectId = mongoose.Types.ObjectId; 
 
@@ -245,6 +246,7 @@ exports.createArticle = function(req, res) {
         views: 0,//default fields
         sharedUsers: [],
         comments: [],
+        articleEdits: [],
         createdAt: Date.now(),
         status: 0,
         type: 0 // dud for now
@@ -279,12 +281,40 @@ exports.addCommentToArticle = function(articleId, commentId) {
     query.then(function(art) {
         art.comments.push(new ObjectId(commentId)); 
         art.save();
-        var jsonreturn = {
-            status: 'saved!',
-            articleId: art._id.toString()
-        }
-        return res.json(jsonreturn);  
+        return;  
     });
+}
+
+exports.editArticle = function(articleId, articleEditId, articleObj) {
+    var attachmentsArray = []; 
+    var baseUrl = 'https://s3-us-west-1.amazonaws.com/adpq-assets/'; 
+    if (articleObj.attachments != null && articleObj.attachments.length > 0) {
+        articleObj.attachments.forEach(function(atchmt) {
+            attachmentsArray.push(baseUrl + atchmt); 
+        });
+    }
+
+        var queryParams = {};
+    queryParams._id = new ObjectId(articleId); 
+
+    var query = article.findOne(queryParams);
+    query.exec()
+        .catch(function (err) {
+            res.send(err);
+        });
+    
+    query.then(function(art) {
+        art.articleEdits.push(new ObjectId(articleEditId)); 
+        art.title = articleObj.title;
+        art.agency = new ObjectId(articleObj.agencyId);
+        art.role = articleObj.role; 
+        art.summary = articleObj.shortDesc;
+        art.description = articleObj.longDesc;
+        art.attachments = attachmentsArray; 
+        art.status = articleObj.status; 
+        art.save(); 
+        return; 
+    }); 
 }
 
 function getTagNames(tags) {
