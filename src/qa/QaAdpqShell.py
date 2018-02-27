@@ -7,22 +7,31 @@ setEnv = ''
 
 
 
-
+# Set API Development Environment
 if 'Environment' not in os.environ.keys():
     print('\n[AutoScript] Defaulting to staging.\n')
     setEnv = environmentBody['staging']
 else:
     print('\n[AutoScript] Setting environment to', os.environ['Environment'], '\n')
-    setEnv = os.environ['Environment']
+    #setEnv = os.environ['Environment']
+    if os.environ['Environment'] == 'local':
+        setEnv = 'http://localhost:3001'
+    elif os.environ['Environment'] == 'staging':
+        setEnv = 'http://adpq-staging-loadbalancer-777882718.us-west-1.elb.amazonaws.com'
+    elif os.environ['Environment'] == 'prod':
+        setEnv = 'http://adpq-production-loadbalancer-557804625.us-west-1.elb.amazonaws.com'
+
+    # Set API Version
+    setEnv = setEnv + '/api/v1/'
 
 # print(os.environ['ADPQEnvironment'])
 # print()
 # 
 # for keys in os.environ:
-#     print(keys)
+    # print(keys)
 # print()
 # 
-# print(os.environ.get("ADPQEnvironment"))
+# print(os.environ.get("Environment"))
 # print()
  
 setEnv.strip()
