@@ -145,8 +145,12 @@ $(document).ready(function(){
             width: 'auto'
         });
 
+        function generateTable() {
+            
+        }
 
         function LoadData() {
+            //generateTable();
             $.ajax({
                 url: APIURL + "articles/" + articleId,
                 type: 'GET',
@@ -172,7 +176,15 @@ $(document).ready(function(){
                     }
                     tgs = tgs.substring(0, tgs.length - 1)
                     $('#tags').importTags(tgs);
-                    //article.attachments = attachments;
+                    $('#dynamictable').append('<table class="table table-stripped"><thead><tr>Existing Attachments</tr></thead></table>');
+                    var table = $('#dynamictable').children();    
+
+                    for (let index = 0; index < response.data.attachments.length; index++) {
+                        table.append("<tbody><tr><td>" +response.data.attachments[index]+"</td><td><button type='button' class='btn'>Delete</button></td></tr>");
+                       
+                        
+                    }
+                    table.append("</tbody>");
                 }
 
             })
