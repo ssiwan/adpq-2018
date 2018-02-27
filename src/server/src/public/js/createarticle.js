@@ -157,18 +157,37 @@ $(document).ready(function(){
 
         $("#btnSave").click(function(){
 
-            // Add Validation
-        
-        UploadToS3();
+            article.title = $("#title").val();
+            article.agencyId = $("#agency").val();
+            article.audience = $("#audience").val();
+            article.type = $("#articletype").val();
+            article.shortDesc = $("#shortdesc").val();
+            article.longDesc = JSON.stringify(quill.getContents());
+            //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
+            article.attachments = attachments;
+            
+            // Validation
+            var errors = "";
+            if (isEmpty(article.title)) {
+                errors+= "Title is required. \r\n";
+            }
+            if (isEmpty(article.shortDesc)) {
+                errors+= "Short Description is required. \r\n";
+            }
+            if (isEmpty(article.longDesc)) {
+                errors+= "Long Description is required. \r\n";
+            }
 
-        article.title = $("#title").val();
-        article.agencyId = $("#agency").val();
-        article.audience = $("#audience").val();
-        article.type = $("#articletype").val();
-        article.shortDesc = $("#shortdesc").val();
-        article.longDesc = JSON.stringify(quill.getContents());
-        //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
-        article.attachments = attachments;
+            if (!isEmpty(errors)) {
+                alert(errors);
+                return;
+            }
+
+            if (!isEmpty(article.attachments)) {
+                UploadToS3();
+            }
+
+
 
 
         console.log("Request JSON" + JSON.stringify(article));
