@@ -32,7 +32,7 @@ $(document).ready(function(){
                             options += response.data[index].name + ",";
                         }
                         options = options.substring(0, options.length - 1)
-                        console.log(options);
+                        //console.log(options);
                         $('#suggestedtags').importTags(options);
                     }
                     else
@@ -145,8 +145,12 @@ $(document).ready(function(){
             width: 'auto'
         });
 
+        function generateTable() {
+            
+        }
 
         function LoadData() {
+            //generateTable();
             $.ajax({
                 url: APIURL + "articles/" + articleId,
                 type: 'GET',
@@ -172,7 +176,15 @@ $(document).ready(function(){
                     }
                     tgs = tgs.substring(0, tgs.length - 1)
                     $('#tags').importTags(tgs);
-                    //article.attachments = attachments;
+                    $('#dynamictable').append('<table class="table table-stripped"><thead><tr>Existing Attachments</tr></thead></table>');
+                    var table = $('#dynamictable').children();    
+
+                    for (let index = 0; index < response.data.attachments.length; index++) {
+                        table.append("<tbody><tr><td>" +response.data.attachments[index]+"</td><td><button type='button' class='btn'>Delete</button></td></tr>");
+                       
+                        
+                    }
+                    table.append("</tbody>");
                 }
 
             })
@@ -190,30 +202,48 @@ $(document).ready(function(){
             shortDesc: "",
             longDesc:"",
             tags: "", 
-            attachments:""
+            attachments:"",
+            articleId:""
         }
 
 
         $("#btnSave").click(function(){
 
-            // Add Validation
-        
-        UploadToS3();
+            article.title = $("#title").val();
+            article.agencyId = $("#agency").val();
+            article.audience = $("#audience").val();
+            article.type = $("#articletype").val();
+            article.shortDesc = $("#shortdesc").val();
+            article.longDesc = JSON.stringify(quill.getContents());
+            //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
+            article.attachments = attachments;
+            article.articleId = articleId;
 
-        article.title = $("#title").val();
-        article.agencyId = $("#agency").val();
-        article.audience = $("#audience").val();
-        article.type = $("#articletype").val();
-        article.shortDesc = $("#shortdesc").val();
-        article.longDesc = JSON.stringify(quill.getContents());
-        //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
-        article.attachments = attachments;
+            // Validation
+            var errors = "";
+            if (isEmpty(article.title)) {
+                errors+= "Title is required. \r\n";
+            }
+            if (isEmpty(article.shortDesc)) {
+                errors+= "Short Description is required. \r\n";
+            }
+            if (isEmpty(article.longDesc)) {
+                errors+= "Long Description is required. \r\n";
+            }
 
+            if (!isEmpty(errors)) {
+                alert(errors);
+                return;
+            }
+
+            if (!isEmpty(article.attachments)) {
+                UploadToS3();
+            }
 
         console.log("Request JSON" + JSON.stringify(article));
             
             $.ajax({
-                url: APIURL + "articles",
+                url: APIURL + "editArticle",
                 type: 'POST',
                 dataType: 'json',
                 headers:{
