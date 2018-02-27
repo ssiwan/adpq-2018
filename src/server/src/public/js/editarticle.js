@@ -145,10 +145,6 @@ $(document).ready(function(){
             width: 'auto'
         });
 
-        function generateTable() {
-            
-        }
-
         function LoadData() {
             //generateTable();
             $.ajax({
@@ -162,13 +158,14 @@ $(document).ready(function(){
             })
             .done(function(response) {
                 console.log(response);
+                //console.log(JSON.parse(response.data.description));
                 if (!isEmpty(response.data)) {
                     $("#title").val(response.data.title);
                     //article.agencyId = $("#agency").val();
                     //article.audience = $("#audience").val();
                     //article.type = $("#articletype").val();
                     $("#shortdesc").val(response.data.summary);
-                    quill.setContents(response.data.description);
+                    quill.setContents(JSON.parse(response.data.description),'api');
                     //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
                     var tgs = "";
                     for (let index = 0; index < response.data.tags.length; index++) {

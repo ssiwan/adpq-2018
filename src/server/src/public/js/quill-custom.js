@@ -1,4 +1,5 @@
-         var toolbarOptions = [
+        var toolbarOptions = [['bold', 'italic'], ];
+        var toolbarOptions = [
           ['bold', 'italic', 'underline', 'strike'],        
           ['blockquote', 'code-block'],
           ['link', 'image'],
