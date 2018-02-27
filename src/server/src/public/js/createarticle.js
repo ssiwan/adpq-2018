@@ -1,198 +1,215 @@
 $(document).ready(function(){
-    LoadAgencies();
-    SuggestedTitles();
-    //UploadToS3();
-  
-    var attachments =[];
-    var FileJSON = { "mime":"","name":""};
-    var options = "";
-    LoadTags();
-    function LoadTags() {
-       
-        $.ajax({
-            url: APIURL + "tags",
-            type: 'GET',
-            dataType: 'json',
-            cache:false
-          })
-          .done(function(response) {
-            if (response.data != null) {
-                for (let index = 0; index < response.data.length; index++) {
-                    options += response.data[index].name + ",";
-                 }
-                 options = options.substring(0, options.length - 1)
-                 console.log(options);
-                 $('#suggestedtags').importTags(options);
-            }
-            else
-            {
-                alert(response.error);
-            }
-    
-          })
-          .fail(function(xhr) {
-            console.log('error', xhr);
-          });
-}
 
-    
-        $("#btnUpload").click(function () {
-            var x = document.getElementById("fileattachments");
-            console.log(x.files.length);
+    var role = sessionStorage.getItem("role");
+    var token = sessionStorage.getItem("token");
 
-            for (var file, i = 0; i < x.files.length; i++) {
-                file = x.files[i];
-                //console.log(x.files[i].type);
-                //console.log(x.files[i].name);
-                FileJSON.mime = x.files[i].type;
-                FileJSON.name = x.files[i].name;
-                attachments.push(x.files[i].name);
+    if(!isEmpty(role) && !isEmpty(token))
+ {
+            if (role === "admin") {
+                $("#adminsettingsbtn").show();
+            }
+            LoadAgencies();
+            //SuggestedTitles();
+            
+        
+            var attachments = [];
+            var FileJSON = { "mime":"","name":""};
+            var options = "";
+            LoadTags();
+            function LoadTags() {
+            
                 $.ajax({
-                    url : APIURL + "preS3",
-                    data: JSON.stringify(FileJSON),
-                    type : "POST",
-                    dataType : "json",
-                    headers:{
-                        //'Authorization':sessionStorage.getItem("token"),
-                        'Authorization':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MjAwMjEwODIsInVzZXJJZCI6IjVhOGJiZjIzYTJkMTNhZDRiYTUzOTFmNiIsInJvbGUiOjEsImlhdCI6MTUxOTQxNjI4Mn0.OLeF3j2EqlvaGSsblcufC1afpZ0gHkQegnzn8X-ohsA',
-                        'Content-Type' :'application/json'
-                    }
-                })
-                .done(function(s3presignedUrl) {
-                    console.log(s3presignedUrl);
-                    //console.log(file.type);
-                    //console.log(file);
-                   $.ajax({
-                        url : s3presignedUrl.url,
-                        method : 'PUT',
-                        data : file,
-                        headers: {'Content-Type': ''},
-                        processData:false
-                    })
-                    .done(function(){
-                        console.log("Success file uploaded " + file.name);
-                        
-                    })
-                    .fail(function(){
-                        console.log("S3 file upload failed" + file.name);
-                    })
-                })
-            }
-        });
-    
-
-
-    function SuggestedTitles() {
-        $("#title").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: APIURL + "agencies", // Change to suggested title endpoint
-                    data: { term: request.term },
-                    dataType: 'json',
+                    url: APIURL + "tags",
                     type: 'GET',
-                    cache:false,
-                    contentType: "application/json; charset=utf-8",
-                    success: function (result) {
-                        var agencyarr = new Array();
-                        for (let index = 0; index < result.data.length; index++) {
-                            agencyarr.push(result.data[index].name);
+                    dataType: 'json',
+                    cache:false
+                })
+                .done(function(response) {
+                    if (!isEmpty(response.data)) {
+                        for (let index = 0; index < response.data.length; index++) {
+                            options += response.data[index].name + ",";
                         }
-                        response(agencyarr);
-                    },
-                    error: function (data) {
-                        console.log(data);
+                        options = options.substring(0, options.length - 1)
+                        console.log(options);
+                        $('#suggestedtags').importTags(options);
                     }
+                    else
+                    {
+                        alert(response.error);
+                    }
+            
+                })
+                .fail(function(xhr) {
+                    console.log('error', xhr);
                 });
-            },
-            minLength: 2
-        });
-    }
+            }
 
-    function LoadAgencies() {
-        var options = $("#agency");
-        $.ajax({
-            url: APIURL + "agencies",
-            type: 'GET',
-            dataType: 'json',
-            cache:false
-        })
-        .done(function(response) {
-            if (response.data != null) {
-                for (let index = 0; index < response.data.length; index++) {
-                    options.append($("<option />").val(response.data[index].id).text(response.data[index].name));
+            function UploadToS3() {
+                var x = document.getElementById("fileattachments");
+                console.log(x.files.length);
+
+                for (var file, i = 0; i < x.files.length; i++) {
+                    file = x.files[i];
+                    //console.log(x.files[i].type);
+                    //console.log(x.files[i].name);
+                    FileJSON.mime = x.files[i].type;
+                    FileJSON.name = x.files[i].name;
+                    attachments.push(x.files[i].name);
+                    $.ajax({
+                        url : APIURL + "preS3",
+                        data: JSON.stringify(FileJSON),
+                        type : "POST",
+                        dataType : "json",
+                        headers:{
+                            'Authorization':token,
+                            'Content-Type' :'application/json'
+                        }
+                    })
+                    .done(function(s3presignedUrl) {
+                        console.log(s3presignedUrl);
+                        //console.log(file.type);
+                        //console.log(file);
+                    $.ajax({
+                            url : s3presignedUrl.url,
+                            method : 'PUT',
+                            data : file,
+                            headers: {'Content-Type': ''},
+                            processData:false
+                        })
+                        .done(function(){
+                            console.log("Success file uploaded " + file.name);
+                            
+                        })
+                        .fail(function(){
+                            console.log("S3 file upload failed" + file.name);
+                        })
+                    })
                 }
             }
-            else
-            {
-                alert(response.error);
+            function SuggestedTitles() {
+                $("#title").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: APIURL + "agencies", // Change to suggested title endpoint
+                            data: { term: request.term },
+                            dataType: 'json',
+                            type: 'GET',
+                            cache:false,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (result) {
+                                var agencyarr = new Array();
+                                for (let index = 0; index < result.data.length; index++) {
+                                    agencyarr.push(result.data[index].name);
+                                }
+                                response(agencyarr);
+                            },
+                            error: function (data) {
+                                console.log(data);
+                            }
+                        });
+                    },
+                    minLength: 2
+                });
             }
 
-        })
-        .fail(function(xhr) {
-            console.log('error', xhr);
+            function LoadAgencies() {
+                var options = $("#agency");
+                $.ajax({
+                    url: APIURL + "agencies",
+                    type: 'GET',
+                    dataType: 'json',
+                    cache:false
+                })
+                .done(function(response) {
+                    if (!isEmpty(response.data)){
+                        for (let index = 0; index < response.data.length; index++) {
+                            options.append($("<option />").val(response.data[index].id).text(response.data[index].name));
+                        }
+                    }
+                    else
+                    {
+                        alert(response.error);
+                    }
+
+                })
+                .fail(function(xhr) {
+                    console.log('error', xhr);
+                });
+
+        }
+
+
+        $('#tags').tagsInput({
+            width: 'auto'
         });
 
-   }
+
+        var article = {
+            title:"",
+            agencyId:"",
+            audience:"",
+            shortDesc: "",
+            longDesc:"",
+            tags: "", 
+            attachments:""
+        }
 
 
-   $('#tags').tagsInput({
-    width: 'auto'
-  });
+        $("#btnSave").click(function(){
+
+            // Add Validation
+        
+        UploadToS3();
+
+        article.title = $("#title").val();
+        article.agencyId = $("#agency").val();
+        article.audience = $("#audience").val();
+        article.type = $("#articletype").val();
+        article.shortDesc = $("#shortdesc").val();
+        article.longDesc = JSON.stringify(quill.getContents());
+        //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
+        article.attachments = attachments;
 
 
-var article = {
-    title:"",
-    agencyId:"",
-    audience:"",
-    shortDesc: "",
-    longDesc:"",
-    //tags: "",
-    attachments:""
+        console.log("Request JSON" + JSON.stringify(article));
+            
+            $.ajax({
+                url: APIURL + "articles",
+                type: 'POST',
+                dataType: 'json',
+                headers:{
+                    'Authorization':token,
+                    'Content-Type':'application/json'
+                },
+                data: JSON.stringify(article)
+            })
+            .done(function(response) {
+                console.log(response);
+                console.log(isEmpty(response.status));
+                if (!isEmpty(response.status)) {
+                    if (response.status === "saved!") {
+                        alert("Saved Successfully");
+                        setTimeout(function(){  window.location.href = "dashboard.html"; }, 3000);
+                    }
+                }
+                else{
+                    alert("There seems to be a problem with saving.Please try again.");
+                }
+            })
+            .fail(function(data, textStatus, xhr) {
+                alert(data.responseJSON.Error);
+            });
+
+
+        });
+
+        $("#btnCancel").click(function() {
+            window.location.href = "dashboard.html";
+        });
+
+ }
+else {
+    window.location.href = "index.html";
 }
-
-
-$("#btnSave").click(function(){
-
-    // Add Validation
-article.title = $("#title").val();
-article.agencyId = $("#agency").val();
-article.audience = $("#audience").val();
-article.type = $("#articletype").val();
-article.shortDesc = $("#shortdesc").val();
-article.longDesc = JSON.stringify(quill.getContents());
-article.tags = $("#tags").val();
-article.attachments = attachments;
-//article.URLs = $("#articletype").val();
-
-console.log("Request JSON" + JSON.stringify(article));
-    
-    $.ajax({
-        url: APIURL + "articles",
-        type: 'POST',
-        dataType: 'json',
-        headers:{
-            //'Authorization':sessionStorage.getItem("token"),
-            'Authorization':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MjAwMjEwODIsInVzZXJJZCI6IjVhOGJiZjIzYTJkMTNhZDRiYTUzOTFmNiIsInJvbGUiOjEsImlhdCI6MTUxOTQxNjI4Mn0.OLeF3j2EqlvaGSsblcufC1afpZ0gHkQegnzn8X-ohsA',
-            'Content-Type':'application/json'
-        },
-        data: JSON.stringify(article)
-      })
-      .done(function(response) {
-        if (!isEmpty(response.data)) {
-        }
-        else{
-            alert(response.error);
-        }
-      })
-      .fail(function(data, textStatus, xhr) {
-        alert(data.responseJSON.Error);
-      });
-
-
-});
-
-
-
-
 
 });

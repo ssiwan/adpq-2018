@@ -161,7 +161,7 @@ $(document).ready(function(){
     });  */
 
     $("#btnFilters").click(function(){
-        $("#btnHideFilters").show();
+        $("#btnHideFilters").show();     
         $("#btnFilters").hide();
         $("#filters").show();
     }); 
