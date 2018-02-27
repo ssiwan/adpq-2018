@@ -12,6 +12,8 @@ node {
                 build()
                 publish()
                 deployStaging()
+                runStagingTests()
+                sendSlackNotification()
             } else if (scmVars.GIT_BRANCH == 'origin/master') {
                 println "Master Branch"
                 sh 'cp /aws/adpq/server/production/config.json ./src/server/src/config.json'
@@ -44,6 +46,21 @@ def publish() {
 
             docker tag adpq-server 485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-server:v_${BUILD_NUMBER}
             docker push 485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-server:v_${BUILD_NUMBER}
+        '''
+    }
+}
+
+def runStagingTests() {
+    stage('Test') {
+        sh '''#!/bin/bash
+            docker build ./src/qa -t adpq_tests
+            docker run -v /adpq_tests/reports:/data/reports -e Environment=staging --name adpq_tests -i adpq_tests >> /adpq_tests/results.xml
+            docker rm adpq_tests && docker rmi adpq_tests
+
+            export numberOfTests=$(cat /adpq_tests/results.xml | cut -d '=' -f 2 | cut -d ' ' -f 1)
+            export errors=$(cat /adpq_tests/results.xml | cut -d '=' -f 3 | cut -d ' ' -f 1)
+            export failures=$(cat /adpq_tests/results.xml | cut -d '=' -f 4 | cut -d '>' -f 1)
+            export numberOfSuccesses=$($numberOfTests - $errors - $failures)
         '''
     }
 }
@@ -162,7 +179,9 @@ def deployStaging() {
             main;
         '''
     }
+}
 
+def sendSlackNotification() {
     stage ('Notify') {
         def nodeHome = tool 'NodeTool'
         env.PATH="${env.PATH}:${nodeHome}/bin"
@@ -170,7 +189,7 @@ def deployStaging() {
         sh '''#!/bin/bash
             sleep 10
             logs=$(git log -1 --pretty=%B origin/staging)
-            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Staging Build Available*:\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n$logs"
+            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Staging Build Available*:\nhttp://adpq-staging.hotbsoftware.com\nTests:\n$numberOfSuccesses / $numberOfTests ran successfully\n\n*Build Notes:*\n$logs"
         '''
     }
 }
