@@ -1,4 +1,3 @@
-
         var toolbarOptions = [['bold', 'italic'], ];
         var toolbarOptions = [
           ['bold', 'italic', 'underline', 'strike'],        

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Roboto Condensed" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.min.css" />
+<link rel="stylesheet" href="css/adpq-styles.css">
+<link href="https://cdn.quilljs.com/1.3.5/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+<div class="main-wrapper-sm">
+  <div class="adpq-container">
+    <header class="adpq-headcontainer">
+      <div class="adpq-brand"></div>
+      <div class="adpq-adminwrap">
+        <div class="adpq-settings-btn" id="adminsettingsbtn" style="display:none"></div>
+        <a href="create-article.html"><div class="adpq-plus-btn"></div></a>
+		  <div class="adpq-profile-btn"></div>
+      </div>
+    </header>
+    <div class="mypublished-row">
+      <div class="mypublished-header">
+        <div class="section-title">Create Article</div>
+      </div>
+      <div class="create-article-wrap">
+        <form class="form-horizontal">
+          <fieldset>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="title">Title</label>
+              <div class="col-sm-6">
+                <input id="title" name="title" type="text" placeholder="" class="form-control input-md" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="selectbasic">Agency</label>
+              <div class="col-md-6">
+                <select id="agency" name="selectbasic" class="form-control" required>
+                  <option value="1">Agency one</option>
+                  <option value="2">Agency two</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="audience">Audience</label>
+              <div class="col-md-6">
+                <select id="audience" name="audience" class="form-control" required>
+                  <option value="1">Staff</option>
+                  <option value="0">Public</option>
+                  <option value="2">Admin</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="article_type">Article Type</label>
+              <div class="col-md-6">
+                <select id="articletype" name="article_type" class="form-control" required>
+                    <option value="3">Default</option>
+                    <option value="4">Public Notification</option>
+                    <option value="5">Technical</option>
+                    <option value="6">Regulatory</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label" for="short_desc">Short Description</label>
+              <div class="col-md-6">
+                <textarea id="shortdesc" name="short_desc" class="form-control" cols="40" rows="5" required></textarea>
+              </div>
+            </div>
+            <div class="form-group"> 
+              <label class="col-md-4 control-label">Long Description</label>
+                <div id="longdesc"> 
+                </div>
+            </div>
+            <div class="form-group"> 
+              <label class="col-md-4 control-label" for="suggestedtags">Suggested Tags</label>
+              <div class="col-md-6">
+                <input class="form-control" id="suggestedtags" name="suggestedtags" type="text" disabled="disabled"/>
+              </div>
+          </div>
+          <div class="form-group"> 
+              <label class="col-md-4 control-label" for="tags">Tags (Comma delimited)</label>
+              <div class="col-md-6">
+                <input class="form-control" id="tags" name="tags" type="text" required/>
+              </div>
+          </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="filebutton">File Uploads</label>
+              <div class="col-md-4">
+                <input id="fileattachments" name="filebutton" class="input-file" type="file" multiple required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="cancelbtn"></label>
+              <div class="col-md-8">
+                <button id="btnCancel" name="cancelbtn" class="cs-button">Cancel</button>
+                <button id="btnSave" name="submitbtn" class="cs-button" type="button">Submit</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.quilljs.com/1.3.5/quill.js"></script>
+<script src="js/quill-custom.js"></script>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="js/constants.js"></script>
+<script src="js/utility.js"></script>
+<script src="js/jquery.tagsinput.min.js"></script>
+<script src="js/createarticle.js"></script>
+</body>
+</html>

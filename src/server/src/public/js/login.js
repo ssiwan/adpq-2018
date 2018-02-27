@@ -46,13 +46,13 @@ var LoginResponse = { token:""};
                     // based upon the role show the required pages.
                     // role = staff or admin
                     window.location.href = "dashboard.html";
+                   
             }
             else
             {
                 alert("Invalid login");
                 $('#password').val("");
                 $('#username').val("");
-                
             }
             })
             .fail(function (data, textStatus, xhr) {
