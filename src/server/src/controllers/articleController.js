@@ -1,7 +1,8 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    article = mongoose.model('article'); 
+    article = mongoose.model('article'),
+    users = mongoose.model('user'); 
     
 
 var ObjectId = mongoose.Types.ObjectId; 
@@ -197,7 +198,8 @@ exports.getArticleDetails = function(req, res) {
                 articleobj['tags'] = getTagNames(art.tags);
                 articleobj['createdAt'] = art.createdAt;
                 articleobj['createdBy'] = art.createdBy; 
-                articleobj['agency'] = art.agency._id.toString();
+                articleobj['agencyId'] = art.agency._id.toString();
+                articleobj['agencyName'] = art.agency.value;
                 articleobj['status'] = art.status;
                 articleobj['approvedBy'] =  art.approvedBy; 
                 articleobj['description'] = art.description;
@@ -270,6 +272,116 @@ exports.createArticle = function(req, res) {
     });
 }    
 
+exports.dashboardAnalytics = function(req, res) {
+    //if userRole == 2, then add total users query 
+    var objuserId = new ObjectId(req.userId); 
+    var promiseArray = []; 
+
+    //Articles Published Count  
+    var queryParams = {}; 
+    queryParams.createdBy = objuserId;  
+    queryParams.status = 1; 
+    var query = article.count(queryParams); 
+
+    promiseArray.push(query); 
+
+    //Articles In Review Count
+    var queryParams2 = {};
+    queryParams2.createdBy = objuserId; 
+    queryParams2.status = 0; 
+    var query2 = article.count(queryParams2); 
+
+    promiseArray.push(query2); 
+
+    //Articles Declined Count
+    var queryParams3 = {};
+    queryParams3.createdBy = objuserId; 
+    queryParams3.status = 2; 
+    var query3 = article.count(queryParams3); 
+
+    promiseArray.push(query3);
+
+    //Views Count - from only published
+    var queryParams4 = {};
+    queryParams4.createdBy = objuserId; 
+    queryParams4.status = 1; 
+    var query4 = article.find(queryParams4).then(function(result) {
+        var returnCount = 0; 
+        if (result != null) {
+            result.forEach(function(ret) {
+                returnCount += ret.views; 
+            });
+        }
+        return returnCount;  
+    }); 
+
+    promiseArray.push(query4);
+
+    //Share Count - from only published
+    var queryParams5 = {};
+    queryParams5.createdBy = objuserId; 
+    queryParams5.status = 1; 
+    var query5 = article.find(queryParams5).then(function(result) {
+        var returnCount = 0; 
+        if (result != null) {
+            result.forEach(function(ret) {
+                returnCount += ret.sharedUsers.length; 
+            });
+        }
+        return returnCount;  
+    }); 
+
+    promiseArray.push(query5); 
+
+    //User Count - if admin
+    if (req.userRole == 2) {
+        var query6 = users.count(); 
+        promiseArray.push(query6); 
+    }   
+
+
+    Promise.all(promiseArray).then(function(values) {
+        var returndata = {};
+        returndata.publishCount = values[0];
+        returndata.reviewCount = values[1]; 
+        returndata.declineCount = values[2]; 
+        returndata.viewCount = values[3];
+        returndata.shareCount = values[4];
+        if (req.userRole == 2) {
+            returndata.userCount = values[5]; 
+        }
+        return res.json({'data': returndata}); 
+    });
+}
+
+exports.dashboardTrending = function(req, res) {
+    var objuserId = new ObjectId(req.userId); 
+
+    article.aggregate([
+        {'$project': {
+            'shareCount': {'$size': '$sharedUsers'}
+        }},
+        {'$sort': {'shareCount': -1}},
+        {'$limit': 1}
+    ], function(err, result) {
+        if (err) {
+            return res.send('ERROR'); 
+        }
+        return res.json(result['_id']); 
+    })
+
+    // var query = article.find({sharedUsers: {$gt:[]}});
+
+    // query.exec()
+    //     .catch(function (err) {
+    //         res.send(err);
+    //     });  
+    
+    // query.then(function(result){
+    //     return res.json(result); 
+    // });
+}
+
 //*****************************API internal functions****************//
 
 exports.addCommentToArticle = function(articleId, commentId) {
@@ -316,7 +428,7 @@ exports.editArticle = function(articleId, articleEditId, articleObj) {
         art.description = articleObj.longDesc;
         art.attachments = attachmentsArray; 
         art.status = articleObj.status; 
-        art.save(); 
+        art.save();
         return; 
     }); 
 }
