@@ -16,9 +16,9 @@
     <header class="adpq-headcontainer">
       <div class="adpq-brand"></div>
       <div class="adpq-adminwrap">
-        <div class="adpq-plus-btn"></div>
-        <div class="adpq-settings-btn"></div>
         <div class="adpq-profile-btn"></div>
+        <div class="adpq-settings-btn"  id="adminsettingsbtn" style="display:none"></div>
+        <a href="create-article.html"><div class="adpq-plus-btn"></div></a>
       </div>
     </header>
     <div class="artcles-details-view">
@@ -27,7 +27,7 @@
         <div class="details-tools">
           <div class="details-icon-wrap">
             <div class="tool-history"></div>
-            <div class="tools-edit"></div>
+            <a href="#" id="articleeditlnk"><div class="tools-edit"></div></a>
             <div class="tool-delete"></div>
           </div>
 <!--          <div class="tool-status">Status:</div>-->
@@ -138,9 +138,9 @@
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-<script src="js/config.js"></script> 
-<script src="js/landing.js"></script> 
-<script src="js/utility.js"></script> 
+<script src="js/constants.js"></script> 
+<script src="js/utility.js"></script>
+<script src="js/articledetails.js"></script> 
 <script src="https://cdn.quilljs.com/1.3.5/quill.js"></script>
 </body>
 </html>
