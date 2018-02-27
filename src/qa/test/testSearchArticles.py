@@ -32,7 +32,7 @@ class TestSearchArticles(unittest.TestCase):
     # Make sure the end point is live.
     def test_liveEndPoint(self):
         # URL end point.
-        url = QaAdpqShell.QaADPQShell.BaseURL + QaAdpqShell.QaADPQShell.SearchArticles
+        url = QaAdpqShell.QaADPQShell.setEnv + QaAdpqShell.QaADPQShell.SearchArticles
 
         # HTTP Action.
         HTTP_action = 'GET'

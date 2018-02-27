@@ -32,7 +32,7 @@ class TestGetAgencies(unittest.TestCase):
     # Make sure the end point is live.
     def test_liveEndPoint(self):
         # URL end point.
-        url = QaAdpqShell.QaADPQShell.BaseURL + QaAdpqShell.QaADPQShell.GetAgencies
+        url = QaAdpqShell.QaADPQShell.setEnv + QaAdpqShell.QaADPQShell.GetAgencies
 
         # HTTP Action.
         HTTP_action = 'GET'

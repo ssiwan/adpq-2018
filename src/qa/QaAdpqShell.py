@@ -62,12 +62,12 @@ class QaADPQShell:
     # Set API Version
     setEnv = setEnv + '/api/v1/'
     
-    articleSort = 'sort='
-    articleLimit = 'limit='
-    articleDateStart = 'dateStart='
-    articleDateEnd = 'dateEnd='
-    articleAgencyId = 'agencyId='
-    agencyTagId = 'tagId='
+    articleSort = 'sort=createdAt&'
+    articleLimit = 'limit=1&'
+    articleDateStart = 'dateStart=02-01-2018&'
+    articleDateEnd = 'dateEnd=03-01-2018&'
+    articleAgencyId = 'agencyId=5a8b73f94212d1f20f847b9a&'
+    agencyTagId = 'tagId=5a8b55bca2d13ad4ba5369ef&'
     
         
         
@@ -161,15 +161,32 @@ class QaADPQShell:
         
         return responseBody
     
+
+
     
-    
-    ## @fn get_article : Will 
-    # :required - api_key
+    ## @fn get_article : Will get a list of articles given the users permissions. 
+    # :required - Authorization
     #
-    def articles(self, api_key='', apiKeyExclude=False, 
-                 Authorization='', AuthorizationExclude=False):
+    def get_articles(self, Authorization='', AuthorizationExclude=False, sortUrl=False,
+                     limitUrl=False, dateStartURL=False, dateEndUrl=False,
+                     agencyIdUrl=False, tagIdUrl=False):
         # URL end point.
         url = self.environment + QaADPQShell.Articles
+        
+        # Optional URL additions.
+        if sortUrl == True:
+            url = url + QaADPQShell.articleSort
+        if limitUrl == True:
+            url = url + QaADPQShell.articleLimit
+        if dateStartURL == True:
+            url = url + QaADPQShell.articleDateStart
+            dateEndUrl
+        if limitUrl == True:
+            url = url + QaADPQShell.articleDateEnd
+        if agencyIdUrl == True:
+            url = url + QaADPQShell.articleAgencyId
+        if tagIdUrl == True:
+            url = url + QaADPQShell.agencyTagId
 
         # HTTP Action.
         HTTP_action = 'GET'
@@ -179,14 +196,6 @@ class QaADPQShell:
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
-        
-        # Add the api_key header parameter.
-        if apiKeyExclude == True:
-            pass
-        elif api_key != '':
-            headers['api_key'] = api_key
-        else:
-            headers['api_key'] = ''
             
         # Add the Authorization header parameter.
         if AuthorizationExclude == True:
@@ -196,33 +205,8 @@ class QaADPQShell:
         else:
             headers['Authorization'] = ''
         
-        
         # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
-        
-#         # Add the network body parameter.
-#         if networkExclude == True:
-#             pass
-#         elif network != '':
-#             body['network'] = network
-#         else:
-#             body['network'] = ''
-#             
-#         # Add the email body parameter.
-#         if emailExclude == True:
-#             pass
-#         elif email != '':
-#             body['email'] = email
-#         else:
-#             body['email'] = ''
-#             
-#         # Add the password body parameter.
-#         if passwordExclude == True:
-#             pass
-#         elif password != '':
-#             body['password'] = password
-#         else:
-#             body['password'] = ''
             
         # Make HTTPS Request.
         response = requests.request(HTTP_action, url, json=body, 
@@ -234,6 +218,9 @@ class QaADPQShell:
         # ~~ TESTING ~~
         print('\nget_article_list\n', responseBody)
         print('response.status_code: ', response.status_code)
+        print('\nheaders:', headers)
+        print('\nbody:', body)
+        print("\nURL:", url)
         
         return responseBody
     
@@ -320,6 +307,52 @@ class QaADPQShell:
         return responseBody
     
     
+    
+    ## @fn get_article : Will get details of any passed in article, 
+    #                    article ID must be appended to end of the url.
+    # :required - Authorization
+    #
+    def get_articles_details(self, Authorization='', AuthorizationExclude=False):
+        # URL end point.
+        url = self.environment + QaADPQShell.Articles + '5a907847ca13999bc0d11d92'
+
+        # HTTP Action.
+        HTTP_action = 'GET'
+        
+        # Header Parameters.
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        # Dynamically set key/value body pairs. Add all body parameters.
+        body = {}
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\nget_articles_details\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        print('\nheaders:', headers)
+        print('\nbody:', body)
+        print("\nURL:", url)
+        
+        return responseBody
+    
+    
 
     def GetRole(self):
         return self.role
@@ -343,7 +376,7 @@ def Test_Class():
     user = QaADPQShell()
     
     
-    # Method signature. WORKIGN ON THIS
+    # Method signature. DONE
     # sign_in(self, email='', emailExclude=False):
     user.sign_in(email = QaADPQShell.testEmail)
     
@@ -358,16 +391,23 @@ def Test_Class():
 #     user.get_tags()
      
      
-#     # Method signature. 
-#     # articles(self, api_key='', apiKeyExclude=False, 
-#     #             Authorization='', AuthorizationExclude=False):
-#     user.articles(api_key = user.GetApiKey(), apiKeyExclude=True, 
-#                   Authorization = user.GetAuthKey(), AuthorizationExclude=False)
+#     # Method signature. DONE
+#     # get_articles(Authorization='', AuthorizationExclude=False, sortUrl=False,
+#     #              limitUrl=False, dateStartURL=False, dateEndUrl=False,
+#     #              agencyIdUrl=False, tagIdUrl=False):
+#     user.get_articles(Authorization = user.GetAuthKey(), AuthorizationExclude=False,
+#                       sortUrl=False, limitUrl=True, dateStartURL=False, dateEndUrl=False,
+#                       agencyIdUrl=False, tagIdUrl=True)
      
      
 #     # Method signature. DONE
 #     # search_articles():
 #     user.search_articles()
+
+
+    # Method signature. 
+    # get_articles_details(self, Authorization='', AuthorizationExclude=False):
+    user.get_articles_details(user.GetAuthKey())
     
     
 #     # Method signature. MAY NOT BE NEEDED

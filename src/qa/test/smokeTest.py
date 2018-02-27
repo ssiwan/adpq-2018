@@ -11,10 +11,11 @@ import sys, unittest, QaAdpqShell, requests
               properly. 
 
     Test cases
-        Test end point get agencies by extracting a status code.
-        Test end point get tags by extracting a status code.
-        Test end point get articles by extracting a status code.
-        Test end point search articles by extracting a status code.
+        Test end point GetAgencies by extracting a status code.
+        Test end point GetTags by extracting a status code.
+        Test end point GetArticles by extracting a status code.
+        Test end point SearchArticles by extracting a status code.
+        Test end point UserSignIn by extracting a status code.
 '''
 class SmokeTest(unittest.TestCase):
 
@@ -23,7 +24,7 @@ class SmokeTest(unittest.TestCase):
         pass
         try:
             # Create shell class object.
-            cls.BaseUrl = QaAdpqShell.QaADPQShell.BaseURL
+            cls.BaseUrl = QaAdpqShell.QaADPQShell.setEnv
             assert(cls.BaseUrl != None)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
@@ -82,7 +83,7 @@ class SmokeTest(unittest.TestCase):
     ## Get the status of the get articles end point.
     def test_GetArticleStatus(self):
         # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.GetArticles
+        url = self.BaseUrl + QaAdpqShell.QaADPQShell.Articles
          
         # Assign the header parameters.
         headers = {
@@ -106,7 +107,7 @@ class SmokeTest(unittest.TestCase):
     ## Get the status of the search articles end point.
     def test_GetSearchArticleStatus(self):
         # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.SearchArticles + QaAdpqShell.QaADPQShell.searchKeyWord
+        url = self.BaseUrl + QaAdpqShell.QaADPQShell.SearchArticles 
          
         # Assign the header parameters.
         headers = {
@@ -127,26 +128,31 @@ class SmokeTest(unittest.TestCase):
          
          
          
-    ## Get the status of the end point.
-    def test_UserLoginStatus(self):
-        pass
-#         url = QaADPQShell.BaseURL + QaADPQShell.UsersLogin
+    ## Get the status of the SignIn end point.
+    def test_UserSignInStatus(self):
+        # Build the URL for this end point.
+        url = self.BaseUrl + QaAdpqShell.QaADPQShell.UsersSignIn 
          
+        # Assign the header parameters.
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
          
+        # Assign the body parameters.
+        body = {'email':'jlennon@hotbsoftware.com'}
          
-        
+        # Make the call and return the save the results.
+        response = requests.request('POST', url, json=body, 
+                                    headers=headers, verify=False)
+         
+        # Ensure that the end point is live.
+        self.assertEqual(response.status_code, 200, 
+                         msg='test_UserSignInStatus assert#1 failed.')
 
-        
-#     @classmethod
-#     def tearDownClass(cls):
-#         pass
-#         try:
-#             pass
-# #             cls.user.remove_user(cls.user.testEmail)
-#         except:
-#             print("Unexpected error during setUp:", sys.exc_info()[0])
-#             #raise
-#         #cls.user.remove_user(cls.user.testEmail)
+
+
+
     
     
     
@@ -157,7 +163,7 @@ def suite():
     suite.addTest(SmokeTest('test_GetTagStatus'))
     suite.addTest(SmokeTest('test_GetArticleStatus'))
     suite.addTest(SmokeTest('test_GetSearchArticleStatus'))
-#     suite.addTest(SmokeTest('test_UserLoginStatus'))
+    suite.addTest(SmokeTest('test_UserSignInStatus'))
     
     return suite
     
