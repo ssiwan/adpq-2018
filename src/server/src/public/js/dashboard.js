@@ -1,5 +1,6 @@
 $(document).ready(function(){
     var role = sessionStorage.getItem("role");
+    console.log(role);
     if(!isEmpty(role)){
         if (role === "admin") {
             $("#adminsettingsbtn").show();
