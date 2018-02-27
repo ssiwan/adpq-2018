@@ -12,7 +12,7 @@ from test import testGetAgencies
 from test import testGetTags
 from test import testGetArticles
 from test import testSearchArticles
-from test import testUserLogin
+from test import testSignIn
 
 
 # Initialize a test loader & test suite package.
@@ -25,7 +25,7 @@ suite.addTests(loader.suiteClass(testGetAgencies.suite()))
 suite.addTests(loader.suiteClass(testGetTags.suite()))
 suite.addTests(loader.suiteClass(testGetArticles.suite()))
 suite.addTests(loader.suiteClass(testSearchArticles.suite()))
-suite.addTests(loader.suiteClass(testUserLogin.suite()))
+suite.addTests(loader.suiteClass(testSignIn.suite()))
  
 # Initialize an xml runner.
 testRunner=xmlrunner.XMLTestRunner(output='data/testReports', verbosity=2)

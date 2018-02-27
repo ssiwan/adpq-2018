@@ -1,6 +1,6 @@
-import requests, sys, json, os
+import requests, os
 
-environmentBody = { 'staging':'http://adpq-staging-loadbalancer-777882718.us-west-1.elb.amazonaws.com/api/v1/',
+environmentBody = { 'staging':'http://adpq-staging-loadbalancer-777882718.us-west-1.elb.amazonaws.com',
                     'production':'http://adpq-production-loadbalancer-557804625.us-west-1.elb.amazonaws.com/'
                   }
 setEnv = ''
@@ -21,18 +21,8 @@ else:
     elif os.environ['Environment'] == 'prod':
         setEnv = 'http://adpq-production-loadbalancer-557804625.us-west-1.elb.amazonaws.com'
 
-    # Set API Version
-    setEnv = setEnv + '/api/v1/'
-
-# print(os.environ['ADPQEnvironment'])
-# print()
-# 
-# for keys in os.environ:
-    # print(keys)
-# print()
-# 
-# print(os.environ.get("Environment"))
-# print()
+#     # Set API Version
+#     setEnv = setEnv + '/api/v1/'
  
 setEnv.strip()
 
@@ -66,7 +56,12 @@ class QaADPQShell:
     SearchArticles = 'searchArticles'
     UsersSignIn = 'user/signIn'
     
+    # Save a BaseURL without API Version
     BaseURL = setEnv
+    
+    # Set API Version
+    setEnv = setEnv + '/api/v1/'
+    
     articleSort = 'sort='
     articleLimit = 'limit='
     articleDateStart = 'dateStart='
@@ -89,6 +84,7 @@ class QaADPQShell:
         self.placeId = []
         self.groupId = []
         self.environment = env
+        self.role = ''
         
         
         
@@ -277,7 +273,7 @@ class QaADPQShell:
     
     
     ## @fn user_login : Will 
-    # :required - api_key
+    # :required - email
     #
     def sign_in(self, email='', emailExclude=False):
         # URL end point.
@@ -311,31 +307,28 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\nuser_login\n', responseBody)
+        print('\nsign_in\n', responseBody)
         print('response.status_code: ', response.status_code)
-        print('\nHeaders:', headers)
-        print('\nbody:', body)
         
-        
-#         # Assertion - only if request was successful.
-#         if 'error' in responseBody.keys():
-#             if response.status_code == 200 and responseBody['error'] == False:
-#                 # Capture the objects information for future use.
-#                 self.AuthKey = responseBody['authorizeKey']
-#                 self.email = responseBody['data']['email']
-#                 self.UserID = responseBody['data']['id']
-#                 self.UserNetwork = responseBody['data']['network']
-#                 self.password = password
+        # Only if request was successful, save critical user data.
+        if 'token' in responseBody.keys():
+            if response.status_code == 200 and responseBody['token'] != None:
+                self.AuthKey = responseBody['token']
+                self.role = responseBody['role']
+                self.UserID = responseBody['id']
         
         return responseBody
     
     
 
-#     def GetApiKey(self):
-#         return self.apiKey
+    def GetRole(self):
+        return self.role
     
     def GetAuthKey(self):
         return self.AuthKey
+    
+    def GetUserId(self):
+        return self.UserID
     
     
 
@@ -349,9 +342,11 @@ def Test_Class():
     # Declare class objects. Create class instance. DONE
     user = QaADPQShell()
     
-#     # Method signature. WORKIGN ON THIS
-#     # sign_in(self, email='', emailExclude=False):
-#     user.sign_in(email = 'jlennon@hotbsoftware.com')
+    
+    # Method signature. WORKIGN ON THIS
+    # sign_in(self, email='', emailExclude=False):
+    user.sign_in(email = QaADPQShell.testEmail)
+    
     
 #     # Method signature. DONE
 #     # get_agencies():
@@ -381,4 +376,4 @@ def Test_Class():
     
     
     
-Test_Class()
+# Test_Class()
