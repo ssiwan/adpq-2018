@@ -93,6 +93,13 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //POST
         router.post('/user/signIn', userController.signIn);
 
+//Dashboard
+    //GET 
+        router.get('/dashboardAnalytics', articleController.dashboardAnalytics);
+        router.get('/dashboardTrending', articleController.dashboardTrending);  
+    //dashboardPublishedArticles
+    //dashboardWorkflow
+
 //UTILIES - will create utility file if need grows
 //presigned s3 url
     //GET
