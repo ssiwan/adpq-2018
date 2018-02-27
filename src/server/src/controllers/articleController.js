@@ -20,7 +20,8 @@ exports.search = function (req, res) {
 
     queryParams.role = {"$lte": parseInt(req.userRole)};
 
-    var query = article.find(queryParams).populate('createdBy').populate('agency').populate('tags');
+    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+                            .populate('createdBy').populate('agency').populate('tags');
 
     //if keyword exists in any tags
 
@@ -105,7 +106,8 @@ exports.getArticles = function(req, res, next) {
         queryParams.tags = new ObjectId(tagId); 
     }
     
-    var query = article.find(queryParams).populate('agency').populate('tags').populate('createdBy');
+    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+                            .populate('createdBy').populate('agency').populate('tags');
     
 
     //if filtering by sort and order 
@@ -165,7 +167,7 @@ exports.getArticles = function(req, res, next) {
 //GET /articleDetails
 exports.getArticleDetails = function(req, res) {
     var articleId = req.params.articleId; 
-
+    var userRole = parseInt(req.userRole); 
     //param check
     if (articleId == null || articleId == '') {
         return res.send({'error': 'Please submit an articleId'});
@@ -173,10 +175,10 @@ exports.getArticleDetails = function(req, res) {
 
     var queryParams = {};
     queryParams._id = new ObjectId(articleId); 
-    queryParams.role = {"$lte": parseInt(req.userRole)};
 
     var query = article.findOne(queryParams).populate('tags')
                                             .populate('createdBy')
+                                            .populate('agency')
                                             .populate({path: 'comments', populate: {path: 'commenter', model: 'user'}});
     //query.limit(1);
 
@@ -188,20 +190,22 @@ exports.getArticleDetails = function(req, res) {
     query.then(function(art) {
         var articleobj = {};
         if (art != null) {
-            articleobj['id'] = art._id.toString();
-            articleobj['title'] = art.title;
-            articleobj['summary'] = art.summary;
-            articleobj['tags'] = getTagNames(art.tags);
-            articleobj['createdAt'] = art.createdAt;
-            articleobj['createdBy'] = art.createdBy; 
-            articleobj['agency'] = art.agency.value;
-            articleobj['status'] = art.status;
-            articleobj['approvedBy'] =  art.approvedBy; 
-            articleobj['description'] = art.description;
-            articleobj['attachments'] = art.attachments;
-            articleobj['comments'] = art.comments;  
-            articleobj['views'] = art.views;
-            articleobj['sharedCount'] = art.sharedUsers.length;
+            if ((art.createdBy._id.toString() == req.userId || art.role <= userRole)) {
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags);
+                articleobj['createdAt'] = art.createdAt;
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency._id.toString();
+                articleobj['status'] = art.status;
+                articleobj['approvedBy'] =  art.approvedBy; 
+                articleobj['description'] = art.description;
+                articleobj['attachments'] = art.attachments;
+                articleobj['comments'] = art.comments;  
+                articleobj['views'] = art.views;
+                articleobj['sharedCount'] = art.sharedUsers.length;
+            }
         }
         res.json({'data': articleobj}); 
     }); 
@@ -270,7 +274,7 @@ exports.createArticle = function(req, res) {
 
 exports.addCommentToArticle = function(articleId, commentId) {
     var queryParams = {};
-    queryParams._id = new ObjectId(articleId); 
+    queryParams._id = new ObjectId(articleId);
     
     var query = article.findOne(queryParams);
     query.exec()
