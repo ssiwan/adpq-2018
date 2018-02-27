@@ -86,6 +86,9 @@ class QaADPQShell:
         self.environment = env
         self.role = ''
         
+        self.agencyId = []
+        self.articleId = []
+        
         
         
 
@@ -308,8 +311,8 @@ class QaADPQShell:
     
     
     
-    ## @fn get_article : Will get details of any passed in article, 
-    #                    article ID must be appended to end of the url.
+    ## @fn get_articles_details : Will get details of any passed in article, 
+    #                             article ID must be appended to end of the url.
     # :required - Authorization
     #
     def get_articles_details(self, Authorization='', AuthorizationExclude=False):
@@ -346,9 +349,124 @@ class QaADPQShell:
         # ~~ TESTING ~~
         print('\nget_articles_details\n', responseBody)
         print('response.status_code: ', response.status_code)
-        print('\nheaders:', headers)
-        print('\nbody:', body)
-        print("\nURL:", url)
+        
+        return responseBody
+    
+    
+    
+    ## @fn create_article : Will get details of any passed in article, 
+    #                             article ID must be appended to end of the url.
+    # :required - Authorization
+    # :required - title
+    # :required - Authorization
+    # :required - audience
+    # :required - shortDesc
+    # :required - longDesc
+    # :required - tags
+    # :required - attachments
+    #
+    def create_article(self, Authorization='', title='', agencyId='', audience=0,
+                       shortDesc='', longDesc='', tags='', attachments=[],
+                       AuthorizationExclude=False, titleExclude=False,
+                       agencyIdExclude=False, audienceExclude=False,
+                       shortDescExclude=False, longDescExclude=False, 
+                       tagsExclude=False, attachmentsExclude=False):
+        # URL end point.
+        url = self.environment + QaADPQShell.Articles
+
+        # HTTP Action.
+        HTTP_action = 'POST'
+        
+        # Header Parameters.
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        # Dynamically set key/value body pairs. Add all body parameters.
+        body = {}
+        
+        # Add the title body parameter.
+        if titleExclude == True:
+            pass
+        elif title != '':
+            body['title'] = title
+        else:
+            body['title'] = ''
+            
+        # Add the agencyId body parameter.
+        if agencyIdExclude == True:
+            pass
+        elif agencyId != '':
+            body['agencyId'] = agencyId
+        else:
+            body['agencyId'] = ''
+            
+        # Add the audience body parameter.
+        if audienceExclude == True:
+            pass
+        elif audience != '':
+            body['audience'] = audience
+        else:
+            body['audience'] = ''
+            
+        # Add the shortDesc body parameter.
+        if shortDescExclude == True:
+            pass
+        elif shortDesc != '':
+            body['shortDesc'] = shortDesc
+        else:
+            body['shortDesc'] = ''
+            
+        # Add the longDesc body parameter.
+        if longDescExclude == True:
+            pass
+        elif longDesc != '':
+            body['longDesc'] = longDesc
+        else:
+            body['longDesc'] = ''
+            
+        # Add the tags body parameter.
+        if tagsExclude == True:
+            pass
+        elif tags != '':
+            body['tags'] = tags
+        else:
+            body['tags'] = ''
+            
+        # Add the attachments body parameter.
+        if attachmentsExclude == True:
+            pass
+        elif attachments != '' and attachments != []:
+            body['attachments'] = attachments
+        else:
+            body['attachments'] = ''
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        if 'status' in responseBody.keys():
+            if responseBody['status'] == 'saved!':
+                self.articleId.append(responseBody['status']) 
+        
+        # ~~ TESTING ~~
+        print('\nget_articles_details\n', responseBody)
+        print('response.status_code: ', response.status_code)
+#         print('\nheaders:', headers)
+#         print('\nbody:', body)
+#         print("\nURL:", url)
         
         return responseBody
     
@@ -362,6 +480,9 @@ class QaADPQShell:
     
     def GetUserId(self):
         return self.UserID
+    
+    def GetArticleIds(self):
+        return self.articleId
     
     
 
@@ -405,15 +526,20 @@ def Test_Class():
 #     user.search_articles()
 
 
-    # Method signature. 
-    # get_articles_details(self, Authorization='', AuthorizationExclude=False):
-    user.get_articles_details(user.GetAuthKey())
-    
-    
-#     # Method signature. MAY NOT BE NEEDED
-#     # remove_user(self, email=''):
-#     user.remove_user(user.testEmail)
-    
+#     # Method signature. 
+#     # get_articles_details(self, Authorization='', AuthorizationExclude=False):
+#     user.get_articles_details(user.GetAuthKey())
+
+
+    # Method signature.
+    # create_article(Authorization='', title='', agencyId='', audience=0,
+    #                shortDesc='', longDesc='', tags='', attachments=[],
+    #                AuthorizationExclude=False, titleExclude=False,
+    #                agencyIdExclude=False, audienceExclude=False,
+    #                shortDescExclude=False, longDescExclude=False, 
+    #                tagsExclude=False, attachmentsExclude=False):
+    user.create_article(user.GetAuthKey(), 'Department of funky beats', '5a8b73f94212d1f20f847b9a',
+                        0, 'short desc', 'loonngg desc', '5a8b55bca2d13ad4ba5369ef', ["url1"])
     
     
 # Test_Class()

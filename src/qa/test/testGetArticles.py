@@ -11,9 +11,9 @@ import sys, unittest, QaAdpqShell
                      agencyIdUrl=False, tagIdUrl=False):
                      
     Notes: Url boolean in method signature indicates URL appending optional
-           search parameters.
+           search parameters. Authorization key is optional.
     
-    Required:
+    Optional:
         Authorization
 
     Test cases

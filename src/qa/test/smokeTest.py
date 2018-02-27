@@ -149,6 +149,54 @@ class SmokeTest(unittest.TestCase):
         # Ensure that the end point is live.
         self.assertEqual(response.status_code, 200, 
                          msg='test_UserSignInStatus assert#1 failed.')
+        
+        
+        
+    ## Get the status of the GetArticleDetails end point.
+    def test_GetArticleDetailsStatus(self):
+        # Build the URL for this end point.
+        url = self.BaseUrl + QaAdpqShell.QaADPQShell.Articles 
+         
+        # Assign the header parameters.
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+         
+        # Assign the body parameters.
+        body = {}
+         
+        # Make the call and return the save the results.
+        response = requests.request('GET', url, json=body, 
+                                    headers=headers, verify=False)
+         
+        # Ensure that the end point is live.
+        self.assertEqual(response.status_code, 200, 
+                         msg='test_GetArticleDetailsStatus assert#1 failed.')
+        
+        
+        
+    ## Get the status of the GetArticleDetails end point.
+    def test_CreateArticleStatus(self):
+        # Build the URL for this end point.
+        url = self.BaseUrl + QaAdpqShell.QaADPQShell.Articles 
+         
+        # Assign the header parameters.
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+         
+        # Assign the body parameters.
+        body = {}
+         
+        # Make the call and return the save the results.
+        response = requests.request('POST', url, json=body, 
+                                    headers=headers, verify=False)
+         
+        # Ensure that the end point is live.
+        self.assertEqual(response.status_code, 200, 
+                         msg='test_CreateArticleStatus assert#1 failed.')
 
 
 
@@ -164,6 +212,8 @@ def suite():
     suite.addTest(SmokeTest('test_GetArticleStatus'))
     suite.addTest(SmokeTest('test_GetSearchArticleStatus'))
     suite.addTest(SmokeTest('test_UserSignInStatus'))
+    suite.addTest(SmokeTest('test_GetArticleDetailsStatus'))
+    suite.addTest(SmokeTest('test_CreateArticleStatus'))
     
     return suite
     
