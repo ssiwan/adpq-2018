@@ -26,6 +26,8 @@ mongoose.connect(config.dbUrl, options).then(() => {
     require('./models/tag');
     require('./models/user');
     require('./models/agency');
+    require('./models/articleComment');
+    require('./models/articleEdit');
     require('./models/article');
 
     //cors 
@@ -37,12 +39,12 @@ mongoose.connect(config.dbUrl, options).then(() => {
     
     //routes
     var routes = require('./routes'); //import routes
-    routes(app, config.apiKey);
+    routes(app, config.apiParseKey, config.AWSKeys);
 
     app.use(express.static(require('path').join(__dirname, 'public')));
 
     app.get('/', (req, res) => {
-        res.sendFile('/landing.html', {root : __dirname + 'public'})
+        res.sendFile('/index.html', {root : __dirname + 'public'})
     })
 
     app.listen(port, () => {

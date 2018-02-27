@@ -1,31 +1,37 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    article = mongoose.model('article');
+    article = mongoose.model('article'),
+    users = mongoose.model('user'); 
+    
 
 var ObjectId = mongoose.Types.ObjectId; 
-var userRole = 0; //to be modified - get user role 
 
 //GET /searchArticles
 exports.search = function (req, res) {
     var keyword = req.query.keyword;
     var returnlist = []; 
-    var query = {};
+    var queryParams = {};
 
+    //if keyword exists in any title or description
     if (keyword != null && keyword.length > 0) {
-        query.title = {'$regex': keyword, '$options': 'i'};
+        queryParams.title = {'$regex': keyword, '$options': 'i'};
+        //queryParams.description = {'$regex': {value: keyword}, '$options': 'i'};
     }
 
-    query.role = userRole;
+    queryParams.role = {"$lte": parseInt(req.userRole)};
 
-    var prom = article.find(query).populate('agency').populate('tags');
-    
-    prom.exec()
+    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+                            .populate('createdBy').populate('agency').populate('tags');
+
+    //if keyword exists in any tags
+
+    query.exec()
         .catch(function (err) {
             res.send(err);
         });  
     
-    prom.then(function(articles) {
+    query.then(function(articles) {
         articles.forEach(function (art, index) {
             var articleobj = {};
 
@@ -35,10 +41,10 @@ exports.search = function (req, res) {
             articleobj['tags'] = getTagNames(art.tags);
             articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit 
             articleobj['createdAt'] = art.createdAt;
-            articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
+            articleobj['createdBy'] = art.createdBy; 
             articleobj['agency'] = art.agency.value;
             articleobj['status'] = art.status;
-            articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
+            articleobj['approvedBy'] =  art.approvedBy; 
             articleobj['description'] = art.description;
             articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
@@ -63,6 +69,7 @@ exports.getArticles = function(req, res, next) {
     var startDateString = req.query.dateStart;//mm-dd-yyyy
     var endDateString = req.query.dateEnd;        
 
+    queryParams.role = {"$lte": parseInt(req.userRole)}; //set logic to less than 
 
     // if filtering by start date and/or end date
     var startDate = null;
@@ -79,10 +86,10 @@ exports.getArticles = function(req, res, next) {
     }
 
     if (startDate != null && endDate != null) {
-        queryParams.createdAt = {"$gte": startDate, "$lt": endDate}
+        queryParams.createdAt = {"$gt": startDate, "$lt": endDate}
     }
     else if (startDate != null && endDate == null) {
-        queryParams.createdAt = {"$gte": startDate}     
+        queryParams.createdAt = {"$gt": startDate}     
     }
     else if (startDate == null && endDate != null) {
         queryParams.createdAt = {"$lt": endDate}     
@@ -100,7 +107,8 @@ exports.getArticles = function(req, res, next) {
         queryParams.tags = new ObjectId(tagId); 
     }
     
-    var query = article.find(queryParams).populate('agency').populate('tags');
+    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+                            .populate('createdBy').populate('agency').populate('tags');
     
 
     //if filtering by sort and order 
@@ -141,10 +149,10 @@ exports.getArticles = function(req, res, next) {
             articleobj['tags'] = getTagNames(art.tags); 
             articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
             articleobj['createdAt'] = art.createdAt;
-            articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
+            articleobj['createdBy'] = art.createdBy; 
             articleobj['agency'] = art.agency.value;
             articleobj['status'] = art.status;
-            articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
+            articleobj['approvedBy'] =  art.approvedBy; 
             articleobj['description'] = art.description;
             articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
@@ -159,18 +167,21 @@ exports.getArticles = function(req, res, next) {
 
 //GET /articleDetails
 exports.getArticleDetails = function(req, res) {
-    var articleId = req.query.articleId; 
-
+    var articleId = req.params.articleId; 
+    var userRole = parseInt(req.userRole); 
     //param check
     if (articleId == null || articleId == '') {
-        res.send({'error': 'Please submit an articleId'});
+        return res.send({'error': 'Please submit an articleId'});
     }
 
     var queryParams = {};
     queryParams._id = new ObjectId(articleId); 
 
-    var query = article.find(queryParams);
-    query.limit(1);
+    var query = article.findOne(queryParams).populate('tags')
+                                            .populate('createdBy')
+                                            .populate('agency')
+                                            .populate({path: 'comments', populate: {path: 'commenter', model: 'user'}});
+    //query.limit(1);
 
     query.exec()
         .catch(function (err) {
@@ -179,102 +190,248 @@ exports.getArticleDetails = function(req, res) {
     
     query.then(function(art) {
         var articleobj = {};
-        articleobj['id'] = art._id.toString();
-        articleobj['title'] = art.title;
-        articleobj['summary'] = art.summary;
-        articleobj['tags'] = getTagNames('');
-        articleobj['createdAt'] = art.createdAt;
-        articleobj['createdBy'] = getAuthorName('tempAuthorName'); 
-        articleobj['agency'] = getAgencyName('tempName');
-        articleobj['status'] = art.status;
-        articleobj['approvedBy'] =  getApproverName('tempApproverName'); 
-        articleobj['description'] = art.description[userRole];
-        articleobj['attachments'] = art.attachments[userRole]; 
-        articleobj['views'] = art.views;
-        articleobj['sharedCount'] = art.sharedUsers.length;
-
+        if (art != null) {
+            if ((art.createdBy._id.toString() == req.userId || art.role <= userRole)) {
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags);
+                articleobj['createdAt'] = art.createdAt;
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agencyId'] = art.agency._id.toString();
+                articleobj['agencyName'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['approvedBy'] =  art.approvedBy; 
+                articleobj['description'] = art.description;
+                articleobj['attachments'] = art.attachments;
+                articleobj['comments'] = art.comments;  
+                articleobj['views'] = art.views;
+                articleobj['sharedCount'] = art.sharedUsers.length;
+            }
+        }
         res.json({'data': articleobj}); 
     }); 
 }
 
 //tempcreate not actually going to be a GET - will convert to Post /createArticle
-exports.createTempArticle = function(req, res) {
-    var tag1 = new ObjectId('5a8b55bca2d13ad4ba5369e3');
-    var tag2 = new ObjectId('5a8b55bca2d13ad4ba5369ef'); 
-    var tagArray = [tag1];
+exports.createArticle = function(req, res) {
 
-    var sharedUsersArray = [tag1]; 
+    if (req.userRole == '0') {
+        return res.json({error: 'User not permitted'});
+    }
+    var userRole = parseInt(req.userRole); 
 
-    var descriptionArray = [
-        {
-            role: 0,
-            value: 'role 0 description'
-        },
-        {
-            role: 1,
-            value: 'role 1 description'
-        },
-        {
-            role: 2,
-            value: 'role 2 description'
-        },
-        {
-            role: 3,
-            value: 'role 3 description'
-        },
-        {
-            role: 4,
-            value: 'role 4 description'
-        }
-    ];
-    var attachmentArray = [
-        {
-            role: 0,
-            value: ['role 0 attachment 1', 'role 0 attachment 2']
-        },
-        {
-            role: 1,
-            value: ['role 1 attachment 1', 'role 1 attachment 2']
-        },
-        {
-            role: 2,
-            value: ['role 2 attachment 1', 'role 2 attachment 2']
-        },
-        {
-            role: 3,
-            value: ['role 3 attachment 1', 'role 3 attachment 2']
-        },
-        {
-            role: 4,
-            value: ['role 4 attachment 1', 'role 4 attachment 2']
-        }
-    ]; 
+    var tagArray = []; 
+    if (req.body.tags != null && req.body.tags.length > 0) {
+        var tagpreArray = (req.body.tags).split(','); //hopefully will be a string of tagIds
+        tagpreArray.forEach(function (tid) {
+            tagArray.push(mongoose.Types.ObjectId(tid)); 
+        });    
+    }
 
-    var tempArticle = new article({
-        createdAt: Date.now(),
-        createdBy: mongoose.Types.ObjectId('5a84ad66cb1d2c84e88d5132'),
-        agency: mongoose.Types.ObjectId('5a8b73f94212d1f20f847b9d'),
-        role: 0,
-        status: 0,
-        title: 'Test Article 5',
-        summary: 'Test Article 5 Summary',
-        approvedBy: mongoose.Types.ObjectId('5a84ad66cb1d2c84e88d5132'),
+    var attachmentsArray = []; 
+    var baseUrl = 'https://s3-us-west-1.amazonaws.com/adpq-assets/'; 
+    if (req.body.attachments != null && req.body.attachments.length > 0) {
+        req.body.attachments.forEach(function(atchmt) {
+            attachmentsArray.push(baseUrl + atchmt); 
+        });
+    }
+
+    //turn tag stringIds into objectIds 
+
+    var newArticle = new article({
+        createdBy: mongoose.Types.ObjectId(req.userId),
+        agency: mongoose.Types.ObjectId(req.body.agencyId),
+        role: req.body.audience,     
+        title: req.body.title,
+        summary: req.body.shortDesc,       
         tags: tagArray,
-        views: 15,
-        description: descriptionArray,
-        attachments: attachmentArray,
-        sharedUsers: sharedUsersArray
+        description: req.body.longDesc,
+        attachments: attachmentsArray,       
+        //approvedBy: mongoose.Types.ObjectId('none'),
+        views: 0,//default fields
+        sharedUsers: [],
+        comments: [],
+        articleEdits: [],
+        createdAt: Date.now(),
+        status: 0,
+        type: 0 // dud for now
     });
-    var prom = tempArticle.save();
-    prom.then(function() {
-        res.send('saved!');
+
+    var prom = newArticle.save();
+
+    prom.then(function(artreturn) {
+        var jsonreturn = {
+            status: 'saved!',
+            articleId: artreturn._id.toString() 
+        }
+        res.json(jsonreturn);
     })
     .catch(function(err) {
         res.json({'error': err.toString() });
     });
 }    
 
+exports.dashboardAnalytics = function(req, res) {
+    //if userRole == 2, then add total users query 
+    var objuserId = new ObjectId(req.userId); 
+    var promiseArray = []; 
+
+    //Articles Published Count  
+    var queryParams = {}; 
+    queryParams.createdBy = objuserId;  
+    queryParams.status = 1; 
+    var query = article.count(queryParams); 
+
+    promiseArray.push(query); 
+
+    //Articles In Review Count
+    var queryParams2 = {};
+    queryParams2.createdBy = objuserId; 
+    queryParams2.status = 0; 
+    var query2 = article.count(queryParams2); 
+
+    promiseArray.push(query2); 
+
+    //Articles Declined Count
+    var queryParams3 = {};
+    queryParams3.createdBy = objuserId; 
+    queryParams3.status = 2; 
+    var query3 = article.count(queryParams3); 
+
+    promiseArray.push(query3);
+
+    //Views Count - from only published
+    var queryParams4 = {};
+    queryParams4.createdBy = objuserId; 
+    queryParams4.status = 1; 
+    var query4 = article.find(queryParams4).then(function(result) {
+        var returnCount = 0; 
+        if (result != null) {
+            result.forEach(function(ret) {
+                returnCount += ret.views; 
+            });
+        }
+        return returnCount;  
+    }); 
+
+    promiseArray.push(query4);
+
+    //Share Count - from only published
+    var queryParams5 = {};
+    queryParams5.createdBy = objuserId; 
+    queryParams5.status = 1; 
+    var query5 = article.find(queryParams5).then(function(result) {
+        var returnCount = 0; 
+        if (result != null) {
+            result.forEach(function(ret) {
+                returnCount += ret.sharedUsers.length; 
+            });
+        }
+        return returnCount;  
+    }); 
+
+    promiseArray.push(query5); 
+
+    //User Count - if admin
+    if (req.userRole == 2) {
+        var query6 = users.count(); 
+        promiseArray.push(query6); 
+    }   
+
+
+    Promise.all(promiseArray).then(function(values) {
+        var returndata = {};
+        returndata.publishCount = values[0];
+        returndata.reviewCount = values[1]; 
+        returndata.declineCount = values[2]; 
+        returndata.viewCount = values[3];
+        returndata.shareCount = values[4];
+        if (req.userRole == 2) {
+            returndata.userCount = values[5]; 
+        }
+        return res.json({'data': returndata}); 
+    });
+}
+
+exports.dashboardTrending = function(req, res) {
+    var objuserId = new ObjectId(req.userId); 
+
+    article.aggregate([
+        {'$project': {
+            'shareCount': {'$size': '$sharedUsers'}
+        }},
+        {'$sort': {'shareCount': -1}},
+        {'$limit': 1}
+    ], function(err, result) {
+        if (err) {
+            return res.send('ERROR'); 
+        }
+        return res.json(result['_id']); 
+    })
+
+    // var query = article.find({sharedUsers: {$gt:[]}});
+
+    // query.exec()
+    //     .catch(function (err) {
+    //         res.send(err);
+    //     });  
+    
+    // query.then(function(result){
+    //     return res.json(result); 
+    // });
+}
+
 //*****************************API internal functions****************//
+
+exports.addCommentToArticle = function(articleId, commentId) {
+    var queryParams = {};
+    queryParams._id = new ObjectId(articleId);
+    
+    var query = article.findOne(queryParams);
+    query.exec()
+        .catch(function (err) {
+            res.send(err);
+        });
+    
+    query.then(function(art) {
+        art.comments.push(new ObjectId(commentId)); 
+        art.save();
+        return;  
+    });
+}
+
+exports.editArticle = function(articleId, articleEditId, articleObj) {
+    var attachmentsArray = []; 
+    var baseUrl = 'https://s3-us-west-1.amazonaws.com/adpq-assets/'; 
+    if (articleObj.attachments != null && articleObj.attachments.length > 0) {
+        articleObj.attachments.forEach(function(atchmt) {
+            attachmentsArray.push(baseUrl + atchmt); 
+        });
+    }
+
+        var queryParams = {};
+    queryParams._id = new ObjectId(articleId); 
+
+    var query = article.findOne(queryParams);
+    query.exec()
+        .catch(function (err) {
+            res.send(err);
+        });
+    
+    query.then(function(art) {
+        art.articleEdits.push(new ObjectId(articleEditId)); 
+        art.title = articleObj.title;
+        art.agency = new ObjectId(articleObj.agencyId);
+        art.role = articleObj.role; 
+        art.summary = articleObj.shortDesc;
+        art.description = articleObj.longDesc;
+        art.attachments = attachmentsArray; 
+        art.status = articleObj.status; 
+        art.save();
+        return; 
+    }); 
+}
 
 function getTagNames(tags) {
     var returnarray = []; 
@@ -282,12 +439,4 @@ function getTagNames(tags) {
         returnarray.push(tag.value); 
     })
     return returnarray; 
-}
-
-function getAuthorName(name) {
-    return name; 
-}
-
-function getApproverName(name) {
-    return name; 
-}
+}; 
