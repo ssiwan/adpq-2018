@@ -53,6 +53,8 @@ def publish() {
 def runStagingTests() {
     stage('Test') {
         sh '''#!/bin/bash
+            rm -rf /adpq_tests
+
             docker build ./src/qa -t adpq_tests
             docker run -v /adpq_tests/reports:/data/reports -e Environment=staging --name adpq_tests -i adpq_tests >> /adpq_tests/results.xml
             docker rm adpq_tests && docker rmi adpq_tests
@@ -187,7 +189,7 @@ def sendSlackNotification() {
         def nodeHome = tool 'NodeTool' // Load Node.js
         env.PATH="${env.PATH}:${nodeHome}/bin" // Set Path
         def results = readFile('testResults').trim()
-
+        echo results
         sh '''#!/bin/bash
             sleep 10
             logs=$(git log -1 --pretty=%B origin/staging)
