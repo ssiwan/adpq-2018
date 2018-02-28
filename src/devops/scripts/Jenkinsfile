@@ -55,15 +55,16 @@ def runStagingTests() {
         sh '''#!/bin/bash
             sleep 10
 
-            rm -rf adpq_tests
+            rm -rf /var/lib/jenkins/adpq_test_results
+            mkdir /var/lib/jenkins/adpq_test_results
 
             docker build ./src/qa -t adpq_tests
-            docker run -v adpq_tests/reports:/data/reports -e Environment=staging --name adpq_tests -i adpq_tests >> adpq_tests/results.xml
+            docker run -v /var/lib/jenkins/adpq_test_results/reports:/data/reports -e Environment=staging --name adpq_tests -i adpq_tests >> /var/lib/jenkins/adpq_test_results/results.xml
             docker rm adpq_tests && docker rmi adpq_tests
 
-            numberOfTests=$(cat adpq_tests/results.xml | cut -d '=' -f 2 | cut -d ' ' -f 1)
-            errors=$(cat adpq_tests/results.xml | cut -d '=' -f 3 | cut -d ' ' -f 1)
-            failures=$(cat adpq_tests/results.xml | cut -d '=' -f 4 | cut -d '>' -f 1)
+            numberOfTests=$(cat /var/lib/jenkins/adpq_test_results/results.xml | cut -d '=' -f 2 | cut -d ' ' -f 1)
+            errors=$(cat /var/lib/jenkins/adpq_test_results/results.xml | cut -d '=' -f 3 | cut -d ' ' -f 1)
+            failures=$(cat /var/lib/jenkins/adpq_test_results/results.xml | cut -d '=' -f 4 | cut -d '>' -f 1)
             numberOfSuccesses=$($numberOfTests - $errors - $failures)
             echo "$numberOfSuccesses / $numberOfTests tests ran successfully"
             echo "$numberOfSuccesses / $numberOfTests tests ran successfully" > testResults
