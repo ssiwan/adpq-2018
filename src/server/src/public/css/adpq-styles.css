@@ -393,6 +393,7 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 	width: 1068px;
 	position: relative;
 	margin: 0px auto;
+	clear:both;
 }
 div.kpi-lastupdate {
 	display: block;
@@ -463,14 +464,14 @@ div.kpi-lastupdate {
 .viewmore-link {
 	display: block;
 	float: right;
-	position: absolute;
+	position:relative;
 	font-family: "roboto", serif;
 	font-size: 14px;
 	font-style: normal;
 	line-height: 18px;
 	font-weight: normal;
-	top: 70px;
-	left: 150px;
+	bottom: 20px;
+
 }
 a.viewmore-link:focus {
 }
