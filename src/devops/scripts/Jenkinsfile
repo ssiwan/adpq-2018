@@ -53,6 +53,8 @@ def publish() {
 def runStagingTests() {
     stage('Test') {
         sh '''#!/bin/bash
+            sleep 10
+
             rm -rf /adpq_tests
 
             docker build ./src/qa -t adpq_tests
@@ -63,6 +65,7 @@ def runStagingTests() {
             errors=$(cat /adpq_tests/results.xml | cut -d '=' -f 3 | cut -d ' ' -f 1)
             failures=$(cat /adpq_tests/results.xml | cut -d '=' -f 4 | cut -d '>' -f 1)
             numberOfSuccesses=$($numberOfTests - $errors - $failures)
+            echo "$numberOfSuccesses / $numberOfTests tests ran successfully"
             echo "$numberOfSuccesses / $numberOfTests tests ran successfully" > testResults
         '''
     }
