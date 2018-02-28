@@ -179,6 +179,7 @@ exports.getArticleDetails = function(req, res) {
     var query = article.findOne(queryParams).populate('tags')
                                             .populate('createdBy')
                                             .populate('agency')
+                                            .populate({path: 'articleEdits', populate: {path: 'createdBy', model: 'user'}})
                                             .populate({path: 'comments', populate: {path: 'commenter', model: 'user'}});
     //query.limit(1);
 
@@ -200,12 +201,19 @@ exports.getArticleDetails = function(req, res) {
                 articleobj['agencyId'] = art.agency._id.toString();
                 articleobj['agencyName'] = art.agency.value;
                 articleobj['status'] = art.status;
-                articleobj['approvedBy'] =  art.approvedBy; 
                 articleobj['description'] = art.description;
                 articleobj['attachments'] = art.attachments;
                 articleobj['comments'] = art.comments;  
                 articleobj['views'] = art.views;
                 articleobj['sharedCount'] = art.sharedUsers.length;
+                articleobj['lastUpdated'] = getLastUpdated(art.articleEdits);
+                articleobj['approvedBy'] = getApprover(art.articleEdits); 
+                // if (art.articleEdits.length > 0) {
+                //     articleobj['lastupdated'] = art.articleEdits[articleEdits.length - 1].createdAt;
+                //     if (art.status == 1) {
+                //         articleobj['approvedBy'] =  art.articleEdits[articleEdits.length - 1].createdBy;
+                //     }
+                // } 
             }
         }
         res.json({'data': articleobj}); 
@@ -692,5 +700,15 @@ function getLastUpdated(edits) {
     }
     else {
         return {}; 
+    }
+}
+
+function getApprover(edits) {
+    if (edits != null && edits.length > 0) {
+        var recentEdit = edits[edits.length - 1];
+        return (recentEdit.createdBy.name.first + " " + recentEdit.createdBy.name.last); 
+    }
+    else {
+        return ""; 
     }
 }
