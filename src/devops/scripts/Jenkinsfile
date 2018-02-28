@@ -12,6 +12,8 @@ node {
                 build()
                 publish()
                 deployStaging()
+                runStagingTests()
+                sendSlackNotification()
             } else if (scmVars.GIT_BRANCH == 'origin/master') {
                 println "Master Branch"
                 sh 'cp /aws/adpq/server/production/config.json ./src/server/src/config.json'
@@ -44,6 +46,28 @@ def publish() {
 
             docker tag adpq-server 485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-server:v_${BUILD_NUMBER}
             docker push 485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-server:v_${BUILD_NUMBER}
+        '''
+    }
+}
+
+def runStagingTests() {
+    stage('Test') {
+        sh '''#!/bin/bash
+            sleep 10
+
+            rm -rf /var/lib/jenkins/adpq_test_results
+            mkdir /var/lib/jenkins/adpq_test_results
+
+            docker build ./src/qa -t adpq_tests
+            docker run -v /var/lib/jenkins/adpq_test_results/reports:/data/reports -e Environment=staging --name adpq_tests -i adpq_tests >> /var/lib/jenkins/adpq_test_results/results.xml
+            docker rm adpq_tests && docker rmi adpq_tests
+
+            numberOfTests=$(cat /var/lib/jenkins/adpq_test_results/results.xml | cut -d '=' -f 2 | cut -d ' ' -f 1)
+            errors=$(cat /var/lib/jenkins/adpq_test_results/results.xml | cut -d '=' -f 3 | cut -d ' ' -f 1)
+            failures=$(cat /var/lib/jenkins/adpq_test_results/results.xml | cut -d '=' -f 4 | cut -d '>' -f 1)
+            numberOfSuccesses=$($numberOfTests - $errors - $failures)
+            echo "$numberOfSuccesses / $numberOfTests tests ran successfully"
+            echo "$numberOfSuccesses / $numberOfTests tests ran successfully" > testResults
         '''
     }
 }
@@ -162,15 +186,18 @@ def deployStaging() {
             main;
         '''
     }
+}
 
+def sendSlackNotification() {
     stage ('Notify') {
-        def nodeHome = tool 'NodeTool'
-        env.PATH="${env.PATH}:${nodeHome}/bin"
-
+        def nodeHome = tool 'NodeTool' // Load Node.js
+        env.PATH="${env.PATH}:${nodeHome}/bin" // Set Path
+        def results = readFile('testResults').trim()
+        echo results
         sh '''#!/bin/bash
             sleep 10
-            logs=$(git log -1 origin/staging)
-            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Staging Build Available*:\nhttp://adpq-staging.hotbsoftware.com\n$logs"
+            logs=$(git log -1 --pretty=%B origin/staging)
+            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Staging Build Available*:\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n$logs" "$results"
         '''
     }
 }
@@ -296,8 +323,8 @@ def deployProduction() {
 
         sh '''#!/bin/bash
             sleep 10
-            logs=$(git log -1 origin/production)
-            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Production Build Available*:\nhttp://adpq.hotbsoftware.com\n$logs"
+            logs=$(git log -1 --pretty=%B origin/production)
+            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Production Build Available*:\nhttp://adpq.hotbsoftware.com\n\n*Build Notes:*\n$logs"
         '''
     }
 }
