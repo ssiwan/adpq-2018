@@ -19,8 +19,11 @@ function isEmpty(obj) {
 }
 
 function convertToLocalDate(dt) {
-    var d = new Date(dt);
-    return d.toLocaleDateString();
+    if (!isEmpty(dt)) {
+        var d = new Date(dt);
+        return d.toLocaleDateString();
+    }
+
 }
 
 function ReplaceDateSlash(dt) {

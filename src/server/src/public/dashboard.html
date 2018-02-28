@@ -29,29 +29,30 @@
         <div class="kpi-publish">
           <div class="kpi-publish-head">Articles Published</div>
       <div class="kpi-publish-bottom">
-		<div class="kpi-pub-total">11,000</div>  
-          <div class="view-all"><a href="">View All</a></div>
+        <div class="kpi-pub-total" id="publishCount"></div>
       </div>
         </div>
         <div class="kpi-review">
           <div class="kpi-review-head">Articles In Review</div>
-          <div class="kpi-review-bottom"><span></span></div>
+          <div class="kpi-review-bottom">
+           <div class="kpi-pub-total" id="reviewCount"></div> 
+          </div>
         </div>
         <div class="kpi-declined">
           <div class="kpi-declined-head">Articles Declined</div>
-          <div class="kpi-declined-bottom"><span></span></div>
+          <div class="kpi-declined-bottom">  <div class="kpi-pub-total" id="declineCount"></div> </div>
         </div>
         <div class="kpi-views">
           <div class="kpi-views-head">Views</div>
-          <div class="kpi-views-bottom"><span></span></div>
+          <div class="kpi-views-bottom"><div class="kpi-pub-total" id="viewCount"></div></div>
         </div>
         <div class="kpi-shares">
           <div class="kpi-shares-head">Shares</div>
-          <div class="kpi-shares-bottom"><span></span></div>
+          <div class="kpi-shares-bottom"><div class="kpi-pub-total" id="shareCount"></div></div>
         </div>
         <div class="kpi-users" id="adminusersbtn"  style="display:none">
           <div class="kpi-users-head">Users</div>
-          <div class="kpi-users-bottom"><span></span></div>
+          <div class="kpi-users-bottom"><div class="kpi-pub-total" id="userCount"></div></div>
         </div>
       </div>
     </div>
@@ -62,28 +63,28 @@
       <div class="trending-content">
         <div class="trending-head"></div>
         <div class="trending-bottom">
-          <div class="trending-row-one">
+          <div class="trending-row-one" id="trending1">
             <div class="trending-left-column">
               <div class="left-row-one">
-                <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
+                <div class="left-title" id="trendingarticle1title"></div>
                 <div class="left-column-tools">
                   <div class="left-most">Most</div>
                   <div class="left-tags"></div>
-                  <div class="left-total">444</div>
+                  <div class="left-total" id="trendingarticle1tagcount"></div>
                 </div>
               </div>
               <div class="left-row-two">
-                <div class="left-agency">Agency - Office of Administrative Law</div>
+                <div class="left-agency" id="trendingarticle1agency"></div>
               </div>
               <div class="left-row-three">
-                <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
+                <div class="left-shortdesc" id="trendingarticle1shortdesc"></div>
               </div>
               <div class="left-row-four">
                 <div class="left-publish-date">
-                  <div class="author">Author: <span>Tim Roberts</span></div>
+                  <div class="author" id="trendingarticle1author"></div>
                 </div>
                 <div class="left-column-tools">
-                  <div class="left-most-pubdate">Publish Date: 12/1/2017 </div>
+                  <div class="left-most-pubdate" id="trendingarticle1publishdate"></div>
                 </div>
               </div>
             </div>
@@ -91,28 +92,28 @@
               <input type="button" name="btn" class="cs-button" value="Create Similar" />
             </div>
           </div>
-          <div class="trending-row-two">
+          <div class="trending-row-two" id="trending2">
             <div class="trending-left-column">
               <div class="left-row-one">
-                <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
+                <div class="left-title" id="trendingarticle2title"></div>
                 <div class="left-column-tools">
                   <div class="left-most">Most</div>
                   <div class="left-views"></div>
-                  <div class="left-total">21</div>
+                  <div class="left-total" id="trendingarticle2viewcount"></div>
                 </div>
               </div>
               <div class="left-row-two">
-                <div class="left-agency">Agency - Office of Administrative Law</div>
+                <div class="left-agency" id="trendingarticle2agency"></div>
               </div>
               <div class="left-row-three">
-                <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
+                <div class="left-shortdesc" id="trendingarticle2shortdesc"></div>
               </div>
               <div class="left-row-four">
                 <div class="left-publish-date">
-                  <div class="author">Author: <span>Tim Roberts</span></div>
+                  <div class="author" id="trendingarticle2author"></div>
                 </div>
                 <div class="left-column-tools">
-                  <div class="left-most-pubdate">Publish Date: 12/1/2017 </div>
+                  <div class="left-most-pubdate"  id="trendingarticle2publishdate"></div>
                 </div>
               </div>
             </div>
@@ -120,34 +121,33 @@
               <input type="button" name="btn" class="cs-button" value="Create Similar" />
             </div>
           </div>
-          <div class="trending-row-three">
+          <div class="trending-row-three" id="trending3">
             <div class="trending-left-column">
               <div class="left-row-one">
-                <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
+                <div class="left-title" id="trendingarticle3title"></div>
                 <div class="left-column-tools">
                   <div class="left-most">Most</div>
                   <div class="left-shares"></div>
-                  <div class="left-total">18</div>
+                  <div class="left-total" id="trendingarticle3sharescount"></div>
                 </div>
               </div>
               <div class="left-row-two">
-                <div class="left-agency">Agency - Office of Administrative Law</div>
+                <div class="left-agency" id="trendingarticle3agency"></div>
               </div>
               <div class="left-row-three">
-                <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
+                <div class="left-shortdesc" id="trendingarticle3shortdesc"></div>
               </div>
               <div class="left-row-four">
                 <div class="left-publish-date">
-                  <div class="author">Author: <span>Tim Roberts</span></div>
+                  <div class="author" id="trendingarticle3author"></div>
                 </div>
                 <div class="left-column-tools">
-                  <div class="left-most-pubdate">Publish Date: 12/1/2017 </div>
+                  <div class="left-most-pubdate" id="trendingarticle3publishdate"></div>
                 </div>
               </div>
             </div>
             <div class="trending-right-column">
               <input type="button" name="btn" class="cs-button" value="Create Similar" />
-              <div class="viewmore-link"> <a href="" title="View More" target="_self">View More...</a></div>
             </div>
           </div>
         </div>
@@ -167,88 +167,8 @@
           </div>
         </div>
         <div class="mypublished-bottom">
-          <div class="trending-row-one">
-            <div class="trending-left-column">
-              <div class="left-row-one">
-                <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-                <div class="left-column-tools"> </div>
-              </div>
-              <div class="left-row-two">
-                <div class="left-agency">Agency - Office of Administrative Law</div>
-              </div>
-              <div class="left-row-three">
-                <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-              </div>
-              <div class="left-row-four">
-                <div class="left-publish-date">
-                  <div class="author">Author: <span>Tim Roberts</span></div>
-                </div>
-                <div class="left-column-tools">
-                  <div class="left-most-pubdate">Publish Date: 12/1/2017 </div>
-                </div>
-              </div>
-            </div>
-            <div class="trending-right-column">
-              <div class="tools-total-update">12/5/2017</div>
-              <div class="tools-total-views">36</div>
-              <div class="tools-total-shares">36</div>
-            </div>
-          </div>
-          <div class="trending-row-two">
-            <div class="trending-left-column">
-              <div class="left-row-one">
-                <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-                <div class="left-column-tools"> </div>
-              </div>
-              <div class="left-row-two">
-                <div class="left-agency">Agency - Office of Administrative Law</div>
-              </div>
-              <div class="left-row-three">
-                <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-              </div>
-              <div class="left-row-four">
-                <div class="left-publish-date">
-                  <div class="author">Author: <span>Tim Roberts</span></div>
-                </div>
-                <div class="left-column-tools">
-                  <div class="left-most-pubdate">Publish Date: 12/1/2017 </div>
-                </div>
-              </div>
-            </div>
-            <div class="trending-right-column">
-              <div class="tools-total-update">12/5/2017</div>
-              <div class="tools-total-views">36</div>
-              <div class="tools-total-shares">36</div>
-            </div>
-          </div>
-          <div class="trending-row-three">
-            <div class="trending-left-column">
-              <div class="left-row-one">
-                <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-                <div class="left-column-tools"> </div>
-              </div>
-              <div class="left-row-two">
-                <div class="left-agency">Agency - Office of Administrative Law</div>
-              </div>
-              <div class="left-row-three">
-                <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-              </div>
-              <div class="left-row-four">
-                <div class="left-publish-date">
-                  <div class="author">Author: <span>Tim Roberts</span></div>
-                </div>
-                <div class="left-column-tools">
-                  <div class="left-most-pubdate">Publish Date: 12/1/2017 </div>
-                </div>
-              </div>
-            </div>
-            <div class="trending-right-column">
-              <div class="tools-total-update">12/5/2017</div>
-              <div class="tools-total-views">36</div>
-              <div class="tools-total-shares">36</div>
-              <div class="viewmore-link"> <a href="" title="View More" target="_self">View More...</a></div>
-            </div>
-          </div>
+          <div id="publishedarticles"></div> <br/>
+         <div class="viewmore-link"><a href="" title="View More">View More...</a></div><br/> 
         </div>
       </div>
     </div>
@@ -259,82 +179,8 @@
       <div class="workflow-content">
         <div class="workflow-head">Status</div>
         <div class="workflow-bottom">
-          <div class="trending-row-one">
-            <div class="trending-left-column">
-              <div class="left-row-one">
-                <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-                <div class="left-column-tools"> </div>
-              </div>
-              <div class="left-row-two">
-                <div class="left-agency">Agency - Office of Administrative Law</div>
-              </div>
-              <div class="left-row-three">
-                <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-              </div>
-              <div class="left-row-four">
-                <div class="left-publish-date">
-                  <div class="author">Author: <span>Tim Roberts</span></div>
-                </div>
-                <div class="left-column-tools">
-                  <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-                </div>
-              </div>
-            </div>
-            <div class="trending-right-column">
-              <div class="article-status">New</div>
-            </div>
-          </div>
-          <div class="trending-row-two">
-            <div class="trending-left-column">
-              <div class="left-row-one">
-                <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-                <div class="left-column-tools"> </div>
-              </div>
-              <div class="left-row-two">
-                <div class="left-agency">Agency - Office of Administrative Law</div>
-              </div>
-              <div class="left-row-three">
-                <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-              </div>
-              <div class="left-row-four">
-                <div class="left-publish-date">
-                  <div class="author">Author: <span>Tim Roberts</span></div>
-                </div>
-                <div class="left-column-tools">
-                  <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-                </div>
-              </div>
-            </div>
-            <div class="trending-right-column">
-              <div class="article-status">In Review</div>
-            </div>
-          </div>
-          <div class="trending-row-three">
-            <div class="trending-left-column">
-              <div class="left-row-one">
-                <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-                <div class="left-column-tools"> </div>
-              </div>
-              <div class="left-row-two">
-                <div class="left-agency">Agency - Office of Administrative Law</div>
-              </div>
-              <div class="left-row-three">
-                <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-              </div>
-              <div class="left-row-four">
-                <div class="left-publish-date">
-                  <div class="author">Author: <span>Tim Roberts</span></div>
-                </div>
-                <div class="left-column-tools">
-                  <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-                </div>
-              </div>
-            </div>
-            <div class="trending-right-column">
-              <div class="article-status">Approved</div>
-              <div class="viewmore-link"> <a href="" title="View More" target="_self">View More...</a></div>
-            </div>
-          </div>
+            <div id="workflowarticles"></div> <br/>
+            <div class="viewmore-link"><a href="" title="View More">View More...</a></div><br/> 
         </div>
       </div>
     </div>
