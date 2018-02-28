@@ -1,8 +1,8 @@
 $(document).ready(function(){
     var role = sessionStorage.getItem("role");
     var token = sessionStorage.getItem("token");
-    console.log(role);
-    console.log(token);
+    ///console.log(role);
+    //console.log(token);
     if(!isEmpty(role) && !isEmpty(token))
     {
         if (role === "admin") {
