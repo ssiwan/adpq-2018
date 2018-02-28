@@ -34,7 +34,6 @@ exports.search = function (req, res) {
     query.then(function(articles) {
         articles.forEach(function (art, index) {
             var articleobj = {};
-
             articleobj['id'] = art._id.toString();
             articleobj['title'] = art.title;
             articleobj['summary'] = art.summary;
@@ -355,32 +354,276 @@ exports.dashboardAnalytics = function(req, res) {
 }
 
 exports.dashboardTrending = function(req, res) {
-    var objuserId = new ObjectId(req.userId); 
+    var objuserId = new ObjectId(req.userId);
+    var promiseArray = [];  
 
-    article.aggregate([
+    //shares query 
+    var sharesQuery = article.aggregate([
+        {
+            $match: {
+                status: 1,
+                role: {$lte: parseInt(req.userRole)}
+            }
+        },
         {'$project': {
             'shareCount': {'$size': '$sharedUsers'}
         }},
         {'$sort': {'shareCount': -1}},
         {'$limit': 1}
-    ], function(err, result) {
-        if (err) {
-            return res.send('ERROR'); 
+    ]).then(function(sharesResult){
+        if (sharesResult != null && sharesResult.length > 0) {
+            return sharesResult[0]._id.toString();
         }
-        return res.json(result['_id']); 
+        else {
+            return null;
+        }
+    });
+    promiseArray.push(sharesQuery); 
+
+    //tags query 
+    var tagsQuery = article.aggregate([
+        {
+            $match: {
+                status: 1,
+                role: {$lte: parseInt(req.userRole)}
+            }
+        },
+        {'$project': {
+            'tagCount': {'$size': '$tags'}
+        }},
+        {'$sort': {'shareCount': -1}},
+        {'$limit': 2}
+    ]).then(function(tagsResult){
+        if (tagsResult != null && tagsResult.length > 0) {
+            var tagsObj = [];
+            if (tagsResult[0] != null) {
+                tagsObj.push(tagsResult[0]._id.toString());
+
+                if (tagsResult[1] != null) {
+                    tagsObj.push(tagsResult[1]._id.toString()); 
+                }
+            }
+            return tagsObj; 
+        }
+        else {
+            return null;
+        } 
+    });
+    promiseArray.push(tagsQuery);
+
+    //viewQuery
+    var viewsQueryParams = {}; 
+    viewsQueryParams.status = 1;
+    var sortObj = {}; 
+    sortObj['views'] = -1;  
+    var viewsQuery = article.find(viewsQueryParams)
+        .lte('role', parseInt(req.userRole))
+        .populate('createdBy').populate('agency').populate('tags').sort(sortObj).limit(3)
+        .then(function(vqResult) {
+            return vqResult; 
+        });
+    promiseArray.push(viewsQuery); 
+
+    Promise.all(promiseArray).then(function(values) {
+        var sharedArticleId = values[0];
+        var tagsArticleIds = values[1];//could have zero one or two
+        var viewsArticles = values[2];         
+        var searchIds = []; 
+        var returnArticles = {}; 
+        var prefilteredArticles = []; 
+        var sharedarticleidstring = "";
+        var tagarticleidstring = "";  
+        var viewarticle = null; 
+        
+        //input shared article Id to be searched
+        if (sharedArticleId == null) {
+            returnArticles.mostShared = {}; 
+        }
+        else {
+            sharedarticleidstring = sharedArticleId.toString(); 
+            searchIds.push(new ObjectId(sharedarticleidstring)); 
+        }
+
+        //input views article id to be searched
+        if (tagsArticleIds == null) {
+            returnArticles.mostTagged = {};
+        }       
+        else {
+            if (tagsArticleIds[0].toString() != sharedarticleidstring) {
+                tagarticleidstring = tagsArticleIds[0].toString();
+                searchIds.push(new ObjectId(tagarticleidstring));
+            }
+            else if (tagsArticleIds[1] != null) {
+                tagarticleidstring = tagsArticleIds[1].toString();
+                searchIds.push(new ObjectId(tagarticleidstring)); 
+            }
+            else {
+                returnArticles.mostTagged = {}; 
+            }
+        }
+
+        if (viewsArticles == null) {
+            returnArticles.mostViewed = {};             
+        }
+        else {
+            if (viewsArticles[0]._id.toString() != sharedarticleidstring && viewsArticles[0]._id.toString() != tagarticleidstring) {
+                viewarticle = viewsArticles[0];
+            }
+            else if (viewsArticles[1] != null 
+                        && viewsArticles[1]._id.toString() != sharedarticleidstring 
+                        && viewsArticles[1]._id.toString() != tagarticleidstring) {
+
+            }
+            else if (viewsArticles[2] != null) {
+                viewarticle = viewsArticles[2]; 
+            }
+            else {
+                returnArticles.mostViewed = {}; 
+            }  
+        }
+
+        if (searchIds.length > 0) {
+            var queryParams = {};         
+            var query = article.find().in('_id', searchIds).populate('createdBy').populate('agency').populate('tags'); 
+
+            query.exec().then(function(arts) {
+                if (viewarticle != null) {
+                    arts.push(viewarticle)
+                }
+                arts.forEach(function(indart) {
+                    var articleobj = {};
+                    articleobj['id'] = indart._id.toString();
+                    articleobj['title'] = indart.title;
+                    articleobj['summary'] = indart.summary;
+                    articleobj['tags'] = getTagNames(indart.tags);
+                    articleobj['tagCount'] = indart.tags.length;  
+                    articleobj['lastUpdatedAt'] = indart.createdAt; //to be replaced after ArticleEdit
+                    articleobj['createdAt'] = indart.createdAt;
+                    articleobj['createdBy'] = indart.createdBy; 
+                    articleobj['agency'] = indart.agency.value;
+                    articleobj['status'] = indart.status;
+                    articleobj['approvedBy'] =  indart.approvedBy; 
+                    articleobj['description'] = indart.description;
+                    articleobj['attachments'] = indart.attachments;
+                    articleobj['views'] = indart.views;
+                    articleobj['sharedCount'] = indart.sharedUsers.length;
+
+                    if (indart.id.toString() == sharedarticleidstring) {
+                        returnArticles.mostShared = articleobj; 
+                    }
+                    else if (indart.id.toString() == tagarticleidstring){
+                        returnArticles.mostTagged = articleobj; 
+                    }
+                    else {
+                        returnArticles.mostViewed = articleobj; 
+                    }
+                });
+                return res.json({data: returnArticles});  
+            });
+        }        
     })
-
-    // var query = article.find({sharedUsers: {$gt:[]}});
-
-    // query.exec()
-    //     .catch(function (err) {
-    //         res.send(err);
-    //     });  
-    
-    // query.then(function(result){
-    //     return res.json(result); 
-    // });
 }
+
+exports.dashboardPublishedArticles = function(req, res) {
+    var userobjid = new ObjectId(req.userId);
+    var limit = 0; 
+    if (req.query.limit != null) {
+        limit = parseInt(req.query.limit); 
+    }
+
+    var queryParams = {};
+    queryParams.createdBy = userobjid; 
+    queryParams.status = 1; 
+
+    var query = article.find(queryParams).populate('createdBy').populate('agency').populate('tags').populate('articleEdits');
+    var sortObj = {};
+    sortObj['createdAt'] = -1;
+    query.sort(sortObj);  
+    if (limit != 0) {
+        query.limit(limit); 
+    }
+
+    query.exec().catch(function(err) {
+        return res.json({error: err.toString()}); 
+    });
+
+    query.then(function(arts) {
+        var returnArticles = []; 
+        if (arts != null) {
+            arts.forEach(function(art) {
+                var articleobj = {}; 
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags); 
+                articleobj['createdAt'] = art.createdAt;
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['approvedBy'] =  art.approvedBy; 
+                articleobj['description'] = art.description;
+                articleobj['attachments'] = art.attachments;
+                articleobj['views'] = art.views;
+                articleobj['sharedCount'] = art.sharedUsers.length;
+                articleobj['lastUpdated'] = getLastUpdated(art.articleEdits); 
+
+                returnArticles.push(articleobj);
+            });
+        }
+        return res.json({data: returnArticles}); 
+    })
+}
+
+exports.dashboardWorkflow = function(req, res) {
+    var userobjid = new ObjectId(req.userId);
+    var limit = 0; 
+    if (req.query.limit != null) {
+        limit = parseInt(req.query.limit); 
+    }
+
+    var queryParams = {};
+    queryParams.createdBy = userobjid; 
+    queryParams.status = 0; 
+
+    var query = article.find(queryParams).populate('createdBy').populate('agency').populate('tags');
+    var sortObj = {};
+    sortObj['createdAt'] = -1;
+    query.sort(sortObj);  
+    if (limit != 0) {
+        query.limit(limit); 
+    }
+
+    query.exec().catch(function(err) {
+        return res.json({error: err.toString()}); 
+    });
+
+    query.then(function(arts) {
+        var returnArticles = []; 
+        if (arts != null) {
+            arts.forEach(function(art) {
+                var articleobj = {}; 
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags); 
+                articleobj['createdAt'] = art.createdAt;
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['approvedBy'] =  art.approvedBy; 
+                articleobj['description'] = art.description;
+                articleobj['attachments'] = art.attachments;
+                articleobj['views'] = art.views;
+                articleobj['sharedCount'] = art.sharedUsers.length;
+
+                returnArticles.push(articleobj);
+            });
+        }
+        return res.json({data: returnArticles}); 
+    })
+}
+
+
 
 //*****************************API internal functions****************//
 
@@ -440,3 +683,14 @@ function getTagNames(tags) {
     })
     return returnarray; 
 }; 
+
+function getLastUpdated(edits) {
+    
+    if (edits != null && edits.length > 0) {
+        var recentEdit = edits[edits.length - 1];
+        return recentEdit.createdAt; 
+    }
+    else {
+        return {}; 
+    }
+}
