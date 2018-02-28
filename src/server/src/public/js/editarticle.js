@@ -3,9 +3,9 @@ $(document).ready(function(){
     var role = sessionStorage.getItem("role");
     var token = sessionStorage.getItem("token");
     var articleId = getParameterByName("articleId"); // gets articleId from the URL querystring
-    console.log(role);
+   /* console.log(role);
     console.log(token);
-    console.log(articleId);
+    console.log(articleId);*/
 
     if(!isEmpty(role) && !isEmpty(token) && !isEmpty(articleId))
  {
