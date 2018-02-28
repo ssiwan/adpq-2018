@@ -120,16 +120,16 @@ $(document).ready(function(){
                    var return_data = new Array();
                    for (let index = 0; index < json.data.length; index++) {
                         return_data[index] = {
-                            /*'articleinfo':"<div class='article-title'>"    + json.data[index].title + "</div>"
+                            'articleinfo':"<div class='article-title'>"    + json.data[index].title + "</div>"
                                           +"<div class='article-agency'>Agency:" + json.data[index].agency + "</div>"
                                           + json.data[index].summary + "<br/>"
                                           + "<div class='article-author'>Author: </div>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last +
-                                          + "<div class='article-publishdate'>PublishedDate:</div> " + convertToLocalDate(json.data[index].createdAt),*/
-                            'articleinfo': "<strong>" + json.data[index].title + "</strong><br/>"
+                                          + "<div class='article-publishdate'>PublishedDate:</div> " + convertToLocalDate(json.data[index].createdAt),
+                            /*'articleinfo': "<strong>" + json.data[index].title + "</strong><br/>"
                                              + "<strong>Agency:" + json.data[index].agency + "</strong><br/>" 
                                              + json.data[index].summary + "<br/>" 
                                              + "<strong>Author: </strong>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last + "<br/>"
-                                             + "<strong>PublishedDate:</strong> " + convertToLocalDate(json.data[index].createdAt),
+                                             + "<strong>PublishedDate:</strong> " + convertToLocalDate(json.data[index].createdAt),*/
                             'lastupdated': convertToLocalDate(json.data[index].createdAt),
                             'views': json.data[index].views,
                             'shares': json.data[index].sharedCount,

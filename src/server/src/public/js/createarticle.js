@@ -164,7 +164,7 @@ $(document).ready(function(){
             article.shortDesc = $("#shortdesc").val();
             article.longDesc = JSON.stringify(quill.getContents());
             //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
-            article.attachments = attachments;
+            
             
             // Validation
             var errors = "";
@@ -183,10 +183,12 @@ $(document).ready(function(){
                 return;
             }
 
-            if (!isEmpty(article.attachments)) {
-                UploadToS3();
-            }
+            //if (!isEmpty(article.attachments)) {
 
+            //}
+           
+            UploadToS3();
+            article.attachments = attachments;
 
 
 
@@ -208,7 +210,7 @@ $(document).ready(function(){
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
                         alert("Saved Successfully");
-                        setTimeout(function(){  window.location.href = "dashboard.html"; }, 3000);
+                        setTimeout(function(){  window.location.href = "dashboard.html"; }, 2000);
                     }
                 }
                 else{

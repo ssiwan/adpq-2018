@@ -1,8 +1,8 @@
 $(document).ready(function(){
     var role = sessionStorage.getItem("role");
     var token = sessionStorage.getItem("token");
-    ///console.log(role);
-    //console.log(token);
+    console.log(role);
+    console.log(token);
     if(!isEmpty(role) && !isEmpty(token))
     {
         if (role === "admin") {
@@ -207,18 +207,16 @@ $(document).ready(function(){
                 if (!isEmpty(response.data[index].createdAt)) {
                     publishdate = convertToLocalDate(response.data[index].createdAt);
                 }
+                if (response.data[index].status===0) {
+                    articlestatus = "pending";  
+                }
 
-                
-                    if (response.data[index].status===0) {
-                        articlestatus = "New/InReview";  
-                    }
-
-                    if (response.data[index].status===1) {
-                        articlestatus = "Published";  
-                    }
-                    if (response.data[index].status===2) {
-                        articlestatus = "Declined";  
-                    }
+                if (response.data[index].status===1) {
+                    articlestatus = "published";  
+                }
+                if (response.data[index].status===2) {
+                    articlestatus = "declined";  
+                }
                 
                 strwf += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+title+"</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+publishdate+"</div></div></div></div><div class='trending-right-column'><div class='article-status'>"+articlestatus+"</div></div></div>";
                 }
