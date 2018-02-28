@@ -20,15 +20,12 @@ else:
         setEnv = 'http://adpq-staging-loadbalancer-777882718.us-west-1.elb.amazonaws.com'
     elif os.environ['Environment'] == 'prod':
         setEnv = 'http://adpq-production-loadbalancer-557804625.us-west-1.elb.amazonaws.com'
-
-#     # Set API Version
-#     setEnv = setEnv + '/api/v1/'
  
 setEnv.strip()
 
 
 ## @class ADPQ Test Automation Shell 
-# This shell provides a mechanisms from which to run python3 unittest 
+# This shell provides a mechanism from which to run python3 unittest 
 # scripts. The user has absolute control over the header & body 
 # parameters. Body & header Parameters can be left out of any call or be 
 # assigned any values, including null. Class is called from an external 
@@ -56,12 +53,13 @@ class QaADPQShell:
     SearchArticles = 'searchArticles'
     UsersSignIn = 'user/signIn'
     
-    # Save a BaseURL without API Version
+    ## Save a BaseURL without API Version
     BaseURL = setEnv
     
-    # Set API Version
+    ## Set API Version
     setEnv = setEnv + '/api/v1/'
     
+    ## Variables that can be appended at the end of URL end point calls.
     articleSort = 'sort=createdAt&'
     articleLimit = 'limit=1&'
     articleDateStart = 'dateStart=02-01-2018&'
@@ -85,7 +83,6 @@ class QaADPQShell:
         self.groupId = []
         self.environment = env
         self.role = ''
-        
         self.agencyId = []
         self.articleId = []
         
@@ -221,9 +218,6 @@ class QaADPQShell:
         # ~~ TESTING ~~
         print('\nget_article_list\n', responseBody)
         print('response.status_code: ', response.status_code)
-        print('\nheaders:', headers)
-        print('\nbody:', body)
-        print("\nURL:", url)
         
         return responseBody
     
@@ -313,11 +307,22 @@ class QaADPQShell:
     
     ## @fn get_articles_details : Will get details of any passed in article, 
     #                             article ID must be appended to end of the url.
-    # :required - Authorization
+    # :optional - Authorization
     #
-    def get_articles_details(self, Authorization='', AuthorizationExclude=False):
+    def get_articles_details(self, Authorization='', AuthorizationExclude=False,
+                             articleId=[]):
+        # If articleId list is not empty, grab the first item. Else, if 
+        # the value is empty, make the ID a default article id.
+        if articleId != '' and articleId != []:
+            if type(articleId) == list:
+                ID = articleId[0]
+            else:
+                ID = articleId
+        else:
+            ID = '5a907847ca13999bc0d11d92'
+            
         # URL end point.
-        url = self.environment + QaADPQShell.Articles + '5a907847ca13999bc0d11d92'
+        url = self.environment + 'articles/' + ID
 
         # HTTP Action.
         HTTP_action = 'GET'
@@ -391,7 +396,6 @@ class QaADPQShell:
         else:
             headers['Authorization'] = ''
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
         
         # Add the title body parameter.
@@ -459,14 +463,11 @@ class QaADPQShell:
         
         if 'status' in responseBody.keys():
             if responseBody['status'] == 'saved!':
-                self.articleId.append(responseBody['status']) 
+                self.articleId.append(responseBody['articleId']) 
         
         # ~~ TESTING ~~
-        print('\nget_articles_details\n', responseBody)
+        print('\ncreate_article\n', responseBody)
         print('response.status_code: ', response.status_code)
-#         print('\nheaders:', headers)
-#         print('\nbody:', body)
-#         print("\nURL:", url)
         
         return responseBody
     
@@ -526,20 +527,22 @@ def Test_Class():
 #     user.search_articles()
 
 
-#     # Method signature. 
-#     # get_articles_details(self, Authorization='', AuthorizationExclude=False):
-#     user.get_articles_details(user.GetAuthKey())
-
-
-    # Method signature.
-    # create_article(Authorization='', title='', agencyId='', audience=0,
-    #                shortDesc='', longDesc='', tags='', attachments=[],
-    #                AuthorizationExclude=False, titleExclude=False,
-    #                agencyIdExclude=False, audienceExclude=False,
-    #                shortDescExclude=False, longDescExclude=False, 
-    #                tagsExclude=False, attachmentsExclude=False):
-    user.create_article(user.GetAuthKey(), 'Department of funky beats', '5a8b73f94212d1f20f847b9a',
-                        0, 'short desc', 'loonngg desc', '5a8b55bca2d13ad4ba5369ef', ["url1"])
+#     # Method signature. DONE
+#     # create_article(Authorization='', title='', agencyId='', audience=0,
+#     #                shortDesc='', longDesc='', tags='', attachments=[],
+#     #                AuthorizationExclude=False, titleExclude=False,
+#     #                agencyIdExclude=False, audienceExclude=False,
+#     #                shortDescExclude=False, longDescExclude=False, 
+#     #                tagsExclude=False, attachmentsExclude=False):
+#     user.create_article(user.GetAuthKey(), 'Department of funky beats', '5a8b73f94212d1f20f847b9a',
+#                         0, 'short desc', 'loonngg desc', '5a8b55bca2d13ad4ba5369ef', ["url1"])
     
     
-# Test_Class()
+#     # Method signature. DONE
+#     # get_articles_details(Authorization='', AuthorizationExclude=False,
+#     #                      articleId=[]):
+#     user.get_articles_details(user.GetAuthKey(), articleId = user.GetArticleIds())
+
+
+    
+Test_Class()

@@ -1,17 +1,15 @@
 import sys, unittest, QaAdpqShell
 
 '''
-    ADPQ v1 - Get Articles end point.
+    ADPQ v1 - Get Articles Details end point.
     
-    Purpose - Will return a list of all articles according to user permission.
+    Purpose - Will return a list of all articles according to user permission. 
+              If a user passes in a particular article ID which exists, then
+              the details returns will pretain to that article.
     
     Method signature:
-        get_articles(Authorization='', AuthorizationExclude=False, sortUrl=False,
-                     limitUrl=False, dateStartURL=False, dateEndUrl=False,
-                     agencyIdUrl=False, tagIdUrl=False):
-                     
-    Notes: Url boolean in method signature indicates URL appending optional
-           search parameters. Authorization key is optional.
+        get_articles_details(Authorization='', AuthorizationExclude=False,
+                             articleId=[]):
     
     Optional:
         Authorization
@@ -69,7 +67,7 @@ class TestGetArticlesDetails(unittest.TestCase):
                                                       AuthorizationExclude=True)
         
         # Currently passing. 
-        self.assertNotEqual(responseBody['data'], [],
+        self.assertEqual(responseBody['error'], 'Please provide an authentication token',
                           msg='test_missingAuthorization assert#1 has failed.')
         
 #         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
@@ -83,7 +81,7 @@ class TestGetArticlesDetails(unittest.TestCase):
         responseBody = self.user.get_articles_details(Authorization = '')
         
         # Currently passing. 
-        self.assertNotEqual(responseBody['data'], [],
+        self.assertEqual(responseBody['error'], 'Please provide an authentication token',
                           msg='test_nullAuthorization assert#1 has failed.')
         
 #         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
