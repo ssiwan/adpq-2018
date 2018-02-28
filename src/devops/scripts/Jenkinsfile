@@ -57,10 +57,11 @@ def runStagingTests() {
             docker run -v /adpq_tests/reports:/data/reports -e Environment=staging --name adpq_tests -i adpq_tests >> /adpq_tests/results.xml
             docker rm adpq_tests && docker rmi adpq_tests
 
-            export numberOfTests=$(cat /adpq_tests/results.xml | cut -d '=' -f 2 | cut -d ' ' -f 1)
-            export errors=$(cat /adpq_tests/results.xml | cut -d '=' -f 3 | cut -d ' ' -f 1)
-            export failures=$(cat /adpq_tests/results.xml | cut -d '=' -f 4 | cut -d '>' -f 1)
-            export numberOfSuccesses=$($numberOfTests - $errors - $failures)
+            numberOfTests=$(cat /adpq_tests/results.xml | cut -d '=' -f 2 | cut -d ' ' -f 1)
+            errors=$(cat /adpq_tests/results.xml | cut -d '=' -f 3 | cut -d ' ' -f 1)
+            failures=$(cat /adpq_tests/results.xml | cut -d '=' -f 4 | cut -d '>' -f 1)
+            numberOfSuccesses=$($numberOfTests - $errors - $failures)
+            echo "$numberOfSuccesses / $numberOfTests tests ran successfully" > testResults
         '''
     }
 }
@@ -183,14 +184,15 @@ def deployStaging() {
 
 def sendSlackNotification() {
     stage ('Notify') {
-        def nodeHome = tool 'NodeTool'
-        env.PATH="${env.PATH}:${nodeHome}/bin"
+        def nodeHome = tool 'NodeTool' // Load Node.js
+        env.PATH="${env.PATH}:${nodeHome}/bin" // Set Path
+        results = readFile('testResults').trim()
 
         sh '''#!/bin/bash
             sleep 10
             logs=$(git log -1 --pretty=%B origin/staging)
-            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Staging Build Available*:\nhttp://adpq-staging.hotbsoftware.com\nTests:\n$numberOfSuccesses / $numberOfTests ran successfully\n\n*Build Notes:*\n$logs"
-        '''
+            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Staging Build Available*:\nhttp://adpq-staging.hotbsoftware.com\nBuild Notes:\n$logs" "$1"
+        ''' results
     }
 }
 
