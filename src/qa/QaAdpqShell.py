@@ -52,6 +52,10 @@ class QaADPQShell:
     Articles = 'articles?'
     SearchArticles = 'searchArticles'
     UsersSignIn = 'user/signIn'
+    DashAnalytics = 'dashboardAnalytics'
+    DashTrending = 'dashboardTrending'
+    DashPubArticles = 'dashboardMyPublished?'
+    DashWorkflow = 'dashboardWorkflow'
     
     ## Save a BaseURL without API Version
     BaseURL = setEnv
@@ -472,6 +476,175 @@ class QaADPQShell:
         return responseBody
     
     
+    
+    ## @fn dashboard_analytics : Will get the analytics of the user such as
+    #                            review, public, decline, etc counts.
+    # :required - Authorization
+    #
+    def dashboard_analytics(self, Authorization='', AuthorizationExclude=False):  
+        # URL end point.
+        url = self.environment + QaADPQShell.DashAnalytics
+
+        # HTTP Action.
+        HTTP_action = 'GET'
+        
+        # Header Parameters.
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        # Dynamically set key/value body pairs. Add all body parameters.
+        body = {}
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\ndashboard_analytics\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        return responseBody
+    
+    
+    
+    ## @fn dashboard_trending : Will get all trending articles.
+    # :required - Authorization
+    #
+    def dashboard_trending(self, Authorization='', AuthorizationExclude=False):  
+        # URL end point.
+        url = self.environment + QaADPQShell.DashTrending
+
+        # HTTP Action.
+        HTTP_action = 'GET'
+        
+        # Header Parameters.
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        # Dynamically set key/value body pairs. Add all body parameters.
+        body = {}
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\ndashboard_trending\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        return responseBody
+    
+    
+    
+    ## @fn dashboard_pubArticles : Will get all the users published articles.
+    # :required - Authorization
+    #
+    def dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False):  
+        # URL end point.
+        url = self.environment + QaADPQShell.DashPubArticles + QaADPQShell.articleLimit
+
+        # HTTP Action.
+        HTTP_action = 'GET'
+        
+        # Header Parameters.
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        # Dynamically set key/value body pairs. Add all body parameters.
+        body = {}
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\ndashboard_pubArticles\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        return responseBody
+    
+    
+    
+    ## @fn dashboard_workflow : Will get the workflow on the dashboard.
+    # :required - Authorization
+    #
+    def dashboard_workflow(self, Authorization='', AuthorizationExclude=False):  
+        # URL end point.
+        url = self.environment + QaADPQShell.DashWorkflow
+
+        # HTTP Action.
+        HTTP_action = 'GET'
+        
+        # Header Parameters.
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        # Dynamically set key/value body pairs. Add all body parameters.
+        body = {}
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\ndashboard_workflow\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        return responseBody
+    
+    
 
     def GetRole(self):
         return self.role
@@ -542,7 +715,25 @@ def Test_Class():
 #     # get_articles_details(Authorization='', AuthorizationExclude=False,
 #     #                      articleId=[]):
 #     user.get_articles_details(user.GetAuthKey(), articleId = user.GetArticleIds())
-
-
     
-Test_Class()
+    
+    # Method signature. DONE
+    # dashboard_analytics(self, Authorization='', AuthorizationExclude=False): 
+    user.dashboard_analytics(user.GetAuthKey())
+    
+    
+    # Method signature. DONE
+    # dashboard_trending(self, Authorization='', AuthorizationExclude=False): 
+    user.dashboard_trending(user.GetAuthKey())
+    
+    
+    # Method signature. DONE
+    # dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False):
+    user.dashboard_pubArticles(user.GetAuthKey())
+    
+    
+    # Method signature. DONE
+    # dashboard_workflow(self, Authorization='', AuthorizationExclude=False):
+    user.dashboard_workflow(user.GetAuthKey())
+    
+# Test_Class()

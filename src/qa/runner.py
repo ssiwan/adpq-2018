@@ -15,6 +15,7 @@ from test import testSearchArticles
 from test import testSignIn
 from test import testGetArticleDetails
 from test import testCreateArticle
+from test import testDashboard
 
 # Initialize a test loader & test suite package.
 loader = unittest.TestLoader()
@@ -29,6 +30,7 @@ suite.addTests(loader.suiteClass(testSearchArticles.suite()))
 suite.addTests(loader.suiteClass(testSignIn.suite()))
 suite.addTests(loader.suiteClass(testGetArticleDetails.suite()))
 suite.addTests(loader.suiteClass(testCreateArticle.suite()))
+suite.addTests(loader.suiteClass(testDashboard.suite()))
 
 # Initialize an xml runner.
 testRunner=xmlrunner.XMLTestRunner(output='data/testReports', verbosity=2)
