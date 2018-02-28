@@ -97,8 +97,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //GET 
         router.get('/dashboardAnalytics', articleController.dashboardAnalytics);
         router.get('/dashboardTrending', articleController.dashboardTrending);  
-    //dashboardPublishedArticles
-    //dashboardWorkflow
+        router.get('/dashboardMyPublished', articleController.dashboardPublishedArticles);
+        router.get('/dashboardWorkflow', articleController.dashboardWorkflow);  
 
 //UTILIES - will create utility file if need grows
 //presigned s3 url
