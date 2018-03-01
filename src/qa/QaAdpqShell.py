@@ -134,7 +134,7 @@ class QaADPQShell:
     
     
 
-    ## @fn get_tagst : Will 
+    ## @fn get_tagst : Will return a list of all tags.
     #
     def get_tags(self):
 
@@ -181,8 +181,7 @@ class QaADPQShell:
             url = url + QaADPQShell.articleLimit
         if dateStartURL == True:
             url = url + QaADPQShell.articleDateStart
-            dateEndUrl
-        if limitUrl == True:
+        if dateEndUrl == True:
             url = url + QaADPQShell.articleDateEnd
         if agencyIdUrl == True:
             url = url + QaADPQShell.articleAgencyId
@@ -222,7 +221,7 @@ class QaADPQShell:
     
     
     
-    ## @fn get_search : Will return a list of all articles.
+    ## @fn search_articles : Get all articles within the db.
     #
     def search_articles(self):#, api_key='', apiKeyExclude=False):
 
@@ -252,7 +251,7 @@ class QaADPQShell:
     
     
     
-    ## @fn user_login : Will 
+    ## @fn sign_in : Allows an existing user to log into their account. 
     # :required - email
     #
     def sign_in(self, email='', emailExclude=False):
