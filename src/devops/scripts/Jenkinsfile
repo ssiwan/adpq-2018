@@ -13,7 +13,7 @@ node {
                 publish()
                 deployStaging()
                 // runStagingTests()
-                sendSlackNotification()
+                // sendSlackNotification()
             } else if (scmVars.GIT_BRANCH == 'origin/master') {
                 println "Master Branch"
                 sh 'cp /aws/adpq/server/production/config.json ./src/server/src/config.json'
