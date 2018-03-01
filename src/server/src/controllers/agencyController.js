@@ -35,16 +35,16 @@ exports.incrementAgencyArticleCount = function(agencyIdString) {
 
     var queryParams = {};
     queryParams._id = agencyId; 
-    var query = agency.findOne();
-
-    query.exec();//.catch(function(err) {return res.json({})}) if with validation
+    var query = agency.findOne(queryParams);
+    query.exec();
     query.then(function(ag) {
-        if (ag.articleCount == null) {
+        if (!ag.articleCount) {
             ag.articleCount = 1; 
         }
         else {
             ag.articleCount = ag.articleCount + 1; 
         }
+        ag.save(); 
     });
     return; 
 }
