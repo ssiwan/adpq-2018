@@ -19,7 +19,7 @@ exports.editArticle = function(req, res) {
     articleObj.shortDesc = req.body.shortDesc; 
     articleObj.longDesc = req.body.longDesc; 
     articleObj.attachments = req.body.attachments; 
-    articleObj.status = req.body.status;
+    articleObj.status = 0;
 
     var tagArray = [];  
     if (req.body.tags != null && req.body.tags.length > 0) {
@@ -38,7 +38,7 @@ exports.editArticle = function(req, res) {
     var newEdit = new articleEdit({
         createdBy: new ObjectId(req.userId),
         articleId: new ObjectId(req.body.articleId),
-        status: req.body.status,
+        status: 0,
         createdAt: Date.now()
     }); 
 
@@ -54,7 +54,47 @@ exports.editArticle = function(req, res) {
 }
 
 exports.publishArticle = function(req, res) {
-    //create one last edit 
-    //increment agency 
-    //increment tags
+    if (req.userRole != '2') {//will need to change to 2 later
+        return res.json({error: 'User not permitted'});
+    }
+
+    var newEdit = new articleEdit({
+        createdBy: new ObjectId(req.userId),
+        articleId: new ObjectId(req.body.articleId),
+        status: 1,
+        createdAt: Date.now()
+    }); 
+    
+    var prom = newEdit.save();
+
+    prom.then(function(editreturn) {
+        articleController.publishOrDeclineArticle(req.body.articleId, editreturn._id.toString(), 1); 
+        return res.json({status: 'saved!'});
+    })
+    .catch(function(err) {
+        return res.json({'error': err.toString() });
+    });
+}
+
+exports.declineArticle = function(req, res) {
+    if (req.userRole != '2') {//will need to change to 2 later
+        return res.json({error: 'User not permitted'});
+    }
+
+    var newEdit = new articleEdit({
+        createdBy: new ObjectId(req.userId),
+        articleId: new ObjectId(req.body.articleId),
+        status: 2,
+        createdAt: Date.now()
+    }); 
+    
+    var prom = newEdit.save();
+
+    prom.then(function(editreturn) {
+        articleController.publishOrDeclineArticle(articleId, editreturn._id.toString(), 2); 
+        return res.json({status: 'saved!'});
+    })
+    .catch(function(err) {
+        return res.json({'error': err.toString() });
+    });
 }

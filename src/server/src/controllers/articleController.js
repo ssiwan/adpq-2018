@@ -3,7 +3,8 @@
 var mongoose = require('mongoose'),
     article = mongoose.model('article'),
     users = mongoose.model('user'),
-    tagController = require('./tagsController'); 
+    tagController = require('./tagsController'),
+    agencyController = require('./agencyController'); 
     
 var ObjectId = mongoose.Types.ObjectId; 
 
@@ -208,15 +209,18 @@ exports.getArticleDetails = function(req, res) {
                 articleobj['comments'] = art.comments;  
                 articleobj['views'] = art.views;
                 articleobj['shares'] = art.shares; 
-                articleobj['lastUpdated'] = getLastUpdated(art.articleEdits);
-                articleobj['approvedBy'] = getApprover(art.articleEdits); 
+                articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits);
+                if (art.status == 1) {
+                    articleobj['approvedBy'] = getApprover(art.articleEdits);
+                }
+                articleobj['history'] = art.articleEdits;  
             }
         }
         res.json({'data': articleobj}); 
     }); 
 }
 
-//POST /create
+//POST /articles
 exports.createArticle = function(req, res) {
 
     if (req.userRole == '0') {
@@ -278,6 +282,7 @@ exports.createArticle = function(req, res) {
     });
 }    
 
+//GET /dashboardAnalytics
 exports.dashboardAnalytics = function(req, res) {
     //if userRole == 2, then add total users query 
     var objuserId = new ObjectId(req.userId); 
@@ -360,6 +365,7 @@ exports.dashboardAnalytics = function(req, res) {
     });
 }
 
+//GET /dashboardTrending
 exports.dashboardTrending = function(req, res) {
     var objuserId = new ObjectId(req.userId);
     var limit = 0; 
@@ -409,6 +415,7 @@ exports.dashboardTrending = function(req, res) {
     //or([queryParams, {createdBy: new ObjectId(req.userId)}])
 }
 
+//GET /
 exports.dashboardPublishedArticles = function(req, res) {
     var userobjid = new ObjectId(req.userId);
     var limit = 0; 
@@ -450,7 +457,7 @@ exports.dashboardPublishedArticles = function(req, res) {
                 articleobj['attachments'] = art.attachments;
                 articleobj['views'] = art.views;
                 articleobj['shares'] = art.shares;
-                articleobj['lastUpdated'] = getLastUpdated(art.articleEdits); 
+                articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
 
                 returnArticles.push(articleobj);
             });
@@ -459,6 +466,7 @@ exports.dashboardPublishedArticles = function(req, res) {
     })
 }
 
+//GET
 exports.dashboardWorkflow = function(req, res) {
     var userobjid = new ObjectId(req.userId);
     var limit = 0; 
@@ -508,16 +516,40 @@ exports.dashboardWorkflow = function(req, res) {
     })
 }
 
-exports.shareArticle = function(req, res) {
-    
+//PATCH /incrementViews
+exports.incrementViews = function(req, res) {
+    var articleobjId = new ObjectId(req.params.articleId);
+
+    var queryParams = {}; 
+    queryParams._id = articleobjId; 
+
+    var query = article.findOne(queryParams);
+    query.exec().then(function(art) {
+        if (art.status == 1) {
+            art.views = art.views + 1;
+            art.trendingScore = art.trendingScore + 1;  
+            art.save(); 
+        }
+        return res.send('saved!'); 
+    });
 }
 
-exports.viewArticle = function(req, res) {
+//PATCH /incrementShares
+exports.incrementShares = function(req, res) {
+    var articleobjId = new ObjectId(req.params.articleId);
 
-}
+    var queryParams = {}; 
+    queryParams._id = articleobjId; 
 
-exports.publishArticle = function(req, res) {
-
+    var query = article.findOne(queryParams);
+    query.exec().then(function(art) {
+        if (art.status == 1) {
+            art.shares = art.shares + 1;
+            art.trendingScore = art.trendingScore + 3;  
+            art.save(); 
+        }
+        return res.send('saved!'); 
+    });
 }
 
 //*****************************API internal functions****************//
@@ -548,7 +580,7 @@ exports.editArticle = function(articleId, articleEditId, articleObj) {
         });
     }
 
-        var queryParams = {};
+    var queryParams = {};
     queryParams._id = new ObjectId(articleId); 
 
     var query = article.findOne(queryParams);
@@ -558,18 +590,43 @@ exports.editArticle = function(articleId, articleEditId, articleObj) {
         });
     
     query.then(function(art) {
-        tagController.convertTags(articleObj.tags, articleId); 
+        if (art.status == 0) {
+            tagController.convertTags(articleObj.tags, articleId); 
+            art.articleEdits.push(new ObjectId(articleEditId)); 
+            art.title = articleObj.title;
+            art.agency = new ObjectId(articleObj.agencyId);
+            art.role = articleObj.role; 
+            art.summary = articleObj.shortDesc;
+            art.description = articleObj.longDesc;
+            art.attachments = attachmentsArray; 
+            art.status = articleObj.status; 
+            art.save();
+        }
+        return; 
+        
+    }); 
+}
+
+exports.publishOrDeclineArticle = function(articleId, articleEditId, status) {
+    var queryParams = {};
+    queryParams._id = new ObjectId(articleId);
+
+    var query = article.findOne(queryParams);
+    query.exec()
+        .catch(function (err) {
+            res.send(err);
+        });
+    
+    query.then(function(art) {
+        if (status == 1) { 
+            agencyController.incrementAgencyArticleCount(art.agency.toString()); 
+            tagController.incrementTagArticleCounts(art.tags);
+        }
         art.articleEdits.push(new ObjectId(articleEditId)); 
-        art.title = articleObj.title;
-        art.agency = new ObjectId(articleObj.agencyId);
-        art.role = articleObj.role; 
-        art.summary = articleObj.shortDesc;
-        art.description = articleObj.longDesc;
-        art.attachments = attachmentsArray; 
-        art.status = articleObj.status; 
+        art.status = status; 
         art.save();
         return; 
-    }); 
+    });  
 }
 
 exports.addTagIdsToArticle = function(tagsIdArray, articleId) {
@@ -591,7 +648,7 @@ function getTagNames(tags) {
     return returnarray; 
 }; 
 
-function getLastUpdated(edits) {    
+function getLastUpdatedDate(edits) {    
     if (edits != null && edits.length > 0) {
         var recentEdit = edits[edits.length - 1];
         return recentEdit.createdAt; 
