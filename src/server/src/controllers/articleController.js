@@ -447,7 +447,7 @@ exports.dashboardPublishedArticles = function(req, res) {
                 articleobj['description'] = art.description;
                 articleobj['attachments'] = art.attachments;
                 articleobj['views'] = art.views;
-                articleobj['sharedCount'] = art.shares;
+                articleobj['shares'] = art.shares;
                 articleobj['lastUpdated'] = getLastUpdated(art.articleEdits); 
 
                 returnArticles.push(articleobj);
@@ -497,7 +497,7 @@ exports.dashboardWorkflow = function(req, res) {
                 articleobj['description'] = art.description;
                 articleobj['attachments'] = art.attachments;
                 articleobj['views'] = art.views;
-                articleobj['sharedCount'] = art.sharedUsers.length;
+                articleobj['shares'] = art.shares;
 
                 returnArticles.push(articleobj);
             });
