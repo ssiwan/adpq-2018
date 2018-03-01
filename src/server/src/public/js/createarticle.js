@@ -160,7 +160,7 @@ $(document).ready(function(){
             article.title = $("#title").val();
             article.agencyId = $("#agency").val();
             article.audience = $("#audience").val();
-            article.type = $("#articletype").val();
+            //article.type = $("#articletype").val();
             article.shortDesc = $("#shortdesc").val();
             article.longDesc = JSON.stringify(quill.getContents());
             article.tags = $("#tags").val();
@@ -183,10 +183,6 @@ $(document).ready(function(){
                 return;
             }
 
-            //if (!isEmpty(article.attachments)) {
-
-            //}
-           
             UploadToS3();
             article.attachments = attachments;
 
