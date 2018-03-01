@@ -19,7 +19,20 @@ exports.editArticle = function(req, res) {
     articleObj.shortDesc = req.body.shortDesc; 
     articleObj.longDesc = req.body.longDesc; 
     articleObj.attachments = req.body.attachments; 
-    articleObj.status = req.body.status; 
+    articleObj.status = req.body.status;
+
+    var tagArray = [];  
+    if (req.body.tags != null && req.body.tags.length > 0) {
+        var tagpreArray = (req.body.tags).split(','); //hopefully will be a string of tagIds
+        tagpreArray.forEach(function(tg) {
+            if (!tagArray.includes(tg.toLowerCase())) {
+                tagArray.push(tg.toLowerCase()); 
+            }
+        }); 
+    }
+
+    articleObj.tags = tagArray; 
+
     //tag feature later on
 
     var newEdit = new articleEdit({
@@ -38,4 +51,10 @@ exports.editArticle = function(req, res) {
     .catch(function(err) {
         return res.json({'error': err.toString() });
     });  
+}
+
+exports.publishArticle = function(req, res) {
+    //create one last edit 
+    //increment agency 
+    //increment tags
 }

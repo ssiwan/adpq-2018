@@ -2,9 +2,9 @@
 
 var mongoose = require('mongoose'),
     article = mongoose.model('article'),
-    users = mongoose.model('user'); 
+    users = mongoose.model('user'),
+    tagController = require('./tagsController'); 
     
-
 var ObjectId = mongoose.Types.ObjectId; 
 
 //GET /searchArticles
@@ -20,8 +20,9 @@ exports.search = function (req, res) {
     }
 
     queryParams.role = {"$lte": parseInt(req.userRole)};
+    queryParams.status = 1; 
 
-    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId), status: 1}])
                             .populate('createdBy').populate('agency').populate('tags');
 
     //if keyword exists in any tags
@@ -47,7 +48,6 @@ exports.search = function (req, res) {
             articleobj['description'] = art.description;
             articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
-            articleobj['sharedCount'] = art.sharedUsers.length; 
 
             returnlist.push(articleobj);   
         }); 
@@ -69,6 +69,7 @@ exports.getArticles = function(req, res, next) {
     var endDateString = req.query.dateEnd;        
 
     queryParams.role = {"$lte": parseInt(req.userRole)}; //set logic to less than 
+    queryParams.status = 1; 
 
     // if filtering by start date and/or end date
     var startDate = null;
@@ -106,7 +107,7 @@ exports.getArticles = function(req, res, next) {
         queryParams.tags = new ObjectId(tagId); 
     }
     
-    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId), status: 1}])
                             .populate('createdBy').populate('agency').populate('tags');
     
 
@@ -155,7 +156,6 @@ exports.getArticles = function(req, res, next) {
             articleobj['description'] = art.description;
             articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
-            articleobj['sharedCount'] = art.sharedUsers.length; 
 
             returnlist.push(articleobj);   
         }); 
@@ -179,6 +179,7 @@ exports.getArticleDetails = function(req, res) {
     var query = article.findOne(queryParams).populate('tags')
                                             .populate('createdBy')
                                             .populate('agency')
+                                            .populate({path: 'articleEdits', populate: {path: 'createdBy', model: 'user'}})
                                             .populate({path: 'comments', populate: {path: 'commenter', model: 'user'}});
     //query.limit(1);
 
@@ -200,19 +201,20 @@ exports.getArticleDetails = function(req, res) {
                 articleobj['agencyId'] = art.agency._id.toString();
                 articleobj['agencyName'] = art.agency.value;
                 articleobj['status'] = art.status;
-                articleobj['approvedBy'] =  art.approvedBy; 
                 articleobj['description'] = art.description;
                 articleobj['attachments'] = art.attachments;
                 articleobj['comments'] = art.comments;  
                 articleobj['views'] = art.views;
-                articleobj['sharedCount'] = art.sharedUsers.length;
+                articleobj['sharedCount'] = art.shares; 
+                articleobj['lastUpdated'] = getLastUpdated(art.articleEdits);
+                articleobj['approvedBy'] = getApprover(art.articleEdits); 
             }
         }
         res.json({'data': articleobj}); 
     }); 
 }
 
-//tempcreate not actually going to be a GET - will convert to Post /createArticle
+//POST /create
 exports.createArticle = function(req, res) {
 
     if (req.userRole == '0') {
@@ -223,8 +225,10 @@ exports.createArticle = function(req, res) {
     var tagArray = []; 
     if (req.body.tags != null && req.body.tags.length > 0) {
         var tagpreArray = (req.body.tags).split(','); //hopefully will be a string of tagIds
-        tagpreArray.forEach(function (tid) {
-            tagArray.push(mongoose.Types.ObjectId(tid)); 
+        tagpreArray.forEach(function(tg) {
+            if (!tagArray.includes(tg.toLowerCase())) {
+                tagArray.push(tg.toLowerCase()); 
+            }
         });    
     }
 
@@ -244,26 +248,27 @@ exports.createArticle = function(req, res) {
         role: req.body.audience,     
         title: req.body.title,
         summary: req.body.shortDesc,       
-        tags: tagArray,
+        tags: [],
         description: req.body.longDesc,
         attachments: attachmentsArray,       
-        //approvedBy: mongoose.Types.ObjectId('none'),
         views: 0,//default fields
-        sharedUsers: [],
+        shares: 0,
         comments: [],
         articleEdits: [],
         createdAt: Date.now(),
         status: 0,
+        trendingScore: 0,
         type: 0 // dud for now
     });
 
     var prom = newArticle.save();
 
     prom.then(function(artreturn) {
+        tagController.convertTags(tagArray, artreturn._id.toString()); 
         var jsonreturn = {
             status: 'saved!',
             articleId: artreturn._id.toString() 
-        }
+        }; 
         res.json(jsonreturn);
     })
     .catch(function(err) {
@@ -324,7 +329,7 @@ exports.dashboardAnalytics = function(req, res) {
         var returnCount = 0; 
         if (result != null) {
             result.forEach(function(ret) {
-                returnCount += ret.sharedUsers.length; 
+                returnCount += ret.shares; 
             });
         }
         return returnCount;  
@@ -355,173 +360,51 @@ exports.dashboardAnalytics = function(req, res) {
 
 exports.dashboardTrending = function(req, res) {
     var objuserId = new ObjectId(req.userId);
-    var promiseArray = [];  
+    var limit = 0; 
+    if (req.query.limit != null) {
+        limit = parseInt(req.query.limit);  
+    }  
+    var queryParams = {}; 
+    queryParams.status = 1; 
+    queryParams.role = {"$lte": parseInt(req.userRole)};
+    var query = article.find().or([queryParams, {createdBy: objuserId, status: 1}])
+                                .populate('createdBy').populate('agency').populate('tags');    
+    var sortObj = {};
+    sortObj['trendingScore'] = -1;
+    query.sort(sortObj); 
+    if (limit != 0) {
+        query.limit(limit); 
+    }
 
-    //shares query 
-    var sharesQuery = article.aggregate([
-        {
-            $match: {
-                status: 1,
-                role: {$lte: parseInt(req.userRole)}
-            }
-        },
-        {'$project': {
-            'shareCount': {'$size': '$sharedUsers'}
-        }},
-        {'$sort': {'shareCount': -1}},
-        {'$limit': 1}
-    ]).then(function(sharesResult){
-        if (sharesResult != null && sharesResult.length > 0) {
-            return sharesResult[0]._id.toString();
-        }
-        else {
-            return null;
-        }
+    query.exec().catch(function(err) {
+        return res.json({error: err.toString()}); 
     });
-    promiseArray.push(sharesQuery); 
 
-    //tags query 
-    var tagsQuery = article.aggregate([
-        {
-            $match: {
-                status: 1,
-                role: {$lte: parseInt(req.userRole)}
-            }
-        },
-        {'$project': {
-            'tagCount': {'$size': '$tags'}
-        }},
-        {'$sort': {'shareCount': -1}},
-        {'$limit': 2}
-    ]).then(function(tagsResult){
-        if (tagsResult != null && tagsResult.length > 0) {
-            var tagsObj = [];
-            if (tagsResult[0] != null) {
-                tagsObj.push(tagsResult[0]._id.toString());
+    query.then(function(arts) {
+        var returnlist = []; 
+        if (arts != null) {
+            arts.forEach(function(art) {
+                var articleobj = {};
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags); 
+                articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
+                articleobj['createdAt'] = art.createdAt;
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['description'] = art.description;
+                articleobj['views'] = art.views;
+                articleobj['shares'] = art.shares; 
 
-                if (tagsResult[1] != null) {
-                    tagsObj.push(tagsResult[1]._id.toString()); 
-                }
-            }
-            return tagsObj; 
+                returnlist.push(articleobj);   
+            }); 
         }
-        else {
-            return null;
-        } 
-    });
-    promiseArray.push(tagsQuery);
+        return res.json({'data': returnlist}); 
+    }); 
 
-    //viewQuery
-    var viewsQueryParams = {}; 
-    viewsQueryParams.status = 1;
-    var sortObj = {}; 
-    sortObj['views'] = -1;  
-    var viewsQuery = article.find(viewsQueryParams)
-        .lte('role', parseInt(req.userRole))
-        .populate('createdBy').populate('agency').populate('tags').sort(sortObj).limit(3)
-        .then(function(vqResult) {
-            return vqResult; 
-        });
-    promiseArray.push(viewsQuery); 
-
-    Promise.all(promiseArray).then(function(values) {
-        var sharedArticleId = values[0];
-        var tagsArticleIds = values[1];//could have zero one or two
-        var viewsArticles = values[2];         
-        var searchIds = []; 
-        var returnArticles = {}; 
-        var prefilteredArticles = []; 
-        var sharedarticleidstring = "";
-        var tagarticleidstring = "";  
-        var viewarticle = null; 
-        
-        //input shared article Id to be searched
-        if (sharedArticleId == null) {
-            returnArticles.mostShared = {}; 
-        }
-        else {
-            sharedarticleidstring = sharedArticleId.toString(); 
-            searchIds.push(new ObjectId(sharedarticleidstring)); 
-        }
-
-        //input views article id to be searched
-        if (tagsArticleIds == null) {
-            returnArticles.mostTagged = {};
-        }       
-        else {
-            if (tagsArticleIds[0].toString() != sharedarticleidstring) {
-                tagarticleidstring = tagsArticleIds[0].toString();
-                searchIds.push(new ObjectId(tagarticleidstring));
-            }
-            else if (tagsArticleIds[1] != null) {
-                tagarticleidstring = tagsArticleIds[1].toString();
-                searchIds.push(new ObjectId(tagarticleidstring)); 
-            }
-            else {
-                returnArticles.mostTagged = {}; 
-            }
-        }
-
-        if (viewsArticles == null) {
-            returnArticles.mostViewed = {};             
-        }
-        else {
-            if (viewsArticles[0]._id.toString() != sharedarticleidstring && viewsArticles[0]._id.toString() != tagarticleidstring) {
-                viewarticle = viewsArticles[0];
-            }
-            else if (viewsArticles[1] != null 
-                        && viewsArticles[1]._id.toString() != sharedarticleidstring 
-                        && viewsArticles[1]._id.toString() != tagarticleidstring) {
-
-            }
-            else if (viewsArticles[2] != null) {
-                viewarticle = viewsArticles[2]; 
-            }
-            else {
-                returnArticles.mostViewed = {}; 
-            }  
-        }
-
-        if (searchIds.length > 0) {
-            var queryParams = {};         
-            var query = article.find().in('_id', searchIds).populate('createdBy').populate('agency').populate('tags'); 
-
-            query.exec().then(function(arts) {
-                if (viewarticle != null) {
-                    arts.push(viewarticle)
-                }
-                arts.forEach(function(indart) {
-                    var articleobj = {};
-                    articleobj['id'] = indart._id.toString();
-                    articleobj['title'] = indart.title;
-                    articleobj['summary'] = indart.summary;
-                    articleobj['tags'] = getTagNames(indart.tags);
-                    articleobj['tagCount'] = indart.tags.length;  
-                    articleobj['lastUpdatedAt'] = indart.createdAt; //to be replaced after ArticleEdit
-                    articleobj['createdAt'] = indart.createdAt;
-                    articleobj['createdBy'] = indart.createdBy; 
-                    articleobj['agency'] = indart.agency.value;
-                    articleobj['status'] = indart.status;
-                    articleobj['approvedBy'] =  indart.approvedBy; 
-                    articleobj['description'] = indart.description;
-                    articleobj['attachments'] = indart.attachments;
-                    articleobj['views'] = indart.views;
-                    articleobj['sharedCount'] = indart.sharedUsers.length;
-
-                    if (indart.id.toString() == sharedarticleidstring) {
-                        returnArticles.mostShared = articleobj; 
-                    }
-                    else if (indart.id.toString() == tagarticleidstring){
-                        returnArticles.mostTagged = articleobj; 
-                    }
-                    else {
-                        returnArticles.mostViewed = articleobj; 
-                    }
-                });
-                return res.json({data: returnArticles});  
-            });
-        }        
-    })
+    //or([queryParams, {createdBy: new ObjectId(req.userId)}])
 }
 
 exports.dashboardPublishedArticles = function(req, res) {
@@ -564,7 +447,7 @@ exports.dashboardPublishedArticles = function(req, res) {
                 articleobj['description'] = art.description;
                 articleobj['attachments'] = art.attachments;
                 articleobj['views'] = art.views;
-                articleobj['sharedCount'] = art.sharedUsers.length;
+                articleobj['sharedCount'] = art.shares;
                 articleobj['lastUpdated'] = getLastUpdated(art.articleEdits); 
 
                 returnArticles.push(articleobj);
@@ -623,7 +506,17 @@ exports.dashboardWorkflow = function(req, res) {
     })
 }
 
+exports.shareArticle = function(req, res) {
+    
+}
 
+exports.viewArticle = function(req, res) {
+
+}
+
+exports.publishArticle = function(req, res) {
+
+}
 
 //*****************************API internal functions****************//
 
@@ -663,6 +556,7 @@ exports.editArticle = function(articleId, articleEditId, articleObj) {
         });
     
     query.then(function(art) {
+        tagController.convertTags(articleObj.tags, articleId); 
         art.articleEdits.push(new ObjectId(articleEditId)); 
         art.title = articleObj.title;
         art.agency = new ObjectId(articleObj.agencyId);
@@ -676,6 +570,17 @@ exports.editArticle = function(articleId, articleEditId, articleObj) {
     }); 
 }
 
+exports.addTagIdsToArticle = function(tagsIdArray, articleId) {
+     var queryParams = {};
+     queryParams._id = new ObjectId(articleId);  
+     var query = article.findOne(queryParams); 
+
+     query.exec().then(function(art) {
+         art.tags = tagsIdArray;
+         art.save(); 
+     });
+}; 
+
 function getTagNames(tags) {
     var returnarray = []; 
     tags.forEach(function(tag) {
@@ -684,13 +589,22 @@ function getTagNames(tags) {
     return returnarray; 
 }; 
 
-function getLastUpdated(edits) {
-    
+function getLastUpdated(edits) {    
     if (edits != null && edits.length > 0) {
         var recentEdit = edits[edits.length - 1];
         return recentEdit.createdAt; 
     }
     else {
         return {}; 
+    }
+}
+
+function getApprover(edits) {
+    if (edits != null && edits.length > 0) {
+        var recentEdit = edits[edits.length - 1];
+        return (recentEdit.createdBy.name.first + " " + recentEdit.createdBy.name.last); 
+    }
+    else {
+        return ""; 
     }
 }
