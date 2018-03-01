@@ -1,8 +1,11 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    tags = mongoose.model('tags');
+    tags = mongoose.model('tags'),
+    articleController = require('./articleController');
 mongoose.Promise = Promise;
+
+var ObjectId = mongoose.Types.ObjectId; 
 
 //GET /tags
 exports.getTags = function (req, res) {
@@ -24,6 +27,46 @@ exports.getTags = function (req, res) {
     });
 };
 
-exports.convertTags = function(tags) {
-    
-}    
+//*******************************INTERNAL API FUNCTIONS ************************//
+
+exports.convertTags = function(tagStringArray, articleId) {
+    var query = tags.find().in('value', tagStringArray);
+    var tagsToAddToDB = []; 
+    var tagIdArray = []; 
+
+    query.exec().then(function(tgs) {
+        if (tgs != null) {
+            tgs.forEach(function(tg) {
+                tagIdArray.push(new ObjectId(tg._id.toString()));
+                if (tagStringArray.includes(tg.value)) {
+                    for (var i=tagStringArray.length-1; i>=0; i--) { //remove from tagstringarray
+                        if (tagStringArray[i] === tg.value) {
+                            tagStringArray.splice(i, 1);
+                            break; 
+                        }
+                    }
+                } 
+            });            
+        }
+
+        tagStringArray.forEach(function(tgta) {
+            var newtag = new tags({
+                value: tgta,
+                articleCount: 0
+            });
+            tagsToAddToDB.push(newtag); 
+        });
+
+        tags.insertMany(tagsToAddToDB)
+            .then(function(returntags) {
+                if (returntags != null) {
+                    returntags.forEach(function(returntag) {
+                        tagIdArray.push(new ObjectId(returntag._id.toString())); 
+                    });
+                }
+                articleController.addTagIdsToArticle(tagIdArray, articleId); 
+                return; 
+            }); 
+        return; 
+    }); 
+};    

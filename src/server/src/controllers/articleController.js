@@ -2,9 +2,9 @@
 
 var mongoose = require('mongoose'),
     article = mongoose.model('article'),
-    users = mongoose.model('user'); 
+    users = mongoose.model('user'),
+    tagController = require('./tagsController'); 
     
-
 var ObjectId = mongoose.Types.ObjectId; 
 
 //GET /searchArticles
@@ -20,8 +20,9 @@ exports.search = function (req, res) {
     }
 
     queryParams.role = {"$lte": parseInt(req.userRole)};
+    queryParams.status = 1; 
 
-    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId), status: 1}])
                             .populate('createdBy').populate('agency').populate('tags');
 
     //if keyword exists in any tags
@@ -68,6 +69,7 @@ exports.getArticles = function(req, res, next) {
     var endDateString = req.query.dateEnd;        
 
     queryParams.role = {"$lte": parseInt(req.userRole)}; //set logic to less than 
+    queryParams.status = 1; 
 
     // if filtering by start date and/or end date
     var startDate = null;
@@ -105,7 +107,7 @@ exports.getArticles = function(req, res, next) {
         queryParams.tags = new ObjectId(tagId); 
     }
     
-    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId), status: 1}])
                             .populate('createdBy').populate('agency').populate('tags');
     
 
@@ -212,7 +214,7 @@ exports.getArticleDetails = function(req, res) {
     }); 
 }
 
-//tempcreate not actually going to be a GET - will convert to Post /createArticle
+//POST /create
 exports.createArticle = function(req, res) {
 
     if (req.userRole == '0') {
@@ -223,7 +225,11 @@ exports.createArticle = function(req, res) {
     var tagArray = []; 
     if (req.body.tags != null && req.body.tags.length > 0) {
         var tagpreArray = (req.body.tags).split(','); //hopefully will be a string of tagIds
-        //tag functionality here    
+        tagpreArray.forEach(function(tg) {
+            if (!tagArray.includes(tg.toLowerCase())) {
+                tagArray.push(tg.toLowerCase()); 
+            }
+        });    
     }
 
     var attachmentsArray = []; 
@@ -258,11 +264,11 @@ exports.createArticle = function(req, res) {
     var prom = newArticle.save();
 
     prom.then(function(artreturn) {
-        //add tags that don't exist
+        tagController.convertTags(tagArray, artreturn._id.toString()); 
         var jsonreturn = {
             status: 'saved!',
             articleId: artreturn._id.toString() 
-        }
+        }; 
         res.json(jsonreturn);
     })
     .catch(function(err) {
@@ -359,8 +365,9 @@ exports.dashboardTrending = function(req, res) {
         limit = parseInt(req.query.limit);  
     }  
     var queryParams = {}; 
+    queryParams.status = 1; 
     queryParams.role = {"$lte": parseInt(req.userRole)};
-    var query = article.find().or([queryParams, {createdBy: objuserId}])
+    var query = article.find().or([queryParams, {createdBy: objuserId, status: 1}])
                                 .populate('createdBy').populate('agency').populate('tags');    
     var sortObj = {};
     sortObj['trendingScore'] = -1;
@@ -549,6 +556,7 @@ exports.editArticle = function(articleId, articleEditId, articleObj) {
         });
     
     query.then(function(art) {
+        tagController.convertTags(articleObj.tags, articleId); 
         art.articleEdits.push(new ObjectId(articleEditId)); 
         art.title = articleObj.title;
         art.agency = new ObjectId(articleObj.agencyId);
@@ -562,6 +570,17 @@ exports.editArticle = function(articleId, articleEditId, articleObj) {
     }); 
 }
 
+exports.addTagIdsToArticle = function(tagsIdArray, articleId) {
+     var queryParams = {};
+     queryParams._id = new ObjectId(articleId);  
+     var query = article.findOne(queryParams); 
+
+     query.exec().then(function(art) {
+         art.tags = tagsIdArray;
+         art.save(); 
+     });
+}; 
+
 function getTagNames(tags) {
     var returnarray = []; 
     tags.forEach(function(tag) {
@@ -570,8 +589,7 @@ function getTagNames(tags) {
     return returnarray; 
 }; 
 
-function getLastUpdated(edits) {
-    
+function getLastUpdated(edits) {    
     if (edits != null && edits.length > 0) {
         var recentEdit = edits[edits.length - 1];
         return recentEdit.createdAt; 
