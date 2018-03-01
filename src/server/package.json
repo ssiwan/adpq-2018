@@ -24,10 +24,12 @@
     "docker:teardown": "npm run docker:stop && docker rm api && docker rmi api -f && clear"
   },
   "dependencies": {
+    "aws-sdk": "2.202.0",
     "body-parser": "1.16.0",
     "cors": "2.8.4",
     "express": "4.16.2",
     "helmet": "3.10.0",
+    "jsonwebtoken": "8.1.1",
     "mongoose": "5.0.3"
   },
   "devDependencies": {

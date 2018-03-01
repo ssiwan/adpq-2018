@@ -4,9 +4,12 @@ $(document).ready(function(){
     var tagschk = $('#chkTags');
     var datechk = $('#chkDate');
     var url = "";
+    //var APIKey = "";
+
     SetUrl();
     DatePicker();
     Load();
+
 
     // Set the URL based on the searchvalue parameter
     function SetUrl() {
@@ -26,10 +29,7 @@ $(document).ready(function(){
         url: APIURL + "agencies",
         type: 'GET',
         dataType: 'json',
-        cache:false,
-        headers:{
-            "api_key": APIKey
-        }
+        cache:false
       })
       .done(function(response) {
         if (response.data != null) {
@@ -56,10 +56,7 @@ $(document).ready(function(){
                 url: APIURL + "tags",
                 type: 'GET',
                 dataType: 'json',
-                cache:false,
-                headers:{
-                    "api_key": APIKey
-                }
+                cache:false
               })
               .done(function(response) {
                 if (response.data != null) {
@@ -117,20 +114,22 @@ $(document).ready(function(){
                 type: "GET",
                 url: url,
                 cache:false,
-                headers:{
-                    "api_key": APIKey
-                },
                contentType: "application/json;",
                "dataSrc": function (json) {
                    //console.log(json);
                    var return_data = new Array();
                    for (let index = 0; index < json.data.length; index++) {
                         return_data[index] = {
-                            'articleinfo': "<strong>" + json.data[index].title + "</strong><br/>"
+                            'articleinfo':"<div class='article-title'>"    + json.data[index].title + "</div>"
+                                          +"<div class='article-agency'>Agency:" + json.data[index].agency + "</div>"
+                                          + json.data[index].summary + "<br/>"
+                                          + "<div class='article-author'>Author: </div>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last +
+                                          + "<div class='article-publishdate'>PublishedDate:</div> " + convertToLocalDate(json.data[index].createdAt),
+                            /*'articleinfo': "<strong>" + json.data[index].title + "</strong><br/>"
                                              + "<strong>Agency:" + json.data[index].agency + "</strong><br/>" 
                                              + json.data[index].summary + "<br/>" 
-                                             + "<strong>Author: </strong>" + json.data[index].createdBy + "<br/>"
-                                             + "PublishedDate:</strong> " + convertToLocalDate(json.data[index].createdAt),
+                                             + "<strong>Author: </strong>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last + "<br/>"
+                                             + "<strong>PublishedDate:</strong> " + convertToLocalDate(json.data[index].createdAt),*/
                             'lastupdated': convertToLocalDate(json.data[index].createdAt),
                             'views': json.data[index].views,
                             'shares': json.data[index].sharedCount,
@@ -167,7 +166,7 @@ $(document).ready(function(){
     });  */
 
     $("#btnFilters").click(function(){
-        $("#btnHideFilters").show();
+        $("#btnHideFilters").show();     
         $("#btnFilters").hide();
         $("#filters").show();
     }); 
@@ -253,9 +252,6 @@ $(document).ready(function(){
                 type: "GET",
                 cache:false,
                 url: APIURL + "articles?sort=createdAt&order=1&" + finalsearchfilter,
-                headers:{
-                    "api_key": APIKey
-                },
                 contentType: "application/json",
                 "dataSrc": function (json) {
                     //console.log(json);
@@ -265,7 +261,7 @@ $(document).ready(function(){
                              'articleinfo': "<strong>" + json.data[index].title + "</strong><br/>"
                                               + "<strong>Agency: " + json.data[index].agency + "</strong><br/>" 
                                               + json.data[index].summary + "<br/>" 
-                                              + "<strong>Author: " + json.data[index].createdBy + "</strong><br/>"
+                                              + "<strong>Author: "+ json.data[index].createdBy.name.first + " " +  json.data[index].createdBy.name.last + "</strong><br/>"
                                               + "PublishedDate: " + convertToLocalDate(json.data[index].createdAt),
                              'lastupdated': convertToLocalDate(json.data[index].createdAt),
                              'views': json.data[index].views,
