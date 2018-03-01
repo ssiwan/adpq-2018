@@ -174,9 +174,7 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 .adpq-pass {
 	margin-left: 13px
 }
-.adpq-user {
-;
-}
+.adpq-user {; }
 .adpq-plus-btn, .adpq-settings-btn, .adpq-profile-btn {
 	width: 50px;
 	height: 50px;
@@ -556,9 +554,9 @@ a.viewmore-link:focus {
 	top:6px;
 }
 .mypublish-updated, .mypublish-views, .mypublish-shares { width: 83px; }
-.mypublish-updated { background-image: url(../../ADPQ%20-%204/img/updated-n.png); }
-.mypublish-views { background-image: url(../../ADPQ%20-%204/img/views-n.png); }
-.mypublish-shares { background-image: url(../../ADPQ%20-%204/img/shares-n.png); }
+.mypublish-updated { background-image: url(../img/updated-n.png); }
+.mypublish-views { background-image: url(../img/views-n.png); }
+.mypublish-shares { background-image: url(../img/shares-n.png); }
 .landing-view-btn {
 	display: inline-block;
 	width: 600px;
@@ -1001,6 +999,9 @@ a.viewmore-link:focus {
     width: 34px;
     position: relative;
 }
+.tool-history:hover, .tool-history:focus {
+    background-image: url(../img/historyart-h.png);
+}
 .tools-edit {
     background-image: url(../img/editart-n.png);
     background-repeat: no-repeat;
@@ -1010,6 +1011,9 @@ a.viewmore-link:focus {
     width: 34px;
     position: relative;
 }
+.tools-edit:hover, .tools-edit:focus {
+    background-image: url(../img/editart-h.png);
+}
 .tool-delete {
     background-image: url(../img/deleteart-n.png);
     background-repeat: no-repeat;
@@ -1018,6 +1022,9 @@ a.viewmore-link:focus {
     height: 24px;
     width: 34px;
     position: relative;
+}
+.tool-delete:hover;.tool-delete:focus {
+    background-image: url(../img/deleteart-h.png);
 }
 .tool-dropdwn {
     display: block;
@@ -1228,7 +1235,7 @@ a.viewmore-link:focus {
 .history-state { padding-left: 5px; }
 /*Stepped on default boostrap styles begins */
 .control-label { font-family: "Roboto", serif; font-size: 14px; font-weight: normal; display: block; padding-bottom: 3px; }
-.adpq-form-control {
+.adpq-form-control, .dataTables_length select  {
   display: block;
   width: 100%;
   height: 37px;
@@ -1250,11 +1257,54 @@ a.viewmore-link:focus {
 bottom:6px;	
 }
 
-.adpq-form-control:focus {
+.adpq-form-control:focus, .dataTables_length select:focus {
   border-color: #66afe9;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
           box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
 }
 
+/* Data Tables Begin */
+.compact .dataTable .no-footer { font-family: "roboto condensed", serif; }
+.compact .dataTable .no-footer thead tr th.sorting_asc {  }
+#articles { max-width: 870px }
+.dataTables_length select { max-width: 70px; }
+.dataTables_filter input {}
+.sorting_1 { font-size: 14px; }
+th.sorting_asc { height: 30px!important; max-height: 35px; vertical-align: middle!important; min-width: 630px; }
+.article-title { font-weight: bold; font-size: 18px; }
+.article-agency { font-weight: bold; font-size: 14px; padding: 0 0 4px 0;  }
+.article-author { font-weight: bold; font-size: 14px;  padding: 4px 0 4px 0;  }
+.article-publishdate { position:relative; float: right; color:red;}
+.location { position: relative; float: right; right: 69px; top: -55px; }
+.dataTables_wrapper .dataTables_filter input { 
+    font-weight: 500;
+    width: 90%;
+    padding: .5em;
+    margin: 0;
+    overflow: hidden;
+    vertical-align: middle;
+    background-color: #e6eef8;
+	border: #b7b7b7 solid 1px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 0 3px #ccc;
+    box-shadow: 0 0 3px #ccc;
+}
+.hasDatepicker {
+	width: 150px;
+	padding: 10px 10px;
+	border: 1px solid #b7b7b7;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	font: normal 16px/normal "Roboto Condensed", Helvetica, Arial, sans-serif;
+	-o-text-overflow: clip;
+	text-overflow: clip;
+	background: rgba(255,255,255,0.75);
+	height: 32px;
+	margin: 9px 0px;
+	color:#000;
+}
+.checkbox label ,.daterange label, .dataTables_length label { font-size: 14px; }
+.filter-okbtn { position:relative; float:right; top:-5px; }
 
+/* Data Tables End */

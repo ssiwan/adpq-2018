@@ -71,7 +71,27 @@
       </div>
     </div>
     <div class="comments-wrap">
-      <div class="details-comments">Comments</div>
+        <div class="details-comments">Comments</div>
+        <div class="form-group">
+              <label class="col-md-4 control-label"></label>
+              <div class="col-md-8">
+                <button id="addbtn" name="submitbtn" class="cs-button" type="button">Add Comment</button>
+              </div>
+        </div> <br/> <br/>
+        <div class="form-group">
+        <div id="addcomment" style="display:none">
+         <div class="col-sm-6">
+                <textarea id="txtcomment" name="comment" class="form-control" cols="40" rows="5" maxlength="500"></textarea>
+              </div>
+        <div class="form-group">
+            <div class="col-md-8">
+              <button id="btnCancel" name="cancelbtn" class="cs-button">Cancel</button>
+              <button id="btnSave" name="submitbtn" class="cs-button" type="button">Submit</button>
+            </div>
+       </div>
+        </div>
+        </div>
+     </div>
       <div id="comments"></div>
     </div>
     <div class="history-wrap" style="display:none">

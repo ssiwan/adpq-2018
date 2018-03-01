@@ -163,7 +163,7 @@ $(document).ready(function(){
             article.type = $("#articletype").val();
             article.shortDesc = $("#shortdesc").val();
             article.longDesc = JSON.stringify(quill.getContents());
-            //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
+            article.tags = $("#tags").val();
             
             
             // Validation
@@ -209,8 +209,7 @@ $(document).ready(function(){
                 console.log(isEmpty(response.status));
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
-                        alert("Saved Successfully");
-                        setTimeout(function(){  window.location.href = "dashboard.html"; }, 2000);
+                        window.location.href = "dashboard.html";
                     }
                 }
                 else{
