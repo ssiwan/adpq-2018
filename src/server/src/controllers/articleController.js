@@ -48,6 +48,7 @@ exports.search = function (req, res) {
             articleobj['description'] = art.description;
             articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
+            articleobj['shares'] = art.shares; 
 
             returnlist.push(articleobj);   
         }); 
@@ -156,6 +157,7 @@ exports.getArticles = function(req, res, next) {
             articleobj['description'] = art.description;
             articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
+            articleobj['shares'] = art.shares; 
 
             returnlist.push(articleobj);   
         }); 
@@ -205,7 +207,7 @@ exports.getArticleDetails = function(req, res) {
                 articleobj['attachments'] = art.attachments;
                 articleobj['comments'] = art.comments;  
                 articleobj['views'] = art.views;
-                articleobj['sharedCount'] = art.shares; 
+                articleobj['shares'] = art.shares; 
                 articleobj['lastUpdated'] = getLastUpdated(art.articleEdits);
                 articleobj['approvedBy'] = getApprover(art.articleEdits); 
             }
@@ -447,7 +449,7 @@ exports.dashboardPublishedArticles = function(req, res) {
                 articleobj['description'] = art.description;
                 articleobj['attachments'] = art.attachments;
                 articleobj['views'] = art.views;
-                articleobj['sharedCount'] = art.shares;
+                articleobj['shares'] = art.shares;
                 articleobj['lastUpdated'] = getLastUpdated(art.articleEdits); 
 
                 returnArticles.push(articleobj);
@@ -497,7 +499,7 @@ exports.dashboardWorkflow = function(req, res) {
                 articleobj['description'] = art.description;
                 articleobj['attachments'] = art.attachments;
                 articleobj['views'] = art.views;
-                articleobj['sharedCount'] = art.sharedUsers.length;
+                articleobj['shares'] = art.shares;
 
                 returnArticles.push(articleobj);
             });
