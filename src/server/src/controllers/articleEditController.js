@@ -39,3 +39,9 @@ exports.editArticle = function(req, res) {
         return res.json({'error': err.toString() });
     });  
 }
+
+exports.publishArticle = function(req, res) {
+    //create one last edit 
+    //increment agency 
+    //increment tags
+}

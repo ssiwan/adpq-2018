@@ -22,4 +22,8 @@ exports.getTags = function (req, res) {
             });
         res.json({'data': returnlist}); 
     });
-};    
+};
+
+exports.convertTags = function(tags) {
+    
+}    

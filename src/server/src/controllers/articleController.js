@@ -203,7 +203,7 @@ exports.getArticleDetails = function(req, res) {
                 articleobj['attachments'] = art.attachments;
                 articleobj['comments'] = art.comments;  
                 articleobj['views'] = art.views;
-                articleobj['sharedCount'] = art.sharedUsers.length;
+                articleobj['sharedCount'] = art.shares; 
                 articleobj['lastUpdated'] = getLastUpdated(art.articleEdits);
                 articleobj['approvedBy'] = getApprover(art.articleEdits); 
             }
@@ -223,9 +223,7 @@ exports.createArticle = function(req, res) {
     var tagArray = []; 
     if (req.body.tags != null && req.body.tags.length > 0) {
         var tagpreArray = (req.body.tags).split(','); //hopefully will be a string of tagIds
-        tagpreArray.forEach(function (tid) {
-            tagArray.push(mongoose.Types.ObjectId(tid)); 
-        });    
+        //tag functionality here    
     }
 
     var attachmentsArray = []; 
@@ -244,7 +242,7 @@ exports.createArticle = function(req, res) {
         role: req.body.audience,     
         title: req.body.title,
         summary: req.body.shortDesc,       
-        tags: tagArray,
+        tags: [],
         description: req.body.longDesc,
         attachments: attachmentsArray,       
         views: 0,//default fields
@@ -260,6 +258,7 @@ exports.createArticle = function(req, res) {
     var prom = newArticle.save();
 
     prom.then(function(artreturn) {
+        //add tags that don't exist
         var jsonreturn = {
             status: 'saved!',
             articleId: artreturn._id.toString() 
@@ -324,7 +323,7 @@ exports.dashboardAnalytics = function(req, res) {
         var returnCount = 0; 
         if (result != null) {
             result.forEach(function(ret) {
-                returnCount += ret.sharedUsers.length; 
+                returnCount += ret.shares; 
             });
         }
         return returnCount;  
@@ -441,7 +440,7 @@ exports.dashboardPublishedArticles = function(req, res) {
                 articleobj['description'] = art.description;
                 articleobj['attachments'] = art.attachments;
                 articleobj['views'] = art.views;
-                articleobj['sharedCount'] = art.sharedUsers.length;
+                articleobj['sharedCount'] = art.shares;
                 articleobj['lastUpdated'] = getLastUpdated(art.articleEdits); 
 
                 returnArticles.push(articleobj);
@@ -505,6 +504,10 @@ exports.shareArticle = function(req, res) {
 }
 
 exports.viewArticle = function(req, res) {
+
+}
+
+exports.publishArticle = function(req, res) {
 
 }
 
