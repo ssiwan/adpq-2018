@@ -15,6 +15,10 @@ from test import testSearchArticles
 from test import testSignIn
 from test import testGetArticleDetails
 from test import testCreateArticle
+from test import testDashboard
+from test import testEditArticle
+from test import testCommentArticle
+from test import testPresignedS3
 
 # Initialize a test loader & test suite package.
 loader = unittest.TestLoader()
@@ -29,6 +33,10 @@ suite.addTests(loader.suiteClass(testSearchArticles.suite()))
 suite.addTests(loader.suiteClass(testSignIn.suite()))
 suite.addTests(loader.suiteClass(testGetArticleDetails.suite()))
 suite.addTests(loader.suiteClass(testCreateArticle.suite()))
+suite.addTests(loader.suiteClass(testDashboard.suite()))
+suite.addTests(loader.suiteClass(testEditArticle.suite()))
+suite.addTests(loader.suiteClass(testCommentArticle.suite()))
+suite.addTests(loader.suiteClass(testPresignedS3.suite()))
 
 # Initialize an xml runner.
 testRunner=xmlrunner.XMLTestRunner(output='data/testReports', verbosity=2)
