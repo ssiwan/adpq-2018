@@ -20,15 +20,12 @@ else:
         setEnv = 'http://adpq-staging-loadbalancer-777882718.us-west-1.elb.amazonaws.com'
     elif os.environ['Environment'] == 'prod':
         setEnv = 'http://adpq-production-loadbalancer-557804625.us-west-1.elb.amazonaws.com'
-
-#     # Set API Version
-#     setEnv = setEnv + '/api/v1/'
  
 setEnv.strip()
 
 
 ## @class ADPQ Test Automation Shell 
-# This shell provides a mechanisms from which to run python3 unittest 
+# This shell provides a mechanism from which to run python3 unittest 
 # scripts. The user has absolute control over the header & body 
 # parameters. Body & header Parameters can be left out of any call or be 
 # assigned any values, including null. Class is called from an external 
@@ -55,13 +52,21 @@ class QaADPQShell:
     Articles = 'articles?'
     SearchArticles = 'searchArticles'
     UsersSignIn = 'user/signIn'
+    DashAnalytics = 'dashboardAnalytics'
+    DashTrending = 'dashboardTrending'
+    DashPubArticles = 'dashboardMyPublished?'
+    DashWorkflow = 'dashboardWorkflow'
+    EditArticles = 'editArticle'
+    ArticleComment = 'articleComment'
+    PreS3 = 'preS3'
     
-    # Save a BaseURL without API Version
+    ## @var Save a BaseURL without API Version
     BaseURL = setEnv
     
-    # Set API Version
+    ## @var Set API Version
     setEnv = setEnv + '/api/v1/'
     
+    ## @var Variables that can be appended at the end of URL end point calls.
     articleSort = 'sort=createdAt&'
     articleLimit = 'limit=1&'
     articleDateStart = 'dateStart=02-01-2018&'
@@ -85,7 +90,6 @@ class QaADPQShell:
         self.groupId = []
         self.environment = env
         self.role = ''
-        
         self.agencyId = []
         self.articleId = []
         
@@ -96,19 +100,16 @@ class QaADPQShell:
     # :required - api_key
     #
     def get_agencies(self):
-        # URL end point.
+
         url = self.environment + QaADPQShell.GetAgencies
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -133,22 +134,19 @@ class QaADPQShell:
     
     
 
-    ## @fn get_tagst : Will 
+    ## @fn get_tagst : Will return a list of all tags.
     #
     def get_tags(self):
-        # URL end point.
+
         url = self.environment + QaADPQShell.GetTags
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -183,18 +181,15 @@ class QaADPQShell:
             url = url + QaADPQShell.articleLimit
         if dateStartURL == True:
             url = url + QaADPQShell.articleDateStart
-            dateEndUrl
-        if limitUrl == True:
+        if dateEndUrl == True:
             url = url + QaADPQShell.articleDateEnd
         if agencyIdUrl == True:
             url = url + QaADPQShell.articleAgencyId
         if tagIdUrl == True:
             url = url + QaADPQShell.agencyTagId
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -221,30 +216,24 @@ class QaADPQShell:
         # ~~ TESTING ~~
         print('\nget_article_list\n', responseBody)
         print('response.status_code: ', response.status_code)
-        print('\nheaders:', headers)
-        print('\nbody:', body)
-        print("\nURL:", url)
         
         return responseBody
     
     
     
-    ## @fn get_search : Will return a list of all articles.
+    ## @fn search_articles : Get all articles within the db.
     #
     def search_articles(self):#, api_key='', apiKeyExclude=False):
-        # URL end point.
+
         url = self.environment + QaADPQShell.SearchArticles
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -262,23 +251,20 @@ class QaADPQShell:
     
     
     
-    ## @fn user_login : Will 
+    ## @fn sign_in : Allows an existing user to log into their account. 
     # :required - email
     #
     def sign_in(self, email='', emailExclude=False):
-        # URL end point.
+
         url = self.environment + QaADPQShell.UsersSignIn
 
-        # HTTP Action.
         HTTP_action = 'POST'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
         
         # Add the network body parameter.
@@ -313,16 +299,24 @@ class QaADPQShell:
     
     ## @fn get_articles_details : Will get details of any passed in article, 
     #                             article ID must be appended to end of the url.
-    # :required - Authorization
+    # :optional - Authorization
     #
-    def get_articles_details(self, Authorization='', AuthorizationExclude=False):
-        # URL end point.
-        url = self.environment + QaADPQShell.Articles + '5a907847ca13999bc0d11d92'
+    def get_articles_details(self, Authorization='', AuthorizationExclude=False,
+                             articleId=[]):
+        # If articleId list is not empty, grab the first item. Else, if 
+        # the value is empty, make the ID a default article id.
+        if articleId != '' and articleId != []:
+            if type(articleId) == list:
+                ID = articleId[0]
+            else:
+                ID = articleId
+        else:
+            ID = '5a907847ca13999bc0d11d92'
+            
+        url = self.environment + 'articles/' + ID
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -336,7 +330,6 @@ class QaADPQShell:
         else:
             headers['Authorization'] = ''
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -371,13 +364,11 @@ class QaADPQShell:
                        agencyIdExclude=False, audienceExclude=False,
                        shortDescExclude=False, longDescExclude=False, 
                        tagsExclude=False, attachmentsExclude=False):
-        # URL end point.
+
         url = self.environment + QaADPQShell.Articles
 
-        # HTTP Action.
         HTTP_action = 'POST'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -391,7 +382,6 @@ class QaADPQShell:
         else:
             headers['Authorization'] = ''
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
         
         # Add the title body parameter.
@@ -459,14 +449,419 @@ class QaADPQShell:
         
         if 'status' in responseBody.keys():
             if responseBody['status'] == 'saved!':
-                self.articleId.append(responseBody['status']) 
+                self.articleId.append(responseBody['articleId']) 
         
         # ~~ TESTING ~~
-        print('\nget_articles_details\n', responseBody)
+        print('\ncreate_article\n', responseBody)
         print('response.status_code: ', response.status_code)
-#         print('\nheaders:', headers)
-#         print('\nbody:', body)
-#         print("\nURL:", url)
+        
+        return responseBody
+    
+    
+    
+    ## @fn edit_article : Will edit specified article.
+    # :required - Authorization
+    # :required - articleId
+    # :required - title
+    # :required - agencyId
+    # :required - audience
+    # :required - shortDesc
+    # :required - longDesc
+    # :required - tags
+    # :required - attachments
+    # :required - status
+    #
+    def edit_article(self, Authorization='', articleId=[], title='', agencyId='', 
+                     audience=0, shortDesc='', longDesc='', tags='', 
+                     attachments=[], status=0, AuthorizationExclude=False, 
+                     articleIdExclude=False, titleExclude=False, 
+                     agencyIdExclude=False, audienceExclude=False,
+                     shortDescExclude=False, longDescExclude=False, 
+                     tagsExclude=False, attachmentsExclude=False, statusExclude=False,
+                     return_status=False):
+        
+        url = self.environment + QaADPQShell.EditArticles
+
+        HTTP_action = 'POST'
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+        
+        # Add the articleId body parameter.
+        if articleIdExclude == True:
+            pass
+        elif articleId != '' and articleId != []:
+            if type(articleId) == list: 
+                body['articleId'] = articleId[0]
+            else:
+                body['articleId'] = articleId
+        else:
+            body['articleId'] = ''
+        
+        # Add the title body parameter.
+        if titleExclude == True:
+            pass
+        elif title != '':
+            body['title'] = title
+        else:
+            body['title'] = ''
+            
+        # Add the agencyId body parameter.
+        if agencyIdExclude == True:
+            pass
+        elif agencyId != '':
+            body['agencyId'] = agencyId
+        else:
+            body['agencyId'] = ''
+            
+        # Add the audience body parameter.
+        if audienceExclude == True:
+            pass
+        elif audience != '':
+            body['audience'] = audience
+        else:
+            body['audience'] = ''
+            
+        # Add the shortDesc body parameter.
+        if shortDescExclude == True:
+            pass
+        elif shortDesc != '':
+            body['shortDesc'] = shortDesc
+        else:
+            body['shortDesc'] = ''
+            
+        # Add the longDesc body parameter.
+        if longDescExclude == True:
+            pass
+        elif longDesc != '':
+            body['longDesc'] = longDesc
+        else:
+            body['longDesc'] = ''
+            
+        # Add the tags body parameter.
+        if tagsExclude == True:
+            pass
+        elif tags != '':
+            body['tags'] = tags
+        else:
+            body['tags'] = ''
+            
+        # Add the attachments body parameter.
+        if attachmentsExclude == True:
+            pass
+        elif attachments != '' and attachments != []:
+            body['attachments'] = attachments
+        else:
+            body['attachments'] = ''
+            
+        # Add the status body parameter.
+        if statusExclude == True:
+            pass
+        elif status != '':
+            body['status'] = status
+        else:
+            body['status'] = ''
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\nEdit_article\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
+    
+    ## @fn comment_article : Will add comments to the specified article.
+    # :required - Authorization
+    # :required - articleId
+    # :required - comment
+    #
+    def comment_article(self, Authorization='', articleId=[], comment='', 
+                        AuthorizationExclude=False, articleIdExclude=False, 
+                        commentExclude=False, return_status=False):
+        
+        url = self.environment + QaADPQShell.ArticleComment
+
+        HTTP_action = 'POST'
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+        
+        # Add the articleId body parameter.
+        if articleIdExclude == True:
+            pass
+        elif articleId != '' and articleId != []:
+            if type(articleId) == list: 
+                body['articleId'] = articleId[0]
+            else:
+                body['articleId'] = articleId
+        else:
+            body['articleId'] = ''
+        
+        # Add the comment body parameter.
+        if commentExclude == True:
+            pass
+        elif comment != '':
+            body['comment'] = comment
+        else:
+            body['comment'] = ''
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\ncomment_article\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
+    
+    ## @fn get_presignedS3 : Will......
+    # :required - Authorization
+    # :required - name
+    #
+    def get_presignedS3(self, Authorization='', name='', AuthorizationExclude=False, 
+                        nameExclude=False, return_status=False):
+        
+        url = self.environment + QaADPQShell.PreS3
+
+        HTTP_action = 'POST'
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+        
+        # Add the name body parameter.
+        if nameExclude == True:
+            pass
+        elif name != '':
+            body['name'] = name
+        else:
+            body['name'] = ''
+        
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\nget_presignedS3\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
+    
+    ## @fn dashboard_analytics : Will get the analytics of the user such as
+    #                            review, public, decline, etc counts.
+    # :required - Authorization
+    #
+    def dashboard_analytics(self, Authorization='', AuthorizationExclude=False):  
+
+        url = self.environment + QaADPQShell.DashAnalytics
+
+        HTTP_action = 'GET'
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        # Dynamically set key/value body pairs. Add all body parameters.
+        body = {}
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\ndashboard_analytics\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        return responseBody
+    
+    
+    
+    ## @fn dashboard_trending : Will get all trending articles.
+    # :required - Authorization
+    #
+    def dashboard_trending(self, Authorization='', AuthorizationExclude=False):  
+
+        url = self.environment + QaADPQShell.DashTrending
+
+        HTTP_action = 'GET'
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\ndashboard_trending\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        return responseBody
+    
+    
+    
+    ## @fn dashboard_pubArticles : Will get all the users published articles.
+    # :required - Authorization
+    #
+    def dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False):  
+
+        url = self.environment + QaADPQShell.DashPubArticles + QaADPQShell.articleLimit
+
+        HTTP_action = 'GET'
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\ndashboard_pubArticles\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        return responseBody
+    
+    
+    
+    ## @fn dashboard_workflow : Will get the workflow on the dashboard.
+    # :required - Authorization
+    #
+    def dashboard_workflow(self, Authorization='', AuthorizationExclude=False):  
+
+        url = self.environment + QaADPQShell.DashWorkflow
+
+        HTTP_action = 'GET'
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\ndashboard_workflow\n', responseBody)
+        print('response.status_code: ', response.status_code)
         
         return responseBody
     
@@ -525,21 +920,95 @@ def Test_Class():
 #     # search_articles():
 #     user.search_articles()
 
+    
+#     # Method signature. DONE
+#     # create_article(Authorization='', title='', agencyId='', audience=0,
+#     #                shortDesc='', longDesc='', tags='', attachments=[],
+#     #                AuthorizationExclude=False, titleExclude=False,
+#     #                agencyIdExclude=False, audienceExclude=False,
+#     #                shortDescExclude=False, longDescExclude=False, 
+#     #                tagsExclude=False, attachmentsExclude=False):
+#     user.create_article(user.GetAuthKey(), 'Department of funky beats', '5a8b73f94212d1f20f847b9a',
+#                         0, 'short desc', 'loonngg desc', '5a8b55bca2d13ad4ba5369ef', ["url1"])
+    
+    
+#     # Method signature. DONE
+#     # get_articles_details(Authorization='', AuthorizationExclude=False,
+#     #                      articleId=[]):
+#     user.get_articles_details(user.GetAuthKey(), articleId = user.GetArticleIds())
+    
+    
+#     # Method signature. DONE
+#     # dashboard_analytics(self, Authorization='', AuthorizationExclude=False): 
+#     user.dashboard_analytics(user.GetAuthKey())
+    
+    
+#     # Method signature. DONE
+#     # dashboard_trending(self, Authorization='', AuthorizationExclude=False): 
+#     user.dashboard_trending(user.GetAuthKey())
+    
+    
+#     # Method signature. DONE
+#     # dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False):
+#     user.dashboard_pubArticles(user.GetAuthKey())
+    
+    
+#     # Method signature. DONE
+#     # dashboard_workflow(self, Authorization='', AuthorizationExclude=False):
+#     user.dashboard_workflow(user.GetAuthKey())
 
-#     # Method signature. 
-#     # get_articles_details(self, Authorization='', AuthorizationExclude=False):
-#     user.get_articles_details(user.GetAuthKey())
 
-
-    # Method signature.
-    # create_article(Authorization='', title='', agencyId='', audience=0,
-    #                shortDesc='', longDesc='', tags='', attachments=[],
-    #                AuthorizationExclude=False, titleExclude=False,
-    #                agencyIdExclude=False, audienceExclude=False,
-    #                shortDescExclude=False, longDescExclude=False, 
-    #                tagsExclude=False, attachmentsExclude=False):
-    user.create_article(user.GetAuthKey(), 'Department of funky beats', '5a8b73f94212d1f20f847b9a',
-                        0, 'short desc', 'loonngg desc', '5a8b55bca2d13ad4ba5369ef', ["url1"])
+#     # Method signature. DONE
+#     # edit_article(Authorization='', articleId=[], title='', agencyId='', audience=0,
+#     #              shortDesc='', longDesc='', tags='', attachments=[], status=0,
+#     #              AuthorizationExclude=False, articleIdExclude=False, titleExclude=False,
+#     #              agencyIdExclude=False, audienceExclude=False,
+#     #              shortDescExclude=False, longDescExclude=False, 
+#     #              tagsExclude=False, attachmentsExclude=False, statusExclude=False,
+#     #              return_status=False)
+#     user.edit_article(user.GetAuthKey(), user.GetArticleIds(), "Department of funky beats",
+#                       '5a8b73f94212d1f20f847b9a', 0, 'short desc', 'long desc',
+#                       'tags', ['pdf1, 666'], 0)
+    
+    
+#     # Method signature. DONE
+#     # comment_article(Authorization='', articleId=[], comment='', 
+#     #                 AuthorizationExclude=False, articleIdExclude=False, 
+#     #                   commentExclude=False, return_status=False):
+#     user.comment_article(user.GetAuthKey(), user.GetArticleIds(), 'COMMENTS')
+    
+    
+    # Method signature. 
+    # get_presignedS3(Authorization='', name='', AuthorizationExclude=False, 
+    #                 nameExclude=False, return_status=False):
+    user.get_presignedS3(user.GetAuthKey(), 'file.txt')
     
     
 # Test_Class()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

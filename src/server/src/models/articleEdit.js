@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var articleEditModel = new Schema({
     createdBy: {type: Schema.Types.ObjectId, ref: 'user'},
     articleId: {type: Schema.Types.ObjectId, ref: 'article'},
-    articleStatus: Number,
+    status: Number,
     createdAt: Date
 }, {
     collection: 'articleEdits'

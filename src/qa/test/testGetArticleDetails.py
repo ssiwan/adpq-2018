@@ -1,17 +1,15 @@
 import sys, unittest, QaAdpqShell
 
 '''
-    ADPQ v1 - Get Articles end point.
+    ADPQ v1 - Get Articles Details end point.
     
-    Purpose - Will return a list of all articles according to user permission.
+    Purpose - Will return a list of all articles according to user permission. 
+              If a user passes in a particular article ID which exists, then
+              the details returns will pretain to that article.
     
     Method signature:
-        get_articles(Authorization='', AuthorizationExclude=False, sortUrl=False,
-                     limitUrl=False, dateStartURL=False, dateEndUrl=False,
-                     agencyIdUrl=False, tagIdUrl=False):
-                     
-    Notes: Url boolean in method signature indicates URL appending optional
-           search parameters. Authorization key is optional.
+        get_articles_details(Authorization='', AuthorizationExclude=False,
+                             articleId=[]):
     
     Optional:
         Authorization
@@ -69,7 +67,7 @@ class TestGetArticlesDetails(unittest.TestCase):
                                                       AuthorizationExclude=True)
         
         # Currently passing. 
-        self.assertNotEqual(responseBody['data'], [],
+        self.assertEqual(responseBody['error'], 'Please provide an authentication token',
                           msg='test_missingAuthorization assert#1 has failed.')
         
 #         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
@@ -83,7 +81,7 @@ class TestGetArticlesDetails(unittest.TestCase):
         responseBody = self.user.get_articles_details(Authorization = '')
         
         # Currently passing. 
-        self.assertNotEqual(responseBody['data'], [],
+        self.assertEqual(responseBody['error'], 'Please provide an authentication token',
                           msg='test_nullAuthorization assert#1 has failed.')
         
 #         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
@@ -92,6 +90,7 @@ class TestGetArticlesDetails(unittest.TestCase):
 
 
     # Test a int Authorization.
+    @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_intAuthorization(self):
         # Int Authorization value.
         responseBody = self.user.get_articles_details(Authorization = 8523154687)
@@ -106,6 +105,7 @@ class TestGetArticlesDetails(unittest.TestCase):
 
 
     # Test a float Authorization.
+    @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_floatAuthorization(self):
         # Float Authorization value.
         responseBody = self.user.get_articles_details(Authorization = -852315.4687)
@@ -132,6 +132,7 @@ class TestGetArticlesDetails(unittest.TestCase):
 
 
     # Test an array Authorization value call.
+    @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_arrayAuthorization(self):
         # Array Authorization value.
         responseBody = self.user.get_articles_details(Authorization = ['hodl', 666, [.6, 0], {}])
@@ -165,10 +166,10 @@ def suite():
 
     suite.addTest(TestGetArticlesDetails('test_missingAuthorization'))
     suite.addTest(TestGetArticlesDetails('test_nullAuthorization'))
-#     suite.addTest(TestGetArticlesDetails('test_intAuthorization'))
-#     suite.addTest(TestGetArticlesDetails('test_floatAuthorization'))
+    suite.addTest(TestGetArticlesDetails('test_intAuthorization'))
+    suite.addTest(TestGetArticlesDetails('test_floatAuthorization'))
     suite.addTest(TestGetArticlesDetails('test_stringAuthorization'))
-#     suite.addTest(TestGetArticlesDetails('test_arrayAuthorization'))
+    suite.addTest(TestGetArticlesDetails('test_arrayAuthorization'))
     
     return suite
     
