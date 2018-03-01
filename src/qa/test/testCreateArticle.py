@@ -118,10 +118,36 @@ class TestCreateArticles(unittest.TestCase):
                                                 longDesc = TestCreateArticles.longDesc, 
                                                 tags = TestCreateArticles.tags, 
                                                 attachments = TestCreateArticles.attachments)
-
+        # GetArticleIds() returns a list of all ids.
+        articleIds = self.user.GetArticleIds()
+        
         # If successful, list will not be empty.
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_Success assert#1 has failed.')
+        
+        
+        # Now ensure that the article data was successfully created & saved.
+        responseBody = self.user.get_articles_details(Authorization = self.user.GetAuthKey(), 
+                                                      articleId = self.user.GetArticleIds())
+         
+        # Ensure all data persists.
+        if articleIds != []:
+            self.assertEqual(responseBody['data']['id'], articleIds[0],
+                              msg='test_Success assert#2 has failed.') 
+        
+        self.assertEqual(responseBody['data']['title'], TestCreateArticles.title,
+                          msg='test_Success assert#3 has failed.') 
+        
+        self.assertEqual(responseBody['data']['summary'], TestCreateArticles.shortDesc,
+                          msg='test_Success assert#4 has failed.') 
+        
+        self.assertEqual(responseBody['data']['description'], TestCreateArticles.longDesc,
+                          msg='test_Success assert#5 has failed.') 
+        
+        ## THIS IS HARD CODED CURRENTLY. WHEN THIS IS PATCHED, THIS TEST
+        # WILL FAIL.
+        self.assertEqual(responseBody['data']['tags'], ['Auto'],
+                          msg='test_Success assert#6 has failed.') 
          
          
          
@@ -999,19 +1025,19 @@ def suite():
     suite.addTest(TestCreateArticles('test_stringTitle'))
     suite.addTest(TestCreateArticles('test_arrayTitle'))
       
-    suite.addTest(TestCreateArticles('test_missingAgencyId'))
-#     suite.addTest(TestCreateArticles('test_nullAgencyId'))
-    suite.addTest(TestCreateArticles('test_intAgencyId'))
-    suite.addTest(TestCreateArticles('test_floatAgencyId'))
-#     suite.addTest(TestCreateArticles('test_stringAgencyId'))
-#     suite.addTest(TestCreateArticles('test_arrayAgencyId'))
+#     suite.addTest(TestCreateArticles('test_missingAgencyId'))
+# #     suite.addTest(TestCreateArticles('test_nullAgencyId'))
+#     suite.addTest(TestCreateArticles('test_intAgencyId'))
+#     suite.addTest(TestCreateArticles('test_floatAgencyId'))
+# #     suite.addTest(TestCreateArticles('test_stringAgencyId'))
+# #     suite.addTest(TestCreateArticles('test_arrayAgencyId'))
       
-    suite.addTest(TestCreateArticles('test_missingAudience'))
-    suite.addTest(TestCreateArticles('test_nullAudience'))
-    suite.addTest(TestCreateArticles('test_intAudience'))
-    suite.addTest(TestCreateArticles('test_floatAudience'))
-    suite.addTest(TestCreateArticles('test_stringAudience'))
-    suite.addTest(TestCreateArticles('test_arrayAudience'))
+#     suite.addTest(TestCreateArticles('test_missingAudience'))
+#     suite.addTest(TestCreateArticles('test_nullAudience'))
+#     suite.addTest(TestCreateArticles('test_intAudience'))
+#     suite.addTest(TestCreateArticles('test_floatAudience'))
+#     suite.addTest(TestCreateArticles('test_stringAudience'))
+#     suite.addTest(TestCreateArticles('test_arrayAudience'))
       
     suite.addTest(TestCreateArticles('test_missingShortDesc'))
     suite.addTest(TestCreateArticles('test_nullShortDesc'))

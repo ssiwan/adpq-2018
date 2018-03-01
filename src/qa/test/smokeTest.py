@@ -18,6 +18,14 @@ import sys, unittest, QaAdpqShell, requests
         Test end point UserSignIn by extracting a status code.
 '''
 class SmokeTest(unittest.TestCase):
+    title = 'Department of funky beats'
+    agencyId = '5a8b73f94212d1f20f847b9a'
+    audience = 0
+    shortDesc = 'short description here'
+    longDesc = 'This is a longer description'
+    tags = '5a8b55bca2d13ad4ba5369ef'
+    attachments = ["url1"]
+    status = 0
 
     @classmethod
     def setUpClass(cls):
@@ -300,7 +308,25 @@ class SmokeTest(unittest.TestCase):
         # Ensure that the end point is live.
         self.assertEqual(response.status_code, 200, 
                          msg='test_DashboardWorkflowStatus assert#1 failed.')
-
+        
+        
+        
+    ## Get the status of the Edit Article end point.
+    def test_EditArticleStatus(self):
+        status = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
+                                        articleId = '5a907847ca13999bc0d11d92', 
+                                        title = SmokeTest.title,
+                                        agencyId = "5a8b73f94212d1f20f847b9c", 
+                                        audience = SmokeTest.audience, 
+                                        shortDesc = SmokeTest.shortDesc, 
+                                        longDesc = SmokeTest.longDesc, 
+                                        tags = SmokeTest.tags, 
+                                        attachments = SmokeTest.attachments, 
+                                        status = SmokeTest.status,
+                                        return_status=True)
+        
+        # Ensure that the end point is live.
+        self.assertEqual(status.status_code, 200, msg='test_EditArticleStatus assert#1 failed.')
 
 
 
@@ -321,6 +347,7 @@ def suite():
     suite.addTest(SmokeTest('test_DashboardTrendingStatus'))
     suite.addTest(SmokeTest('test_DashboardPubArticlesStatus'))
     suite.addTest(SmokeTest('test_DashboardWorkflowStatus'))
+    suite.addTest(SmokeTest('test_EditArticleStatus'))
     
     return suite
     

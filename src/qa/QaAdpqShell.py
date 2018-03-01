@@ -56,6 +56,7 @@ class QaADPQShell:
     DashTrending = 'dashboardTrending'
     DashPubArticles = 'dashboardMyPublished?'
     DashWorkflow = 'dashboardWorkflow'
+    EditArticles = 'editArticle'
     
     ## Save a BaseURL without API Version
     BaseURL = setEnv
@@ -477,6 +478,141 @@ class QaADPQShell:
     
     
     
+    ## @fn edit_article : Will edit specified article.
+    # :required - Authorization
+    # :required - articleId
+    # :required - title
+    # :required - agencyId
+    # :required - audience
+    # :required - shortDesc
+    # :required - longDesc
+    # :required - tags
+    # :required - attachments
+    # :required - status
+    #
+    def edit_article(self, Authorization='', articleId=[], title='', agencyId='', 
+                     audience=0, shortDesc='', longDesc='', tags='', 
+                     attachments=[], status=0, AuthorizationExclude=False, 
+                     articleIdExclude=False, titleExclude=False, 
+                     agencyIdExclude=False, audienceExclude=False,
+                     shortDescExclude=False, longDescExclude=False, 
+                     tagsExclude=False, attachmentsExclude=False, statusExclude=False,
+                     return_status=False):
+        # URL end point.
+        url = self.environment + QaADPQShell.EditArticles
+
+        # HTTP Action.
+        HTTP_action = 'POST'
+        
+        # Header Parameters.
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+        
+        # Add the articleId body parameter.
+        if articleIdExclude == True:
+            pass
+        elif articleId != '' and articleId != []:
+            if type(articleId) == list: 
+                body['articleId'] = articleId[0]
+            else:
+                body['articleId'] = articleId
+        else:
+            body['articleId'] = ''
+        
+        # Add the title body parameter.
+        if titleExclude == True:
+            pass
+        elif title != '':
+            body['title'] = title
+        else:
+            body['title'] = ''
+            
+        # Add the agencyId body parameter.
+        if agencyIdExclude == True:
+            pass
+        elif agencyId != '':
+            body['agencyId'] = agencyId
+        else:
+            body['agencyId'] = ''
+            
+        # Add the audience body parameter.
+        if audienceExclude == True:
+            pass
+        elif audience != '':
+            body['audience'] = audience
+        else:
+            body['audience'] = ''
+            
+        # Add the shortDesc body parameter.
+        if shortDescExclude == True:
+            pass
+        elif shortDesc != '':
+            body['shortDesc'] = shortDesc
+        else:
+            body['shortDesc'] = ''
+            
+        # Add the longDesc body parameter.
+        if longDescExclude == True:
+            pass
+        elif longDesc != '':
+            body['longDesc'] = longDesc
+        else:
+            body['longDesc'] = ''
+            
+        # Add the tags body parameter.
+        if tagsExclude == True:
+            pass
+        elif tags != '':
+            body['tags'] = tags
+        else:
+            body['tags'] = ''
+            
+        # Add the attachments body parameter.
+        if attachmentsExclude == True:
+            pass
+        elif attachments != '' and attachments != []:
+            body['attachments'] = attachments
+        else:
+            body['attachments'] = ''
+            
+        # Add the status body parameter.
+        if statusExclude == True:
+            pass
+        elif status != '':
+            body['status'] = status
+        else:
+            body['status'] = ''
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\nEdit_article\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
+    
     ## @fn dashboard_analytics : Will get the analytics of the user such as
     #                            review, public, decline, etc counts.
     # :required - Authorization
@@ -699,16 +835,16 @@ def Test_Class():
 #     # search_articles():
 #     user.search_articles()
 
-
-#     # Method signature. DONE
-#     # create_article(Authorization='', title='', agencyId='', audience=0,
-#     #                shortDesc='', longDesc='', tags='', attachments=[],
-#     #                AuthorizationExclude=False, titleExclude=False,
-#     #                agencyIdExclude=False, audienceExclude=False,
-#     #                shortDescExclude=False, longDescExclude=False, 
-#     #                tagsExclude=False, attachmentsExclude=False):
-#     user.create_article(user.GetAuthKey(), 'Department of funky beats', '5a8b73f94212d1f20f847b9a',
-#                         0, 'short desc', 'loonngg desc', '5a8b55bca2d13ad4ba5369ef', ["url1"])
+    
+    # Method signature. DONE
+    # create_article(Authorization='', title='', agencyId='', audience=0,
+    #                shortDesc='', longDesc='', tags='', attachments=[],
+    #                AuthorizationExclude=False, titleExclude=False,
+    #                agencyIdExclude=False, audienceExclude=False,
+    #                shortDescExclude=False, longDescExclude=False, 
+    #                tagsExclude=False, attachmentsExclude=False):
+    user.create_article(user.GetAuthKey(), 'Department of funky beats', '5a8b73f94212d1f20f847b9a',
+                        0, 'short desc', 'loonngg desc', '5a8b55bca2d13ad4ba5369ef', ["url1"])
     
     
 #     # Method signature. DONE
@@ -717,23 +853,39 @@ def Test_Class():
 #     user.get_articles_details(user.GetAuthKey(), articleId = user.GetArticleIds())
     
     
+#     # Method signature. DONE
+#     # dashboard_analytics(self, Authorization='', AuthorizationExclude=False): 
+#     user.dashboard_analytics(user.GetAuthKey())
+    
+    
+#     # Method signature. DONE
+#     # dashboard_trending(self, Authorization='', AuthorizationExclude=False): 
+#     user.dashboard_trending(user.GetAuthKey())
+    
+    
+#     # Method signature. DONE
+#     # dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False):
+#     user.dashboard_pubArticles(user.GetAuthKey())
+    
+    
+#     # Method signature. DONE
+#     # dashboard_workflow(self, Authorization='', AuthorizationExclude=False):
+#     user.dashboard_workflow(user.GetAuthKey())
+
+
     # Method signature. DONE
-    # dashboard_analytics(self, Authorization='', AuthorizationExclude=False): 
-    user.dashboard_analytics(user.GetAuthKey())
+    # edit_article(Authorization='', articleId=[], title='', agencyId='', audience=0,
+    #              shortDesc='', longDesc='', tags='', attachments=[], status=0,
+    #              AuthorizationExclude=False, articleIdExclude=False, titleExclude=False,
+    #              agencyIdExclude=False, audienceExclude=False,
+    #              shortDescExclude=False, longDescExclude=False, 
+    #              tagsExclude=False, attachmentsExclude=False, statusExclude=False,
+    #              return_status=False)
+    user.edit_article(user.GetAuthKey(), user.GetArticleIds(), "Department of funky beats",
+                      '5a8b73f94212d1f20f847b9a', 0, 'short desc', 'long desc',
+                      'tags', ['pdf1, 666'], 0)
+     
+    user.get_articles_details(user.GetAuthKey(), articleId = user.GetArticleIds())
     
     
-    # Method signature. DONE
-    # dashboard_trending(self, Authorization='', AuthorizationExclude=False): 
-    user.dashboard_trending(user.GetAuthKey())
-    
-    
-    # Method signature. DONE
-    # dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False):
-    user.dashboard_pubArticles(user.GetAuthKey())
-    
-    
-    # Method signature. DONE
-    # dashboard_workflow(self, Authorization='', AuthorizationExclude=False):
-    user.dashboard_workflow(user.GetAuthKey())
-    
-# Test_Class()
+Test_Class()
