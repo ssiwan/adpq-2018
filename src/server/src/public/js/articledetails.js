@@ -43,22 +43,22 @@ $(document).ready(function(){
                     tgs = tgs.substring(0, tgs.length - 1)
                     $('#tags').append(tgs);
                     $("#author").append(response.data.createdBy.name.first + "  " + response.data.createdBy.name.last);
-                    //$("#reviewby").append(response.data.summary);
+                    $("#reviewby").append(response.data.approvedBy);
                     $("#publishdate").append(convertToLocalDate(response.data.createdAt));
-                    //$("#lastupdate").append(response.data.summary);
+                    $("#lastupdate").append(convertToLocalDate(response.data.lastUpdated));
 
                     $("#tagcount").append(response.data.tags.length);
                     $("#views").append(response.data.views);
                     $("#shares").append(response.data.sharedCount);
                     if (response.data.status === 0) {
-                        $("#status").append("New/In Review");  
+                        $("#status").append("pending");  
                     }
 
                     if (response.data.status === 1) {
-                        $("#status").append("Published");  
+                        $("#status").append("published");  
                     }
                     if (response.data.status === 2) {
-                        $("#status").append("Declined");  
+                        $("#status").append("declined");  
                     }
                     var commentstr = "";
                     for (let index = 0; index < response.data.comments.length; index++) {
@@ -75,88 +75,54 @@ $(document).ready(function(){
             });
         }
 
+$("#addbtn").click(function() {
+    $("#addcomment").show();
+    
+});
 
 
-        var article = {
-            title:"",
-            agencyId:"",
-            audience:"",
-            shortDesc: "",
-            longDesc:"",
-            tags: "", 
-            attachments:"",
-            articleId:""
+
+var articlecomment = {
+    articleId:" ",
+    comment:" "
+};
+
+
+$("#btnSave").click(function() {
+    articlecomment.articleId = articleId;
+    articlecomment.comment = $("#txtcomment").val();
+    $.ajax({
+        url: APIURL + "articleComment",
+        type: 'POST',
+        dataType: 'json',
+        headers:{
+            'Authorization':token,
+            'Content-Type':'application/json'
+        },
+        data: JSON.stringify(articlecomment)
+    })
+    .done(function(response) {
+        console.log(response);
+        //console.log(isEmpty(response.status));
+        if (!isEmpty(response.status)) {
+            if (response.status === "saved!") {
+                alert("Comment Added Successfully");
+                setTimeout(function(){  window.location.reload(true); }, 2000);
+            }
         }
+        else{
+            alert("There seems to be a problem with saving.Please try again.");
+        }
+    })
+    .fail(function(data, textStatus, xhr) {
+        alert(data.responseJSON.Error);
+    });
+    
+});
 
-
-        $("#btnSave").click(function(){
-
-            article.title = $("#title").val();
-            article.agencyId = $("#agency").val();
-            article.audience = $("#audience").val();
-            article.type = $("#articletype").val();
-            article.shortDesc = $("#shortdesc").val();
-            article.longDesc = JSON.stringify(quill.getContents());
-            //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
-            article.attachments = attachments;
-            article.articleId = articleId;
-
-            // Validation
-            var errors = "";
-            if (isEmpty(article.title)) {
-                errors+= "Title is required. \r\n";
-            }
-            if (isEmpty(article.shortDesc)) {
-                errors+= "Short Description is required. \r\n";
-            }
-            if (isEmpty(article.longDesc)) {
-                errors+= "Long Description is required. \r\n";
-            }
-
-            if (!isEmpty(errors)) {
-                alert(errors);
-                return;
-            }
-
-            if (!isEmpty(article.attachments)) {
-                UploadToS3();
-            }
-
-        console.log("Request JSON" + JSON.stringify(article));
-            
-            $.ajax({
-                url: APIURL + "editArticle",
-                type: 'POST',
-                dataType: 'json',
-                headers:{
-                    'Authorization':token,
-                    'Content-Type':'application/json'
-                },
-                data: JSON.stringify(article)
-            })
-            .done(function(response) {
-                console.log(response);
-                console.log(isEmpty(response.status));
-                if (!isEmpty(response.status)) {
-                    if (response.status === "saved!") {
-                        alert("Saved Successfully");
-                        setTimeout(function(){  window.location.href = "dashboard.html"; }, 3000);
-                    }
-                }
-                else{
-                    alert("There seems to be a problem with saving.Please try again.");
-                }
-            })
-            .fail(function(data, textStatus, xhr) {
-                alert(data.responseJSON.Error);
-            });
-
-
-        });
-
-        $("#btnCancel").click(function() {
-            window.location.href = "dashboard.html";
-        });
+$("#btnCancel").click(function() {
+    window.location.reload(true);
+});    
 
  }
 else {

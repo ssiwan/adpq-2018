@@ -54,49 +54,34 @@ $(document).ready(function(){
                 }
             })
             .done(function(response) {
-                console.log(response);
+                //console.log(response);
                 if (!isEmpty(response.data)) {
-                    if (!isEmpty(response.data.mostTagged)) {
-                        // Most Tagged
-                    var title = "<a href='articles-details-admin-history.html?articleId="+response.data.mostTagged.id+"' target='_blank'>"+ response.data.mostTagged.title +"</a>";
-                    $("#trendingarticle1title").append(title);
-                    $("#trendingarticle1tagcount").append(response.data.mostTagged.tagCount);
-                    $("#trendingarticle1agency").append("Agency - " + response.data.mostTagged.agency);
-                    $("#trendingarticle1shortdesc").append(response.data.mostTagged.summary);
-                    $("#trendingarticle1author").append("Author: " + response.data.mostTagged.createdBy.name.first + " " + response.data.mostTagged.createdBy.name.last);
-                    $("#trendingarticle1publishdate").append("Publish Date: " + convertToLocalDate(response.data.mostTagged.createdAt));
+                    var j = 1;
+                    for (let index = 0; index < response.data.length; index++) {
+                        var title = "<a href='articles-details-admin-history.html?articleId="+response.data[index].id+"' target='_blank'>"+ response.data[index].title +"</a>";
+                        $("#trendingarticle"+j+"title").append(response.data[index].title);
+                        $("#trendingarticle"+j+"views").append(response.data[index].views);
+                        $("#trendingarticle"+j+"shares").append(response.data[index].shares);
+                        $("#trendingarticle"+j+"agency").append("Agency - " + response.data[index].agency);
+                        $("#trendingarticle"+j+"shortdesc").append(response.data[index].summary);
+                        $("#trendingarticle"+j+"author").append("Author: " + response.data[index].createdBy.name.first + " " +response.data[index].createdBy.name.last);
+                        $("#trendingarticle"+j+"publishdate").append("Publish Date: " + convertToLocalDate(response.data[index].createdAt));
+                        j++;
                     }
-                    else {
-                        $("#trending1").hide();
-                    }
-                    // Most Viewed
-                
-                    if (!isEmpty(response.data.mostViewed)) {
-                        var title = "<a href='articles-details-admin-history.html?articleId="+response.data.mostViewed.id+"' target='_blank'>"+ response.data.mostViewed.title +"</a>";
-                        $("#trendingarticle2title").append(title);
-                        $("#trendingarticle2viewcount").append(response.data.mostViewed.views);
-                        $("#trendingarticle2agency").append("Agency - " + response.data.mostViewed.agency);
-                        $("#trendingarticle2shortdesc").append(response.data.mostViewed.summary);
-                        $("#trendingarticle2author").append("Author: " + response.data.mostViewed.createdBy.name.first + " " + response.data.mostViewed.createdBy.name.last);
-                        $("#trendingarticle2publishdate").append("Publish Date: " + convertToLocalDate(response.data.mostViewed.createdAt));
-                    
-                    } else {
-                        $("#trending2").hide();
-                    }
-                // Most Shared
-                    if (!isEmpty(response.data.mostShared)) {
-                        var title = "<a href='articles-details-admin-history.html?articleId="+response.data.mostShared.id+"' target='_blank'>"+ response.data.mostShared.title +"</a>";
-                            $("#trendingarticle3title").append(title);
-                            $("#trendingarticle3sharescount").append(response.data.mostShared.sharedCount);
-                            $("#trendingarticle3agency").append("Agency - " + response.data.mostShared.agency);
-                            $("#trendingarticle3shortdesc").append(response.data.mostShared.summary);
-                            $("#trendingarticle3author").append("Author: " + response.data.mostShared.createdBy.name.first + " " + response.data.mostShared.createdBy.name.last);
-                            $("#trendingarticle3publishdate").append("Publish Date: " + convertToLocalDate(response.data.mostShared.createdAt)); 
-                    } else {
-                        $("#trending3").hide();
-                    }
-                }
+                   if (response.data.length === 1) {
+                       $("#trending2").hide();
+                       $("#trending3").hide();
+                   }
+                   if (response.data.length === 2) {
+                       $("#trending3").hide();
+                   }
 
+                   if (response.data.length === 0) {
+                        $("#trending1").hide();
+                        $("#trending2").hide();
+                        $("#trending3").hide();
+                   }                 
+                }
             })
             .fail(function(data, textStatus, xhr) {
                 alert(data.responseJSON.Error);
@@ -163,7 +148,7 @@ $(document).ready(function(){
 
             })
             .fail(function(data, textStatus, xhr) {
-                alert(data.responseJSON.Error);
+                alert(data);
             });
         } 
 
@@ -226,7 +211,8 @@ $(document).ready(function(){
 
             })
             .fail(function(data, textStatus, xhr) {
-                alert(data.responseJSON.Error);
+                console.log(xhr);
+                alert(textStatus);
             });
         } 
 
