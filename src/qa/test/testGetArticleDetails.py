@@ -90,6 +90,7 @@ class TestGetArticlesDetails(unittest.TestCase):
 
 
     # Test a int Authorization.
+    @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_intAuthorization(self):
         # Int Authorization value.
         responseBody = self.user.get_articles_details(Authorization = 8523154687)
@@ -104,6 +105,7 @@ class TestGetArticlesDetails(unittest.TestCase):
 
 
     # Test a float Authorization.
+    @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_floatAuthorization(self):
         # Float Authorization value.
         responseBody = self.user.get_articles_details(Authorization = -852315.4687)
@@ -130,6 +132,7 @@ class TestGetArticlesDetails(unittest.TestCase):
 
 
     # Test an array Authorization value call.
+    @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_arrayAuthorization(self):
         # Array Authorization value.
         responseBody = self.user.get_articles_details(Authorization = ['hodl', 666, [.6, 0], {}])
@@ -163,10 +166,10 @@ def suite():
 
     suite.addTest(TestGetArticlesDetails('test_missingAuthorization'))
     suite.addTest(TestGetArticlesDetails('test_nullAuthorization'))
-#     suite.addTest(TestGetArticlesDetails('test_intAuthorization'))
-#     suite.addTest(TestGetArticlesDetails('test_floatAuthorization'))
+    suite.addTest(TestGetArticlesDetails('test_intAuthorization'))
+    suite.addTest(TestGetArticlesDetails('test_floatAuthorization'))
     suite.addTest(TestGetArticlesDetails('test_stringAuthorization'))
-#     suite.addTest(TestGetArticlesDetails('test_arrayAuthorization'))
+    suite.addTest(TestGetArticlesDetails('test_arrayAuthorization'))
     
     return suite
     

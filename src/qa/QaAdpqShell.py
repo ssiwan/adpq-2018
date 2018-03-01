@@ -57,14 +57,15 @@ class QaADPQShell:
     DashPubArticles = 'dashboardMyPublished?'
     DashWorkflow = 'dashboardWorkflow'
     EditArticles = 'editArticle'
+    ArticleComment = 'articleComment'
     
-    ## Save a BaseURL without API Version
+    ## @var Save a BaseURL without API Version
     BaseURL = setEnv
     
-    ## Set API Version
+    ## @var Set API Version
     setEnv = setEnv + '/api/v1/'
     
-    ## Variables that can be appended at the end of URL end point calls.
+    ## @var Variables that can be appended at the end of URL end point calls.
     articleSort = 'sort=createdAt&'
     articleLimit = 'limit=1&'
     articleDateStart = 'dateStart=02-01-2018&'
@@ -98,19 +99,16 @@ class QaADPQShell:
     # :required - api_key
     #
     def get_agencies(self):
-        # URL end point.
+
         url = self.environment + QaADPQShell.GetAgencies
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -138,19 +136,16 @@ class QaADPQShell:
     ## @fn get_tagst : Will 
     #
     def get_tags(self):
-        # URL end point.
+
         url = self.environment + QaADPQShell.GetTags
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -193,10 +188,8 @@ class QaADPQShell:
         if tagIdUrl == True:
             url = url + QaADPQShell.agencyTagId
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -231,19 +224,16 @@ class QaADPQShell:
     ## @fn get_search : Will return a list of all articles.
     #
     def search_articles(self):#, api_key='', apiKeyExclude=False):
-        # URL end point.
+
         url = self.environment + QaADPQShell.SearchArticles
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -265,19 +255,16 @@ class QaADPQShell:
     # :required - email
     #
     def sign_in(self, email='', emailExclude=False):
-        # URL end point.
+
         url = self.environment + QaADPQShell.UsersSignIn
 
-        # HTTP Action.
         HTTP_action = 'POST'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
         
         # Add the network body parameter.
@@ -326,13 +313,10 @@ class QaADPQShell:
         else:
             ID = '5a907847ca13999bc0d11d92'
             
-        # URL end point.
         url = self.environment + 'articles/' + ID
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -346,7 +330,6 @@ class QaADPQShell:
         else:
             headers['Authorization'] = ''
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -381,13 +364,11 @@ class QaADPQShell:
                        agencyIdExclude=False, audienceExclude=False,
                        shortDescExclude=False, longDescExclude=False, 
                        tagsExclude=False, attachmentsExclude=False):
-        # URL end point.
+
         url = self.environment + QaADPQShell.Articles
 
-        # HTTP Action.
         HTTP_action = 'POST'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -498,13 +479,11 @@ class QaADPQShell:
                      shortDescExclude=False, longDescExclude=False, 
                      tagsExclude=False, attachmentsExclude=False, statusExclude=False,
                      return_status=False):
-        # URL end point.
+        
         url = self.environment + QaADPQShell.EditArticles
 
-        # HTTP Action.
         HTTP_action = 'POST'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -613,18 +592,81 @@ class QaADPQShell:
     
     
     
+    ## @fn comment_article : Will add comments to the specified article.
+    # :required - Authorization
+    # :required - articleId
+    # :required - comment
+    #
+    def comment_article(self, Authorization='', articleId=[], comment='', 
+                        AuthorizationExclude=False, articleIdExclude=False, 
+                        commentExclude=False, return_status=False):
+        
+        url = self.environment + QaADPQShell.ArticleComment
+
+        HTTP_action = 'POST'
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+        
+        # Add the articleId body parameter.
+        if articleIdExclude == True:
+            pass
+        elif articleId != '' and articleId != []:
+            if type(articleId) == list: 
+                body['articleId'] = articleId[0]
+            else:
+                body['articleId'] = articleId
+        else:
+            body['articleId'] = ''
+        
+        # Add the comment body parameter.
+        if commentExclude == True:
+            pass
+        elif comment != '':
+            body['comment'] = comment
+        else:
+            body['comment'] = ''
+            
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\ncomment_article\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
+    
     ## @fn dashboard_analytics : Will get the analytics of the user such as
     #                            review, public, decline, etc counts.
     # :required - Authorization
     #
     def dashboard_analytics(self, Authorization='', AuthorizationExclude=False):  
-        # URL end point.
+
         url = self.environment + QaADPQShell.DashAnalytics
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -660,13 +702,11 @@ class QaADPQShell:
     # :required - Authorization
     #
     def dashboard_trending(self, Authorization='', AuthorizationExclude=False):  
-        # URL end point.
+
         url = self.environment + QaADPQShell.DashTrending
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -680,7 +720,6 @@ class QaADPQShell:
         else:
             headers['Authorization'] = ''
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -702,13 +741,11 @@ class QaADPQShell:
     # :required - Authorization
     #
     def dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False):  
-        # URL end point.
+
         url = self.environment + QaADPQShell.DashPubArticles + QaADPQShell.articleLimit
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -722,7 +759,6 @@ class QaADPQShell:
         else:
             headers['Authorization'] = ''
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -744,13 +780,11 @@ class QaADPQShell:
     # :required - Authorization
     #
     def dashboard_workflow(self, Authorization='', AuthorizationExclude=False):  
-        # URL end point.
+
         url = self.environment + QaADPQShell.DashWorkflow
 
-        # HTTP Action.
         HTTP_action = 'GET'
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
@@ -764,7 +798,6 @@ class QaADPQShell:
         else:
             headers['Authorization'] = ''
         
-        # Dynamically set key/value body pairs. Add all body parameters.
         body = {}
             
         # Make HTTPS Request.
@@ -873,19 +906,51 @@ def Test_Class():
 #     user.dashboard_workflow(user.GetAuthKey())
 
 
-    # Method signature. DONE
-    # edit_article(Authorization='', articleId=[], title='', agencyId='', audience=0,
-    #              shortDesc='', longDesc='', tags='', attachments=[], status=0,
-    #              AuthorizationExclude=False, articleIdExclude=False, titleExclude=False,
-    #              agencyIdExclude=False, audienceExclude=False,
-    #              shortDescExclude=False, longDescExclude=False, 
-    #              tagsExclude=False, attachmentsExclude=False, statusExclude=False,
-    #              return_status=False)
-    user.edit_article(user.GetAuthKey(), user.GetArticleIds(), "Department of funky beats",
-                      '5a8b73f94212d1f20f847b9a', 0, 'short desc', 'long desc',
-                      'tags', ['pdf1, 666'], 0)
-     
-    user.get_articles_details(user.GetAuthKey(), articleId = user.GetArticleIds())
+#     # Method signature. DONE
+#     # edit_article(Authorization='', articleId=[], title='', agencyId='', audience=0,
+#     #              shortDesc='', longDesc='', tags='', attachments=[], status=0,
+#     #              AuthorizationExclude=False, articleIdExclude=False, titleExclude=False,
+#     #              agencyIdExclude=False, audienceExclude=False,
+#     #              shortDescExclude=False, longDescExclude=False, 
+#     #              tagsExclude=False, attachmentsExclude=False, statusExclude=False,
+#     #              return_status=False)
+#     user.edit_article(user.GetAuthKey(), user.GetArticleIds(), "Department of funky beats",
+#                       '5a8b73f94212d1f20f847b9a', 0, 'short desc', 'long desc',
+#                       'tags', ['pdf1, 666'], 0)
     
     
-Test_Class()
+    # Method signature. 
+    # comment_article(Authorization='', articleId=[], comment='', 
+    #                 AuthorizationExclude=False, articleIdExclude=False, 
+    #                   commentExclude=False, return_status=False):
+    user.comment_article(user.GetAuthKey(), user.GetArticleIds(), 'COMMENTS')
+    
+    
+# Test_Class()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

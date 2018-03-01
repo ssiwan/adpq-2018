@@ -229,6 +229,7 @@ class TestEditArticle(unittest.TestCase):
 
 
     # Test a int Authorization.
+    @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_intAuthorization(self):
         # Int Authorization value.
         responseBody = self.user.edit_article(Authorization = 1, 
@@ -248,6 +249,7 @@ class TestEditArticle(unittest.TestCase):
 
 
     # Test a float Authorization.
+    @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_floatAuthorization(self):
         # Float Authorization value.
         responseBody = self.user.edit_article(Authorization = 1.1, 
@@ -286,6 +288,7 @@ class TestEditArticle(unittest.TestCase):
 
 
     # Test an array Authorization value call.
+    @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_arrayAuthorization(self):
         # Array Authorization value.
         responseBody = self.user.edit_article(Authorization = ['hodl', 666, [.6, 0], {}], 
@@ -331,6 +334,7 @@ class TestEditArticle(unittest.TestCase):
         
         
     # Test a null ArticleId.
+    @unittest.skip("JSONDecodeError")
     def test_nullArticleId(self):
         # Null ArticleId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
@@ -388,6 +392,7 @@ class TestEditArticle(unittest.TestCase):
         
         
     # Test a string ArticleId value call.
+    @unittest.skip("JSONDecodeError")
     def test_stringArticleId(self):
         # String ArticleId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
@@ -407,6 +412,7 @@ class TestEditArticle(unittest.TestCase):
 
 
     # Test an array ArticleId value call.
+    @unittest.skip("JSONDecodeError")
     def test_arrayArticleId(self):
         # Array ArticleId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
@@ -1412,17 +1418,17 @@ def suite():
   
     suite.addTest(TestEditArticle('test_missingAuthorization'))
     suite.addTest(TestEditArticle('test_nullAuthorization'))
-#     suite.addTest(TestEditArticle('test_intAuthorization'))
-#     suite.addTest(TestEditArticle('test_floatAuthorization'))
+    suite.addTest(TestEditArticle('test_intAuthorization'))
+    suite.addTest(TestEditArticle('test_floatAuthorization'))
     suite.addTest(TestEditArticle('test_stringAuthorization'))
-#     suite.addTest(TestEditArticle('test_arrayAuthorization'))
+    suite.addTest(TestEditArticle('test_arrayAuthorization'))
 
     suite.addTest(TestEditArticle('test_missingArticleId'))
-#     suite.addTest(TestEditArticle('test_nullArticleId'))
+    suite.addTest(TestEditArticle('test_nullArticleId'))
     suite.addTest(TestEditArticle('test_intArticleId'))
     suite.addTest(TestEditArticle('test_floatArticleId'))
-#     suite.addTest(TestEditArticle('test_stringArticleId'))
-#     suite.addTest(TestEditArticle('test_arrayArticleId'))
+    suite.addTest(TestEditArticle('test_stringArticleId'))
+    suite.addTest(TestEditArticle('test_arrayArticleId'))
         
     suite.addTest(TestEditArticle('test_missingTitle'))
     suite.addTest(TestEditArticle('test_nullTitle'))
