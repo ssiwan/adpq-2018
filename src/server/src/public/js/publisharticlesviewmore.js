@@ -268,7 +268,7 @@ $(document).ready(function(){
                                               + "PublishedDate: " + convertToLocalDate(json.data[index].createdAt),
                              'lastupdated': convertToLocalDate(json.data[index].createdAt),
                              'views': json.data[index].views,
-                             'shares': json.data[index].sharedCount,
+                             'shares': json.data[index].s,
                          }
                     }
                     //console.log(return_data);

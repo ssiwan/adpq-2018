@@ -49,7 +49,7 @@ $(document).ready(function(){
 
                     $("#tagcount").append(response.data.tags.length);
                     $("#views").append(response.data.views);
-                    $("#shares").append(response.data.sharedCount);
+                    $("#shares").append(response.data.shares);
                     if (response.data.status === 0) {
                         $("#status").append("pending");  
                     }

@@ -169,7 +169,7 @@ $(document).ready(function(){
                     //article.type = $("#articletype").val();
                     $("#shortdesc").val(response.data.summary);
                     quill.setContents(JSON.parse(response.data.description),'api');
-                    //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
+                    article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
                     var tgs = "";
                     for (let index = 0; index < response.data.tags.length; index++) {
                         tgs += response.data.tags[index] + ",";
@@ -215,7 +215,7 @@ $(document).ready(function(){
             article.type = $("#articletype").val();
             article.shortDesc = $("#shortdesc").val();
             article.longDesc = JSON.stringify(quill.getContents());
-            //article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
+            article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
             article.attachments = attachments;
             article.articleId = articleId;
 
@@ -257,8 +257,7 @@ $(document).ready(function(){
                 console.log(isEmpty(response.status));
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
-                        alert("Saved Successfully");
-                        setTimeout(function(){  window.location.href = "dashboard.html"; }, 3000);
+                       window.location.href = "dashboard.html";
                     }
                 }
                 else{

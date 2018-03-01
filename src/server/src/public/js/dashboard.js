@@ -84,7 +84,7 @@ $(document).ready(function(){
                 }
             })
             .fail(function(data, textStatus, xhr) {
-                alert(data.responseJSON.Error);
+                alert("trending articles endpoint error");
             });
         }
      
@@ -137,7 +137,7 @@ $(document).ready(function(){
                 }
                 
                     views = response.data[index].views;
-                    shares = response.data[index].sharedCount;
+                    shares = response.data[index].shares;
                 
 
                 str += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+ title + "</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+ agency + "</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+ publishdate +"</div></div></div></div><div class='trending-right-column'><div class='tools-total-update'>"+updateddate + "</div><div class='tools-total-views'>" + views + "</div><div class='tools-total-shares'>" + shares + "</div></div></div>";
@@ -148,7 +148,7 @@ $(document).ready(function(){
 
             })
             .fail(function(data, textStatus, xhr) {
-                alert(data);
+                alert("publish arrticles endpoint error");
             });
         } 
 
@@ -211,8 +211,8 @@ $(document).ready(function(){
 
             })
             .fail(function(data, textStatus, xhr) {
-                console.log(xhr);
-                alert(textStatus);
+               //console.log(xhr);
+                alert("Workflow endpoint error");
             });
         } 
 
