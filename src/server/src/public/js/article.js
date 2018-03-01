@@ -132,7 +132,7 @@ $(document).ready(function(){
                                              + "<strong>PublishedDate:</strong> " + convertToLocalDate(json.data[index].createdAt),*/
                             'lastupdated': convertToLocalDate(json.data[index].createdAt),
                             'views': json.data[index].views,
-                            'shares': json.data[index].sharedCount,
+                            'shares': json.data[index].shares,
                         }
                    }
                    //console.log(return_data);
@@ -265,7 +265,7 @@ $(document).ready(function(){
                                               + "PublishedDate: " + convertToLocalDate(json.data[index].createdAt),
                              'lastupdated': convertToLocalDate(json.data[index].createdAt),
                              'views': json.data[index].views,
-                             'shares': json.data[index].sharedCount,
+                             'shares': json.data[index].shares,
                          }
                     }
                     //console.log(return_data);

@@ -143,12 +143,17 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 .adpq-loginwrap { width: 380px; }
 .adpq-adminwrap { width: 154px; }
 .adpq-log-arrow {
-	background-image: url(../img/arrow-circle.png);
+	background-image: url(../img/arrow-circle-n.png);
 	float: right;
 	height: 30px;
 	width: 30px;
 	margin: 10px 15px;
 	position: relative;
+	border: none;
+	background-color: transparent;
+}
+.adpq-log-arrow:hover, .adpq-log-arrow:focus  {
+	background-image: url(../img/arrow-circle-h.png);
 }
 .adpq-log-input {
 	float: left;
@@ -777,6 +782,40 @@ a.viewmore-link:focus {
   background: url("../img/search-mag.png") no-repeat center center;
   background-size: contain;
 }
+/* Landing Page Search */
+.landing-search {
+    background-color: #2d70be;
+    float: right;
+    height: 55px;
+    width: 63px;
+    border: 1px solid #2862a7;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#237cd4), to(#1e6ab5));
+    background: linear-gradient(#237cd4, #1e6ab5);
+    color: rgba(255, 255, 255, 0);
+    position: relative;
+    right: -1px;
+    bottom: -1px;
+    border-radius: 0 3px 3px 0;
+    margin: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    top: -54px;	
+}
+.landing-search:hover {
+    background: -webkit-gradient(linear, left top, left bottom, from(#3388dd), to(#2174c7));
+    background: linear-gradient(#3388dd, #2174c7);
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
 .search_bar button[type=submit]:hover, .search_bar button[type=submit]:focus, .search-bar-filter button[type=submit]:hover, .search-bar-filter button[type=submit]:focus {
   background: -webkit-gradient(linear, left top, left bottom, from(#3388dd), to(#2174c7));
   background: linear-gradient(#3388dd, #2174c7);
@@ -892,7 +931,7 @@ a.viewmore-link:focus {
 	width: 300px;
 	position: relative;
 }
-.listview-pages { font-family: "Roboto", serif; font-size: 14px; font-weight: normal; display: block; position:relative; float:right; bottom: 33px; right:92px; }
+.listview-pages { font-family: "Roboto", serif; font-size: 14px; font-weight: normal; display: block; position:relative; float:right; bottom: 9px; right:68px; }
 .listview-show { font-family: "Roboto", serif; font-size: 14px; font-weight: normal; display: block; position:relative; top:25px; left:75px; } 
 .filter-search-box {
 	font-family: "Roboto", serif;
@@ -1235,12 +1274,12 @@ a.viewmore-link:focus {
 .history-state { padding-left: 5px; }
 /*Stepped on default boostrap styles begins */
 .control-label { font-family: "Roboto", serif; font-size: 14px; font-weight: normal; display: block; padding-bottom: 3px; }
-.adpq-form-control, .dataTables_length select  {
+.dataTables_length select  {
   display: block;
   width: 100%;
   height: 37px;
   padding: 6px 6px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.42857143;
   color: #555;
   background-color: #fff;
@@ -1253,8 +1292,8 @@ a.viewmore-link:focus {
 	text-shadow: #60676b 0 1px 0;	
   position:relative;
   float:right;	
-  left:85px; 
-bottom:6px;	
+  left:45px; 
+bottom:53px;	
 }
 
 .adpq-form-control:focus, .dataTables_length select:focus {

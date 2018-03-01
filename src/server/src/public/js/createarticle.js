@@ -183,10 +183,6 @@ $(document).ready(function(){
                 return;
             }
 
-            //if (!isEmpty(article.attachments)) {
-
-            //}
-           
             UploadToS3();
             article.attachments = attachments;
 

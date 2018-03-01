@@ -163,10 +163,10 @@ $(document).ready(function(){
                 console.log(response);
                 //console.log(JSON.parse(response.data.description));
                 if (!isEmpty(response.data)) {
-                    $("#title").val(response.data.title);
-                    //article.agencyId = $("#agency").val();
-                    //article.audience = $("#audience").val();
-                    //article.type = $("#articletype").val();
+                    $("#title").val(response.data.title);                    
+                    document.getElementById("agency").value = response.data.agencyId;
+                    document.getElementById("audience").value = response.data.role;
+                    //article.type = $("#articletype").val(); // no back end logic yet
                     $("#shortdesc").val(response.data.summary);
                     quill.setContents(JSON.parse(response.data.description),'api');
                     article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
@@ -181,8 +181,6 @@ $(document).ready(function(){
 
                     for (let index = 0; index < response.data.attachments.length; index++) {
                         table.append("<tbody><tr><td>" +response.data.attachments[index]+"</td><td><button type='button' class='btn'>Delete</button></td></tr>");
-                       
-                        
                     }
                     table.append("</tbody>");
                 }
@@ -215,7 +213,7 @@ $(document).ready(function(){
             article.type = $("#articletype").val();
             article.shortDesc = $("#shortdesc").val();
             article.longDesc = JSON.stringify(quill.getContents());
-            article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
+            article.tags = $("#tags").val();
             article.attachments = attachments;
             article.articleId = articleId;
 
@@ -236,9 +234,8 @@ $(document).ready(function(){
                 return;
             }
 
-            if (!isEmpty(article.attachments)) {
-                UploadToS3();
-            }
+            UploadToS3();
+            article.attachments = attachments;
 
         console.log("Request JSON" + JSON.stringify(article));
             
