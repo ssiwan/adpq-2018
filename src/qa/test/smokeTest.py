@@ -327,6 +327,17 @@ class SmokeTest(unittest.TestCase):
         
         # Ensure that the end point is live.
         self.assertEqual(status.status_code, 200, msg='test_EditArticleStatus assert#1 failed.')
+        
+        
+        
+    ## Get the status of the Comment Article end point.
+    def test_CommentArticleeStatus(self):
+        status = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
+                                           articleId = '5a907847ca13999bc0d11d92', 
+                                           comment = "comments")
+        
+        # Ensure that the end point is live.
+        self.assertEqual(status.status_code, 200, msg='test_CommentArticleeStatus assert#1 failed.')
 
 
 
@@ -348,6 +359,7 @@ def suite():
     suite.addTest(SmokeTest('test_DashboardPubArticlesStatus'))
     suite.addTest(SmokeTest('test_DashboardWorkflowStatus'))
     suite.addTest(SmokeTest('test_EditArticleStatus'))
+    suite.addTest(SmokeTest('test_CommentArticleeStatus'))
     
     return suite
     
