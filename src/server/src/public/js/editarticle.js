@@ -166,7 +166,6 @@ $(document).ready(function(){
                     $("#title").val(response.data.title);                    
                     document.getElementById("agency").value = response.data.agencyId;
                     document.getElementById("audience").value = response.data.role;
-                    //article.type = $("#articletype").val(); // no back end logic yet
                     $("#shortdesc").val(response.data.summary);
                     quill.setContents(JSON.parse(response.data.description),'api');
                     article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
@@ -210,7 +209,7 @@ $(document).ready(function(){
             article.title = $("#title").val();
             article.agencyId = $("#agency").val();
             article.audience = $("#audience").val();
-            article.type = $("#articletype").val();
+           
             article.shortDesc = $("#shortdesc").val();
             article.longDesc = JSON.stringify(quill.getContents());
             article.tags = $("#tags").val();
