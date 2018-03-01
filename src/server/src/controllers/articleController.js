@@ -208,6 +208,7 @@ exports.getArticleDetails = function(req, res) {
                 articleobj['attachments'] = art.attachments;
                 articleobj['comments'] = art.comments;  
                 articleobj['views'] = art.views;
+                articleobj['role'] = art.role; 
                 articleobj['shares'] = art.shares; 
                 articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits);
                 if (art.status == 1) {
