@@ -144,9 +144,7 @@ class TestCreateArticles(unittest.TestCase):
         self.assertEqual(responseBody['data']['description'], TestCreateArticles.longDesc,
                           msg='test_Success assert#5 has failed.') 
         
-        ## THIS IS HARD CODED CURRENTLY. WHEN THIS IS PATCHED, THIS TEST
-        # WILL FAIL.
-        self.assertEqual(responseBody['data']['tags'], ['Auto'],
+        self.assertEqual(responseBody['data']['tags'], [TestCreateArticles.tags],
                           msg='test_Success assert#6 has failed.') 
          
          
