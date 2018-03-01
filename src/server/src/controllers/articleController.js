@@ -47,7 +47,6 @@ exports.search = function (req, res) {
             articleobj['description'] = art.description;
             articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
-            articleobj['sharedCount'] = art.sharedUsers.length; 
 
             returnlist.push(articleobj);   
         }); 
@@ -155,7 +154,6 @@ exports.getArticles = function(req, res, next) {
             articleobj['description'] = art.description;
             articleobj['attachments'] = art.attachments;
             articleobj['views'] = art.views;
-            articleobj['sharedCount'] = art.sharedUsers.length; 
 
             returnlist.push(articleobj);   
         }); 
@@ -208,12 +206,6 @@ exports.getArticleDetails = function(req, res) {
                 articleobj['sharedCount'] = art.sharedUsers.length;
                 articleobj['lastUpdated'] = getLastUpdated(art.articleEdits);
                 articleobj['approvedBy'] = getApprover(art.articleEdits); 
-                // if (art.articleEdits.length > 0) {
-                //     articleobj['lastupdated'] = art.articleEdits[articleEdits.length - 1].createdAt;
-                //     if (art.status == 1) {
-                //         articleobj['approvedBy'] =  art.articleEdits[articleEdits.length - 1].createdBy;
-                //     }
-                // } 
             }
         }
         res.json({'data': articleobj}); 
@@ -255,13 +247,13 @@ exports.createArticle = function(req, res) {
         tags: tagArray,
         description: req.body.longDesc,
         attachments: attachmentsArray,       
-        //approvedBy: mongoose.Types.ObjectId('none'),
         views: 0,//default fields
-        sharedUsers: [],
+        shares: 0,
         comments: [],
         articleEdits: [],
         createdAt: Date.now(),
         status: 0,
+        trendingScore: 0,
         type: 0 // dud for now
     });
 
@@ -363,173 +355,50 @@ exports.dashboardAnalytics = function(req, res) {
 
 exports.dashboardTrending = function(req, res) {
     var objuserId = new ObjectId(req.userId);
-    var promiseArray = [];  
+    var limit = 0; 
+    if (req.query.limit != null) {
+        limit = parseInt(req.query.limit);  
+    }  
+    var queryParams = {}; 
+    queryParams.role = {"$lte": parseInt(req.userRole)};
+    var query = article.find().or([queryParams, {createdBy: objuserId}])
+                                .populate('createdBy').populate('agency').populate('tags');    
+    var sortObj = {};
+    sortObj['trendingScore'] = -1;
+    query.sort(sortObj); 
+    if (limit != 0) {
+        query.limit(limit); 
+    }
 
-    //shares query 
-    var sharesQuery = article.aggregate([
-        {
-            $match: {
-                status: 1,
-                role: {$lte: parseInt(req.userRole)}
-            }
-        },
-        {'$project': {
-            'shareCount': {'$size': '$sharedUsers'}
-        }},
-        {'$sort': {'shareCount': -1}},
-        {'$limit': 1}
-    ]).then(function(sharesResult){
-        if (sharesResult != null && sharesResult.length > 0) {
-            return sharesResult[0]._id.toString();
-        }
-        else {
-            return null;
-        }
+    query.exec().catch(function(err) {
+        return res.json({error: err.toString()}); 
     });
-    promiseArray.push(sharesQuery); 
 
-    //tags query 
-    var tagsQuery = article.aggregate([
-        {
-            $match: {
-                status: 1,
-                role: {$lte: parseInt(req.userRole)}
-            }
-        },
-        {'$project': {
-            'tagCount': {'$size': '$tags'}
-        }},
-        {'$sort': {'shareCount': -1}},
-        {'$limit': 2}
-    ]).then(function(tagsResult){
-        if (tagsResult != null && tagsResult.length > 0) {
-            var tagsObj = [];
-            if (tagsResult[0] != null) {
-                tagsObj.push(tagsResult[0]._id.toString());
+    query.then(function(arts) {
+        var returnlist = []; 
+        if (arts != null) {
+            arts.forEach(function(art) {
+                var articleobj = {};
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags); 
+                articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
+                articleobj['createdAt'] = art.createdAt;
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['description'] = art.description;
+                articleobj['views'] = art.views;
+                articleobj['shares'] = art.shares; 
 
-                if (tagsResult[1] != null) {
-                    tagsObj.push(tagsResult[1]._id.toString()); 
-                }
-            }
-            return tagsObj; 
+                returnlist.push(articleobj);   
+            }); 
         }
-        else {
-            return null;
-        } 
-    });
-    promiseArray.push(tagsQuery);
+        return res.json({'data': returnlist}); 
+    }); 
 
-    //viewQuery
-    var viewsQueryParams = {}; 
-    viewsQueryParams.status = 1;
-    var sortObj = {}; 
-    sortObj['views'] = -1;  
-    var viewsQuery = article.find(viewsQueryParams)
-        .lte('role', parseInt(req.userRole))
-        .populate('createdBy').populate('agency').populate('tags').sort(sortObj).limit(3)
-        .then(function(vqResult) {
-            return vqResult; 
-        });
-    promiseArray.push(viewsQuery); 
-
-    Promise.all(promiseArray).then(function(values) {
-        var sharedArticleId = values[0];
-        var tagsArticleIds = values[1];//could have zero one or two
-        var viewsArticles = values[2];         
-        var searchIds = []; 
-        var returnArticles = {}; 
-        var prefilteredArticles = []; 
-        var sharedarticleidstring = "";
-        var tagarticleidstring = "";  
-        var viewarticle = null; 
-        
-        //input shared article Id to be searched
-        if (sharedArticleId == null) {
-            returnArticles.mostShared = {}; 
-        }
-        else {
-            sharedarticleidstring = sharedArticleId.toString(); 
-            searchIds.push(new ObjectId(sharedarticleidstring)); 
-        }
-
-        //input views article id to be searched
-        if (tagsArticleIds == null) {
-            returnArticles.mostTagged = {};
-        }       
-        else {
-            if (tagsArticleIds[0].toString() != sharedarticleidstring) {
-                tagarticleidstring = tagsArticleIds[0].toString();
-                searchIds.push(new ObjectId(tagarticleidstring));
-            }
-            else if (tagsArticleIds[1] != null) {
-                tagarticleidstring = tagsArticleIds[1].toString();
-                searchIds.push(new ObjectId(tagarticleidstring)); 
-            }
-            else {
-                returnArticles.mostTagged = {}; 
-            }
-        }
-
-        if (viewsArticles == null) {
-            returnArticles.mostViewed = {};             
-        }
-        else {
-            if (viewsArticles[0]._id.toString() != sharedarticleidstring && viewsArticles[0]._id.toString() != tagarticleidstring) {
-                viewarticle = viewsArticles[0];
-            }
-            else if (viewsArticles[1] != null 
-                        && viewsArticles[1]._id.toString() != sharedarticleidstring 
-                        && viewsArticles[1]._id.toString() != tagarticleidstring) {
-
-            }
-            else if (viewsArticles[2] != null) {
-                viewarticle = viewsArticles[2]; 
-            }
-            else {
-                returnArticles.mostViewed = {}; 
-            }  
-        }
-
-        if (searchIds.length > 0) {
-            var queryParams = {};         
-            var query = article.find().in('_id', searchIds).populate('createdBy').populate('agency').populate('tags'); 
-
-            query.exec().then(function(arts) {
-                if (viewarticle != null) {
-                    arts.push(viewarticle)
-                }
-                arts.forEach(function(indart) {
-                    var articleobj = {};
-                    articleobj['id'] = indart._id.toString();
-                    articleobj['title'] = indart.title;
-                    articleobj['summary'] = indart.summary;
-                    articleobj['tags'] = getTagNames(indart.tags);
-                    articleobj['tagCount'] = indart.tags.length;  
-                    articleobj['lastUpdatedAt'] = indart.createdAt; //to be replaced after ArticleEdit
-                    articleobj['createdAt'] = indart.createdAt;
-                    articleobj['createdBy'] = indart.createdBy; 
-                    articleobj['agency'] = indart.agency.value;
-                    articleobj['status'] = indart.status;
-                    articleobj['approvedBy'] =  indart.approvedBy; 
-                    articleobj['description'] = indart.description;
-                    articleobj['attachments'] = indart.attachments;
-                    articleobj['views'] = indart.views;
-                    articleobj['sharedCount'] = indart.sharedUsers.length;
-
-                    if (indart.id.toString() == sharedarticleidstring) {
-                        returnArticles.mostShared = articleobj; 
-                    }
-                    else if (indart.id.toString() == tagarticleidstring){
-                        returnArticles.mostTagged = articleobj; 
-                    }
-                    else {
-                        returnArticles.mostViewed = articleobj; 
-                    }
-                });
-                return res.json({data: returnArticles});  
-            });
-        }        
-    })
+    //or([queryParams, {createdBy: new ObjectId(req.userId)}])
 }
 
 exports.dashboardPublishedArticles = function(req, res) {
@@ -631,7 +500,13 @@ exports.dashboardWorkflow = function(req, res) {
     })
 }
 
+exports.shareArticle = function(req, res) {
+    
+}
 
+exports.viewArticle = function(req, res) {
+
+}
 
 //*****************************API internal functions****************//
 
