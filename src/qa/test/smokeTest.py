@@ -334,10 +334,20 @@ class SmokeTest(unittest.TestCase):
     def test_CommentArticleeStatus(self):
         status = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                            articleId = '5a907847ca13999bc0d11d92', 
-                                           comment = "comments")
+                                           comment = "comments", return_status=True)
         
         # Ensure that the end point is live.
         self.assertEqual(status.status_code, 200, msg='test_CommentArticleeStatus assert#1 failed.')
+        
+        
+        
+    ## Get the status of the Presigned S3 end point.
+    def test_PresignedS3Status(self):
+        status = self.user.get_presignedS3(Authorization = self. user.GetAuthKey(), 
+                                           name = 'puppy.jpeg', return_status=True)
+        
+        # Ensure that the end point is live.
+        self.assertEqual(status.status_code, 200, msg='test_PresignedS3Status assert#1 failed.')
 
 
 
@@ -360,6 +370,7 @@ def suite():
     suite.addTest(SmokeTest('test_DashboardWorkflowStatus'))
     suite.addTest(SmokeTest('test_EditArticleStatus'))
     suite.addTest(SmokeTest('test_CommentArticleeStatus'))
+    suite.addTest(SmokeTest('test_PresignedS3Status'))
     
     return suite
     

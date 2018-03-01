@@ -58,6 +58,7 @@ class QaADPQShell:
     DashWorkflow = 'dashboardWorkflow'
     EditArticles = 'editArticle'
     ArticleComment = 'articleComment'
+    PreS3 = 'preS3'
     
     ## @var Save a BaseURL without API Version
     BaseURL = setEnv
@@ -657,6 +658,58 @@ class QaADPQShell:
     
     
     
+    ## @fn get_presignedS3 : Will......
+    # :required - Authorization
+    # :required - name
+    #
+    def get_presignedS3(self, Authorization='', name='', AuthorizationExclude=False, 
+                        nameExclude=False, return_status=False):
+        
+        url = self.environment + QaADPQShell.PreS3
+
+        HTTP_action = 'POST'
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Add the Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+        
+        # Add the name body parameter.
+        if nameExclude == True:
+            pass
+        elif name != '':
+            body['name'] = name
+        else:
+            body['name'] = ''
+        
+        # Make HTTPS Request.
+        response = requests.request(HTTP_action, url, json=body, 
+                                    headers=headers, verify=False)
+    
+        # Return requests object of json data.
+        responseBody = response.json()
+        
+        # ~~ TESTING ~~
+        print('\nget_presignedS3\n', responseBody)
+        print('response.status_code: ', response.status_code)
+        
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
+    
     ## @fn dashboard_analytics : Will get the analytics of the user such as
     #                            review, public, decline, etc counts.
     # :required - Authorization
@@ -869,15 +922,15 @@ def Test_Class():
 #     user.search_articles()
 
     
-    # Method signature. DONE
-    # create_article(Authorization='', title='', agencyId='', audience=0,
-    #                shortDesc='', longDesc='', tags='', attachments=[],
-    #                AuthorizationExclude=False, titleExclude=False,
-    #                agencyIdExclude=False, audienceExclude=False,
-    #                shortDescExclude=False, longDescExclude=False, 
-    #                tagsExclude=False, attachmentsExclude=False):
-    user.create_article(user.GetAuthKey(), 'Department of funky beats', '5a8b73f94212d1f20f847b9a',
-                        0, 'short desc', 'loonngg desc', '5a8b55bca2d13ad4ba5369ef', ["url1"])
+#     # Method signature. DONE
+#     # create_article(Authorization='', title='', agencyId='', audience=0,
+#     #                shortDesc='', longDesc='', tags='', attachments=[],
+#     #                AuthorizationExclude=False, titleExclude=False,
+#     #                agencyIdExclude=False, audienceExclude=False,
+#     #                shortDescExclude=False, longDescExclude=False, 
+#     #                tagsExclude=False, attachmentsExclude=False):
+#     user.create_article(user.GetAuthKey(), 'Department of funky beats', '5a8b73f94212d1f20f847b9a',
+#                         0, 'short desc', 'loonngg desc', '5a8b55bca2d13ad4ba5369ef', ["url1"])
     
     
 #     # Method signature. DONE
@@ -919,11 +972,17 @@ def Test_Class():
 #                       'tags', ['pdf1, 666'], 0)
     
     
+#     # Method signature. DONE
+#     # comment_article(Authorization='', articleId=[], comment='', 
+#     #                 AuthorizationExclude=False, articleIdExclude=False, 
+#     #                   commentExclude=False, return_status=False):
+#     user.comment_article(user.GetAuthKey(), user.GetArticleIds(), 'COMMENTS')
+    
+    
     # Method signature. 
-    # comment_article(Authorization='', articleId=[], comment='', 
-    #                 AuthorizationExclude=False, articleIdExclude=False, 
-    #                   commentExclude=False, return_status=False):
-    user.comment_article(user.GetAuthKey(), user.GetArticleIds(), 'COMMENTS')
+    # get_presignedS3(Authorization='', name='', AuthorizationExclude=False, 
+    #                 nameExclude=False, return_status=False):
+    user.get_presignedS3(user.GetAuthKey(), 'file.txt')
     
     
 # Test_Class()
