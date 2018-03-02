@@ -16,12 +16,12 @@
             }
 
             *, *:before, *:after {
-              box-sizing: inherit;
+                box-sizing: inherit;
             }
 
             body {
-              margin:0;
-              background: #fafafa;
+                margin:0;
+                background: #fafafa;
             }
         </style>
     </head>
@@ -63,13 +63,11 @@
 
         <script src="./swagger-ui-bundle.js"> </script>
         <script src="./swagger-ui-standalone-preset.js"> </script>
+        <script type="text/javascript" src="../api-docs.json"></script>
         <script>
             window.onload = function() {
-
-                var spec = {}
-  
                 const ui = SwaggerUIBundle({
-                    spec: spec,
+                    url: 'https://raw.githubusercontent.com/HOTB-Software/adpq-2018/master/src/documentation/swagger/adpq-api.json',
                     dom_id: '#swagger-ui',
                     deepLinking: true,
                     presets: [
