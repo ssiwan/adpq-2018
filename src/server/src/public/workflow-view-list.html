@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Roboto Condensed" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" href="css/adpq-styles.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="css/datatables.css">
+  <link rel="stylesheet" href="css/adpq-styles.css">
 </head>
 <body>
 <div class="main-wrapper-sm">
@@ -23,243 +24,65 @@
     <div class="section-title">Workflow</div>
   </div>
   <div class="workflow-content-listview">
-    <div class="workflow-head">Status</div>
-    <div class="workflow-listview">
-      <div class="trending-row-one">
-        <div class="trending-left-column">
-          <div class="left-row-one">
-            <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-            <div class="left-column-tools"> </div>
-          </div>
-          <div class="left-row-two">
-            <div class="left-agency">Agency - Office of Administrative Law</div>
-          </div>
-          <div class="left-row-three">
-            <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-          </div>
-          <div class="left-row-four">
-            <div class="left-publish-date">
-              <div class="author">Author: <span>Tim Roberts</span></div>
-            </div>
-            <div class="left-column-tools">
-              <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-            </div>
-          </div>
-        </div>
-        <div class="trending-right-column">
-          <div class="article-status">New</div>
-        </div>
+    <input type="button" value="Filters" id="btnFilters" class="cs-button">
+    <br/>
+    <br/>
+    <input type="button" value="Hide Filters" id="btnHideFilters" class="cs-button" style="display:none">
+    <br/>
+    <br/>
+    <div class="alert alert-danger" id="error" style="display:none"> Both Datefrom and Dateto are required. </div>
+    <div id="filters" style="display:none">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="chkAgency">
+          Agency</label>
+        &nbsp; &nbsp; </div>
+      <div id="Agency" style="display:none"> Select Agency:
+        <select id="ddlAgency">
+        </select>
       </div>
-      <div class="trending-row-two">
-        <div class="trending-left-column">
-          <div class="left-row-one">
-            <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-            <div class="left-column-tools"> </div>
-          </div>
-          <div class="left-row-two">
-            <div class="left-agency">Agency - Office of Administrative Law</div>
-          </div>
-          <div class="left-row-three">
-            <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-          </div>
-          <div class="left-row-four">
-            <div class="left-publish-date">
-              <div class="author">Author: <span>Tim Roberts</span></div>
-            </div>
-            <div class="left-column-tools">
-              <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-            </div>
-          </div>
-        </div>
-        <div class="trending-right-column">
-          <div class="article-status">In Review</div>
-        </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="chkTags">
+          Tags</label>
+        &nbsp; &nbsp; </div>
+      <div id="Tags" style="display:none"> Select Tags:
+        <select id="ddlTags">
+        </select>
       </div>
-      <div class="trending-row-three">
-        <div class="trending-left-column">
-          <div class="left-row-one">
-            <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-            <div class="left-column-tools"> </div>
-          </div>
-          <div class="left-row-two">
-            <div class="left-agency">Agency - Office of Administrative Law</div>
-          </div>
-          <div class="left-row-three">
-            <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-          </div>
-          <div class="left-row-four">
-            <div class="left-publish-date">
-              <div class="author">Author: <span>Tim Roberts</span></div>
-            </div>
-            <div class="left-column-tools">
-              <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-            </div>
-          </div>
-        </div>
-        <div class="trending-right-column">
-          <div class="article-status">Approved</div>
-        </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" id="chkDate">Date Range</label>
       </div>
-      <div class="trending-row-one">
-        <div class="trending-left-column">
-          <div class="left-row-one">
-            <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-            <div class="left-column-tools"> </div>
-          </div>
-          <div class="left-row-two">
-            <div class="left-agency">Agency - Office of Administrative Law</div>
-          </div>
-          <div class="left-row-three">
-            <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-          </div>
-          <div class="left-row-four">
-            <div class="left-publish-date">
-              <div class="author">Author: <span>Tim Roberts</span></div>
-            </div>
-            <div class="left-column-tools">
-              <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-            </div>
-          </div>
-        </div>
-        <div class="trending-right-column">
-          <div class="article-status">New</div>
-        </div>
+      <div id="daterange" style="display:none">
+        <label for="from">From</label>
+        <input type="text" id="from">
+        <label for="to">to</label>
+        <input type="text" id="to">
       </div>
-      <div class="trending-row-two">
-        <div class="trending-left-column">
-          <div class="left-row-one">
-            <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-            <div class="left-column-tools"> </div>
-          </div>
-          <div class="left-row-two">
-            <div class="left-agency">Agency - Office of Administrative Law</div>
-          </div>
-          <div class="left-row-three">
-            <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-          </div>
-          <div class="left-row-four">
-            <div class="left-publish-date">
-              <div class="author">Author: <span>Tim Roberts</span></div>
-            </div>
-            <div class="left-column-tools">
-              <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-            </div>
-          </div>
-        </div>
-        <div class="trending-right-column">
-          <div class="article-status">In Review</div>
-        </div>
-      </div>
-      <div class="trending-row-three">
-        <div class="trending-left-column">
-          <div class="left-row-one">
-            <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-            <div class="left-column-tools"> </div>
-          </div>
-          <div class="left-row-two">
-            <div class="left-agency">Agency - Office of Administrative Law</div>
-          </div>
-          <div class="left-row-three">
-            <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-          </div>
-          <div class="left-row-four">
-            <div class="left-publish-date">
-              <div class="author">Author: <span>Tim Roberts</span></div>
-            </div>
-            <div class="left-column-tools">
-              <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-            </div>
-          </div>
-        </div>
-        <div class="trending-right-column">
-          <div class="article-status">Approved</div>
-        </div>
-      </div>
-      <div class="trending-row-one">
-        <div class="trending-left-column">
-          <div class="left-row-one">
-            <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-            <div class="left-column-tools"> </div>
-          </div>
-          <div class="left-row-two">
-            <div class="left-agency">Agency - Office of Administrative Law</div>
-          </div>
-          <div class="left-row-three">
-            <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-          </div>
-          <div class="left-row-four">
-            <div class="left-publish-date">
-              <div class="author">Author: <span>Tim Roberts</span></div>
-            </div>
-            <div class="left-column-tools">
-              <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-            </div>
-          </div>
-        </div>
-        <div class="trending-right-column">
-          <div class="article-status">New</div>
-        </div>
-      </div>
-      <div class="trending-row-two">
-        <div class="trending-left-column">
-          <div class="left-row-one">
-            <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-            <div class="left-column-tools"> </div>
-          </div>
-          <div class="left-row-two">
-            <div class="left-agency">Agency - Office of Administrative Law</div>
-          </div>
-          <div class="left-row-three">
-            <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-          </div>
-          <div class="left-row-four">
-            <div class="left-publish-date">
-              <div class="author">Author: <span>Tim Roberts</span></div>
-            </div>
-            <div class="left-column-tools">
-              <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-            </div>
-          </div>
-        </div>
-        <div class="trending-right-column">
-          <div class="article-status">In Review</div>
-        </div>
-      </div>
-      <div class="trending-row-three">
-        <div class="trending-left-column">
-          <div class="left-row-one">
-            <div class="left-title">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </div>
-            <div class="left-column-tools"> </div>
-          </div>
-          <div class="left-row-two">
-            <div class="left-agency">Agency - Office of Administrative Law</div>
-          </div>
-          <div class="left-row-three">
-            <div class="left-shortdesc">Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes...</div>
-          </div>
-          <div class="left-row-four">
-            <div class="left-publish-date">
-              <div class="author">Author: <span>Tim Roberts</span></div>
-            </div>
-            <div class="left-column-tools">
-              <div class="left-most-pubdate">Creation Date: 12/1/2017 </div>
-            </div>
-          </div>
-        </div>
-        <div class="trending-right-column">
-          <div class="article-status">Approved</div>
-
-        </div>
-      </div>
-
-	  </div>
+      <button type="button" class="btn btn-default" id="btnSearch">OK</button>
+    </div>
+    <table id="articles" class="compact" width="100%" cellspacing="0">
+      <thead>
+        <tr role="row">
+          <th>Title-Description</th>
+          <th>Last Updated</th>
+          <th>Views</th>
+          <th>Shares</th>
+          <th>Status</th>
+          <th>id</th>
+        </tr>
+      </thead>
+    </table>
   </div>
 </div>
 	</div>	
-<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-<script src="js/constants.js"></script> 
-<script src="js/utility.js"></script>
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
+  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+  <script src="js/constants.js"></script> 
+  <script src="js/utility.js"></script>
+<script src="js/workflowarticlesviewmore.js"></script> 
 </body>
 </html>
