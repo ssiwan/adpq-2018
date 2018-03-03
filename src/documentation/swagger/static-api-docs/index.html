@@ -68,7 +68,7 @@
             window.onload = function() {
                 const ui = SwaggerUIBundle({
                     url: 'https://raw.githubusercontent.com/HOTB-Software/adpq-2018/master/src/documentation/swagger/adpq-api.json',
-                    dom_id: '#swagger-ui',
+                    spec: spec,
                     deepLinking: true,
                     presets: [
                         SwaggerUIBundle.presets.apis,

@@ -6,11 +6,11 @@ openapi: 3.0.0
 
 servers: [
   {
-    url: "http://adpq-staging.hotbsoftware.com/api/v1/",
+    url: "http://adpq-staging.hotbsoftware.com/api/v1",
     description: Staging Server
   },
   {
-    url: "https://adpq.hotbsoftware.com/api/v1/",
+    url: "https://adpq.hotbsoftware.com/api/v1",
     description: Production Server
   }
 ]
@@ -19,7 +19,34 @@ info:
   title: "ADPQ Knowledge Base"
   version: "0.0.1"
   description: |
-    **Description**<br>Swagger documentation for the HOTB Software submission for the Agile Development Prequalified Vendor Pool in 2018.<br><br> **Getting Started**<br>Insert Content<br><br>**Authentication**<br>Insert Content<br><br>
+    **Description**<br>This page contains the API documentation for the HOTB Software submission for the Agile Development Prequalified Vendor Pool in March 2018. All documentation conforms to the OpenAPI v3.0.0 specification.<br><br> **Getting Started**<br>Please refer to our [GitHub Page](https://github.com/HOTB-Software/adpq-2018) for additional documentation and instructions for setting up a local development environment. All requests listed on this page are currently operational. Please make sure to read the authentication instructions as well as review the list of status codes. <br><br>**Authentication**<br>Many of the requests found in this API require authentication via JWT. Upon successful log in you will receive a bearer token. Please use the token as the value for the 'Authorization' header to validate your credentials for subsequent requests.<br><br>**API Limitations**<br>The number of API requests from each ip address is throttled based on repeated usage. When the limit is reached an error with status code **429** for 'Too Many Requests' will be returned with a timestamp for the next allowed request. To remove this restriction for a specific ip address please email us with your name, company, a phone number we can reach you at, and the ip address to be whitelisted.<br><br>
+      <br>**Status Codes**<br>
+      <table>
+        <th>Code</th>
+        <th>Description</th>
+        <tr>
+          <td>200</td>
+          <td>Success</td>
+        </tr>
+        <tr>
+          <td>400</td>
+          <td>Bad Request</td>
+        </tr>
+        <tr>
+          <td>401</td>
+          <td>Unauthorized</td>
+        </tr>
+        <tr>
+          <td>404</td>
+          <td>Page Not Found</td>
+        </tr>
+        <tr>        
+        <tr>
+          <td>429</td>
+          <td>Too Many Requests<br></td>
+        </tr>        
+      </table>
+      <br><br>Have a great day!<br>(っˆڡˆς)<br><br>
   contact:
     email: edobyns@hotbsoftware.com
   license:
@@ -27,7 +54,7 @@ info:
     url: 'https://opensource.org/licenses/MIT'
     
 externalDocs:
-  description: GitHub Repo
+  description: GitHub Repository
   url: 'https://github.com/HOTB-Software/adpq-2018'
 
 #######################################################################
@@ -55,7 +82,8 @@ paths:
     post:
       tags:
         - Users
-      summary: Sign in via Email/Password
+      summary: Sign in via email
+      description: insert description
       requestBody:
         description: A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.
         content:
@@ -81,6 +109,7 @@ paths:
       tags:
         - Dashboard
       summary: Get dashboard analytics
+      description: insert description
       security: 
         - Authorization: []
       responses:
@@ -92,8 +121,55 @@ paths:
           description: Too Many Requests 
   
   # GET /dashboardTrending
+  /dashboardTrending:
+    get:
+      tags:
+        - Dashboard
+      summary: Get trending articles
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests   
+  
   # GET /dashboardMyPublished
+  /dashboardMyPublished:
+    get:
+      tags:
+        - Dashboard
+      summary: Get your latest published articles
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests    
+  
   # GET /dashboardWorkflow
+  /dashboardWorkflow:
+    get:
+      tags:
+        - Dashboard
+      summary: Get the latest articles with status updates
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests    
 
 
 ######################
@@ -101,19 +177,170 @@ paths:
 ######################
 
   # GET /articles - Get all articles
-  # GET /article/:id - Get an article by id
+  /articles:
+    get:
+      tags:
+        - Articles
+      summary: Get all articles
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests  
+          
+  # GET /article/:id - Get an article by id          
+  /articles/{articleId}:
+    get:
+      tags:
+        - Articles
+      summary: Get details of an individual article
+      description: insert description
+      security: 
+        - Authorization: []
+      parameters:
+        - name: articleId
+          in: path
+          description: Id of the article to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests            
+  
+  
   # POST /article - Create a new article
+  /article:
+    post:
+      tags:
+        - Articles
+      summary: Create an article
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests      
+    
+  
   # POST /editArticle
+  /editArticle:
+    post:
+      tags:
+        - Articles
+      summary: Edit an article
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests   
+  
   # GET /searchArticles
+  /searchArticles:
+    get:
+      tags:
+        - Articles
+      summary: Search for articles by keyword
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests  
+          
   # POST /articleComment
+  /articleComment:
+    post:
+      tags:
+        - Articles
+      summary: Search for articles by keyword
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests           
 
 ###########################
 #      Miscellaneous      #
 ###########################                    
 
   # GET /agencies
+  /agencies:
+    get:
+      tags:
+        - Miscellaneous
+      summary: Get a list of all agencies
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests   
+  
   # GET /tags
+  /tags:
+    get:
+      tags:
+        - Miscellaneous
+      summary: Get a list of all tags
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests   
+  
   # POST /preS3
+  /preS3:
+    post:
+      tags:
+        - Miscellaneous
+      summary: Get a pre-signed url to use for uploading attachments
+      description: insert description
+      security: 
+        - Authorization: []
+      responses:
+        '400': 
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests 
 
 #######################################################################
 #                            Components                               #
@@ -228,4 +455,3 @@ components:
           type: string
         articleCount:
           type: integer
-
