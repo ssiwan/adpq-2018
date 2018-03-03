@@ -15,7 +15,7 @@ Don't Panic.
 - Install NPM v5.5.1
 - Install [docker](http://insertlink) v17.12.0
 - Install [docker-compose](http://insertlink) v1.18.0
-
+- Supports any Operating System
 
 ## Quick Start
 Add the supplied config.json to the following path:
@@ -33,17 +33,17 @@ The `npm start` command will build and deploy local containers of the website, a
 
 The following docker containers will be running detached:<br>
 
-**Website:** http://localhost:80<br>
-**API:** http://localhost:3001<br>
-**MongoDB:** http://localhost:3002
+- **Website:** http://localhost:80<br>
+- **API:** http://localhost:3001<br>
+- **MongoDB:** http://localhost:3002
 
 
 ### Additional Installation
 For additional scripts, instructions and configuration of your development environment please refer to the following documentation:<br>
-[Package.json](https://www.kualo.co.uk/404)<br>
-[API Docs](http://adpq-docs.hotbsoftware.com)<br>
-[Server Readme](https://www.kualo.co.uk/404)<br>
-[Additional Guides](https://www.kualo.co.uk/404)
+- [Package.json](https://www.kualo.co.uk/404)<br>
+- [API Docs](http://adpq-docs.hotbsoftware.com)<br>
+- [Server Readme](https://www.kualo.co.uk/404)<br>
+- [Additional Guides](https://www.kualo.co.uk/404)
 
 ## Features
 - [x] insert feature here
@@ -55,30 +55,30 @@ For additional scripts, instructions and configuration of your development envir
 [insert description]
 
 ## Links
-**Staging:**<br>
+**Staging**<br>
 https://adpq-staging.hotbsoftware.com<br><br>
-**Production:**<br>
+**Production**<br>
 https://adpq.hotbsoftware.com<br><br>
-**Build Server:**<br>
+**Build Server**<br>
 (Please request whitelist access)<br>
 
 
 
 ## User Accounts
 **Admin**<br>
-Username: adpq-admin@hotbsoftware.com<br>
-Password: N/A
+**Username:** adpq-admin@hotbsoftware.com<br>
+**Password:** N/A
 
-**Staff Member:**<br>
-Username: adpq-staff@hotbsoftware.com<br>
-Password: N/A
+**Staff Member**<br>
+**Username:** adpq-staff@hotbsoftware.com<br>
+**Password:** N/A
 
 # API Documentation
 
-**API Docs:**<br>
+**API Docs**<br>
 http://adpq-docs.hotbsoftware.com
 
-**API Documentation hosted on SwaggerHub:**<br>
+**API Documentation hosted on SwaggerHub**<br>
 https://app.swaggerhub.com/apis/HOTB-Software/adpq_knowledge_base
 
 **OpenAPI v3.0.0 Code**<br>
