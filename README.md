@@ -1,10 +1,10 @@
-# ADPQ 2018 Submission - Homeowners Toolbox, Inc.
+# HOTB Software - ADPQ Knowledge Base
 ![](https://img.shields.io/badge/tests-126/126-brightgreen.svg)
 
 [insert description]
 
 # Getting Started
-
+Don't Panic.
 ## Requirements
 ![](https://img.shields.io/badge/node-v9.2.0-blue.svg)
 ![](https://img.shields.io/badge/npm-v5.5.1-blue.svg)
@@ -17,7 +17,7 @@
 - Install [docker-compose](http://insertlink) v1.18.0
 
 
-## QuickStart Installation
+## Quick Start
 Add the supplied config.json to the following path:
 ```
 /src/server/src/config.json
@@ -31,14 +31,14 @@ npm start
 
 The `npm start` command will build and deploy local containers of the website, api and database. Once running your default browser will automatically open to the ADPQ Knowledge Base website.
 
-The following docker containers will be running:<br>
+The following docker containers will be running detached:<br>
 
 **Website:** http://localhost:80<br>
 **API:** http://localhost:3001<br>
 **MongoDB:** http://localhost:3002
 
 
-## Additional Installation
+### Additional Installation
 For additional scripts, instructions and configuration of your development environment please refer to the following documentation:<br>
 [Package.json](https://www.kualo.co.uk/404)<br>
 [API Docs](http://adpq-docs.hotbsoftware.com)<br>
@@ -59,8 +59,8 @@ For additional scripts, instructions and configuration of your development envir
 https://adpq-staging.hotbsoftware.com<br><br>
 **Production:**<br>
 https://adpq.hotbsoftware.com<br><br>
-**Build Server:** (Please request whitelist access)<br>
-https://adpq-staging.hotbsoftware.com<br>
+**Build Server:**<br>
+(Please request whitelist access)<br>
 
 
 
@@ -96,3 +96,25 @@ https://insertlink
 # OTHER REQUESTED ITEMS
 [insert description]
 
+# License 
+[The MIT License](https://opensource.org/licenses/MIT)
+
+Copyright (c) 2018 Homeowners Toolbox Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
