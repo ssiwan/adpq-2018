@@ -79,7 +79,7 @@ Password: N/A
 http://adpq-docs.hotbsoftware.com
 
 **API Documentation hosted on SwaggerHub:**<br>
-https://insertlink
+https://app.swaggerhub.com/apis/HOTB-Software/adpq_knowledge_base
 
 **OpenAPI v3.0.0 Code**<br>
 [JSON](https://www.google.com) | [YAML](https://www.google.com)
