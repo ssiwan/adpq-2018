@@ -11,18 +11,18 @@ Don't Panic.
 ![](https://img.shields.io/badge/docker-v17.12.0-blue.svg)
 ![](https://img.shields.io/badge/dockercompose-v1.18.0-blue.svg)
 
+- Supports any Operating System
 - Install Node.js v9.5.0  
 - Install NPM v5.5.1
 - Install [docker](http://insertlink) v17.12.0
 - Install [docker-compose](http://insertlink) v1.18.0
-- Supports any Operating System
 
 ## Quick Start
 Add the supplied config.json to the following path:
 ```
 /src/server/src/config.json
 ```
-- Run the following command:
+Run the following command:
 ```
 npm install && 
 SET Environment=local &&
@@ -118,3 +118,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+<br>Have a great day!<br>(っˆڡˆς)
