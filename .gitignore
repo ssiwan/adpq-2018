@@ -27,6 +27,8 @@ node_modules/
 
 # Cache
 .npm
+.pyc
 
 # Operating System
 .DS_Store
+*.pyc

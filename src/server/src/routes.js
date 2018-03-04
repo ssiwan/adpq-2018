@@ -11,20 +11,25 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     var agencyController = require('./controllers/agencyController');
     var articleController = require('./controllers/articleController');
     var userController = require('./controllers/userController'); 
-    var articleCommentController = require('./controllers/articleCommentController'); 
+    var articleCommentController = require('./controllers/articleCommentController');
+    var articleEditController = require('./controllers/articleEditController');  
 
 //***********ROUTES****************************//
 
 // User Authentification check
     router.use(function(req, res, next) {
         //routes allowed 
-        const permissibleRoutes = ['/user/signIn', 
+        const permissibleRoutes = ['/user', 
                                     '/articles', 
                                     '/tags', 
                                     '/agencies', 
-                                    '/searchArticles']; //(permissibleRoutes.indexOf(req.url) < 0)
+                                    '/searchArticles',
+                                    '/incrementViews',
+                                    '/incrementShares']; //(permissibleRoutes.indexOf(req.url) < 0)
 
-        var token = req.header('Authorization');         
+        var token = req.header('Authorization');
+        var reqpaths = req.path.split('/');  
+        var reqbase = '/' + reqpaths[1];        
 
         if (token && token.length > 0) {
             jwt.verify(token, apiParseKey, function(err, decoded) {
@@ -38,9 +43,9 @@ module.exports = function (app, apiParseKey, AWSKeys) {
                 }
             });
         }
-        else if (permissibleRoutes.includes(req.path)) {             
+        else if (permissibleRoutes.includes(reqbase)) {             
             req.userRole = 0; 
-            if (permissibleRoutes.indexOf(req.path) == 0) {//sign in
+            if (permissibleRoutes.indexOf(reqbase) == 0) {//sign in
                 req.PK = apiParseKey; 
             }
             next(); 
@@ -55,50 +60,43 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //GET    
         router.get('/tags', tagsController.getTags); 
 
-    //POST
-
-    //PUT
-
-    //DELETE
-
 //agencyRoutes
     //GET
         router.get('/agencies', agencyController.getAgencies);
-    
-    //POST
-
-    //PUT
-
-    //DELETE
 
 //articleRoutes
     //GET
         router.get('/searchArticles', articleController.search);
         router.get('/articles/:articleId', articleController.getArticleDetails);
-        router.get('/articles', articleController.getArticles);
-        //router.get('/articleDetails', articleController.getArticleDetails);         
+        router.get('/articles', articleController.getArticles);        
 
     //POST
-        router.post('/articles', articleController.createArticle); 
+        router.post('/articles', articleController.createArticle);
+    
+    //PATCH
+        router.patch('/incrementViews/:articleId', articleController.incrementViews); 
+        router.patch('/incrementShares/:articleId', articleController.incrementShares); 
 
-    //PUT
-
-    //DELETE
+//articleEditRoutes
+    //POST
+        router.post('/editArticle', articleEditController.editArticle);
+        router.post('/publishArticle', articleEditController.publishArticle); 
+        router.post('/declineArticle', articleEditController.declineArticle); 
 
 //articleCommentRoutes
-    //GET
-
     //POST
-        router.post('/articleComment', articleCommentController.createArticleComment)
+        router.post('/articleComment', articleCommentController.createArticleComment);
 
 //userRoutes
-    //GET 
-
     //POST
         router.post('/user/signIn', userController.signIn);
-    //PUT
 
-    //DELETE
+//Dashboard
+    //GET 
+        router.get('/dashboardAnalytics', articleController.dashboardAnalytics);
+        router.get('/dashboardTrending', articleController.dashboardTrending);  
+        router.get('/dashboardMyPublished', articleController.dashboardPublishedArticles);
+        router.get('/dashboardWorkflow', articleController.dashboardWorkflow);  
 
 //UTILIES - will create utility file if need grows
 //presigned s3 url

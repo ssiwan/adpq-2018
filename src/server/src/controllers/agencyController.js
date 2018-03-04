@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
     agency = mongoose.model('agency');
 var articleController = require('./articleController');
 
-//var ObjectId = mongoose.Types.ObjectId; 
+var ObjectId = mongoose.Types.ObjectId; 
 
 //GET /agencies
 exports.getAgencies = function (req, res) {
@@ -29,3 +29,22 @@ exports.getAgencies = function (req, res) {
 };
 
 //**************************** API internal functions ***********//
+
+exports.incrementAgencyArticleCount = function(agencyIdString) {
+    var agencyId = new ObjectId(agencyIdString); 
+
+    var queryParams = {};
+    queryParams._id = agencyId; 
+    var query = agency.findOne(queryParams);
+    query.exec();
+    query.then(function(ag) {
+        if (!ag.articleCount) {
+            ag.articleCount = 1; 
+        }
+        else {
+            ag.articleCount = ag.articleCount + 1; 
+        }
+        ag.save(); 
+    });
+    return; 
+}

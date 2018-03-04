@@ -18,7 +18,9 @@ var articleModel = new Schema({
         type: Number, //dud for now
         description: String,
         attachments: [String],
-        sharedUsers: [Schema.Types.ObjectId]
+        shares: Number,
+        trendingScore: Number,
+        articleEdits: [{type: Schema.Types.ObjectId, ref: 'articleEdit'}]      
     }, {
         collection: 'articles'
     });

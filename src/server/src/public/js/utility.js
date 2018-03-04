@@ -19,14 +19,26 @@ function isEmpty(obj) {
 }
 
 function convertToLocalDate(dt) {
-    var d = new Date(dt);
-    return d.toLocaleDateString();
+    if (!isEmpty(dt)) {
+        var d = new Date(dt);
+        return d.toLocaleDateString();
+    }
+
 }
 
 function ReplaceDateSlash(dt) {
    return dt.replace("/", "-").replace("/", "-");
 }
 
+function getParameterByName(name, url) { // gives query string parameters from URL
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
@@ -51,12 +63,3 @@ function getCookie(cname) {
     return "";
 }
 
-function UploadtoS3(presignedUrl,data) {
-    $.ajax({
-        url: presignedUrl, // the presigned URL
-        type: 'PUT',
-        data: 'data to upload into URL',
-        success: function() { console.log('Uploaded data successfully.'); },
-        fail: function() { console.log('There was a problem with the upload.'); }
-      });
-}

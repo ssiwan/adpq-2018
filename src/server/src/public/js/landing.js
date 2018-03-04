@@ -2,6 +2,7 @@
 // GET ALL AGENCIES
 $(document).ready(function(){
     $("#btnArticles").click(function(){
+        sessionStorage.removeItem("searchValue");
         window.location.href = "articles.html";
     });
 

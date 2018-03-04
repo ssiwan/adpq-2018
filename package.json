@@ -14,7 +14,10 @@
   "scripts": {
     "start": "docker-compose up --build -d && clear",
     "build": "docker-compose build --force-rm --no-cache --pull && clear",
-    "teardown": "docker stop 'api' && docker rm -f 'api' && docker rmi 'api' && clear"
+    "teardown": "docker stop 'api' && docker rm -f 'api' && docker rmi 'api' && clear",
+    "test": "npm run test:build && npm run test:run",
+    "test:run": "docker run -v ~/Desktop/testResults:/data/testReports -e Environment=staging --name adpq_tests -i adpq_tests >> testResults.xml && docker rm adpq_tests && docker rmi adpq_tests && clear",
+    "test:build": "docker build ./src/qa -t adpq_tests && clear"
   },
   "dependencies": {},
   "devDependencies": {},

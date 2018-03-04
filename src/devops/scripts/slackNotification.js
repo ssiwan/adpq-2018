@@ -1,5 +1,9 @@
+'use strict'
+
+// Constants
 var http = require("https");
 
+// Request Parameters
 var options = {
   "method": "POST",
   "hostname": "hooks.slack.com",
@@ -11,6 +15,7 @@ var options = {
   }
 };
 
+// Create Request
 var req = http.request(options, function (res) {
   var chunks = [];
 
@@ -20,35 +25,48 @@ var req = http.request(options, function (res) {
 
   res.on("end", function () {
     var body = Buffer.concat(chunks);
-    console.log(body.toString());
   });
 });
 
+// Define Arguments
 var type = process.argv[2];
 var message = process.argv[3];
-var testList = process.argv[4];
+var additionalArgs = process.argv[4];
 
+// Create Payload
 var payload;
 if (type == "SUCCESS") {
-	payload = {
-	    text: message
-	}
-} else {
-	payload = {
-	    text: message,
-	    attachments: [
-		{
-	   	    color: "#D00000",
-	  	    fields: [
-			{
-		            title: "Failed Tests:",
-		            value: testList,
-		            short: false
-			}
-		    ]
+		payload = {
+				text: message,
+				attachments: [
+						{
+								color: "#00ff00",
+								fields: [
+										{
+												title: "Success",
+												value: additionalArgs,
+												short: false
+										}
+								]
+						}
+				]
 		}
-	    ]
-	}
+} else {
+		payload = {
+				text: message,
+				attachments: [
+						{
+								color: "#D00000",
+								fields: [
+										{
+												title: "Failed Tests:",
+												value: additionalArgs,
+												short: false
+										}
+								]
+						}
+				]
+		}
 }
 
 req.write(JSON.stringify(payload));
