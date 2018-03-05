@@ -12,15 +12,15 @@ $(document).ready(function(){
                 $("#adminsettingsbtn").show();
             }
             var table;
-    var agencychk = $('#chkAgency');
+   /*  var agencychk = $('#chkAgency');
     var tagschk = $('#chkTags');
-    var datechk = $('#chkDate');
+    var datechk = $('#chkDate'); */
     var url = APIURL + "dashboardMyPublished";
  
-    DatePicker();
+   // DatePicker();
     Load();
 
-   function LoadAgencies() {
+   /* function LoadAgencies() {
         var options = $("#ddlAgency");
     $.ajax({
         url: APIURL + "agencies",
@@ -93,7 +93,7 @@ $(document).ready(function(){
 
     }
 
-    function getDate(element) {
+    function getDate(element) { 
         var date;
         try {
           date = $.datepicker.parseDate(dateFormat, element.value);
@@ -101,7 +101,7 @@ $(document).ready(function(){
           date = null;
         }
         return date;
-      }
+      }*/
 
     function Load() {
         table = $('#articles').DataTable({
@@ -167,7 +167,7 @@ $(document).ready(function(){
         Load();
     });  */
 
-    $("#btnFilters").click(function(){
+    /* $("#btnFilters").click(function(){
         $("#btnHideFilters").show();     
         $("#btnFilters").hide();
         $("#filters").show();
@@ -210,9 +210,9 @@ $(document).ready(function(){
             $("#to").val('');
             $("#daterange").hide();
         }
-     }); 
+     });  */
 
-     $("#btnSearch").click(function() {
+     /* $("#btnSearch").click(function() {
         var agencyid = $("#ddlAgency").val();
         var tagid = $("#ddlTags").val();
         var datefrom = ReplaceDateSlash($("#from").val());
@@ -231,22 +231,15 @@ $(document).ready(function(){
             searchfilter += "dateEnd=" + dateto + "&";
         }
 
-        // Add Validation for dates
-
-        /*if (isEmpty(datefrom)) {
-            $("#error").show();
-            return;
-        }*/
-
         var finalsearchfilter = searchfilter.substr(0, searchfilter.length-1); // Trim the last &
         console.log(finalsearchfilter); 
         ReloadTable(finalsearchfilter);
      });
-
+ */
 /* order = 1 Descending order
  order = -1 Ascending order */
 
-    function ReloadTable(finalsearchfilter) {
+/*     function ReloadTable(finalsearchfilter) {
         $('#articles').DataTable({
             "bDestroy": true,
             "pagingType": "full_numbers",
@@ -294,7 +287,7 @@ $(document).ready(function(){
             { "data": "id", "autoWidth": true }    
     ]
         }); 
-    }
+    } */
     }
     else {
         window.location.href = "index.html";
