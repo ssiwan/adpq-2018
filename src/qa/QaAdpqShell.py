@@ -9,7 +9,7 @@ setEnv = ''
 
 # Set API Development Environment
 if 'Environment' not in os.environ.keys():
-    # print('\n[AutoScript] Defaulting to staging.\n')
+    print('\n[AutoScript] Defaulting to staging.\n')
     setEnv = environmentBody['staging']
 else:
     # print('\n[AutoScript] Setting environment to', os.environ['Environment'], '\n')
@@ -127,7 +127,7 @@ class QaADPQShell:
 #         for i in range(len(responseBody['data'])):
 #             # Iterate through the dicts within the list.
 #             for keys in responseBody['data'][i]:
-#                 print(keys) 
+                # print(keys) 
 
         return responseBody
     
