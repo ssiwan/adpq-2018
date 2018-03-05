@@ -12,15 +12,15 @@ node {
                 build()
                 publish()
                 deployStaging()
-                // runStagingTests()
-                // sendSlackNotification()
+                runStagingTests()
+                sendSlackNotification()
             } else if (scmVars.GIT_BRANCH == 'origin/master') {
                 println "Master Branch"
                 sh 'cp /aws/adpq/server/production/config.json ./src/server/src/config.json'
                 println "Copied Production Config.json"
-                build()
-                publish()
-                deployProduction()
+                // build()
+                // publish()
+                // deployProduction()
             }
         }
     }
@@ -53,21 +53,39 @@ def publish() {
 def runStagingTests() {
     stage('Test') {
         sh '''#!/bin/bash
+            # Wait 10 seconds
             sleep 10
 
+            # Clean Up
             rm -rf /var/lib/jenkins/adpq_test_results
             mkdir /var/lib/jenkins/adpq_test_results
 
+            # Build & run container
             docker build ./src/qa -t adpq_tests
             docker run -v /var/lib/jenkins/adpq_test_results/reports:/data/reports -e Environment=staging --name adpq_tests -i adpq_tests >> /var/lib/jenkins/adpq_test_results/results.xml
             docker rm adpq_tests && docker rmi adpq_tests
 
+            # Extract test results and save to var RESULTS
             numberOfTests=$(cat /var/lib/jenkins/adpq_test_results/results.xml | cut -d '=' -f 2 | cut -d ' ' -f 1)
             errors=$(cat /var/lib/jenkins/adpq_test_results/results.xml | cut -d '=' -f 3 | cut -d ' ' -f 1)
             failures=$(cat /var/lib/jenkins/adpq_test_results/results.xml | cut -d '=' -f 4 | cut -d '>' -f 1)
-            numberOfSuccesses=$($numberOfTests - $errors - $failures)
-            echo "$numberOfSuccesses / $numberOfTests tests ran successfully"
-            echo "$numberOfSuccesses / $numberOfTests tests ran successfully" > testResults
+            numberOfSuccesses=$(($numberOfTests - $errors - $failures))
+            echo "$numberOfSuccesses / $numberOfTests tests ran successfully" > RESULTS
+
+            # Create Shield.io badge url & set Slack result type
+            testBadge=""
+            if [ "$numberOfSuccesses" -lt "$numberOfTests" ]; then
+                echo "FAILURE" > RESULT_TYPE
+                testBadge=https://img.shields.io/badge/tests-$numberOfSuccesses%2F$numberOfTests-red.svg
+            else
+                echo "SUCCESS" > RESULT_TYPE
+                testBadge=https://img.shields.io/badge/tests-$numberOfSuccesses%2F$numberOfTests-brightgreen.svg
+            fi
+
+            # Upload Image Badge to S3
+            curl $testBadge >> ./testResultsImg.svg
+            aws s3 cp --acl public-read ./testResultsImg.svg s3://adpq-assets/buildAssets/testResults.svg
+            rm -rf ./testResultsImg.svg
         '''
     }
 }
@@ -192,13 +210,9 @@ def sendSlackNotification() {
     stage ('Notify') {
         def nodeHome = tool 'NodeTool' // Load Node.js
         env.PATH="${env.PATH}:${nodeHome}/bin" // Set Path
-        def results = readFile('testResults').trim()
-        echo results
-        sh '''#!/bin/bash
-            sleep 10
-            logs=$(git log -1 --pretty=%B origin/staging)
-            node ./src/devops/scripts/slackNotification.js "SUCCESS" "*New Staging Build Available*:\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n$logs" "$results"
-        '''
+        RESULTS = readFile 'RESULTS'
+        RESULT_TYPE =  readFile 'RESULT_TYPE'
+        sh "sleep 10 && logs=\$(git log -1 --pretty=%B origin/staging) && echo \"$RESULTS\" && node ./src/devops/scripts/slackNotification.js \"$RESULT_TYPE\" \"*New Staging Build Available*\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n\$logs\n\n\" \"$RESULTS\""
     }
 }
 

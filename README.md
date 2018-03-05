@@ -1,5 +1,5 @@
 # HOTB Software - ADPQ Knowledge Base
-![](https://img.shields.io/badge/tests-126/126-brightgreen.svg)
+![](https://s3-us-west-1.amazonaws.com/adpq-assets/buildAssets/testResults.svg)
 
 [insert description]
 

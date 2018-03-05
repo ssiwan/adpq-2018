@@ -59,7 +59,7 @@ if (type == "SUCCESS") {
 								color: "#D00000",
 								fields: [
 										{
-												title: "Failed Tests:",
+												title: "Failure",
 												value: additionalArgs,
 												short: false
 										}
