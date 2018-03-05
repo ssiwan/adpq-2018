@@ -17,6 +17,7 @@ npm-debug.log*
 
 # Temporary Files
 *.swp
+testResults.xml
 
 # Build Files
 build/
