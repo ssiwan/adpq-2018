@@ -17,6 +17,7 @@ npm-debug.log*
 
 # Temporary Files
 *.swp
+testResults.xml
 
 # Build Files
 build/
@@ -27,8 +28,13 @@ node_modules/
 
 # Cache
 .npm
+
+# Python
 .pyc
+*.pyc
+.project
+.pydevproject
+__pycache__
 
 # Operating System
 .DS_Store
-*.pyc

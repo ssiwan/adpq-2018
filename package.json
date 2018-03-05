@@ -6,7 +6,7 @@
     "ADPQ",
     "2018"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/HOTB-Software/adpq-2018"
@@ -16,8 +16,9 @@
     "build": "docker-compose build --force-rm --no-cache --pull && clear",
     "teardown": "docker stop 'api' && docker rm -f 'api' && docker rmi 'api' && clear",
     "test": "npm run test:build && npm run test:run",
-    "test:run": "docker run -v ~/Desktop/testResults:/data/testReports -e Environment=staging --name adpq_tests -i adpq_tests >> testResults.xml && docker rm adpq_tests && docker rmi adpq_tests && clear",
-    "test:build": "docker build ./src/qa -t adpq_tests && clear"
+    "test:run": "docker run -v ~/Desktop/testResults:/data/testReports -e Environment=staging --name adpq_tests -i adpq_tests >> testResults.xml && docker rm adpq_tests && docker rmi adpq_tests",
+    "test:build": "docker build ./src/qa -t adpq_tests",
+    "test:teardown": "docker stop 'adpq_tests' && docker rm -f 'adpq_tests' && docker rmi 'adpq_tests' && clear"
   },
   "dependencies": {},
   "devDependencies": {},
@@ -30,37 +31,13 @@
   ],
   "private": false,
   "contributors": [
-    {
-      "name": "Noel Eom",
-      "email": "neom@hotbsoftware.com"
-    },
-    {
-      "name": "Raghu Jonnala",
-      "email": "rjonnala@counselordirect.com"
-    },
-    {
-      "name": "Eric Dobyns",
-      "email": "edobyns@hotbsoftware.com"
-    },
-    {
-      "name": "Ken Baker",
-      "email": "kbaker@hotbsoftware.com"
-    },
-    {
-      "name": "Mike Firoved",
-      "email": "mfiroved@counselordirect.com"
-    },
-    {
-      "name": "Luis Escobar-Driver",
-      "email": "ldriver@hotbsoftware.com"
-    },
-    {
-      "name": "Jason Connolly",
-      "email": "jconnolly@hotbsoftware.com"
-    },
-    {
-      "name": "Mark Witte",
-      "email": "mark.witte@hotbsoftware.com"
-    }
+    "Noel Eom <neom@hotbsoftware.com>",
+    "Raghu Jonnala <rjonnala@counselordirect.com>",
+    "Eric Dobyns <edobyns@hotbsoftware.com>",
+    "Ken Baker <kbaker@hotbsoftware.com>",
+    "Mike Firoved <mfiroved@counselordirect.com>",
+    "Luis Escobar-Driver <ldriver@hotbsoftware.com>",
+    "Jason Connolly <jconnolly@hotbsoftware.com>",
+    "Mark Witte <mark.witte@hotbsoftware.com>"
   ]
 }

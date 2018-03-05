@@ -6,7 +6,7 @@
     "ADPQ",
     "2018"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/HOTB-Software/adpq-2018"
@@ -44,25 +44,13 @@
   ],
   "private": false,
   "contributors": [
-    {
-      "name": "Noel Eom",
-      "email": "neom@hotbsoftware.com"
-    },
-    {
-      "name": "Raghu Jonnala",
-      "email": "rjonnala@counselordirect.com"
-    },
-    {
-      "name": "Eric Dobyns",
-      "email": "edobyns@hotbsoftware.com"
-    },
-    {
-      "name": "Ken Baker",
-      "email": "kbaker@hotbsoftware.com"
-    },
-    {
-      "name": "Mike Firoved",
-      "email": "mfiroved@counselordirect.com"
-    }
+    "Noel Eom <neom@hotbsoftware.com>", 
+    "Raghu Jonnala <rjonnala@counselordirect.com>",
+    "Eric Dobyns <edobyns@hotbsoftware.com>",
+    "Ken Baker <kbaker@hotbsoftware.com>",
+    "Mike Firoved <mfiroved@counselordirect.com>",
+    "Luis Escobar-Driver <ldriver@hotbsoftware.com>",
+    "Jason Connolly <jconnolly@hotbsoftware.com>",
+    "Mark Witte <mark.witte@hotbsoftware.com>"
   ]
 }
