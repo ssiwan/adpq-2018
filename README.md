@@ -1,5 +1,5 @@
 # HOTB Software - ADPQ Knowledge Base
-![](https://s3-us-west-1.amazonaws.com/adpq-assets/buildAssets/testResults.svg)
+![](https://s3-us-west-1.amazonaws.com/adpq-assets/buildAssets/testResults.svg?maxAge=0)
 
 [insert description]
 
