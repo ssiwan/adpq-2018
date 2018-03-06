@@ -76,7 +76,6 @@ def runStagingTests() {
             docker build ./src/qa -t adpq_tests &&
             docker run -v /var/lib/jenkins/adpq_test_results/reports:/data/reports -e Environment=local --name adpq_tests -i adpq_tests >> /var/lib/jenkins/adpq_test_results/results.xml &&
             docker rm adpq_tests && docker rmi adpq_tests
-            docker rm api && docker rmi api
 
             # Extract test results and save to var RESULTS
             numberOfTests=$(cat /var/lib/jenkins/adpq_test_results/results.xml | cut -d '=' -f 2 | cut -d ' ' -f 1)
