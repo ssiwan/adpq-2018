@@ -17,7 +17,6 @@ $(document).ready(function(){
             switch (role) {
                    case "admin":
                     $("#btnhistory").show();
-                  
                     $("#articledelete").show();
                     $("#btndecline").show();
                     $("#btnapprove").show();
@@ -185,7 +184,7 @@ $("#btnapprove").click(function() {
         //console.log(isEmpty(response.status));
         if (!isEmpty(response.status)) {
             if (response.status === "saved!") {
-                window.location.href = "dashboard.html";
+                window.location.href = "dashboard-admin.html";
             }
         }
         else{
@@ -215,7 +214,7 @@ $("#btndecline").click(function() {
         //console.log(isEmpty(response.status));
         if (!isEmpty(response.status)) {
             if (response.status === "saved!") {
-                window.location.href = "dashboard.html";
+                window.location.href = "dashboard-admin.html";
             }
         }
         else{
