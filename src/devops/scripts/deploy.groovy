@@ -1,23 +1,31 @@
 node {
     stage('Checkout') {
+
+        // Load Node.js
+        def nodeHome = tool 'NodeTool'
+        env.PATH="${env.PATH}:${nodeHome}/bin"
+
+        // Checkout Git Source Code
         def scmVars = checkout scm
 
+        // Run job based on current branch
         if (scmVars.GIT_COMMIT == scmVars.GIT_PREVIOUS_SUCCESSFUL_COMMIT) {
             println "Nothing new to commit || Neither the master or staging branch"
         } else {
             if (scmVars.GIT_BRANCH == 'origin/staging') {
                 println "Staging Branch"
-                sh 'cp /aws/adpq/server/staging/config.json ./src/server/src/config.json'
+                sh 'cp /aws/adpq/server/local/config.json ./src/server/src/config.json' // Setup Local Config for Tests
                 println "Copied Staging Config.json"
+                runStagingTests()
+                sh 'cp /aws/adpq/server/staging/config.json ./src/server/src/config.json' // Setup Staging Config for Deployment
                 build()
                 publish()
                 deployStaging()
-                runStagingTests()
                 sendSlackNotification()
             } else if (scmVars.GIT_BRANCH == 'origin/master') {
                 println "Master Branch"
-                sh 'cp /aws/adpq/server/production/config.json ./src/server/src/config.json'
-                println "Copied Production Config.json"
+                // sh 'cp /aws/adpq/server/production/config.json ./src/server/src/config.json'
+                // println "Copied Production Config.json"
                 // build()
                 // publish()
                 // deployProduction()
@@ -60,9 +68,11 @@ def runStagingTests() {
             rm -rf /var/lib/jenkins/adpq_test_results
             mkdir /var/lib/jenkins/adpq_test_results
 
+            npm start &&
+
             # Build & run container
-            docker build ./src/qa -t adpq_tests
-            docker run -v /var/lib/jenkins/adpq_test_results/reports:/data/reports -e Environment=staging --name adpq_tests -i adpq_tests >> /var/lib/jenkins/adpq_test_results/results.xml
+            docker build ./src/qa -t adpq_tests &&
+            docker run -v /var/lib/jenkins/adpq_test_results/reports:/data/reports -e Environment=local --name adpq_tests -i adpq_tests >> /var/lib/jenkins/adpq_test_results/results.xml &&
             docker rm adpq_tests && docker rmi adpq_tests
 
             # Extract test results and save to var RESULTS
@@ -208,8 +218,6 @@ def deployStaging() {
 
 def sendSlackNotification() {
     stage ('Notify') {
-        def nodeHome = tool 'NodeTool' // Load Node.js
-        env.PATH="${env.PATH}:${nodeHome}/bin" // Set Path
         RESULTS = readFile 'RESULTS'
         RESULT_TYPE =  readFile 'RESULT_TYPE'
         sh "sleep 10 && logs=\$(git log -1 --pretty=%B origin/staging) && echo \"$RESULTS\" && node ./src/devops/scripts/slackNotification.js \"$RESULT_TYPE\" \"*New Staging Build Available*\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n\$logs\n\n\" \"$RESULTS\""

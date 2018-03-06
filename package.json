@@ -12,13 +12,13 @@
     "url": "https://github.com/HOTB-Software/adpq-2018"
   },
   "scripts": {
-    "start": "docker-compose up --build -d && clear",
-    "build": "docker-compose build --force-rm --no-cache --pull && clear",
-    "teardown": "docker stop 'api' && docker rm -f 'api' && docker rmi 'api' && clear",
-    "test": "npm run test:build && npm run test:run",
-    "test:run": "docker run -v ~/Desktop/testResults:/data/testReports -e Environment=staging --name adpq_tests -i adpq_tests >> testResults.xml && docker rm adpq_tests && docker rmi adpq_tests",
+    "start": "docker-compose up --build -d",
+    "build": "docker-compose build --force-rm --no-cache --pull",
+    "teardown": "docker stop 'api' && docker rm -f 'api' && docker rmi 'api' && docker stop 'db' && docker rm -f 'db' && rm -rf ./data",
+    "test": "npm start && npm run test:build && npm run test:run",
+    "test:run": "docker run -v ~/Desktop/testResults:/data/testReports -e Environment=local --name adpq_tests -i adpq_tests >> testResults.xml && npm run test:teardown && npm run teardown",
     "test:build": "docker build ./src/qa -t adpq_tests",
-    "test:teardown": "docker stop 'adpq_tests' && docker rm -f 'adpq_tests' && docker rmi 'adpq_tests' && clear"
+    "test:teardown": "docker stop 'adpq_tests' && docker rm -f 'adpq_tests' && docker rmi 'adpq_tests'"
   },
   "dependencies": {},
   "devDependencies": {},
