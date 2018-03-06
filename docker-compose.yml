@@ -21,8 +21,6 @@ services:
     image: "mongo:3.6.2"
     container_name: "db"
     restart: always
-    volumes:
-      - ./data/db:/data/db  
     ports:
       - "27017:27017"
     healthcheck:
