@@ -35,6 +35,8 @@ var LoginResponse = { token:""};
                             sessionStorage.setItem("token", result.token);
                             sessionStorage.setItem("role", result.role);
                             sessionStorage.setItem("id", result.id);
+                            sessionStorage.setItem("agencyid", result.agency._id);
+                            sessionStorage.setItem("agency", result.agency.value);
                         }
                     $('#password').val("");
                     $('#username').val("");
