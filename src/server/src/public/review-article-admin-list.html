@@ -11,17 +11,35 @@
 <div class="main-wrapper-sm">
   <div class="adpq-container">
     <header class="adpq-headcontainer">
-      <div class="adpq-brand"></div>
-      <div class="adpq-adminwrap">
-        <div class="adpq-plus-btn"></div>
-        <div class="adpq-settings-btn"></div>
-        <div class="adpq-profile-btn"></div>
-      </div>
+      <nav class="cssmenu">
+        <div class="adpq-brand"><a href="index.html"></a></div>
+        <div id="head-mobile"></div>
+        <div class="button"></div>
+        <ul>
+           <li><a href="dashboard-admin.html" class="adpq-dashboard-btn"></a></li>
+           <li><a href="#" class="adpq-profile-btn"></a>
+              <ul class="under-menu">
+                 <li><a href="#">My Profile</a></li>
+                 <li><a href="#">Logout</a></li>
+   </ul>
+           </li>
+      <li><a href="#" class="adpq-settings-btn"></a>
+              <ul class="under-menu">
+                 <li><a href="#">Manage Users</a></li>
+              </ul>
+           </li>
+      <li><a href="#" class="adpq-plus-btn"></a>
+              <ul class="under-menu">
+                 <li><a href="#">Create User</a></li>
+              </ul>
+           </li>			 
+        </ul>
+     </nav>
     </header>
   </div>	
 <div class="workflow-row">
   <div class="workflow-header">
-    <div class="section-title">Workflow</div>
+    <div class="section-title">Articles in Review</div>
   </div>
   <div class="workflow-content-listview">
     <table id="articles" class="compact" width="100%" cellspacing="0">
@@ -45,6 +63,6 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
   <script src="js/constants.js"></script> 
   <script src="js/utility.js"></script>
-<script src="js/workflowarticlesviewmore.js"></script> 
+  <script src="js/reviewarticlesadminviewmore.js"></script> 
 </body>
 </html>

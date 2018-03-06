@@ -50,8 +50,12 @@ $(document).ready(function(){
                 }
             })
             .done(function(response) {
-                console.log(response);
+                //console.log(response);
             var str = "";
+            if(response.data.length > 3)
+            {
+                $("#reviewviewmorelink").show();
+            }
             if (!isEmpty(response.data)) {
             
             for (let index = 0; index < response.data.length; index++) {
@@ -64,7 +68,7 @@ $(document).ready(function(){
                     var shares= " ";
                     var shortdesc = " ";
                 if (!isEmpty(response.data[index].title)) {
-                    title = "<a href='articles-details-admin-history.html?articleId="+response.data[index].id+"' target='_blank'>"+ response.data[index].title +"</a>";
+                    title = "<a href='articles-details-admin-history.html?articleId="+response.data[index].id+"'>"+ response.data[index].title +"</a>";
                 } 
                 if (!isEmpty(response.data[index].agency)) {
                     agency = "Agency - " + response.data[index].agency;
@@ -117,7 +121,10 @@ $(document).ready(function(){
                 console.log(response);
             var str = "";
             if (!isEmpty(response.data)) {
-            
+                if(response.data.length > 3)
+                {
+                    $("#approvedviewmorelink").show();
+                }
             for (let index = 0; index < response.data.length; index++) {
                     var title= " ";
                     var agency= " ";
@@ -217,10 +224,9 @@ $(document).ready(function(){
                 if (response.data[index].status===2) {
                     articlestatus = "declined";  
                 }
-                
-                strwf += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+title+"</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+publishdate+"</div></div></div></div><div class='trending-right-column'><div class='article-status'>"+articlestatus+"</div></div></div>";
+                  strwf += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+title+"</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+publishdate+"</div></div></div></div><div class='trending-right-column'><div class='article-status'>"+articlestatus+"</div></div></div>";
                 }
-            $("#declinedarticles").append(strwf);
+               $("#declinedviewmorelink").append(strwf);
             }
             
 

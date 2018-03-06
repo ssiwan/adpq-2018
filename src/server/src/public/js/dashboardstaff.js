@@ -5,14 +5,6 @@ $(document).ready(function(){
     //console.log(token);
     if(!isEmpty(role) && !isEmpty(token))
     {
-        if (role === "admin") {
-            $("#adminsettingsbtn").show();
-            $("#adminusersbtn").show();
-        }
-
-        if (role === "staff") {
-            $("#createarticlelnk").show();
-        }
 
    LoadAnalytics();
    LoadTrendingArticles();
@@ -62,7 +54,7 @@ $(document).ready(function(){
                 if (!isEmpty(response.data)) {
                     var j = 1;
                     for (let index = 0; index < response.data.length; index++) {
-                        var title = "<a href='articles-details-admin-history.html?articleId="+response.data[index].id+"' target='_blank'>"+ response.data[index].title +"</a>";
+                        var title = "<a href='articles-details-admin-history.html?articleId="+response.data[index].id+"'>"+ response.data[index].title +"</a>";
                         $("#trendingarticle"+j+"title").append(response.data[index].title);
                         $("#trendingarticle"+j+"views").append(response.data[index].views);
                         $("#trendingarticle"+j+"shares").append(response.data[index].shares);
@@ -103,8 +95,13 @@ $(document).ready(function(){
                 }
             })
             .done(function(response) {
-                console.log(response);
+            //console.log(response);
             var str = "";
+            if(response.data.length > 3)
+            {
+                $("#publishedstaffviewmorelink").show();
+            }
+
             if (!isEmpty(response.data)) {
             
             for (let index = 0; index < response.data.length; index++) {
@@ -142,12 +139,9 @@ $(document).ready(function(){
                 
                     views = response.data[index].views;
                     shares = response.data[index].shares;
-                
-
-                str += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+ title + "</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+ agency + "</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+ publishdate +"</div></div></div></div><div class='trending-right-column'><div class='tools-total-update'>"+updateddate + "</div><div class='tools-total-views'>" + views + "</div><div class='tools-total-shares'>" + shares + "</div></div></div>";
-                //console.log(str);
+                    str += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+ title + "</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+ agency + "</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+ publishdate +"</div></div></div></div><div class='trending-right-column'><div class='tools-total-update'>"+updateddate + "</div><div class='tools-total-views'>" + views + "</div><div class='tools-total-shares'>" + shares + "</div></div></div>";
                 }
-            $("#publishedarticles").append(str);
+               $("#publishedarticles").append(str);
             }
 
             })
@@ -167,8 +161,13 @@ $(document).ready(function(){
                 }
             })
             .done(function(response) {
-                //console.log(response);
+             
             var strwf = " ";
+            console.log(response.data.length);
+            if(response.data.length > 3)
+            {
+                $("#workflowstaffviewmorelink").show();
+            }
             
             if (!isEmpty(response.data)) {
             for (let index = 0; index < response.data.length; index++) {

@@ -185,10 +185,7 @@ $(document).ready(function(){
 
             UploadToS3();
             article.attachments = attachments;
-
-
-
-        console.log("Request JSON" + JSON.stringify(article));
+         console.log("Request JSON" + JSON.stringify(article));
             
             $.ajax({
                 url: APIURL + "articles",
