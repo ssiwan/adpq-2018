@@ -34,7 +34,7 @@ node {
     }
 
     stage ('Clean Up') { // Clean Up Workspace
-        deleteDir()
+        // deleteDir()
     }
 }
 
