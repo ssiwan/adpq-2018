@@ -213,7 +213,7 @@ $(document).ready(function(){
                 }
             })
             .fail(function(data, textStatus, xhr) {
-                alert(data.responseJSON.Error);
+                alert("Create article failed");
             });
 
 
