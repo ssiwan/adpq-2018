@@ -733,7 +733,7 @@ exports.incrementShares = function(req, res) {
 
 //DELETE /deleteArticle
 exports.deleteArticle = function(req, res) {
-    if (req.params.articleId = null) {
+    if (req.params.articleId == null) {
         return res.json({error: 'Please submit an article id to delete'}); 
     }
     var userRole = parseInt(req.userRole); 
@@ -748,7 +748,7 @@ exports.deleteArticle = function(req, res) {
 
     var queryParams = {}; 
     queryParams._id = articleobjid; 
-    var query = article.findOne(); 
+    var query = article.find(queryParams); 
     query.catch(function(err) {
         return res.json({error: err.toString()}); 
     }); 
@@ -760,13 +760,13 @@ exports.deleteArticle = function(req, res) {
                     agencyController.decrementAgencyArticleCount(returnarticle.agency.toString()); 
                 }
 
-                var deleteQuery = article.findOne(queryParams).remove().exec();
+                var deleteQuery = article.find(queryParams).remove().exec();
                 deleteQuery.then(function(ret){
                     return res.json({data:'article removed!'}); 
                 }) 
             }
             else {
-                return res.json({errpr: 'Delete is not permitted'}); 
+                return res.json({error: 'Delete is not permitted'}); 
             }
         }
         else {
