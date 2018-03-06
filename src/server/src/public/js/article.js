@@ -133,35 +133,38 @@ $(document).ready(function(){
                             'lastupdated': convertToLocalDate(json.data[index].createdAt),
                             'views': json.data[index].views,
                             'shares': json.data[index].shares,
+                            'id':json.data[index].id
                         }
                    }
                    //console.log(return_data);
                    return return_data;
                }
         },
-        /*"columnDefs": [
+        "columnDefs": [
             {
-                "targets": [ 2 ],
+                "targets": [ 4 ],
                 "visible": false,
                 "searchable": false
             }
-        ],*/
+        ],
             "columns": [
                     { "data": "articleinfo", "autoWidth": true },
                     { "data": "lastupdated", "autoWidth": true },
                     { "data": "views", "autoWidth": true },
-                    { "data": "shares", "autoWidth": true },      
+                    { "data": "shares", "autoWidth": true },
+                    { "data": "id", "autoWidth": true }, 
             ]
         }); 
     }
     
 
-    /*$('#agencies').delegate('tbody tr', 'click', function () {
-        console.log("AgencyId  " + table.row(this).data().id);
-        //window.location.href = "agencyarticle.html";
+    $('#articles').delegate('tbody tr', 'click', function () {
+        console.log(table.row(this).data().id);
+        window.location.href = "articles-details-admin-history.html?articleId=" + table.row(this).data().id;
+        
     });
 
-    $("#btnReload").click(function(){
+    /*$("#btnReload").click(function(){
         Load();
     });  */
 

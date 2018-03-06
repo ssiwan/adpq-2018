@@ -18,23 +18,32 @@
       <div class="adpq-adminwrap">
         <div class="adpq-profile-btn"></div>
         <div class="adpq-settings-btn"  id="adminsettingsbtn" style="display:none"></div>
-        <a href="create-article.html"><div class="adpq-plus-btn"></div></a>
+        <div id="createarticlelnk" style="display:none"><a href="create-article.html"><div class="adpq-plus-btn"></div></a></div>
       </div>
     </header>
     <div class="artcles-details-view">
       <div class="details-title-wrap">
-        <div class="details-title">Lorem ipsum dolor sit amet.</div>
+        <div class="details-title" id="title"></div>
         <div class="details-tools">
           <div class="details-icon-wrap">
-            <div class="tool-history"></div>
-            <a href="#" id="articleeditlnk"><div class="tools-edit"></div></a>
-            <div class="tool-delete"></div>
+            <div class="tool-history" id="btnhistory" style="display:none"></div>   
+            <a href="#" id="articleeditlnk"><div class="tools-edit" style="display:none"></div></a>
+            <div class="tool-delete" id="articledelete" style="display:none"></div>
           </div>
           <div class="tool-approve-btn">
-            <input type="button" name="btn" class="approve-btn" value="Decline" />
+            <input type="button" name="btn" class="approve-btn" value="Decline" id="btndecline" style="display:none" />
           </div>
           <div class="tool-approve-btn">
-            <input type="button" name="btn" class="approve-btn" value="Approve" />
+            <input type="button" name="btn" class="approve-btn" value="Approve" id="btnapprove" style="display:none" />
+          </div>
+          <div class="tool-approve-btn">
+            <input type="button" name="btn" class="approve-btn" value="FB" id="sharefb" style="display:none"/>
+          </div>
+          <div class="tool-approve-btn">
+            <input type="button" name="btn" class="approve-btn" value="TW" id="sharetw" style="display:none"/>
+          </div>
+          <div class="tool-approve-btn">
+            <input type="button" name="btn" class="approve-btn" value="Email" id="shareemail" style="display:none"/>
           </div>
         </div>
       </div>
@@ -70,7 +79,7 @@
         </div>
       </div>
     </div>
-    <div class="comments-wrap">
+    <div class="comments-wrap" id="commentsection" style="display:none">
         <div class="details-comments">Comments</div>
         <div class="form-group">
               <label class="col-md-4 control-label"></label>
@@ -92,7 +101,7 @@
         </div>
         </div>
      </div>
-      <div id="comments"></div>
+      <div id="comments" style="display:none"></div>
     </div>
     <div class="history-wrap" style="display:none">
       <div class="details-history">History</div>
