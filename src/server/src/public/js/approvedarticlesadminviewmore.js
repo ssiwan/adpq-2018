@@ -43,19 +43,9 @@ $(document).ready(function(){
                             'lastupdated': convertToLocalDate(json.data[index].createdAt),
                             'views': json.data[index].views,
                             'shares': json.data[index].shares,
-                            'status': json.data[index].status,
                             'id': json.data[index].id
                         }
-                        if (return_data[index].status===0) {
-                            return_data[index].status = "pending";  
-                        }
-        
-                        if (return_data[index].status===1) {
-                            return_data[index].status = "published";  
-                        }
-                        if (return_data[index].status===2) {
-                            return_data[index].status = "declined";  
-                        }
+                        
                    }
                    //console.log(return_data);
                    return return_data;
@@ -63,7 +53,7 @@ $(document).ready(function(){
         },
         "columnDefs": [
             {
-                "targets": [ 5 ],
+                "targets": [ 4 ],
                 "visible": false,
                 "searchable": false
             }
@@ -73,7 +63,6 @@ $(document).ready(function(){
                     { "data": "lastupdated", "autoWidth": true },
                     { "data": "views", "autoWidth": true },
                     { "data": "shares", "autoWidth": true },   
-                    { "data": "status", "autoWidth": true },
                     { "data": "id", "autoWidth": true }    
             ]
         }); 

@@ -17,7 +17,7 @@ $(document).ready(function(){
             switch (role) {
                    case "admin":
                     $("#btnhistory").show();
-                    //$("#articleeditlnk").show();
+                  
                     $("#articledelete").show();
                     $("#btndecline").show();
                     $("#btnapprove").show();
@@ -34,6 +34,7 @@ $(document).ready(function(){
                     $("#comments").show();
                     $("#createarticlelnk").show();
                     $("#staffcssmenu").show();
+                    $("#articleeditlnk").show();
                     break;
            
                 default: // public

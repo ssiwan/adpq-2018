@@ -50,7 +50,13 @@ $(document).ready(function(){
                 }
             })
             .done(function(response) {
-                //console.log(response);
+                console.log(response);
+
+                if (response.data.length === 0 ) {
+                        $("#trending1").hide();
+                        $("#trending2").hide();
+                        $("#trending3").hide();
+                }
                 if (!isEmpty(response.data)) {
                     var j = 1;
                     for (let index = 0; index < response.data.length; index++) {

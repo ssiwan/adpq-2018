@@ -1,10 +1,9 @@
         var toolbarOptions = [['bold', 'italic'], ];
         var toolbarOptions = [
           ['bold', 'italic', 'underline', 'strike'],        
-          ['blockquote', 'code-block'],
+          ['blockquote'],
           ['link'],
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'script': 'sub'}, { 'script': 'super' }],      
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],  
           [{ 'indent': '-1'}, { 'indent': '+1' }],          
           [{ 'direction': 'rtl' }],                         
           [{ 'color': [] }, { 'background': [] }],          

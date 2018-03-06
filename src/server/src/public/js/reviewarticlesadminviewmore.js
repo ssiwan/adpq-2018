@@ -36,10 +36,18 @@ $(document).ready(function(){
                                              + json.data[index].summary + "<br/>" 
                                              + "<strong>Author: </strong>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last + "<br/>"
                                              + "<strong>PublishedDate:</strong> " + convertToLocalDate(json.data[index].createdAt),
-                            'lastupdated': convertToLocalDate(json.data[index].createdAt),
-                            'views': json.data[index].views,
-                            'shares': json.data[index].shares,
+                            'status': json.data[index].status,
                             'id': json.data[index].id
+                        }
+                        if (return_data[index].status===0) {
+                            return_data[index].status = "pending";  
+                        }
+        
+                        if (return_data[index].status===1) {
+                            return_data[index].status = "published";  
+                        }
+                        if (return_data[index].status===2) {
+                            return_data[index].status = "declined";  
                         }
                    }
                    //console.log(return_data);
@@ -48,16 +56,14 @@ $(document).ready(function(){
         },
         "columnDefs": [
             {
-                "targets": [ 4 ],
+                "targets": [ 2],
                 "visible": false,
                 "searchable": false
             }
         ],
             "columns": [
                     { "data": "articleinfo", "autoWidth": true },
-                    { "data": "lastupdated", "autoWidth": true },
-                    { "data": "views", "autoWidth": true },
-                    { "data": "shares", "autoWidth": true },
+                    { "data": "status", "autoWidth": true },
                     { "data": "id", "autoWidth": true }     
             ]
         }); 

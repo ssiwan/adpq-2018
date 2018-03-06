@@ -32,7 +32,7 @@ p { font-family: roboto; }
 	font: bold 26px/normal "Roboto", serif;
 	color: #FFFFFF;
 	background-color: #046b99;
-	height: 50px;
+	height: 51px;
 	max-width: 1100px;
 	position: relative;
 	vertical-align: middle;
@@ -59,6 +59,19 @@ p { font-family: roboto; }
 	left: 0px;
 	top: 0px;
 }
+.dash-view { /*font-size: 18px; font-family: "roboto", serif; color:#fff; font-weight: bold; text-align: center; width:200px; height:50px;float: none; margin: 0 auto;*/
+font-size: 18px;
+font-family: "roboto", serif;
+color: #fff;
+font-weight: bold;
+text-align: center;
+width: 200px;
+float: none;
+margin: 0 auto;
+top: 20px;
+position: relative;
+}
+.dash-menu-admin { position:relative!important; float: right!important; bottom:18px; }
 .adpq-default-btn {
 	-webkit-box-shadow: 1px 1px 3px 0px rgba(15, 15, 15, 0.4);
 	-moz-box-shadow: 1px 1px 3px 0px rgba(15, 15, 15, 0.4);
@@ -181,11 +194,12 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 }
 .adpq-user {; }
 .adpq-plus-btn, .adpq-settings-btn, .adpq-profile-btn, .adpq-dashboard-btn, .adpq-listview-btn {
-	width: 50px;
-	height: 50px;
-	position: relative;
-	float: right;
-	border-left: 1px solid #FDB81E;
+	width: 50px!important;
+	height: 50px!important;
+	position: relative!important;
+	float: right!important;
+	border-left: 1px solid #FDB81E!important;
+	clear:both;
 }
 .adpq-plus-btn {
 	background: url("../img/plus-n.png") no-repeat;
@@ -227,7 +241,7 @@ body{}
 header{position:relative;width:100%;border-bottom:1px solid #e0e0e0;}
 .logo{position:relative;z-index:123;padding:10px;font:18px verdana;color:#6DDB07;float:left;width:15%}
 .logo a{color:#046b99;}
-nav{position:relative;width:980px;margin:0 auto;}
+nav{position:relative;width:1100px;margin:0 auto;}
 .cssmenu,.cssmenu ul,.cssmenu ul li,.cssmenu ul li a,.cssmenu #head-mobile{border:0;list-style:none;line-height:1;display:block;position:relative;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box; float:right;}
 .cssmenu:after,.cssmenu > ul:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0}
 .cssmenu #head-mobile{display:none}

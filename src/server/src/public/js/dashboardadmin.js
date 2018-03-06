@@ -77,13 +77,13 @@ $(document).ready(function(){
                     shortdesc = response.data[index].summary;
                 } 
 
-                /*if (!isEmpty(response.data[index].createdBy.name.first)) {
+                if (!isEmpty(response.data[index].createdBy.name.first)) {
                     author = "Author: " + response.data[index].createdBy.name.first;
                 }
                 if (!isEmpty(response.data[index].createdBy.name.last)) {
                     author += " " + response.data[index].createdBy.name.last;
-                }*/
-                if (!isEmpty(response.data[index].createdAt)) {
+                }
+/*                 if (!isEmpty(response.data[index].createdAt)) {
                     publishdate = convertToLocalDate(response.data[index].createdAt);
                 }
                 
@@ -92,7 +92,7 @@ $(document).ready(function(){
                 }
                 
                     views = response.data[index].views;
-                    shares = response.data[index].shares;
+                    shares = response.data[index].shares; */
                 
 
                 str += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+ title + "</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+ agency + "</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+ publishdate +"</div></div></div></div><div class='trending-right-column'><div class='tools-total-update'>"+updateddate + "</div><div class='tools-total-views'>" + views + "</div><div class='tools-total-shares'>" + shares + "</div></div></div>";
@@ -144,13 +144,13 @@ $(document).ready(function(){
                     shortdesc = response.data[index].summary;
                 } 
 
-                /*if (!isEmpty(response.data[index].createdBy.name.first)) {
+                if (!isEmpty(response.data[index].createdBy.name.first)) {
                     author = "Author: " + response.data[index].createdBy.name.first;
                 }
                 if (!isEmpty(response.data[index].createdBy.name.last)) {
                     author += " " + response.data[index].createdBy.name.last;
-                }*/
-                if (!isEmpty(response.data[index].createdAt)) {
+                }
+                /* if (!isEmpty(response.data[index].createdAt)) {
                     publishdate = convertToLocalDate(response.data[index].createdAt);
                 }
                 
@@ -159,7 +159,7 @@ $(document).ready(function(){
                 }
                 
                     views = response.data[index].views;
-                    shares = response.data[index].shares;
+                    shares = response.data[index].shares; */
                 
 
                 str += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+ title + "</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+ agency + "</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+ publishdate +"</div></div></div></div><div class='trending-right-column'><div class='tools-total-update'>"+updateddate + "</div><div class='tools-total-views'>" + views + "</div><div class='tools-total-shares'>" + shares + "</div></div></div>";
@@ -205,12 +205,12 @@ $(document).ready(function(){
                 if (!isEmpty(response.data[index].summary)) {
                     shortdesc = response.data[index].summary;
                 } 
-                /*if (!isEmpty(response.data[index].createdBy.name.first)) {
+                if (!isEmpty(response.data[index].createdBy.name.first)) {
                     author = "Author: " + response.data[index].createdBy.name.first;
                 }
                 if (!isEmpty(response.data[index].createdBy.name.last)) {
                     author += " " + response.data[index].createdBy.name.last;
-                }*/
+                }
                 if (!isEmpty(response.data[index].createdAt)) {
                     publishdate = convertToLocalDate(response.data[index].createdAt);
                 }

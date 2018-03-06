@@ -24,7 +24,7 @@ $(document).ready(function(){
             function LoadTags() {
             
                 $.ajax({
-                    url: APIURL + "tags",
+                    url: APIURL + "suggestedTags",
                     type: 'GET',
                     dataType: 'json',
                     cache:false
@@ -253,7 +253,7 @@ $(document).ready(function(){
                 console.log(isEmpty(response.status));
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
-                       window.location.href = "dashboard.html";
+                       window.location.href = "dashboard-staff.html";
                     }
                 }
                 else{
@@ -268,7 +268,7 @@ $(document).ready(function(){
         });
 
         $("#btnCancel").click(function() {
-            window.location.href = "dashboard.html";
+            window.location.href = "dashboard-staff.html";
         });
 
  }
