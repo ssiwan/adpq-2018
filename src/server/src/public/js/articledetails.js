@@ -24,7 +24,8 @@ $(document).ready(function(){
                     $("#shareemail").show();
                     $("#commentsection").show();
                     $("#comments").show();
-                    $("#adminsettingsbtn").show();                   
+                    $("#adminsettingsbtn").show();
+                    $("#admincssmenu").show();                 
                     break;
                     case "staff":
                     $("#btnhistory").show();
@@ -32,6 +33,7 @@ $(document).ready(function(){
                     $("#commentsection").show();
                     $("#comments").show();
                     $("#createarticlelnk").show();
+                    $("#staffcssmenu").show();
                     break;
            
                 default: // public

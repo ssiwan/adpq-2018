@@ -9,9 +9,9 @@ $(document).ready(function(){
 
     if(!isEmpty(role) && !isEmpty(token) && !isEmpty(articleId))
  {
-            if (role === "admin") {
+         /*    if (role === "admin") {
                 $("#adminsettingsbtn").show();
-            }
+            } */
             LoadAgencies();
             //SuggestedTitles();
             

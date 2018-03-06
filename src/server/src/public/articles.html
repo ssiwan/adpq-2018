@@ -8,6 +8,23 @@
 <link rel="stylesheet" href="css/adpq-styles.css">
 </head>
 <body>
+	<div class="main-wrapper-sm">
+	  <div class="adpq-container">
+   <header class="adpq-headcontainer">
+<!--	   <div class="adpq-brand"></div>-->
+      <nav id="cssmenu">
+         <div class="adpq-brand"><a href="index.html"></a></div>
+         <div id="head-mobile"></div>
+         <div class="button"></div>
+         <ul>
+<!--            <li class="active"><a href="#"><i class="fa fa-home"></i></a></li>-->
+
+            <li><a href="index.html" class="adpq-listview-btn"></a></li>
+			 
+         </ul>
+      </nav>
+   </header>
+
 <div id="container">
   <input type="button" value="Filters" id="btnFilters" class="cs-button">
   <br/>
@@ -23,17 +40,18 @@
         Agency</label>
       &nbsp; &nbsp; </div>
     <div id="Agency" style="display:none"> Select Agency:
-      <select id="ddlAgency">
-      </select>
+                        <select id="ddlAgency" class="agency-drpdwn">
+                        </select>
     </div>
     <div class="checkbox">
       <label>
         <input type="checkbox" id="chkTags">
         Tags</label>
       &nbsp; &nbsp; </div>
-    <div id="Tags" style="display:none"> Select Tags:
-      <select id="ddlTags">
-      </select>
+    <div id="Tags" style="display:none">
+                        Select Tags:
+                        <select id="ddlTags" class="tags-drpdwn">
+                        </select>
     </div>
     <div class="checkbox">
       <label>
@@ -58,6 +76,8 @@
       </tr>
     </thead>
   </table>
+  </div>
+</div>
 </div>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 

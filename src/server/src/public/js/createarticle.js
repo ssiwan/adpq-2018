@@ -5,9 +5,9 @@ $(document).ready(function(){
 
     if(!isEmpty(role) && !isEmpty(token))
  {
-            if (role === "admin") {
+           /*  if (role === "admin") {
                 $("#adminsettingsbtn").show();
-            }
+            } */
             LoadAgencies();
             //SuggestedTitles();
             
