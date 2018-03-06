@@ -169,14 +169,22 @@ exports.getArticles = function(req, res, next) {
 
 //GET /articleDetails
 exports.getArticleDetails = function(req, res) {
-    var articleId = req.params.articleId; 
-    var userRole = parseInt(req.userRole); 
+    var articleId = req.params.articleId;
+    var userRole = 0;
+    if (req.userRole != null) { 
+        userRole = parseInt(req.userRole);
+    }
     //param check
     if (articleId == null || articleId == '') {
         return res.send({'error': 'Please submit an articleId'});
     }
 
     var queryParams = {};
+
+    if (userRole == 0) {
+        queryParams.status = 1; 
+    }
+
     queryParams._id = new ObjectId(articleId); 
 
     var query = article.findOne(queryParams).populate('tags')
@@ -184,7 +192,6 @@ exports.getArticleDetails = function(req, res) {
                                             .populate('agency')
                                             .populate({path: 'articleEdits', populate: {path: 'createdBy', model: 'user'}})
                                             .populate({path: 'comments', populate: {path: 'commenter', model: 'user'}});
-    //query.limit(1);
 
     query.exec()
         .catch(function (err) {
@@ -194,7 +201,7 @@ exports.getArticleDetails = function(req, res) {
     query.then(function(art) {
         var articleobj = {};
         if (art != null) {
-            if ((art.createdBy._id.toString() == req.userId || art.role <= userRole)) {
+            if ((art.status == 1 && art.role <= userRole ) || (art.createdBy._id.toString() == req.userId || userRole == 2)) {
                 articleobj['id'] = art._id.toString();
                 articleobj['title'] = art.title;
                 articleobj['summary'] = art.summary;
@@ -287,11 +294,15 @@ exports.createArticle = function(req, res) {
 exports.dashboardAnalytics = function(req, res) {
     //if userRole == 2, then add total users query 
     var objuserId = new ObjectId(req.userId); 
+    var role = parseInt(req.userRole);
+    var isStaff = (role == 1);  
     var promiseArray = []; 
 
     //Articles Published Count  
     var queryParams = {}; 
-    queryParams.createdBy = objuserId;  
+    if (isStaff) {
+        queryParams.createdBy = objuserId;
+    }  
     queryParams.status = 1; 
     var query = article.count(queryParams); 
 
@@ -299,7 +310,9 @@ exports.dashboardAnalytics = function(req, res) {
 
     //Articles In Review Count
     var queryParams2 = {};
-    queryParams2.createdBy = objuserId; 
+    if (isStaff) {
+        queryParams2.createdBy = objuserId;
+    } 
     queryParams2.status = 0; 
     var query2 = article.count(queryParams2); 
 
@@ -307,7 +320,9 @@ exports.dashboardAnalytics = function(req, res) {
 
     //Articles Declined Count
     var queryParams3 = {};
-    queryParams3.createdBy = objuserId; 
+    if (isStaff) {
+        queryParams3.createdBy = objuserId;
+    } 
     queryParams3.status = 2; 
     var query3 = article.count(queryParams3); 
 
@@ -315,7 +330,9 @@ exports.dashboardAnalytics = function(req, res) {
 
     //Views Count - from only published
     var queryParams4 = {};
-    queryParams4.createdBy = objuserId; 
+    if (isStaff) {
+        queryParams4.createdBy = objuserId;
+    } 
     queryParams4.status = 1; 
     var query4 = article.find(queryParams4).then(function(result) {
         var returnCount = 0; 
@@ -331,7 +348,9 @@ exports.dashboardAnalytics = function(req, res) {
 
     //Share Count - from only published
     var queryParams5 = {};
-    queryParams5.createdBy = objuserId; 
+    if (isStaff) {
+        queryParams5.createdBy = objuserId;
+    } 
     queryParams5.status = 1; 
     var query5 = article.find(queryParams5).then(function(result) {
         var returnCount = 0; 
@@ -346,7 +365,7 @@ exports.dashboardAnalytics = function(req, res) {
     promiseArray.push(query5); 
 
     //User Count - if admin
-    if (req.userRole == 2) {
+    if (!isStaff) {
         var query6 = users.count(); 
         promiseArray.push(query6); 
     }   
@@ -416,7 +435,7 @@ exports.dashboardTrending = function(req, res) {
     //or([queryParams, {createdBy: new ObjectId(req.userId)}])
 }
 
-//GET /
+//GET /dashboardMyPublished
 exports.dashboardPublishedArticles = function(req, res) {
     var userobjid = new ObjectId(req.userId);
     var limit = 0; 
@@ -464,10 +483,10 @@ exports.dashboardPublishedArticles = function(req, res) {
             });
         }
         return res.json({data: returnArticles}); 
-    })
+    });
 }
 
-//GET
+//GET /dashboardWorkflow
 exports.dashboardWorkflow = function(req, res) {
     var userobjid = new ObjectId(req.userId);
     var limit = 0; 
@@ -515,6 +534,165 @@ exports.dashboardWorkflow = function(req, res) {
         }
         return res.json({data: returnArticles}); 
     })
+}
+
+//GET /adminDashboardDeclined
+exports.admindbdeclined = function(req, res) {
+    if (parseInt(req.userRole) != 2) {
+        return res.json({error: 'User not permitted'}); 
+    }
+    var limit = 0; 
+    if (req.query.limit != null) {
+        limit = parseInt(req.query.limit); 
+    }
+
+    var queryParams = {}; 
+    queryParams.status = 2;
+
+    var query = article.find(queryParams); 
+
+    var sortObj = {};
+    sortObj['createdAt'] = -1;
+    query.sort(sortObj);  
+    if (limit != 0) {
+        query.limit(limit); 
+    }
+
+    query.exec().catch(function(err) {
+        return res.json({error: err.toString()}); 
+    });
+
+    query.then(function(arts) {
+        var returnArticles = []; 
+        if (arts != null) {
+            arts.forEach(function(art) {
+                var articleobj = {}; 
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags); 
+                articleobj['createdAt'] = art.createdAt;
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['approvedBy'] =  art.approvedBy; 
+                articleobj['description'] = art.description;
+                articleobj['attachments'] = art.attachments;
+                articleobj['views'] = art.views;
+                articleobj['shares'] = art.shares;
+                articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
+
+                returnArticles.push(articleobj);
+            });
+        }
+        return res.json({data: returnArticles}); 
+    });
+}
+
+//GET /adminDashboardPending
+exports.admindbpending = function(req, res) {
+    if (parseInt(req.userRole) != 2) {
+        return res.json({error: 'User not permitted'}); 
+    }
+    var limit = 0; 
+    if (req.query.limit != null) {
+        limit = parseInt(req.query.limit); 
+    }
+
+    var queryParams = {}; 
+    queryParams.status = 0;
+
+    var query = article.find(queryParams); 
+
+    var sortObj = {};
+    sortObj['createdAt'] = -1;
+    query.sort(sortObj);  
+    if (limit != 0) {
+        query.limit(limit); 
+    }
+
+    query.exec().catch(function(err) {
+        return res.json({error: err.toString()}); 
+    });
+
+    query.then(function(arts) {
+        var returnArticles = []; 
+        if (arts != null) {
+            arts.forEach(function(art) {
+                var articleobj = {}; 
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags); 
+                articleobj['createdAt'] = art.createdAt;
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['approvedBy'] =  art.approvedBy; 
+                articleobj['description'] = art.description;
+                articleobj['attachments'] = art.attachments;
+                articleobj['views'] = art.views;
+                articleobj['shares'] = art.shares;
+                articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
+
+                returnArticles.push(articleobj);
+            });
+        }
+        return res.json({data: returnArticles}); 
+    });
+}
+
+//GET /adminDashboardApproved
+exports.admindbapproved = function(req, res) {
+    if (parseInt(req.userRole) != 2) {
+        return res.json({error: 'User not permitted'}); 
+    }
+    var limit = 0; 
+    if (req.query.limit != null) {
+        limit = parseInt(req.query.limit); 
+    }
+
+    var queryParams = {}; 
+    queryParams.status = 1;
+
+    var query = article.find(queryParams); 
+
+    var sortObj = {};
+    sortObj['createdAt'] = -1;
+    query.sort(sortObj);  
+    if (limit != 0) {
+        query.limit(limit); 
+    }
+
+    query.exec().catch(function(err) {
+        return res.json({error: err.toString()}); 
+    });
+
+    query.then(function(arts) {
+        var returnArticles = []; 
+        if (arts != null) {
+            arts.forEach(function(art) {
+                var articleobj = {}; 
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags); 
+                articleobj['createdAt'] = art.createdAt;
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['approvedBy'] =  art.approvedBy; 
+                articleobj['description'] = art.description;
+                articleobj['attachments'] = art.attachments;
+                articleobj['views'] = art.views;
+                articleobj['shares'] = art.shares;
+                articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
+
+                returnArticles.push(articleobj);
+            });
+        }
+        return res.json({data: returnArticles}); 
+    });
 }
 
 //PATCH /incrementViews
