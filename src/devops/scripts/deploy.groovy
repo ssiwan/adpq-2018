@@ -68,7 +68,7 @@ def runStagingTests() {
             rm -rf /var/lib/jenkins/adpq_test_results
             mkdir /var/lib/jenkins/adpq_test_results
 
-            npm start &&
+            /usr/local/bin/docker-compose up --build -d &&
 
             # Build & run container
             docker build ./src/qa -t adpq_tests &&
