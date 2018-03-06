@@ -1,0 +1,47 @@
+{
+	"testTitle" : "Ministry of Truth",
+	"testEmail" : "jlennon@hotbsoftware.com",
+    "testPassword" : "p@assw0rd1!",
+    "testFirstName" : "Ragnar",
+    "testLastName" : "Lothbrok",
+    "testGender" : "Viking Male",
+    "testAge" : "55",
+    "testOrientation" : "Viking",
+    "testEducation" : "UCI",
+    "testFcmId" : "abc123321bca",
+    "testArticleId" : "5a98378b47c4e20019ac0f86",
+    "testAgencyId" : "5a8b73f94212d1f20f847b9a",
+    "testAudience" : 0,
+    "testShortDesc" : "short description here",
+    "testLongDesc" : "This is a longer description",
+    "testTags" : "5a8b55bca2d13ad4ba5369ef",
+    "testAttachments" : ["url1", "pdf1", "pdf2"],
+    "testStatus" : 0,
+    "testComment" : "hodl",
+    "testName" : "file.txt",
+    
+    
+    "ClientId" : "ffcc8.4b0-and-??v27-93ae-92.361f002671",
+    
+    
+    "GetAgencies" : "agencies",
+    "GetTags" : "tags",
+    "Articles" : "articles?",
+    "SearchArticles" : "searchArticles",
+    "UsersSignIn" : "user/signIn",
+    "DashAnalytics" : "dashboardAnalytics",
+    "DashTrending" : "dashboardTrending",
+    "DashPubArticles" : "dashboardMyPublished?",
+    "DashWorkflow" : "dashboardWorkflow",
+    "EditArticles" : "editArticle",
+    "ArticleComment" : "articleComment",
+    "PreS3" : "preS3",
+    
+    
+    "articleSort" : "sort=createdAt&",
+    "articleLimit" : "limit=1&",
+    "articleDateStart" : "dateStart=02-01-2018&",
+    "articleDateEnd" : "dateEnd=03-01-2018&",
+    "articleAgencyId" : "agencyId=5a8b73f94212d1f20f847b9a&",
+    "agencyTagId" : "tagId=5a8b55bca2d13ad4ba5369ef&"
+}

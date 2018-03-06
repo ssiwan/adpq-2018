@@ -1,4 +1,4 @@
-import requests, os
+import requests, os, json
 
 
 # Set API Development Environment.
@@ -20,10 +20,15 @@ setEnv.strip()
 # Set test output flag.
 # True  - Test print statements will output to console.
 # False - No console output.
-if 'TestOutput' not in os.environ.keys():
+if 'TESTOUTPUT' not in os.environ.keys():
     TestOutput = False
 else:
-    TestOutput = os.environ['TestOutput']
+    TestOutput = bool(os.environ['TESTOUTPUT'])
+    
+# Get all necessary data.
+with open('data.json') as data_file:    
+    data = json.load(data_file)
+print(data)
     
 
 '''
@@ -38,58 +43,19 @@ else:
     
     example(email='', emailExclude=False)
     
-    If emailExclude flag is set to True during the method call, the value 
+    If emailExclude flag is set to True during the method call, the keypair 
     will not be included in the request.
 '''
-class QaADPQShell:
-    
-    ## @var Test variables used by unittest scripts.
-    testEmail = 'jlennon@hotbsoftware.com'
-    testPassword = 'p@assw0rd1!'
-    testFirstName = 'Ragnar'
-    testLastName = 'Lothbrok'
-    testGender = 'Viking Male'
-    testStatus = 'Still alive'
-    testAge = '55'
-    testOrientation = 'Viking'
-    testEducation = 'UCI'
-    testFcmId = "abc123321bca"
-    ClientId = 'ffcc8.4b0-and-??v27-93ae-92.361f002671'
-    testArticleId = '5a98378b47c4e20019ac0f86'
-    
-    ## @var End point completions.
-    GetAgencies = 'agencies'
-    GetTags = 'tags'
-    Articles = 'articles?'
-    SearchArticles = 'searchArticles'
-    UsersSignIn = 'user/signIn'
-    DashAnalytics = 'dashboardAnalytics'
-    DashTrending = 'dashboardTrending'
-    DashPubArticles = 'dashboardMyPublished?'
-    DashWorkflow = 'dashboardWorkflow'
-    EditArticles = 'editArticle'
-    ArticleComment = 'articleComment'
-    PreS3 = 'preS3'
-    
+class ADPQ:
     ## @var Save a BaseURL without API Version.
     BaseURL = setEnv
     
     ## @var Set API Version.
     setEnv = setEnv + '/api/v1/'
-    
-    ## @var Variables that can be appended at the end of URL end point calls.
-    articleSort = 'sort=createdAt&'
-    articleLimit = 'limit=1&'
-    articleDateStart = 'dateStart=02-01-2018&'
-    articleDateEnd = 'dateEnd=03-01-2018&'
-    articleAgencyId = 'agencyId=5a8b73f94212d1f20f847b9a&'
-    agencyTagId = 'tagId=5a8b55bca2d13ad4ba5369ef&'
-    
-        
         
     ## @fn __init__ : Class initializations.
     def __init__(self, env=setEnv):
-        self.ClientID = QaADPQShell.ClientId
+        self.ClientID = data['ClientId']
         self.AuthKey = ''
         self.UserID = ''
         self.email = ''
@@ -103,9 +69,9 @@ class QaADPQShell:
     ## @fn get_agency_list : Will return a list of all agencies.
     # :required - api_key
     #
-    def get_agencies(self):
+    def get_agencies(self, return_status=False):
 
-        url = self.environment + QaADPQShell.GetAgencies
+        url = self.environment + data['GetAgencies']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -119,6 +85,10 @@ class QaADPQShell:
         if TestOutput == True:
             print('\nget_agencies\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
 
         return responseBody
     
@@ -127,9 +97,9 @@ class QaADPQShell:
 
     ## @fn get_tagst : Will return a list of all tags.
     #
-    def get_tags(self):
+    def get_tags(self, return_status=False):
 
-        url = self.environment + QaADPQShell.GetTags
+        url = self.environment + data['GetTags']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -145,6 +115,10 @@ class QaADPQShell:
         if TestOutput == True:
             print('\nget_tags\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
         
         return responseBody
     
@@ -156,24 +130,24 @@ class QaADPQShell:
     #
     def get_articles(self, Authorization='', AuthorizationExclude=False, sortUrl=False,
                      limitUrl=False, dateStartURL=False, dateEndUrl=False,
-                     agencyIdUrl=False, tagIdUrl=False):
-        # URL end point.
-        url = self.environment + QaADPQShell.Articles
+                     agencyIdUrl=False, tagIdUrl=False, return_status=False):
+
+        url = self.environment + data['Articles']
 
         # End point options which can be appended to the end of the url.
         # ?example=100&
         if sortUrl == True:
-            url = url + QaADPQShell.articleSort
+            url = url + data['articleSort']
         if limitUrl == True:
-            url = url + QaADPQShell.articleLimit
+            url = url + data['articleLimit']
         if dateStartURL == True:
-            url = url + QaADPQShell.articleDateStart
+            url = url + data['articleDateStart']
         if dateEndUrl == True:
-            url = url + QaADPQShell.articleDateEnd
+            url = url + data['articleDateEnd']
         if agencyIdUrl == True:
-            url = url + QaADPQShell.articleAgencyId
+            url = url + data['articleAgencyId']
         if tagIdUrl == True:
-            url = url + QaADPQShell.agencyTagId
+            url = url + data['agencyTagId']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -196,6 +170,10 @@ class QaADPQShell:
         if TestOutput == True:
             print('\nget_article_list\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
         
         return responseBody
     
@@ -203,9 +181,9 @@ class QaADPQShell:
     
     ## @fn search_articles : Get all articles within the db.
     #
-    def search_articles(self):
+    def search_articles(self, return_status=False):
 
-        url = self.environment + QaADPQShell.SearchArticles
+        url = self.environment + data['SearchArticles']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -220,6 +198,10 @@ class QaADPQShell:
         if TestOutput == True:
             print('\nsearch_articles\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
         
         return responseBody
     
@@ -230,7 +212,7 @@ class QaADPQShell:
     #
     def sign_in(self, email='', emailExclude=False):
 
-        url = self.environment + QaADPQShell.UsersSignIn
+        url = self.environment + data['UsersSignIn']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -250,12 +232,7 @@ class QaADPQShell:
         response = requests.request('POST', url, json=body, 
                                     headers=headers, verify=False)
     
-        # Return requests object of json data.
         responseBody = response.json()
-        
-        if TestOutput == True:
-            print('\nsign_in\n', responseBody)
-            print('response.status_code: ', response.status_code)
         
         # Only if request was successful, save critical user data.
         if 'token' in responseBody.keys():
@@ -263,6 +240,10 @@ class QaADPQShell:
                 self.AuthKey = responseBody['token']
                 self.role = responseBody['role']
                 self.UserID = responseBody['id']
+        
+        if TestOutput == True:
+            print('\nsign_in\n', responseBody)
+            print('response.status_code: ', response.status_code)
         
         return responseBody
     
@@ -273,8 +254,8 @@ class QaADPQShell:
     #                             are for specified article.
     #                             
     def get_articles_details(self, Authorization='', AuthorizationExclude=False,
-                             articleId=[]):
-
+                             articleId=[], return_status=False):
+        
         # If articleId isnt an empty string or list.
         if articleId != '' and articleId != []:
             # If articleId is a list.
@@ -310,6 +291,10 @@ class QaADPQShell:
         if TestOutput == True:
             print('\nget_articles_details\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
         
         return responseBody
     
@@ -322,9 +307,9 @@ class QaADPQShell:
                        AuthorizationExclude=False, titleExclude=False,
                        agencyIdExclude=False, audienceExclude=False,
                        shortDescExclude=False, longDescExclude=False, 
-                       tagsExclude=False, attachmentsExclude=False):
+                       tagsExclude=False, attachmentsExclude=False, return_status=False):
 
-        url = self.environment + QaADPQShell.Articles
+        url = self.environment + data['Articles']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -413,6 +398,10 @@ class QaADPQShell:
         if TestOutput == True:
             print('\ncreate_article\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
         
         return responseBody
     
@@ -429,7 +418,7 @@ class QaADPQShell:
                      tagsExclude=False, attachmentsExclude=False, statusExclude=False,
                      return_status=False):
         
-        url = self.environment + QaADPQShell.EditArticles
+        url = self.environment + data['EditArticles']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -530,6 +519,7 @@ class QaADPQShell:
             print('\nEdit_article\n', responseBody)
             print('response.status_code: ', response.status_code)
         
+        # If triggered, will return request object instead of json object.
         if return_status == True:
             return response
         
@@ -543,7 +533,7 @@ class QaADPQShell:
                         AuthorizationExclude=False, articleIdExclude=False, 
                         commentExclude=False, return_status=False):
         
-        url = self.environment + QaADPQShell.ArticleComment
+        url = self.environment + data['ArticleComment']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -588,6 +578,7 @@ class QaADPQShell:
             print('\ncomment_article\n', responseBody)
             print('response.status_code: ', response.status_code)
         
+        # If triggered, will return request object instead of json object.
         if return_status == True:
             return response
         
@@ -600,7 +591,7 @@ class QaADPQShell:
     def get_presignedS3(self, Authorization='', name='', AuthorizationExclude=False, 
                         nameExclude=False, return_status=False):
         
-        url = self.environment + QaADPQShell.PreS3
+        url = self.environment + data['PreS3']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -634,6 +625,7 @@ class QaADPQShell:
             print('\nget_presignedS3\n', responseBody)
             print('response.status_code: ', response.status_code)
         
+        # If triggered, will return request object instead of json object.
         if return_status == True:
             return response
         
@@ -644,9 +636,10 @@ class QaADPQShell:
     ## @fn dashboard_analytics : Will get the analytics of the user such as
     #                            review, public, decline, etc counts.
     #
-    def dashboard_analytics(self, Authorization='', AuthorizationExclude=False):  
+    def dashboard_analytics(self, Authorization='', AuthorizationExclude=False, 
+                            return_status=False):  
 
-        url = self.environment + QaADPQShell.DashAnalytics
+        url = self.environment + data['DashAnalytics']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -669,6 +662,10 @@ class QaADPQShell:
         if TestOutput == True:
             print('\ndashboard_analytics\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
         
         return responseBody
     
@@ -676,9 +673,10 @@ class QaADPQShell:
     
     ## @fn dashboard_trending : Will get all trending articles.
     #
-    def dashboard_trending(self, Authorization='', AuthorizationExclude=False):  
+    def dashboard_trending(self, Authorization='', AuthorizationExclude=False, 
+                            return_status=False):   
 
-        url = self.environment + QaADPQShell.DashTrending
+        url = self.environment + data['DashTrending']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -701,6 +699,10 @@ class QaADPQShell:
         if TestOutput == True:
             print('\ndashboard_trending\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
         
         return responseBody
     
@@ -708,9 +710,10 @@ class QaADPQShell:
     
     ## @fn dashboard_pubArticles : Will get all the users published articles.
     #
-    def dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False):  
+    def dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False, 
+                            return_status=False):    
 
-        url = self.environment + QaADPQShell.DashPubArticles + QaADPQShell.articleLimit
+        url = self.environment + data['DashPubArticles'] + data['articleLimit']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -733,6 +736,10 @@ class QaADPQShell:
         if TestOutput == True:
             print('\ndashboard_pubArticles\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
         
         return responseBody
     
@@ -740,9 +747,10 @@ class QaADPQShell:
     
     ## @fn dashboard_workflow : Will get the workflow on the dashboard.
     #
-    def dashboard_workflow(self, Authorization='', AuthorizationExclude=False):  
+    def dashboard_workflow(self, Authorization='', AuthorizationExclude=False, 
+                            return_status=False):    
 
-        url = self.environment + QaADPQShell.DashWorkflow
+        url = self.environment + data['DashWorkflow']
         
         headers = {
             'Content-Type' : 'application/json',
@@ -765,6 +773,10 @@ class QaADPQShell:
         if TestOutput == True:
             print('\ndashboard_workflow\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
         
         return responseBody
     

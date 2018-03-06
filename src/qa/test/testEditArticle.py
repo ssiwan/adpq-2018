@@ -1,5 +1,4 @@
-import sys, unittest, QaAdpqShell
-
+import sys, unittest, ADPQShell
 '''
     ADPQ v1 - Edit Articles end point.
     
@@ -99,54 +98,37 @@ import sys, unittest, QaAdpqShell
         Array status value.
 '''
 class TestEditArticle(unittest.TestCase):
-    title = 'Department of funky beats'
-    agencyId = '5a8b73f94212d1f20f847b9a'
-    audience = 0
-    shortDesc = 'short description here'
-    longDesc = 'This is a longer description'
-    tags = '5a8b55bca2d13ad4ba5369ef'
-    attachments = ["url1"]
-    status = 0
-    
-    
     @classmethod
     def setUpClass(cls):
         try:
-            # Create user object.
-            cls.user = QaAdpqShell.QaADPQShell()
-            
-            # SignIn the user. 
-            cls.user.sign_in(email = QaAdpqShell.QaADPQShell.testEmail)
-            # Create an article
+            cls.user = ADPQShell.ADPQ()
+            cls.user.sign_in(email = ADPQShell.data['testEmail'])
             cls.user.create_article(Authorization = cls.user.GetAuthKey(), 
-                                    title = TestEditArticle.title, 
-                                    agencyId = TestEditArticle.agencyId,
-                                    audience = TestEditArticle.audience, 
-                                    shortDesc = TestEditArticle.shortDesc, 
-                                    longDesc = TestEditArticle.longDesc, 
-                                    tags = TestEditArticle.tags, 
-                                    attachments = TestEditArticle.attachments)
-            
+                                                title = ADPQShell.data['testTitle'], 
+                                                agencyId = ADPQShell.data['testAgencyId'],
+                                                audience = ADPQShell.data['testAudience'], 
+                                                shortDesc = ADPQShell.data['testShortDesc'], 
+                                                longDesc = ADPQShell.data['testLongDesc'], 
+                                                tags = ADPQShell.data['testTags'], 
+                                                attachments = ADPQShell.data['testAttachments'])
             assert(cls.user != None)
         except:
             print("Unexpected error during setUpClass:", sys.exc_info()[0])
-            raise
 
     
     
     # Test successfully editing an existing article.
     def test_success(self):
-        # Edit article.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         # GetArticleIds() returns a list of all ids.
         articleIds = self.user.GetArticleIds()
@@ -164,19 +146,19 @@ class TestEditArticle(unittest.TestCase):
             self.assertEqual(responseBody['data']['id'], articleIds[0],
                               msg='test_Success assert#2 has failed.') 
         
-        self.assertEqual(responseBody['data']['title'], TestEditArticle.title,
+        self.assertEqual(responseBody['data']['title'], ADPQShell.data['testTitle'],
                           msg='test_Success assert#3 has failed.') 
         
-        self.assertEqual(responseBody['data']['summary'], TestEditArticle.shortDesc,
+        self.assertEqual(responseBody['data']['summary'], ADPQShell.data['testShortDesc'],
                           msg='test_Success assert#4 has failed.') 
         
-        self.assertEqual(responseBody['data']['description'], TestEditArticle.longDesc,
+        self.assertEqual(responseBody['data']['description'], ADPQShell.data['testLongDesc'],
                           msg='test_Success assert#5 has failed.') 
         
-        self.assertEqual(responseBody['data']['status'], TestEditArticle.status,
+        self.assertEqual(responseBody['data']['status'], ADPQShell.data['testStatus'],
                           msg='test_Success assert#6 has failed.') 
         
-        self.assertEqual(responseBody['data']['tags'], [TestEditArticle.tags],
+        self.assertEqual(responseBody['data']['tags'], [ADPQShell.data['testTags']],
                           msg='test_Success assert#7 has failed.') 
          
          
@@ -189,17 +171,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Missing Authorization information from request call.
     def test_missingAuthorization(self):
-        # Missing Authorization value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status,
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'],
                                               AuthorizationExclude=True)
          
         self.assertEqual(responseBody['error'], 'Please provide an authentication token',
@@ -209,17 +190,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a null Authorization.
     def test_nullAuthorization(self):
-        # Null Authorization value.
         responseBody = self.user.edit_article(Authorization = '', 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['error'], 'Please provide an authentication token',
                           msg='test_nullAuthorization assert#1 has failed.')
@@ -229,17 +209,16 @@ class TestEditArticle(unittest.TestCase):
     # Test a int Authorization.
     @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_intAuthorization(self):
-        # Int Authorization value.
         responseBody = self.user.edit_article(Authorization = 1, 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['data'], [],
                           msg='test_intAuthorization assert#1 has failed.')
@@ -249,17 +228,16 @@ class TestEditArticle(unittest.TestCase):
     # Test a float Authorization.
     @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_floatAuthorization(self):
-        # Float Authorization value.
         responseBody = self.user.edit_article(Authorization = 1.1, 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
                           msg='test_floatAuthorization assert#1 failed.')
@@ -268,17 +246,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a string Authorization value call.
     def test_stringAuthorization(self):
-        # String Authorization value.
         responseBody = self.user.edit_article(Authorization = "';:.>,</?]}[{!@#$%^&*()-_=+|\"", 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
                           msg='test_stringAuthorization assert#1 failed.')
@@ -288,17 +265,16 @@ class TestEditArticle(unittest.TestCase):
     # Test an array Authorization value call.
     @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_arrayAuthorization(self):
-        # Array Authorization value.
         responseBody = self.user.edit_article(Authorization = ['hodl', 666, [.6, 0], {}], 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
                           msg='test_arrayAuthorization assert#1 failed.')
@@ -313,17 +289,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Missing ArticleId information from request call.
     def test_missingArticleId(self):
-        # Missing ArticleId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status,
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'],
                                               articleIdExclude=True)
        
         self.assertEqual(responseBody['status'], "saved!",
@@ -334,17 +309,16 @@ class TestEditArticle(unittest.TestCase):
     # Test a null ArticleId.
     @unittest.skip("JSONDecodeError")
     def test_nullArticleId(self):
-        # Null ArticleId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = '', 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_nullArticleId assert#1 has failed.')
@@ -353,18 +327,17 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a int ArticleId.
     def test_intArticleId(self):
-        # Int ArticleId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = 123456789, 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
-        # TEST HAS BEEN COMMENTED OUT.
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
+
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_intArticleId assert#1 has failed.')
 
@@ -372,17 +345,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a float ArticleId.
     def test_floatArticleId(self):
-        # Float ArticleId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = 12345.6789, 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_floatArticleId assert#1 failed.')
@@ -392,18 +364,17 @@ class TestEditArticle(unittest.TestCase):
     # Test a string ArticleId value call.
     @unittest.skip("JSONDecodeError")
     def test_stringArticleId(self):
-        # String ArticleId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = "';:.>,</?]}[{!@#$%^&*()-_=+|\"", 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
-        # TEST HAS BEEN COMMENTED OUT.
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
+
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_stringArticleId assert#1 failed.')
 
@@ -412,18 +383,17 @@ class TestEditArticle(unittest.TestCase):
     # Test an array ArticleId value call.
     @unittest.skip("JSONDecodeError")
     def test_arrayArticleId(self):
-        # Array ArticleId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = ['hodl', 666, [.6, 0], {}], 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
-        # TEST HAS BEEN COMMENTED OUT.
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
+
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_arrayArticleId assert#1 failed.')
         
@@ -437,17 +407,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Missing Title information from request call.
     def test_missingTitle(self):
-        # Missing Title value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status,
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'],
                                               titleExclude=True)
          
         self.assertEqual(responseBody['status'], "saved!",
@@ -457,17 +426,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a null Title.
     def test_nullTitle(self):
-        # Null Title value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
                                               title = '',
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
          
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_nullTitle assert#1 has failed.')
@@ -476,17 +444,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a int Title.
     def test_intTitle(self):
-        # Int Title value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
                                               title = 123456798,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
          
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_intTitle assert#1 has failed.')
@@ -495,17 +462,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a float Title.
     def test_floatTitle(self):
-        # Float Title value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
                                               title = 1.23456798,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_floatTitle assert#1 failed.')
@@ -514,17 +480,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a string Title value call.
     def test_stringTitle(self):
-        # String Title value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
                                               title = "';:.>,</?]}[{!@#$%^&*()-_=+|\"",
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_stringTitle assert#1 failed.')
@@ -533,17 +498,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test an array Title value call.
     def test_arrayTitle(self):
-        # Array Title value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
                                               title = ['hodl', 666, [.6, 0], {}],
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_arrayTitle assert#1 failed.')
@@ -558,17 +522,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Missing AgencyId information from request call.
     def test_missingAgencyId(self):
-        # Missing AgencyId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status,
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'],
                                               agencyIdExclude=True)
         
         self.assertEqual(responseBody['status'], "saved!",
@@ -578,17 +541,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a null AgencyId.
     def test_nullAgencyId(self):
-        # Null AgencyId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
+                                              title = ADPQShell.data['testTitle'],
                                               agencyId = '', 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_nullAgencyId assert#1 has failed.')
@@ -597,17 +559,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a int AgencyId.
     def test_intAgencyId(self):
-        # Int AgencyId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
+                                              title = ADPQShell.data['testTitle'],
                                               agencyId = 963852741, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_intAgencyId assert#1 has failed.')
@@ -616,17 +577,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a float AgencyId.
     def test_floatAgencyId(self):
-        # Float AgencyId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
+                                              title = ADPQShell.data['testTitle'],
                                               agencyId = -63852.741, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_floatAgencyId assert#1 failed.')
@@ -635,17 +595,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a string AgencyId value call.
     def test_stringAgencyId(self):
-        # String AgencyId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
+                                              title = ADPQShell.data['testTitle'],
                                               agencyId = "';:.>,</?]}[{!@#$%^&*()-_=+|\"", 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_stringAgencyId assert#1 failed.')
@@ -654,17 +613,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test an array AgencyId value call.
     def test_arrayAgencyId(self):
-        # Array AgencyId value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
+                                              title = ADPQShell.data['testTitle'],
                                               agencyId = ['hodl', 666, [.6, 0], {}], 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_arrayAgencyId assert#1 failed.')
@@ -679,17 +637,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Missing Audience information from request call.
     def test_missingAudience(self):
-        # Missing Audience value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status,
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'],
                                               audienceExclude=False)
         
         self.assertEqual(responseBody['status'], "saved!",
@@ -699,17 +656,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a null Audience.
     def test_nullAudience(self):
-        # Null Audience value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
                                               audience = '', 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_nullAudience assert#1 has failed.')
@@ -718,17 +674,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a int Audience.
     def test_intAudience(self):
-        # Int Audience value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
                                               audience = 123456789, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_intAudience assert#1 has failed.')
@@ -737,17 +692,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a float Audience.
     def test_floatAudience(self):
-        # Float Audience value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
                                               audience = 123456.789, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_floatAudience assert#1 failed.')
@@ -756,17 +710,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a string Audience value call.
     def test_stringAudience(self):
-        # String Audience value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
                                               audience = "';:.>,</?]}[{!@#$%^&*()-_=+|\"", 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertIn('error', responseBody.keys(), msg='test_stringAudience assert#1 failed.')
 
@@ -774,17 +727,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test an array Audience value call.
     def test_arrayAudience(self):
-        # Array Audience value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
                                               audience = ['hodl', 666, [.6, 0], {}], 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertIn('error', responseBody.keys(), msg='test_arrayAudience assert#1 failed.')
         
@@ -798,17 +750,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Missing ShortDesc information from request call.
     def test_missingShortDesc(self):
-        # Missing ShortDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status,
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'],
                                               shortDescExclude=True)
          
         self.assertEqual(responseBody['status'], "saved!",
@@ -818,17 +769,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a null ShortDesc.
     def test_nullShortDesc(self):
-        # Null ShortDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
                                               shortDesc = '', 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_nullShortDesc assert#1 has failed.')
@@ -837,17 +787,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a int ShortDesc.
     def test_intShortDesc(self):
-        # Int ShortDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
                                               shortDesc = 666666666666, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_intShortDesc assert#1 has failed.')
@@ -856,17 +805,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a float ShortDesc.
     def test_floatShortDesc(self):
-        # Float ShortDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
                                               shortDesc = 66666666666.6, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_floatShortDesc assert#1 failed.')
@@ -875,17 +823,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a string ShortDesc value call.
     def test_stringShortDesc(self):
-        # String ShortDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
                                               shortDesc = "';:.>,</?]}[{!@#$%^&*()-_=+|\"", 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_stringShortDesc assert#1 failed.')
@@ -894,17 +841,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test an array ShortDesc value call.
     def test_arrayShortDesc(self):
-        # Array ShortDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
                                               shortDesc = ['hodl', 666, [.6, 0], {}], 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_arrayShortDesc assert#1 failed.')
@@ -919,17 +865,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Missing LongDesc information from request call.
     def test_missingLongDesc(self):
-        # Missing LongDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status,
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'],
                                               longDescExclude=True)
         
         self.assertEqual(responseBody['status'], "saved!",
@@ -939,17 +884,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a null LongDesc.
     def test_nullLongDesc(self):
-        # Null LongDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
                                               longDesc = '', 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_nullLongDesc assert#1 has failed.')
@@ -958,17 +902,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a int LongDesc.
     def test_intLongDesc(self):
-        # Int LongDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
                                               longDesc = 321456987, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_intLongDesc assert#1 has failed.')
@@ -977,17 +920,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a float LongDesc.
     def test_floatLongDesc(self):
-        # Float LongDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
                                               longDesc = 32145698.7, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_floatLongDesc assert#1 failed.')
@@ -996,17 +938,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a string LongDesc value call.
     def test_stringLongDesc(self):
-        # String LongDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
                                               longDesc = "';:.>,</?]}[{!@#$%^&*()-_=+|\"", 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_stringLongDesc assert#1 failed.')
@@ -1015,17 +956,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test an array LongDesc value call.
     def test_arrayLongDesc(self):
-        # Array LongDesc value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
                                               longDesc = ['hodl', 666, [.6, 0], {}], 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_arrayLongDesc assert#1 failed.')
@@ -1040,17 +980,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Missing Tags information from request call.
     def test_missingTags(self):
-        # Missing Tags value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status,
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'],
                                               tagsExclude=True)
 
         self.assertEqual(responseBody['status'], "saved!",
@@ -1060,17 +999,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a null Tags.
     def test_nullTags(self):
-        # Null Tags value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
                                               tags = '', 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
 
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_nullTags assert#1 has failed.')
@@ -1079,17 +1017,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a int Tags.
     def test_intTags(self):
-        # Int Tags value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
                                               tags = 123456852, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
 
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_intTags assert#1 has failed.')
@@ -1098,17 +1035,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a float Tags.
     def test_floatTags(self):
-        # Float Tags value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
                                               tags = 12345.6852, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_floatTags assert#1 failed.')
@@ -1117,17 +1053,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a string Tags value call.
     def test_stringTags(self):
-        # String Tags value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
                                               tags = "';:.>,</?]}[{!@#$%^&*()-_=+|\"", 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_stringTags assert#1 failed.')
@@ -1137,17 +1072,16 @@ class TestEditArticle(unittest.TestCase):
     # Test an array Tags value call.
     @unittest.skip("JSONDecodeError")
     def test_arrayTags(self):
-        # Array Tags value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
                                               tags = ['hodl', 666, [.6, 0], {}], 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status)
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_arrayTags assert#1 failed.')
@@ -1162,17 +1096,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Missing Attachments information from request call.
     def test_missingAttachments(self):
-        # Missing Attachments value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status,
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'],
                                               attachmentsExclude=True)
  
         self.assertEqual(responseBody['status'], "saved!",
@@ -1182,17 +1115,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a null Attachments.
     def test_nullAttachments(self):
-        # Null Attachments value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
                                               attachments = '', 
-                                              status = TestEditArticle.status)
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_nullAttachments assert#1 has failed.')
@@ -1201,17 +1133,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a int Attachments.
     def test_intAttachments(self):
-        # Int Attachments value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
                                               attachments = 666, 
-                                              status = TestEditArticle.status)
+                                              status = ADPQShell.data['testStatus'])
  
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_intAttachments assert#1 has failed.')
@@ -1220,17 +1151,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a float Attachments.
     def test_floatAttachments(self):
-        # Float Attachments value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
                                               attachments = 66.6, 
-                                              status = TestEditArticle.status)
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_floatAttachments assert#1 failed.')
@@ -1239,17 +1169,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a string Attachments value call.
     def test_stringAttachments(self):
-        # String Attachments value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
                                               attachments = "';:.>,</?]}[{!@#$%^&*()-_=+|\"", 
-                                              status = TestEditArticle.status)
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['error'], "TypeError: articleObj.attachments.forEach is not a function",
                           msg='test_stringAttachments assert#1 failed.')
@@ -1258,17 +1187,16 @@ class TestEditArticle(unittest.TestCase):
 
     # Test an array Attachments value call.
     def test_arrayAttachments(self):
-        # Array Attachments value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
                                               attachments = ['hodl', 666, [.6, 0], {}], 
-                                              status = TestEditArticle.status)
+                                              status = ADPQShell.data['testStatus'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_arrayAttachments assert#1 failed.')
@@ -1283,17 +1211,16 @@ class TestEditArticle(unittest.TestCase):
         
     # Missing Status information from request call.
     def test_missingStatus(self):
-        # Missing Status value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
-                                              status = TestEditArticle.status,
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'],
                                               statusExclude=True)
  
         self.assertEqual(responseBody['status'], "saved!",
@@ -1303,16 +1230,15 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a null Status.
     def test_nullStatus(self):
-        # Null Status value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
                                               status = '')
         
         self.assertEqual(responseBody['status'], "saved!",
@@ -1322,16 +1248,15 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a int Status.
     def test_intStatus(self):
-        # Int Status value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
                                               status = 666)
  
         self.assertEqual(responseBody['status'], "saved!",
@@ -1341,16 +1266,15 @@ class TestEditArticle(unittest.TestCase):
 
     # Test a float Status.
     def test_floatStatus(self):
-        # Float Status value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
                                               status = -.666)
         
         self.assertEqual(responseBody['status'], "saved!",
@@ -1360,16 +1284,15 @@ class TestEditArticle(unittest.TestCase):
         
     # Test a string Status value call.
     def test_stringStatus(self):
-        # String Status value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
                                               status = "';:.>,</?]}[{!@#$%^&*()-_=+|\"")
         
         self.assertEqual(responseBody['status'], 'saved!',
@@ -1379,16 +1302,15 @@ class TestEditArticle(unittest.TestCase):
 
     # Test an array Status value call.
     def test_arrayStatus(self):
-        # Array Status value.
         responseBody = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
                                               articleId = self.user.GetArticleIds(), 
-                                              title = TestEditArticle.title,
-                                              agencyId = TestEditArticle.agencyId, 
-                                              audience = TestEditArticle.audience, 
-                                              shortDesc = TestEditArticle.shortDesc, 
-                                              longDesc = TestEditArticle.longDesc, 
-                                              tags = TestEditArticle.tags, 
-                                              attachments = TestEditArticle.attachments, 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
                                               status = ['hodl', 666, [.6, 0], {}])
         
         self.assertEqual(responseBody['status'], "saved!",
@@ -1402,11 +1324,8 @@ class TestEditArticle(unittest.TestCase):
     def tearDownClass(cls):
         try:
             pass
-#             cls.user.remove_user(cls.user.testEmail)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
-            #raise
-        #cls.user.remove_user(cls.user.testEmail)
     
     
     
