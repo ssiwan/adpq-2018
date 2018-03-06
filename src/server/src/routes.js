@@ -70,7 +70,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //GET
         router.get('/searchArticles', articleController.search);
         router.get('/articles/:articleId', articleController.getArticleDetails);
-        router.get('/articles', articleController.getArticles);        
+        router.get('/articles', articleController.getArticles);  
 
     //POST
         router.post('/articles', articleController.createArticle);
@@ -78,6 +78,9 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //PATCH
         router.patch('/incrementViews/:articleId', articleController.incrementViews); 
         router.patch('/incrementShares/:articleId', articleController.incrementShares); 
+
+    //DELETE
+        router.delete('/articles/:articleId', articleController.deleteArticle); 
 
 //articleEditRoutes
     //POST
