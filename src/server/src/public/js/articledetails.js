@@ -18,8 +18,6 @@ $(document).ready(function(){
                             case "admin":
                                 $("#btnhistory").show();
                                 $("#articledelete").show();
-                                $("#btndecline").show();
-                                $("#btnapprove").show();
                                 $("#commentsection").show();
                                 $("#comments").show();
                                 $("#adminsettingsbtn").show();
@@ -27,12 +25,9 @@ $(document).ready(function(){
                                 break;
                                 case "staff":
                                 $("#btnhistory").show();
-                                //$("#shareemail").show();
                                 $("#commentsection").show();
                                 $("#comments").show();
-                                //$("#createarticlelnk").show();
                                 $("#staffcssmenu").show();
-                                //$("#articleeditlnk").show();
                                 break;
                     
                             default: // public
@@ -87,11 +82,17 @@ $(document).ready(function(){
                                         $("#articleeditlnk").show();
                                         $("#articledelete").show();
                                     }
+                                    if (role === "admin") {
+                                        $("#btndecline").show();
+                                        $("#btnapprove").show();
+                                    }
                                 }
 
                                 if (response.data.status === 1) { // published (Share icons should not show up until article is approved)
                                     $("#shareicons").show();
-                                    $("#status").append("published");  
+                                    $("#status").append("published"); 
+                                    $("#btndecline").hide();
+                                    $("#btnapprove").hide();
                                 } 
                                 if (response.data.status === 2) { // declined
                                     $("#status").append("declined");
@@ -288,7 +289,12 @@ $(document).ready(function(){
                 incrementShares();
             });
 
-            $("#logout").click(function() {
+            $("#logoutadmin").click(function() {
+                sessionStorage.clear();
+                window.location.href = "index.html";
+            })
+
+            $("#logoutstaff").click(function() {
                 sessionStorage.clear();
                 window.location.href = "index.html";
             })

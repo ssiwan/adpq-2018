@@ -17,6 +17,9 @@ blockquote:before, blockquote:after, q:before, q:after { content: ''; content: n
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,700);*/
 html, body { font-family:  "Roboto", serif!important; }
 p { font-family: roboto; }
+footer { height: 25px; }
+a { color:#000; text-decoration: underline;}
+a:hover, a:focus { color:#046b99; text-decoration: underline;}
 .adpq-header {
 	font-family:"Roboto", serif;
 	font-size: 18px;
@@ -177,7 +180,7 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 }
 .adpq-pass, .adpq-user {
 	width: 150px;
-	padding: 10px 10px;
+	padding: 5px 10px;
 	border: 1px solid #FDB81E;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -233,16 +236,30 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 .adpq-listview-btn:hover { background: url("../img/articles-h.png") no-repeat;}
 .main-wrapper-lrg { background: url("../img/adpq-headerbg-lrg.gif") repeat-x; height: 151px; }
 .main-wrapper-sm { background: url("../img/adpq-headerbg-sm.jpg") repeat-x; height: 51px;  }
+.create-plus-btn {
+	width: 16px!important;
+	height: 16px!important;
+	position: relative!important;
+	float: right!important;
+	background: url("../img/create-plus-n.png") no-repeat;
+	right: 125px;
+	bottom: 2px;	
+/*	clear:both;*/
+}
+.create-plus-btn:hover, .create-plus-btn:focus {
+	background: url("../img/create-plus-h.png") no-repeat;	
+/*	clear:both;*/
+}
 /* Navigation Begins */
 *{margin:0;padding:0;text-decoration:none}
-.under-menu { position:relative; top: 51px; }
+.under-menu { position:relative; top: 50px; }
 body{}
 /*Header Marckup*/
 header{position:relative;width:100%;border-bottom:1px solid #e0e0e0;}
 .logo{position:relative;z-index:123;padding:10px;font:18px verdana;color:#6DDB07;float:left;width:15%}
 .logo a{color:#046b99;}
 nav{position:relative;width:1100px;margin:0 auto;}
-.cssmenu,.cssmenu ul,.cssmenu ul li,.cssmenu ul li a,.cssmenu #head-mobile{border:0;list-style:none;line-height:1;display:block;position:relative;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box; float:right; z-index:1  }
+.cssmenu,.cssmenu ul,.cssmenu ul li,.cssmenu ul li a,.cssmenu #head-mobile{border:0;list-style:none;line-height:1;display:block;position:relative;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box; float:right; z-index:9999;  }
 .cssmenu:after,.cssmenu > ul:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0}
 .cssmenu #head-mobile{display:none}
 .cssmenu{font-family:"roboto", sans-serif;}
@@ -399,7 +416,7 @@ nav{width:100%;}
 .trending-content, .mypublished-content, .workflow-content {
 	display: block;
 	float: left;
-	height: 296px;
+	height: 325px;
 	width: 1068px;
 	position: relative;
 	-webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
@@ -536,7 +553,7 @@ div.kpi-lastupdate {
 .trending-row-one, .trending-row-two, .trending-row-three {
 	display: block;
 	float: left;
-	height: 88px;
+	height: 100px;
 	width: 1046px;
 	position: relative;
 	top: 0px;
@@ -741,15 +758,17 @@ a.viewmore-link:focus {
 .left-title, .left-publish-date {
 	display: inline-block;
 	float: left;
-
 	width: 576px;
 	position: relative;
 	left: 0px;
 	top: 0px;
 	font-family: "roboto", serif;
-	font-size: 18px;
+	font-size: 16px;
 	color: #000;
+	font-weight: bold;
+	line-height:20px;
 }
+/*.left-title { font-size: 16px; 	height: 34px; color:#000; padding-top: 3px;}*/
 .left-agency, .left-shortdesc, .left-author {
 	display: inline-block;
 	float: left;
@@ -764,7 +783,7 @@ a.viewmore-link:focus {
 }
 .author { font-family: "roboto", serif; font-size: 14px; color: #000; font-weight: bold;}
 .author span, .pub-date { font-weight: normal!important; }
-.left-title { font-size: 18px; 	height: 34px; color:#000; padding-top: 3px;}
+
 .left-publish-date { font-size: 14px; 	height: 18px; color:#000;}
 .left-agency, .left-author { font-size: 14px; font-weight: bold; color:#000;}
 .left-shortdesc { font-size: 14px; color:#669; overflow: hidden; white-space: nowrap!important; width: 790px!important; }
@@ -776,12 +795,13 @@ a.viewmore-link:focus {
 	position: relative;
 	top: 0px;
 	right: 0px;
+	font-size: 14px;
 }
 .left-most, .left-most-pubdatel {
 	display: block;
 	float: left;
 	height: 34px;
-	width: 122px;
+	width: 30px;
 	position: relative;
 	font-family: "roboto", serif;
 	font-size: 12px;
@@ -821,7 +841,7 @@ a.viewmore-link:focus {
 	display: block;
 	float: left;
 	height: 34px;
-	width: 65px;
+	width: 45px;
 	position: relative;
 	left: 5px;
 	top: 0px;
@@ -1721,4 +1741,4 @@ input:checked + .slider:before {
 /*	padding-right:4px;*/
 	padding: 0 5px 0 10px;
 }
-
+.bottom-space { margin: 25px 0px }
