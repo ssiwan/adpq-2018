@@ -35,7 +35,7 @@ var additionalArgs = process.argv[4];
 
 // Create Payload
 var payload;
-if (type == "SUCCESS" || type == "SUCCESS ") { // TODO: trim whitespace later, get it working meow!
+if (type.trim() == "SUCCESS") { // TODO: trim whitespace later, get it working meow!
 		payload = {
 				text: message,
 				attachments: [
