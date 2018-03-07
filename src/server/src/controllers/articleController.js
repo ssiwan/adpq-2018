@@ -748,13 +748,13 @@ exports.deleteArticle = function(req, res) {
 
     var queryParams = {}; 
     queryParams._id = articleobjid; 
-    var query = article.find(queryParams); 
+    var query = article.findOne(queryParams); 
     query.catch(function(err) {
         return res.json({error: err.toString()}); 
     }); 
     query.then(function(returnarticle) {    
         if (returnarticle != null) {
-            if ((userRole == 2) || ((returnarticle.status == 0) && (returnarticle.createdBy == userobjid))) {
+            if ((userRole == 2) || ((returnarticle.status == 0) && (returnarticle.createdBy.toString() == req.userId))) {
                 if (returnarticle.status == 1) {
                     tagController.decrementTagArticleCounts(returnarticle.tags);
                     agencyController.decrementAgencyArticleCount(returnarticle.agency.toString()); 
@@ -871,7 +871,7 @@ function getTagNames(tags) {
     return returnarray; 
 }; 
 
-function getLastUpdatedDate(edits) {    
+function getLastUpdatedDate(edits) {
     if (edits != null && edits.length > 0) {
         var recentEdit = edits[edits.length - 1];
         return recentEdit.createdAt; 

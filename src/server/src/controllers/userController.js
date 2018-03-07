@@ -129,5 +129,10 @@ exports.deleteUser = function(req, res) {
 
     query.then(function(returnuser) {
         return res.json({data:'user removed!'}); 
-    })
+    });
 }
+
+exports.editUser = function(req, res) {
+    
+}
+
