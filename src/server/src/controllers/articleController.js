@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
     article = mongoose.model('article'),
     users = mongoose.model('user'),
     tagController = require('./tagsController'),
-    agencyController = require('./agencyController'); 
+    agencyController = require('./agencyController'),
+    articleEditController = require('./articleEditController'); 
     
 var ObjectId = mongoose.Types.ObjectId; 
 
@@ -760,10 +761,12 @@ exports.deleteArticle = function(req, res) {
                     agencyController.decrementAgencyArticleCount(returnarticle.agency.toString()); 
                 }
 
+                articleEditController.deleteArticleEdits(returnarticle._id.toString()); 
+
                 var deleteQuery = article.find(queryParams).remove().exec();
                 deleteQuery.then(function(ret){
                     return res.json({data:'article removed!'}); 
-                }) 
+                }); 
             }
             else {
                 return res.json({error: 'Delete is not permitted'}); 
