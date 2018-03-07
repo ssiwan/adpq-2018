@@ -9,10 +9,10 @@ setEnv = ''
 
 # Set API Development Environment
 if 'Environment' not in os.environ.keys():
-    print('\n[AutoScript] Defaulting to staging.\n')
+    # print('\n[AutoScript] Defaulting to staging.\n')
     setEnv = environmentBody['staging']
 else:
-    print('\n[AutoScript] Setting environment to', os.environ['Environment'], '\n')
+    # print('\n[AutoScript] Setting environment to', os.environ['Environment'], '\n')
     if os.environ['Environment'] == 'local':
         setEnv = 'http://localhost:3001'
     elif os.environ['Environment'] == 'staging':
@@ -21,6 +21,7 @@ else:
         setEnv = 'http://adpq-production-loadbalancer-557804625.us-west-1.elb.amazonaws.com'
  
 setEnv.strip()
+
 
 
 ## @class ADPQ Test Automation Shell 
@@ -72,8 +73,6 @@ class QaADPQShell:
     articleDateEnd = 'dateEnd=03-01-2018&'
     articleAgencyId = 'agencyId=5a8b73f94212d1f20f847b9a&'
     agencyTagId = 'tagId=5a8b55bca2d13ad4ba5369ef&'
-    
-        
         
     ## @fn __init__ : Class initializations.
     def __init__(self, env=setEnv):
@@ -113,8 +112,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\nget_agencies\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\nget_agencies\n', responseBody)
+        # print('response.status_code: ', response.status_code)
 
         return responseBody
     
@@ -144,8 +143,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\nget_tags\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\nget_tags\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         return responseBody
     
@@ -201,8 +200,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\nget_article_list\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\nget_article_list\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         return responseBody
     
@@ -231,8 +230,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\nsearch_articles\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\nsearch_articles\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         return responseBody
     
@@ -270,8 +269,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\nsign_in\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\nsign_in\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         # Only if request was successful, save critical user data.
         if 'token' in responseBody.keys():
@@ -327,8 +326,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\nget_articles_details\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\nget_articles_details\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         return responseBody
     
@@ -439,8 +438,8 @@ class QaADPQShell:
                 self.articleId.append(responseBody['articleId']) 
         
         # ~~ TESTING ~~
-        print('\ncreate_article\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\ncreate_article\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         return responseBody
     
@@ -569,8 +568,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\nEdit_article\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\nEdit_article\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         if return_status == True:
             return response
@@ -634,8 +633,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\ncomment_article\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\ncomment_article\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         if return_status == True:
             return response
@@ -686,8 +685,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\nget_presignedS3\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\nget_presignedS3\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         if return_status == True:
             return response
@@ -730,8 +729,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\ndashboard_analytics\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\ndashboard_analytics\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         return responseBody
     
@@ -769,8 +768,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\ndashboard_trending\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\ndashboard_trending\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         return responseBody
     
@@ -808,8 +807,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\ndashboard_pubArticles\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\ndashboard_pubArticles\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         return responseBody
     
@@ -847,8 +846,8 @@ class QaADPQShell:
         responseBody = response.json()
         
         # ~~ TESTING ~~
-        print('\ndashboard_workflow\n', responseBody)
-        print('response.status_code: ', response.status_code)
+        # print('\ndashboard_workflow\n', responseBody)
+        # print('response.status_code: ', response.status_code)
         
         return responseBody
     

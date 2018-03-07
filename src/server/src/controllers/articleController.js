@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
     article = mongoose.model('article'),
     users = mongoose.model('user'),
     tagController = require('./tagsController'),
-    agencyController = require('./agencyController'); 
+    agencyController = require('./agencyController'),
+    articleEditController = require('./articleEditController'); 
     
 var ObjectId = mongoose.Types.ObjectId; 
 
@@ -748,22 +749,24 @@ exports.deleteArticle = function(req, res) {
 
     var queryParams = {}; 
     queryParams._id = articleobjid; 
-    var query = article.find(queryParams); 
+    var query = article.findOne(queryParams); 
     query.catch(function(err) {
         return res.json({error: err.toString()}); 
     }); 
     query.then(function(returnarticle) {    
         if (returnarticle != null) {
-            if ((userRole == 2) || ((returnarticle.status == 0) && (returnarticle.createdBy == userobjid))) {
+            if ((userRole == 2) || ((returnarticle.status == 0) && (returnarticle.createdBy.toString() == req.userId))) {
                 if (returnarticle.status == 1) {
                     tagController.decrementTagArticleCounts(returnarticle.tags);
                     agencyController.decrementAgencyArticleCount(returnarticle.agency.toString()); 
                 }
 
+                articleEditController.deleteArticleEdits(returnarticle._id.toString()); 
+
                 var deleteQuery = article.find(queryParams).remove().exec();
                 deleteQuery.then(function(ret){
                     return res.json({data:'article removed!'}); 
-                }) 
+                }); 
             }
             else {
                 return res.json({error: 'Delete is not permitted'}); 
@@ -871,7 +874,7 @@ function getTagNames(tags) {
     return returnarray; 
 }; 
 
-function getLastUpdatedDate(edits) {    
+function getLastUpdatedDate(edits) {
     if (edits != null && edits.length > 0) {
         var recentEdit = edits[edits.length - 1];
         return recentEdit.createdAt; 

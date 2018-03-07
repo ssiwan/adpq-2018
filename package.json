@@ -15,8 +15,8 @@
     "start": "docker-compose up --build -d",
     "build": "docker-compose build --force-rm --no-cache --pull",
     "teardown": "docker stop 'api' && docker rm -f 'api' && docker rmi 'api' && docker stop 'db' && docker rm -f 'db' && rm -rf ./data",
-    "test": "npm start && npm run test:build && npm run test:run",
-    "test:run": "docker run -v ~/Desktop/testResults:/data/testReports -e Environment=local --name adpq_tests -i adpq_tests >> testResults.xml && npm run test:teardown && npm run teardown",
+    "test": "rm -rf testResults.xml && npm start && npm run test:build && npm run test:run && npm run test:teardown",
+    "test:run": "docker run --network='host' -v ~/Desktop/testResults:/data/testReports -e Environment=local --name adpq_tests -i adpq_tests >> testResults.xml",
     "test:build": "docker build ./src/qa -t adpq_tests",
     "test:teardown": "docker stop 'adpq_tests' && docker rm -f 'adpq_tests' && docker rmi 'adpq_tests'"
   },

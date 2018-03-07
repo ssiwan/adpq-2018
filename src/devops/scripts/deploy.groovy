@@ -1,4 +1,8 @@
 node {
+    // stage('Clean Up') {
+    //     deleteDir()
+    // }
+
     stage('Checkout') {
 
         // Load Node.js
@@ -14,9 +18,12 @@ node {
         } else {
             if (scmVars.GIT_BRANCH == 'origin/staging') {
                 println "Staging Branch"
+
+                // Run tests locally
                 sh 'cp /aws/adpq/server/local/config.json ./src/server/src/config.json' // Setup Local Config for Tests
-                println "Copied Staging Config.json"
                 runStagingTests()
+
+                // Build and deploy to staging
                 sh 'cp /aws/adpq/server/staging/config.json ./src/server/src/config.json' // Setup Staging Config for Deployment
                 build()
                 publish()
@@ -33,9 +40,9 @@ node {
         }
     }
 
-    stage ('Clean Up') { // Clean Up Workspace
-        // deleteDir()
-    }
+    // stage ('Clean Up') { // Clean Up Workspace
+    //     // deleteDir()
+    // }
 }
 
 def build() {
@@ -73,7 +80,7 @@ def runStagingTests() {
 
             # Build & run container
             docker build ./src/qa -t adpq_tests &&
-            docker run -v /var/lib/jenkins/adpq_test_results/reports:/data/reports -e Environment=local --name adpq_tests -i adpq_tests >> /var/lib/jenkins/adpq_test_results/results.xml &&
+            docker run --network='host' -v /var/lib/jenkins/adpq_test_results/reports:/data/reports -e Environment=local --name adpq_tests -i adpq_tests >> /var/lib/jenkins/adpq_test_results/results.xml &&
             docker rm adpq_tests && docker rmi adpq_tests &&
 
             # Extract test results and save to var RESULTS
@@ -98,7 +105,10 @@ def runStagingTests() {
             aws s3 cp --acl public-read ./testResultsImg.svg s3://adpq-assets/buildAssets/testResults.svg
             rm -rf ./testResultsImg.svg
 
-            docker stop api && docker rm api && docker rmi api && docker stop db && docker rm db
+            # Docker Cleanup
+            docker kill -f $(docker ps -q) || true
+            docker rm -f $(docker ps -a -q) || true
+            docker rmi -f $(docker images -q) || true
         '''
     }
 }
@@ -222,8 +232,16 @@ def deployStaging() {
 def sendSlackNotification() {
     stage ('Notify') {
         RESULTS = readFile 'RESULTS'
-        RESULT_TYPE =  readFile 'RESULT_TYPE'
-        sh "sleep 10 && logs=\$(git log -1 --pretty=%B origin/staging) && echo \"$RESULTS\" && node ./src/devops/scripts/slackNotification.js \"$RESULT_TYPE\" \"*New Staging Build Available*\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n\$logs\n\n\" \"$RESULTS\""
+        RESULT_TYPE = readFile 'RESULT_TYPE'
+        sh "sleep 10 && logs=\$(git log -1 --pretty=%B origin/staging) && echo \'$RESULT_TYPE\' && node ./src/devops/scripts/slackNotification.js \'$RESULT_TYPE\' \"*New Staging Build Available*\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n\$logs\n\n\" \'$RESULTS\'"
+
+        // Cleanup
+        sh '''
+            # Docker Cleanup
+            docker kill -f $(docker ps -q) || true
+            docker rm -f $(docker ps -a -q) || true
+            docker rmi -f $(docker images -q) || true
+        '''
     }
 }
 

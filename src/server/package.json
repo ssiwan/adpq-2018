@@ -30,7 +30,8 @@
     "express": "4.16.2",
     "helmet": "3.10.0",
     "jsonwebtoken": "8.1.1",
-    "mongoose": "5.0.3"
+    "mongoose": "5.0.3",
+    "nodemailer": "4.6.2"
   },
   "devDependencies": {
     "eslint": "^4.17.0"
@@ -44,7 +45,7 @@
   ],
   "private": false,
   "contributors": [
-    "Noel Eom <neom@hotbsoftware.com>", 
+    "Noel Eom <neom@hotbsoftware.com>",
     "Raghu Jonnala <rjonnala@counselordirect.com>",
     "Eric Dobyns <edobyns@hotbsoftware.com>",
     "Ken Baker <kbaker@hotbsoftware.com>",
