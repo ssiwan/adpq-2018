@@ -78,7 +78,7 @@ def runStagingTests() {
 
             # Build & run container
             docker build ./src/qa -t adpq_tests &&
-            docker run -v /var/lib/jenkins/adpq_test_results/reports:/data/reports -e Environment=local --name adpq_tests -i adpq_tests >> /var/lib/jenkins/adpq_test_results/results.xml &&
+            docker run --network='host' -v /var/lib/jenkins/adpq_test_results/reports:/data/reports -e Environment=local --name adpq_tests -i adpq_tests >> /var/lib/jenkins/adpq_test_results/results.xml &&
             docker rm adpq_tests && docker rmi adpq_tests &&
 
             # Extract test results and save to var RESULTS
