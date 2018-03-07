@@ -1,6 +1,6 @@
 {
 	"testTitle" : "Ministry of Truth",
-	"testEmail" : "jlennon@hotbsoftware.com",
+	"testEmail" : "rstar@hotbsoftware.com",
     "testPassword" : "p@assw0rd1!",
     "testFirstName" : "Ragnar",
     "testLastName" : "Lothbrok",
@@ -36,6 +36,10 @@
     "EditArticles" : "editArticle",
     "ArticleComment" : "articleComment",
     "PreS3" : "preS3",
+    "AdminDashDecline":"adminDashboardDeclined",
+    "AdminDashApproved":"adminDashboardApproved",
+    "AdminDashPending":"adminDashboardPending",
+    "DeleteArticle":"articles/",
     
     
     "articleSort" : "sort=createdAt&",

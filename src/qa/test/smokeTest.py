@@ -1,4 +1,4 @@
-import sys, unittest, requests, ADPQShell
+import sys, unittest, ADPQShell
 '''
     ADPQ v1 - All end points.
     
@@ -143,7 +143,19 @@ class SmokeTest(unittest.TestCase):
         status = self.user.get_presignedS3(Authorization = self. user.GetAuthKey(), 
                                            name = 'puppy.jpeg', return_status=True)
         self.assertEqual(status.status_code, 200, msg='test_PresignedS3Status assert#1 failed.')
-
+    
+    
+    
+    ## Get the status of the AdminDashboard end point.
+    def test_AdminDashboardsStatus(self):
+        status = self.user.admin_dashboard_decline(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_AdminDashboardStatus assert#1 failed.')
+        
+        status = self.user.admin_dashboard_approved(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_AdminDashboardStatus assert#2 failed.')
+        
+        status = self.user.admin_dashboard_pending(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_AdminDashboardStatus assert#3 failed.')
 
 
     
@@ -166,6 +178,7 @@ def suite():
     suite.addTest(SmokeTest('test_EditArticleStatus'))
     suite.addTest(SmokeTest('test_CommentArticleeStatus'))
     suite.addTest(SmokeTest('test_PresignedS3Status'))
+    suite.addTest(SmokeTest('test_AdminDashboardsStatus'))
     
     return suite
     

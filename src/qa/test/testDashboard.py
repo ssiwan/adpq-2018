@@ -42,37 +42,33 @@ class TestGetArticlesDetails(unittest.TestCase):
     
     # Test successfully getting the users dashboard analytics.
     def test_successAnalytics(self):
-        responseBody = self.user.dashboard_analytics(self.user.GetAuthKey())
+        status = self.user.dashboard_analytics(self.user.GetAuthKey(), return_status=True)
 
-        self.assertNotEqual(responseBody['data'], [],
-                            msg='test_successAnalytics assert#1 has failed.')
+        self.assertEqual(status.status_code, 200, msg='test_successAnalytics assert#1 failed.')
         
     
     
     # Test successfully getting the users dashboard trending articles.
     def test_successTrendings(self):
-        responseBody = self.user.dashboard_trending(self.user.GetAuthKey())
+        status = self.user.dashboard_trending(self.user.GetAuthKey(), return_status=True)
 
-        self.assertNotEqual(responseBody['data'], [],
-                            msg='test_successTrendings assert#1 has failed.')
+        self.assertEqual(status.status_code, 200, msg='test_successTrendings assert#1 failed.')
         
         
         
     # Test successfully getting the users published articles.
     def test_successPublishedArticles(self):
-        responseBody = self.user.dashboard_pubArticles(self.user.GetAuthKey())
+        status = self.user.dashboard_pubArticles(self.user.GetAuthKey(), return_status=True)
 
-        self.assertNotEqual(responseBody['data'], [],
-                            msg='test_successPublishedArticles assert#1 has failed.')
+        self.assertEqual(status.status_code, 200, msg='test_successPublishedArticles assert#1 failed.')
         
         
         
     # Test successfully getting the users dashboard workflow.
     def test_successWorkflow(self):
-        responseBody = self.user.dashboard_workflow(self.user.GetAuthKey())
+        status = self.user.dashboard_workflow(self.user.GetAuthKey(), return_status=True)
 
-        self.assertNotEqual(responseBody['data'], [],
-                            msg='test_successWorkflow assert#1 has failed.')
+        self.assertEqual(status.status_code, 200, msg='test_successWorkflow assert#1 failed.')
          
          
          

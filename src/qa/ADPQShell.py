@@ -28,7 +28,7 @@ else:
 # Get all necessary data.
 with open('data.json') as data_file:    
     data = json.load(data_file)
-print(data)
+# print(data)
     
 
 '''
@@ -65,7 +65,64 @@ class ADPQ:
         self.articleId = []
         
         
-
+    
+    ## @fn delete_article : Will add comments to the specified article.
+    #
+    def delete_article(self, Authorization='', articleId=[],
+                       AuthorizationExclude=False,  articleIdExclude=False,
+                       return_status=False):
+        
+        url = self.environment + data['DeleteArticle']
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+        
+        # articleId body parameter.
+        if articleIdExclude == True:
+            pass
+        elif articleId != '' and articleId != []:
+            if type(articleId) == list: 
+                body['articleId'] = articleId[0]
+            else:
+                body['articleId'] = articleId
+        else:
+            body['articleId'] = '5a9f3382724638000fcf011a'
+        
+        # Delete the article at this dict value.
+        url = url + body['articleId']
+            
+        response = requests.request('DELETE', url, json={}, headers=headers, verify=False)
+    
+        responseBody = response.json()
+        
+        if TestOutput == True:
+            print('\ndelete_article\n', responseBody)
+            print('response.status_code: ', response.status_code)
+        
+        # Delete the articleId if successful.
+        if response.status_code == 200 and "error" not in responseBody.keys():
+            del self.articleId[0]
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
+    
     ## @fn get_agency_list : Will return a list of all agencies.
     # :required - api_key
     #
@@ -106,10 +163,8 @@ class ADPQ:
             'Cache-Control': 'no-cache'
         }
             
-        # Make HTTPS Request.
         response = requests.request('GET', url, json={}, headers=headers, verify=False)
     
-        # Return requests object of json data.
         responseBody = response.json()
         
         if TestOutput == True:
@@ -302,7 +357,7 @@ class ADPQ:
     
     ## @fn create_article : Creates an article.
     #
-    def create_article(self, Authorization='', title='', agencyId='', audience=0,
+    def create_article(self, Authorization='', title='', agencyId='', audience='',
                        shortDesc='', longDesc='', tags='', attachments=[],
                        AuthorizationExclude=False, titleExclude=False,
                        agencyIdExclude=False, audienceExclude=False,
@@ -380,14 +435,13 @@ class ADPQ:
         # Attachments can be a string or list, assignment works different, check.
         elif attachments != '' and attachments != []:
             if type(attachments) == list:
-                body['attachments'] = attachments[0]
+                body['attachments'] = list(attachments[0])
             else:
-                body['attachments'] = attachments
+                body['attachments'] = list(attachments)
         else:
-            body['attachments'] = ''
+            body['attachments'] = list('')
             
-        response = requests.request('POST', url, json=body, 
-                                    headers=headers, verify=False)
+        response = requests.request('POST', url, json=body, headers=headers, verify=False)
     
         responseBody = response.json()
         
@@ -781,6 +835,117 @@ class ADPQ:
         return responseBody
     
     
+    
+    ## @fn admin_dashboard_decline : Will get the analytics of the user such as
+    #                            review, public, decline, etc counts.
+    #
+    def admin_dashboard_decline(self, Authorization='', AuthorizationExclude=False, 
+                                return_status=False):  
+
+        url = self.environment + data['AdminDashDecline']
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        response = requests.request('GET', url, json={}, headers=headers, verify=False)
+    
+        responseBody = response.json()
+        
+        if TestOutput == True:
+            print('\nadmin_dashboard_decline', responseBody)
+            print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
+    
+    ## @fn admin_dashboard_approved : Will get the analytics of the user such as
+    #                            review, public, decline, etc counts.
+    #
+    def admin_dashboard_approved(self, Authorization='', AuthorizationExclude=False, 
+                                return_status=False):  
+
+        url = self.environment + data['AdminDashApproved']
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        response = requests.request('GET', url, json={}, headers=headers, verify=False)
+    
+        responseBody = response.json()
+        
+        if TestOutput == True:
+            print('\nadmin_dashboard_approved', responseBody)
+            print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
+    
+    ## @fn admin_dashboard_pending : Will get the analytics of the user such as
+    #                            review, public, decline, etc counts.
+    #
+    def admin_dashboard_pending(self, Authorization='', AuthorizationExclude=False, 
+                                return_status=False):  
+        
+        url = self.environment + data['AdminDashPending']
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        response = requests.request('GET', url, json={}, headers=headers, verify=False)
+    
+        responseBody = response.json()
+        
+        if TestOutput == True:
+            print('\nadmin_dashboard_pending', responseBody)
+            print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
 
     def GetRole(self):
         return self.role
@@ -793,3 +958,136 @@ class ADPQ:
     
     def GetArticleIds(self):
         return self.articleId
+    
+    
+    
+    
+    
+    
+def Test_Class():
+    # Declare class objects. Create class instance. DONE
+    user = ADPQ()
+    
+    
+    # Method signature. DONE
+    # sign_in(self, email='', emailExclude=False, return_status=False):
+    user.sign_in(email = data['testEmail'])
+    
+    
+#     # Method signature. DONE
+#     # get_agencies(return_status=False):
+#     user.get_agencies()
+    
+    
+#     # Method signature. DONE
+#     # get_tags(return_status=False):
+#     user.get_tags()
+     
+     
+#     # Method signature. DONE
+#     # get_articles(Authorization='', AuthorizationExclude=False, sortUrl=False,
+#     #              limitUrl=False, dateStartURL=False, dateEndUrl=False,
+#     #              agencyIdUrl=False, tagIdUrl=False, return_status=False):
+#     user.get_articles(Authorization = user.GetAuthKey(), AuthorizationExclude=False,
+#                       sortUrl=False, limitUrl=True, dateStartURL=False, dateEndUrl=False,
+#                       agencyIdUrl=False, tagIdUrl=True, return_status=False)
+     
+     
+#     # Method signature. DONE
+#     # search_articles(return_status=False):
+#     user.search_articles()
+
+    
+    # Method signature. DONE
+    # create_article(Authorization='', title='', agencyId='', audience=0,
+    #                shortDesc='', longDesc='', tags='', attachments=[],
+    #                AuthorizationExclude=False, titleExclude=False,
+    #                agencyIdExclude=False, audienceExclude=False,
+    #                shortDescExclude=False, longDescExclude=False, 
+    #                tagsExclude=False, attachmentsExclude=False, return_status=False):
+    user.create_article(user.GetAuthKey(), "Ministry of Truth", '5a8b73f94212d1f20f847b9a',
+                        '0', 'short desc', 'loonngg desc', 'LSDog', ["url1"])
+    
+    
+#     # Method signature. DONE
+#     # get_articles_details(Authorization='', AuthorizationExclude=False,
+#     #                      articleId=[], return_status=False):
+#     user.get_articles_details(user.GetAuthKey(), articleId = user.GetArticleIds())
+    
+    
+#     # Method signature. DONE
+#     # dashboard_analytics(self, Authorization='', AuthorizationExclude=False,
+#                           return_status=False): 
+#     user.dashboard_analytics(user.GetAuthKey())
+#     
+#     
+#     # Method signature. DONE
+#     # dashboard_trending(self, Authorization='', AuthorizationExclude=False,
+#                           return_status=False):  
+#     user.dashboard_trending(user.GetAuthKey())
+#     
+#     
+#     # Method signature. DONE
+#     # dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False,
+#                           return_status=False): 
+#     user.dashboard_pubArticles(user.GetAuthKey())
+#     
+#     
+#     # Method signature. DONE
+#     # dashboard_workflow(self, Authorization='', AuthorizationExclude=False,
+#                           return_status=False): 
+#     user.dashboard_workflow(user.GetAuthKey())
+
+
+#     # Method signature. DONE
+#     # admin_dashboard_decline(Authorization='', AuthorizationExclude=False, 
+#     #                         return_status=False):
+#     user.admin_dashboard_decline(user.GetAuthKey())
+#     
+#     
+#     # Method signature. DONE
+#     # admin_dashboard_approved(Authorization='', AuthorizationExclude=False, 
+#     #                          return_status=False):  
+#     user.admin_dashboard_approved(user.GetAuthKey())
+#     
+#     
+#     # Method signature. DONE
+#     # admin_dashboard_pending(Authorization='', AuthorizationExclude=False, 
+#     #                         return_status=False):
+#     user.admin_dashboard_pending(user.GetAuthKey()) 
+    
+
+#     # Method signature. DONE
+#     # edit_article(Authorization='', articleId=[], title='', agencyId='', audience=0,
+#     #              shortDesc='', longDesc='', tags='', attachments=[], status=0,
+#     #              AuthorizationExclude=False, articleIdExclude=False, titleExclude=False,
+#     #              agencyIdExclude=False, audienceExclude=False,
+#     #              shortDescExclude=False, longDescExclude=False, 
+#     #              tagsExclude=False, attachmentsExclude=False, statusExclude=False,
+#     #              return_status=False)
+#     user.edit_article(user.GetAuthKey(), user.GetArticleIds(), "Department of funky beats",
+#                       '5a8b73f94212d1f20f847b9a', 0, 'short desc', 'long desc',
+#                       'tags', ['pdf1, 666'], 0)
+    
+    
+#     # Method signature. DONE
+#     # comment_article(Authorization='', articleId=[], comment='', 
+#     #                 AuthorizationExclude=False, articleIdExclude=False, 
+#     #                   commentExclude=False, return_status=False):
+#     user.comment_article(user.GetAuthKey(), user.GetArticleIds(), 'COMMENTS')
+    
+    
+#     # Method signature. DONE
+#     # get_presignedS3(Authorization='', name='', AuthorizationExclude=False, 
+#     #                 nameExclude=False, return_status=False):
+#     user.get_presignedS3(user.GetAuthKey(), 'file.txt')
+
+
+    # Method signature. START HERE SCRIPT ALREADY NON FILE
+    # delete_article(Authorization='', articleId=[],
+    #                AuthorizationExclude=False,  articleIdExclude=False,
+    #                return_status=False):
+    user.delete_article(user.GetAuthKey(), user.GetArticleIds())
+    
+    
+# Test_Class()
