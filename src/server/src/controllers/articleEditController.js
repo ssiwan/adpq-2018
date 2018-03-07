@@ -77,7 +77,7 @@ exports.publishArticle = function(req, res) {
 }
 
 exports.declineArticle = function(req, res) {
-    if (req.userRole != '2') {//will need to change to 2 later
+    if (parseInt(req.userRole) != 2) {
         return res.json({error: 'User not permitted'});
     }
 
@@ -91,10 +91,16 @@ exports.declineArticle = function(req, res) {
     var prom = newEdit.save();
 
     prom.then(function(editreturn) {
-        articleController.publishOrDeclineArticle(articleId, editreturn._id.toString(), 2); 
+        articleController.publishOrDeclineArticle(req.body.articleId, editreturn._id.toString(), 2); 
         return res.json({status: 'saved!'});
     })
     .catch(function(err) {
         return res.json({'error': err.toString() });
     });
+}
+
+//********************************* INTERNAL API FUNCTION**************//
+exports.deleteArticleEdits = function(articleId) {
+    var articleObjId = new ObjectId(articleId); 
+    articleEdit.deleteMany({'articleId': articleObjId}).exec();     
 }

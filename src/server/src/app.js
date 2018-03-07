@@ -3,9 +3,13 @@ var config = require('./config'),
     app = express(),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
+    dns = require('dns'), 
     port = process.env.port || 3001;
 
 var cors = require('cors');
+
+//email
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 //connect to db
 mongoose.Promise = global.Promise;
