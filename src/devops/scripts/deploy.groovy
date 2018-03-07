@@ -1,7 +1,7 @@
 node {
-    stage('Clean Up') {
-        deleteDir()
-    }
+    // stage('Clean Up') {
+    //     deleteDir()
+    // }
 
     stage('Checkout') {
 
@@ -18,7 +18,7 @@ node {
         } else {
             if (scmVars.GIT_BRANCH == 'origin/staging') {
                 println "Staging Branch"
-                
+
                 sh 'cp /aws/adpq/server/local/config.json ./src/server/src/config.json' // Setup Local Config for Tests
                 runStagingTests()
 
@@ -38,9 +38,9 @@ node {
         }
     }
 
-    stage ('Clean Up') { // Clean Up Workspace
-        // deleteDir()
-    }
+    // stage ('Clean Up') { // Clean Up Workspace
+    //     // deleteDir()
+    // }
 }
 
 def build() {
