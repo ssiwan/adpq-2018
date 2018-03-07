@@ -12,7 +12,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     var articleController = require('./controllers/articleController');
     var userController = require('./controllers/userController'); 
     var articleCommentController = require('./controllers/articleCommentController');
-    var articleEditController = require('./controllers/articleEditController');  
+    var articleEditController = require('./controllers/articleEditController');
+    var emailController = require('./controllers/emailController');   
 
 //***********ROUTES****************************//
 
@@ -26,7 +27,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
                                     '/searchArticles',
                                     '/incrementViews',
                                     '/incrementShares',
-                                    '/suggestedTags']; 
+                                    '/suggestedTags',
+                                    '/sendTestEmail']; 
 
         var token = req.header('Authorization');
         var reqpaths = req.path.split('/');  
@@ -77,7 +79,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     
     //PATCH
         router.patch('/incrementViews/:articleId', articleController.incrementViews); 
-        router.patch('/incrementShares/:articleId', articleController.incrementShares); 
+        router.patch('/incrementShares/:articleId', articleController.incrementShares);
+        router.patch('/deleteAttachment/', articleController.deleteAttachment);  
 
     //DELETE
         router.delete('/articles/:articleId', articleController.deleteArticle); 
