@@ -41,7 +41,7 @@ $(document).ready(function(){
 
         function LoadPendingArticles() {
             $.ajax({
-                url: APIURL + "adminDashboardPending?limit=3",
+                url: APIURL + "adminDashboardPending",
                 type: 'GET',
                 dataType: 'json',
                 headers:{
@@ -56,9 +56,14 @@ $(document).ready(function(){
             {
                 $("#reviewviewmorelink").show();
             }
+
+            var length = response.data.length;
+            if (length > 3) {
+                length = 3;
+            }
             if (!isEmpty(response.data)) {
             
-            for (let index = 0; index < response.data.length; index++) {
+            for (let index = 0; index < length; index++) {
                     var title= " ";
                     var agency= " ";
                     var author= " ";
@@ -109,7 +114,7 @@ $(document).ready(function(){
      
         function LoadPublishedArticles() {
             $.ajax({
-                url: APIURL + "adminDashboardApproved?limit=3",
+                url: APIURL + "adminDashboardApproved",
                 type: 'GET',
                 dataType: 'json',
                 headers:{
@@ -125,7 +130,12 @@ $(document).ready(function(){
                 {
                     $("#approvedviewmorelink").show();
                 }
-            for (let index = 0; index < response.data.length; index++) {
+
+                var length = response.data.length;
+                if (length > 3) {
+                    length = 3;
+                }
+            for (let index = 0; index < length; index++) {
                     var title= " ";
                     var agency= " ";
                     var author= " ";
@@ -176,7 +186,7 @@ $(document).ready(function(){
 
         function LoadDeclinedArticles() {
             $.ajax({
-                url: APIURL + "adminDashboardDeclined?limit=3",
+                url: APIURL + "adminDashboardDeclined",
                 type: 'GET',
                 dataType: 'json',
                 headers:{
@@ -185,11 +195,21 @@ $(document).ready(function(){
                 }
             })
             .done(function(response) {
-                //console.log(response);
+            console.log(response);
             var strwf = " ";
+
+               if(response.data.length > 3)
+                {
+                    $("#declinedviewmorelink").show();
+                }
+
+                var length = response.data.length;
+                if (length > 3) {
+                    length = 3;
+                }
             
             if (!isEmpty(response.data)) {
-            for (let index = 0; index < response.data.length; index++) {
+            for (let index = 0; index < length; index++) {
                     var title= " ";
                     var agency= " ";
                     var author= " ";
@@ -226,17 +246,20 @@ $(document).ready(function(){
                 }
                   strwf += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+title+"</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+publishdate+"</div></div></div></div><div class='trending-right-column'><div class='article-status'>"+articlestatus+"</div></div></div>";
                 }
-               $("#declinedviewmorelink").append(strwf);
+               $("#declinedarticles").append(strwf);
             }
             
 
             })
             .fail(function(data, textStatus, xhr) {
                //console.log(xhr);
-                alert("adminDashboardPending endpoint error");
+                alert("adminDashboardDeclined endpoint error");
             });
         } 
-
+      $("#logout").click(function() {
+          sessionStorage.clear();
+          window.location.href = "index.html";
+      })
 
     }
     else {

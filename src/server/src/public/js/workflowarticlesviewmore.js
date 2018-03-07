@@ -88,6 +88,10 @@ $(document).ready(function(){
         //console.log("articleid  " + table.row(this).data().id);
         window.location.href = "articles-details-admin-history.html?articleId=" + table.row(this).data().id;
     });
+    $("#logout").click(function() {
+        sessionStorage.clear();
+        window.location.href = "index.html";
+    })
 
    
     }

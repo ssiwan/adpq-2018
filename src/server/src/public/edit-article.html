@@ -23,7 +23,7 @@
             <ul class="under-menu">
               <li><a href="#">My Profile</a></li>
               <li><a href="create-article.html">Create Article</a></li>
-              <li><a href="#">Logout</a></li>
+              <li><a href="#" id="logout">Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -52,19 +52,20 @@
               <label class="col-md-4 control-label" for="audience">Audience</label>
               <div class="col-md-6">
                 <select id="audience" name="audience" class="form-control" required>
-                  <option value="1">Staff</option>
-                  <option value="0">Public</option>
+                  <option value="0">Public Article</option>
+                  <option value="1">Internal Staff Article</option>
                 </select>
               </div>
             </div>
+            
             <div class="form-group">
               <label class="col-sm-4 control-label" for="short_desc">Short Description</label>
               <div class="col-md-6">
-                <textarea id="shortdesc" name="short_desc" class="form-control" cols="40" rows="5" required></textarea>
+                <textarea id="shortdesc" name="short_desc" class="form-control" cols="40" rows="2" required></textarea>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-4 control-label">Long Description</label>
+              <label class="col-sm-4 control-label" for="long_desc">Long Description</label>
               <div id="longdesc"> </div>
             </div>
             <div class="form-group">
@@ -94,7 +95,7 @@
               <label class="col-md-4 control-label" for="cancelbtn"></label>
               <div class="col-md-8">
                 <button id="btnCancel" name="cancelbtn" class="cs-button">Cancel</button>
-                <button id="btnSave" name="submitbtn" class="cs-button" type="button">Submit</button>
+                <button id="btnSave" name="submitbtn" class="cs-button" type="button">Save</button>
               </div>
             </div>
           </fieldset>

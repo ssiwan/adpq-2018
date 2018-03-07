@@ -216,6 +216,11 @@ $(document).ready(function(){
 
         });
 
+        $("#logout").click(function() {
+            sessionStorage.clear();
+            window.location.href = "index.html";
+        })
+
         $("#btnCancel").click(function() {
             window.location.href = "dashboard-staff.html";
         });
