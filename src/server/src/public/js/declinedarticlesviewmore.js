@@ -12,8 +12,10 @@ $(document).ready(function(){
                 $("#adminsettingsbtn").show();
             }
             var table;
-    var url = APIURL + "dashboardWorkflow";
 
+    var url = APIURL + "dashboardWorkflow";
+ 
+   
     Load();
 
 

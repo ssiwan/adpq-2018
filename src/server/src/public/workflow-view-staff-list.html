@@ -11,12 +11,21 @@
 <div class="main-wrapper-sm">
   <div class="adpq-container">
     <header class="adpq-headcontainer">
-      <div class="adpq-brand"></div>
-      <div class="adpq-adminwrap">
-        <div class="adpq-plus-btn"></div>
-        <div class="adpq-settings-btn"></div>
-        <div class="adpq-profile-btn"></div>
-      </div>
+      <nav class="cssmenu">
+        <div class="adpq-brand"><a href="index.html"></a></div>
+        <div id="head-mobile"></div>
+        <div class="button"></div>
+        <ul>
+           <li><a href="dashboard-staff.html" class="adpq-dashboard-btn"></a></li>
+           <li><a href="#" class="adpq-profile-btn"></a>
+              <ul class="under-menu">
+                 <li><a href="#">My Profile</a></li>
+                 <li><a href="create-article.html">Create Article</a></li>
+                 <li><a href="#">Logout</a></li>
+       </ul>
+           </li>
+        </ul>
+     </nav>
     </header>
   </div>	
 <div class="workflow-row">
@@ -24,44 +33,6 @@
     <div class="section-title">Workflow</div>
   </div>
   <div class="workflow-content-listview">
- <!--    <input type="button" value="Filters" id="btnFilters" class="cs-button">
-    <br/>
-    <br/>
-    <input type="button" value="Hide Filters" id="btnHideFilters" class="cs-button" style="display:none">
-    <br/>
-    <br/>
-    <div class="alert alert-danger" id="error" style="display:none"> Both Datefrom and Dateto are required. </div>
-    <div id="filters" style="display:none">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" id="chkAgency">
-          Agency</label>
-        &nbsp; &nbsp; </div>
-      <div id="Agency" style="display:none"> Select Agency:
-        <select id="ddlAgency">
-        </select>
-      </div>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" id="chkTags">
-          Tags</label>
-        &nbsp; &nbsp; </div>
-      <div id="Tags" style="display:none"> Select Tags:
-        <select id="ddlTags">
-        </select>
-      </div>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" id="chkDate">Date Range</label>
-      </div>
-      <div id="daterange" style="display:none">
-        <label for="from">From</label>
-        <input type="text" id="from">
-        <label for="to">to</label>
-        <input type="text" id="to">
-      </div>
-      <button type="button" class="btn btn-default" id="btnSearch">OK</button>
-    </div> -->
     <table id="articles" class="compact" width="100%" cellspacing="0">
       <thead>
         <tr role="row">

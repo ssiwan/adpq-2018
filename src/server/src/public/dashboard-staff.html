@@ -9,15 +9,26 @@
 <body>
 <div class="main-wrapper-sm">
   <div class="adpq-container">
-    <header class="adpq-headcontainer">
-      <div class="adpq-brand"></div>
-      <div class="adpq-adminwrap">
-        <div class="adpq-settings-btn" id="adminsettingsbtn" style="display:none"></div>
-        <a href="create-article.html"><div class="adpq-plus-btn"></div></a>
-		  <div class="adpq-profile-btn"></div>
 
-      </div>
-    </header>
+  <header class="adpq-headcontainer">
+
+      <nav class="cssmenu">
+         <div class="adpq-brand"><a href="index.html"></a></div>
+         <div id="head-mobile"></div>
+         <div class="button"></div>
+         <div class="dash-view">STAFF / AUTHOR VIEW</div>
+         <ul class="dash-menu-admin">
+            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn"></a></li>
+            <li><a href="#" class="adpq-profile-btn"></a>
+               <ul class="under-menu">
+                  <li><a href="#">My Profile</a></li>
+                  <li><a href="create-article.html">Create Article</a></li>
+                  <li><a href="#">Logout</a></li>
+				</ul>
+            </li>
+         </ul>
+      </nav>
+    </header>  
     <div class="kpi-row">
       <div class="kpi-header">
         <div class="section-title">
@@ -165,7 +176,7 @@
       </div>
       <div class="mypublished-content">
         <div class="mypublished-head">
-          <div class="tools-left-wrap">Create Article</div>
+            <div class="tools-left-wrap"><a href="create-article.html">Create Article</a></div>
           <div class="tools-right-wrap">
             <div class="mypublish-updated"></div>
             <div class="mypublish-views"></div>
@@ -174,19 +185,19 @@
         </div>
         <div class="mypublished-bottom">
           <div id="publishedarticles"></div> <br/>
-         <div class="viewmore-link"><a href="published-view-list.html" title="View More">View More...</a></div><br/> 
+         <div class="viewmore-link" id="publishedstaffviewmorelink" style="display:none"><a href="published-view-staff-list.html" title="View More">View More...</a></div><br/> 
         </div>
       </div>
     </div>
     <div class="workflow-row">
       <div class="workflow-header">
-        <div class="section-title">Workflow</div>
+        <div class="section-title">My Non-Published Articles</div>
       </div>
       <div class="workflow-content">
         <div class="workflow-head">Status</div>
         <div class="workflow-bottom">
             <div id="workflowarticles"></div> <br/>
-            <div class="viewmore-link"><a href="workflow-view-list.html" title="View More">View More...</a></div><br/> 
+            <div class="viewmore-link" id="workflowstaffviewmorelink" style="display:none"><a href="workflow-view-staff-list.html" title="View More">View More...</a></div><br/> 
         </div>
       </div>
     </div>
@@ -197,6 +208,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 <script src="js/constants.js"></script> 
 <script src="js/utility.js"></script>
-<script src="js/dashboard.js"></script> 
+<script src="js/dashboardstaff.js"></script> 
 </body>
 </html>
