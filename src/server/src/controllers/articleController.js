@@ -549,7 +549,7 @@ exports.admindbdeclined = function(req, res) {
     var queryParams = {}; 
     queryParams.status = 2;
 
-    var query = article.find(queryParams); 
+    var query = article.find(queryParams).populate('createdBy').populate('agency').populate('tags');; 
 
     var sortObj = {};
     sortObj['createdAt'] = -1;
@@ -602,7 +602,7 @@ exports.admindbpending = function(req, res) {
     var queryParams = {}; 
     queryParams.status = 0;
 
-    var query = article.find(queryParams); 
+    var query = article.find(queryParams).populate('createdBy').populate('agency').populate('tags');; 
 
     var sortObj = {};
     sortObj['createdAt'] = -1;
@@ -655,7 +655,7 @@ exports.admindbapproved = function(req, res) {
     var queryParams = {}; 
     queryParams.status = 1;
 
-    var query = article.find(queryParams); 
+    var query = article.find(queryParams).populate('createdBy').populate('agency').populate('tags');; 
 
     var sortObj = {};
     sortObj['createdAt'] = -1;
@@ -729,6 +729,50 @@ exports.incrementShares = function(req, res) {
         }
         return res.send('saved!'); 
     });
+}
+
+//DELETE /deleteArticle
+exports.deleteArticle = function(req, res) {
+    if (req.params.articleId == null) {
+        return res.json({error: 'Please submit an article id to delete'}); 
+    }
+    var userRole = parseInt(req.userRole); 
+
+    if (userRole == 0) {
+        return res.json({error: 'Role not allowed'}); 
+    }
+
+    var userobjid = new ObjectId(req.userId); 
+
+    var articleobjid = new ObjectId(req.params.articleId); 
+
+    var queryParams = {}; 
+    queryParams._id = articleobjid; 
+    var query = article.findOne(queryParams); 
+    query.catch(function(err) {
+        return res.json({error: err.toString()}); 
+    }); 
+    query.then(function(returnarticle) {    
+        if (returnarticle != null) {
+            if ((userRole == 2) || ((returnarticle.status == 0) && (returnarticle.createdBy.toString() == req.userId))) {
+                if (returnarticle.status == 1) {
+                    tagController.decrementTagArticleCounts(returnarticle.tags);
+                    agencyController.decrementAgencyArticleCount(returnarticle.agency.toString()); 
+                }
+
+                var deleteQuery = article.find(queryParams).remove().exec();
+                deleteQuery.then(function(ret){
+                    return res.json({data:'article removed!'}); 
+                }) 
+            }
+            else {
+                return res.json({error: 'Delete is not permitted'}); 
+            }
+        }
+        else {
+            return res.json({error: 'article not found'}); 
+        }
+    }); 
 }
 
 //*****************************API internal functions****************//
@@ -827,7 +871,7 @@ function getTagNames(tags) {
     return returnarray; 
 }; 
 
-function getLastUpdatedDate(edits) {    
+function getLastUpdatedDate(edits) {
     if (edits != null && edits.length > 0) {
         var recentEdit = edits[edits.length - 1];
         return recentEdit.createdAt; 

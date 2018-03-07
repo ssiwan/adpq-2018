@@ -18,6 +18,7 @@ import sys, unittest, ADPQShell
     Test cases
         Successfully delete an article.
         Attempt to delete a non-existant article.
+        Attempt to delete with users that did not create the article & have lower roles.
         
         ApiKey missing from request call.
         Null ApiKey value. 
@@ -32,7 +33,7 @@ class TestDeleteArticle(unittest.TestCase):
     def setUpClass(cls):
         try:
             cls.user = ADPQShell.ADPQ()
-            cls.user.sign_in(email = ADPQShell.data['testEmail'])
+            cls.user.sign_in(email = ADPQShell.data['testEmail']) # Role 2.
             cls.user.create_article(Authorization = cls.user.GetAuthKey(), 
                                     title = ADPQShell.data['testTitle'], 
                                     agencyId = ADPQShell.data['testAgencyId'],
@@ -41,6 +42,12 @@ class TestDeleteArticle(unittest.TestCase):
                                     longDesc = ADPQShell.data['testLongDesc'], 
                                     tags = ADPQShell.data['testTags'], 
                                     attachments = ADPQShell.data['testAttachments'])
+            
+            cls.role1 = ADPQShell.ADPQ()
+            cls.role1.sign_in(email = 'pmccartney@hotbsoftware.com') # Role 1.
+            
+            cls.role0 = ADPQShell.ADPQ()
+            cls.role0.sign_in(email = 'jlennon@hotbsoftware.com')    # Role 0.
             assert(cls.user != None)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
@@ -64,6 +71,35 @@ class TestDeleteArticle(unittest.TestCase):
         
         self.assertEqual(responseBody['error'], "article not found",
                           msg='test_doesNotExist assert#1 has failed.')
+        
+        
+        
+    # Test attempting to delete with an invalid role.
+    def test_UserRoleInvalid(self):
+        self.user.create_article(Authorization = self.user.GetAuthKey(), 
+                                title = ADPQShell.data['testTitle'], 
+                                agencyId = ADPQShell.data['testAgencyId'],
+                                audience = ADPQShell.data['testAudience'], 
+                                shortDesc = ADPQShell.data['testShortDesc'], 
+                                longDesc = ADPQShell.data['testLongDesc'], 
+                                tags = ADPQShell.data['testTags'], 
+                                attachments = ADPQShell.data['testAttachments'])
+        
+        responseBody = self.role1.delete_article(Authorization = self.role1.GetAuthKey(), 
+                                                 articleId = self.role1.GetArticleIds())
+        
+        self.assertEqual(responseBody['error'], "article not found",
+                          msg='test_UserRoleInvalid assert#1 has failed.')
+        
+        
+        responseBody = self.role0.delete_article(Authorization = self.role0.GetAuthKey(), 
+                                                 articleId = self.role0.GetArticleIds())
+        
+        self.assertEqual(responseBody['error'], "article not found",
+                          msg='test_UserRoleInvalid assert#2 has failed.')
+        
+        self.user.delete_article(Authorization = self.user.GetAuthKey(), 
+                                articleId = self.user.GetArticleIds())
         
         
         
@@ -155,8 +191,8 @@ def suite():
     suite = unittest.TestSuite()
     
     suite.addTest(TestDeleteArticle('test_success'))
-    
     suite.addTest(TestDeleteArticle('test_doesNotExist'))
+    suite.addTest(TestDeleteArticle('test_UserRoleInvalid'))
     
     suite.addTest(TestDeleteArticle('test_missingAuthorization'))
     suite.addTest(TestDeleteArticle('test_nullAuthorization'))

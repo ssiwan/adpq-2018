@@ -12,14 +12,23 @@
 <body>
 <div class="main-wrapper-sm">
   <div class="adpq-container">
-    <header class="adpq-headcontainer">
-      <div class="adpq-brand"></div>
-      <div class="adpq-adminwrap">
-        <div class="adpq-settings-btn" id="adminsettingsbtn" style="display:none"></div>
-        <a href="create-article.html"><div class="adpq-plus-btn"></div></a>
-		  <div class="adpq-profile-btn"></div>
-      </div>
-    </header>
+  <header class="adpq-headcontainer">
+      <nav class="cssmenu">
+         <div class="adpq-brand"><a href="index.html"></a></div>
+         <div id="head-mobile"></div>
+         <div class="button"></div>
+         <ul>
+            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn"></a></li>
+            <li><a href="#" class="adpq-profile-btn"></a>
+               <ul class="under-menu">
+                  <li><a href="#">My Profile</a></li>
+                  <li><a href="create-article.html">Create Article</a></li>
+                  <li><a href="#">Logout</a></li>
+				</ul>
+            </li>
+         </ul>
+      </nav>
+   </header>		  
     <div class="mypublished-row">
       <div class="mypublished-header">
         <div class="section-title">Create Article</div>
@@ -36,8 +45,7 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="selectbasic">Agency</label>
               <div class="col-md-6">
-                <select id="agency" name="selectbasic" class="form-control" required>
-                </select>
+                <input class="form-control" id="agency" name="agency" type="text" disabled="disabled"/>
               </div>
             </div>
             <div class="form-group">
@@ -46,7 +54,6 @@
                 <select id="audience" name="audience" class="form-control" required>
                   <option value="1">Staff</option>
                   <option value="0">Public</option>
-                  <option value="2">Admin</option>
                 </select>
               </div>
             </div>

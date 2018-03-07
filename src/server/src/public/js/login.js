@@ -35,17 +35,27 @@ var LoginResponse = { token:""};
                             sessionStorage.setItem("token", result.token);
                             sessionStorage.setItem("role", result.role);
                             sessionStorage.setItem("id", result.id);
+                            sessionStorage.setItem("agencyid", result.agency._id);
+                            sessionStorage.setItem("agency", result.agency.value);
                         }
                     $('#password').val("");
                     $('#username').val("");
                     /*
                       Valid emails:
                       staff login - jlennon@hotbsoftware.com
-                      admin login - gharrison@hotbsoftware.com
+                      admin login - rstar@hotbsoftware.com
                     */
                     // based upon the role show the required pages.
                     // role = staff or admin
-                    window.location.href = "dashboard.html";
+                    var role = result.role;
+                      if (!isEmpty(role)) {
+                        if (role === "admin") {
+                            window.location.href = "dashboard-admin.html";
+                        } else {
+                            window.location.href = "dashboard-staff.html";
+                        }    
+                    }
+                   
                    
             }
             else

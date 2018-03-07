@@ -8,15 +8,12 @@ $(document).ready(function(){
 
     if(!isEmpty(role) && !isEmpty(token))
     {
-            if (role === "admin") {
-                $("#adminsettingsbtn").show();
-            }
-            var table;
-    var url = APIURL + "dashboardWorkflow";
 
+    var table;
+    var url = APIURL + "adminDashboardPending";
+ 
+   
     Load();
-
-
     function Load() {
         table = $('#articles').DataTable({
             "bDestroy": true,
@@ -34,19 +31,11 @@ $(document).ready(function(){
                    var return_data = new Array();
                    for (let index = 0; index < json.data.length; index++) {
                         return_data[index] = {
-                            /*'articleinfo':"<div class='article-title'>"    + json.data[index].title + "</div>"
-                                          +"<div class='article-agency'>Agency:" + json.data[index].agency + "</div>"
-                                          + json.data[index].summary + "<br/>"
-                                          + "<div class='article-author'>Author: </div>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last +
-                                          + "<div class='article-publishdate'>PublishedDate:</div> " + convertToLocalDate(json.data[index].createdAt),*/
                             'articleinfo': "<strong>" + json.data[index].title + "</strong><br/>"
                                              + "<strong>Agency:" + json.data[index].agency + "</strong><br/>" 
                                              + json.data[index].summary + "<br/>" 
                                              + "<strong>Author: </strong>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last + "<br/>"
                                              + "<strong>PublishedDate:</strong> " + convertToLocalDate(json.data[index].createdAt),
-                            'lastupdated': convertToLocalDate(json.data[index].createdAt),
-                            'views': json.data[index].views,
-                            'shares': json.data[index].shares,
                             'status': json.data[index].status,
                             'id': json.data[index].id
                         }
@@ -67,18 +56,15 @@ $(document).ready(function(){
         },
         "columnDefs": [
             {
-                "targets": [ 5 ],
+                "targets": [ 2],
                 "visible": false,
                 "searchable": false
             }
         ],
             "columns": [
                     { "data": "articleinfo", "autoWidth": true },
-                    { "data": "lastupdated", "autoWidth": true },
-                    { "data": "views", "autoWidth": true },
-                    { "data": "shares", "autoWidth": true },   
                     { "data": "status", "autoWidth": true },
-                    { "data": "id", "autoWidth": true }    
+                    { "data": "id", "autoWidth": true }     
             ]
         }); 
     }
@@ -89,7 +75,7 @@ $(document).ready(function(){
         window.location.href = "articles-details-admin-history.html?articleId=" + table.row(this).data().id;
     });
 
-   
+    
     }
     else {
         window.location.href = "index.html";

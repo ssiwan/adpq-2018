@@ -70,7 +70,7 @@ elif stringEnv == 'prod':
     
 
 # Initialize an xml runner.
-testRunner=xmlrunner.XMLTestRunner(output='data/testReports', verbosity=2)
+testRunner=xmlrunner.XMLTestRunner(output='data/testReports', verbosity=0)
  
 # Run the suite & save the results.
 results = testRunner.run(suite)

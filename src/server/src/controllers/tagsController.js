@@ -120,3 +120,18 @@ exports.incrementTagArticleCounts = function(tagIds) {
                                     return; 
                                 });
 }
+
+exports.decrementTagArticleCounts = function(tagIds) {
+    var tagObjectIds = []; 
+
+    tagIds.forEach(function(tagid) {
+        tagObjectIds.push(new ObjectId(tagid.toString())); 
+    });
+
+    var queryParams =  {'_id': { $in: tagObjectIds}};
+
+    tags.update(queryParams, { $inc: { articleCount: -1}}, { multi: true }, 
+                                function(err, returnvals) {
+                                    return; 
+                                });
+}

@@ -11,7 +11,7 @@ exports.signIn = function(req, res) {
     var userEmail = req.body.email; 
     var queryParams = {};
     queryParams.email = userEmail;
-    var query = users.findOne(queryParams);
+    var query = users.findOne(queryParams).populate('agency');
 
     query.exec()
         .catch(function (err) {
@@ -31,7 +31,8 @@ exports.signIn = function(req, res) {
             var jsonresult = {
                 token: jwt.sign({exp: Math.floor(Date.now() / 1000) + ( 7 * 24 * 60 * 60), userId: user._id.toString(), role: user.role}, req.PK),
                 id: user._id.toString(),
-                role: roleString
+                role: roleString, 
+                agency: user.agency
             }
             res.json(jsonresult);
             //set token expiring at a week 
@@ -48,6 +49,7 @@ exports.createUser = function(req, res) {
     var lastName = req.body.lastName; 
     var newEmail = req.body.email; 
     var newPhone = req.body.phone; 
+    var newAgencyId = req.body.agencyId; 
     
     var newUser = new users({
         name: {
@@ -57,6 +59,7 @@ exports.createUser = function(req, res) {
         createdAt: Date.now(),
         updatedAt: Date.now(),
         email: newEmail,
+        agency: new ObjectId(newAgencyId),
         phone: newPhone,
         role: 1
     });
@@ -126,5 +129,10 @@ exports.deleteUser = function(req, res) {
 
     query.then(function(returnuser) {
         return res.json({data:'user removed!'}); 
-    })
+    });
 }
+
+exports.editUser = function(req, res) {
+    
+}
+

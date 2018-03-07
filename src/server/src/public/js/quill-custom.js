@@ -1,15 +1,14 @@
         var toolbarOptions = [['bold', 'italic'], ];
         var toolbarOptions = [
           ['bold', 'italic', 'underline', 'strike'],        
-          ['blockquote', 'code-block'],
-          ['link', 'image'],
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'script': 'sub'}, { 'script': 'super' }],      
+          ['blockquote'],
+          ['link'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],  
           [{ 'indent': '-1'}, { 'indent': '+1' }],          
           [{ 'direction': 'rtl' }],                         
           [{ 'color': [] }, { 'background': [] }],          
           [{ 'font': [] }],
-          [{ 'align': [] }],
+          [{ 'align': [] }], 
           ['clean']                                         
         ];
         var quill = new Quill('#longdesc', {

@@ -18,7 +18,7 @@ const options = {
     }
 };
 
-mongoose.connect(config.dbUrl, options).then(() => {
+mongoose.connect(config.dbUrl, process.env.NODE_ENV == 'local' ? null : options).then(() => {
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'MongoDB connection error:'));
     

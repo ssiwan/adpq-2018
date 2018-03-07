@@ -14,27 +14,71 @@
 <div class="main-wrapper-sm">
   <div class="adpq-container">
     <header class="adpq-headcontainer">
-      <div class="adpq-brand"></div>
-      <div class="adpq-adminwrap">
-        <div class="adpq-profile-btn"></div>
-        <div class="adpq-settings-btn"  id="adminsettingsbtn" style="display:none"></div>
-        <a href="create-article.html"><div class="adpq-plus-btn"></div></a>
-      </div>
+      <nav class="cssmenu" id="admincssmenu" style="display:none">
+         <div class="adpq-brand"><a href="index.html"></a></div>
+         <div id="head-mobile"></div>
+         <div class="button"></div>
+         <div class="dash-view">ADMINISTRATOR VIEW</div>
+         <ul class="dash-menu-admin">
+            <li><a href="dashboard-admin.html" class="adpq-dashboard-btn"></a></li>
+            <li><a href="#" class="adpq-profile-btn"></a>
+               <ul class="under-menu">
+                  <li><a href="#">My Profile</a></li>
+                  <li><a href="#">Logout</a></li>
+		</ul>
+            </li>
+			 <li><a href="#" class="adpq-settings-btn"></a>
+               <ul class="under-menu">
+                  <li><a href="#">Manage Users</a></li>
+               </ul>
+            </li>
+			 <li><a href="#" class="adpq-plus-btn"></a>
+               <ul class="under-menu">
+                  <li><a href="#">Create User</a></li>
+               </ul>
+            </li>			 
+         </ul>
+      </nav>
+      <nav class="cssmenu" id="staffcssmenu" style="display:none">
+         <div class="adpq-brand"><a href="index.html"></a></div>
+         <div id="head-mobile"></div>
+         <div class="button"></div>
+         <div class="dash-view">STAFF / AUTHOR VIEW</div>
+         <ul class="dash-menu-admin">
+            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn"></a></li>
+            <li><a href="#" class="adpq-profile-btn"></a>
+               <ul class="under-menu">
+                  <li><a href="#">My Profile</a></li>
+                  <li><a href="create-article.html">Create Article</a></li>
+                  <li><a href="#">Logout</a></li>
+				</ul>
+            </li>
+         </ul>
+      </nav>
     </header>
     <div class="artcles-details-view">
       <div class="details-title-wrap">
-        <div class="details-title">Lorem ipsum dolor sit amet.</div>
+        <div class="details-title" id="title"></div>
         <div class="details-tools">
           <div class="details-icon-wrap">
-            <div class="tool-history"></div>
-            <a href="#" id="articleeditlnk"><div class="tools-edit"></div></a>
-            <div class="tool-delete"></div>
+            <div class="tool-history" id="btnhistory" style="display:none"></div>   
+           <a href="#" id="articleeditlnk" style="display:none"> <div class="tools-edit"></div></a>
+            <div class="tool-delete" id="articledelete" style="display:none"></div>
           </div>
           <div class="tool-approve-btn">
-            <input type="button" name="btn" class="approve-btn" value="Decline" />
+            <input type="button" name="btn" class="approve-btn" value="Decline" id="btndecline" style="display:none" />
           </div>
           <div class="tool-approve-btn">
-            <input type="button" name="btn" class="approve-btn" value="Approve" />
+            <input type="button" name="btn" class="approve-btn" value="Approve" id="btnapprove" style="display:none" />
+          </div>
+          <div class="tool-approve-btn">
+            <input type="button" name="btn" class="approve-btn" value="FB" id="sharefb" style="display:none"/>
+          </div>
+          <div class="tool-approve-btn">
+            <input type="button" name="btn" class="approve-btn" value="TW" id="sharetw" style="display:none"/>
+          </div>
+          <div class="tool-approve-btn">
+            <input type="button" name="btn" class="approve-btn" value="Email" id="shareemail" style="display:none"/>
           </div>
         </div>
       </div>
@@ -70,7 +114,7 @@
         </div>
       </div>
     </div>
-    <div class="comments-wrap">
+    <div class="comments-wrap" id="commentsection" style="display:none">
         <div class="details-comments">Comments</div>
         <div class="form-group">
               <label class="col-md-4 control-label"></label>
@@ -92,7 +136,7 @@
         </div>
         </div>
      </div>
-      <div id="comments"></div>
+      <div id="comments" style="display:none"></div>
     </div>
     <div class="history-wrap" style="display:none">
       <div class="details-history">History</div>

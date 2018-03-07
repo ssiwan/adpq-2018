@@ -18,7 +18,7 @@
     "clean": "",
     "lint": "./node_modules/.bin/eslint . --fix",
     "test": "",
-    "docker:start": "npm run docker:build && docker run -e NODE_ENV=production -d --restart=always -p 3001:3001 --name api -i api && clear",
+    "docker:start": "npm run docker:build && docker run -e NODE_ENV=local -d --restart=always -p 3001:3001 --name api -i api && clear",
     "docker:build": "docker build --force-rm --no-cache -t api . && clear",
     "docker:stop": "docker stop api && clear",
     "docker:teardown": "npm run docker:stop && docker rm api && docker rmi api -f && clear"

@@ -26,6 +26,7 @@ import sys, unittest, ADPQShell
 
     Test cases
         Successfully edit an existing article.
+        Attempt to edit an article with a user that did not create it.
         
         Authorization missing from request call.
         Null Authorization value. 
@@ -104,14 +105,17 @@ class TestEditArticle(unittest.TestCase):
             cls.user = ADPQShell.ADPQ()
             cls.user.sign_in(email = ADPQShell.data['testEmail'])
             cls.user.create_article(Authorization = cls.user.GetAuthKey(), 
-                                                title = ADPQShell.data['testTitle'], 
-                                                agencyId = ADPQShell.data['testAgencyId'],
-                                                audience = ADPQShell.data['testAudience'], 
-                                                shortDesc = ADPQShell.data['testShortDesc'], 
-                                                longDesc = ADPQShell.data['testLongDesc'], 
-                                                tags = ADPQShell.data['testTags'], 
-                                                attachments = ADPQShell.data['testAttachments'])
+                                    title = ADPQShell.data['testTitle'], 
+                                    agencyId = ADPQShell.data['testAgencyId'],
+                                    audience = ADPQShell.data['testAudience'], 
+                                    shortDesc = ADPQShell.data['testShortDesc'], 
+                                    longDesc = ADPQShell.data['testLongDesc'], 
+                                    tags = ADPQShell.data['testTags'], 
+                                    attachments = ADPQShell.data['testAttachments'])
             assert(cls.user != None)
+            
+            cls.role1 = ADPQShell.ADPQ()
+            cls.role1.sign_in(email = 'pmccartney@hotbsoftware.com') # Role 1.
         except:
             print("Unexpected error during setUpClass:", sys.exc_info()[0])
 
@@ -160,6 +164,52 @@ class TestEditArticle(unittest.TestCase):
         
         self.assertEqual(responseBody['data']['tags'], [ADPQShell.data['testTags']],
                           msg='test_Success assert#7 has failed.') 
+        
+        
+        
+    # Test successfully editing an existing article.
+    def test_EditDiffUserRole(self):
+        responseBody = self.user.edit_article(Authorization = self.role1.GetAuthKey(), 
+                                              articleId = self.user.GetArticleIds(), 
+                                              title = ADPQShell.data['testTitle'],
+                                              agencyId = ADPQShell.data['testAgencyId'], 
+                                              audience = ADPQShell.data['testAudience'], 
+                                              shortDesc = ADPQShell.data['testShortDesc'], 
+                                              longDesc = ADPQShell.data['testLongDesc'], 
+                                              tags = ADPQShell.data['testTags'], 
+                                              attachments = ADPQShell.data['testAttachments'], 
+                                              status = ADPQShell.data['testStatus'])
+        
+        # GetArticleIds() returns a list of all ids.
+        articleIds = self.user.GetArticleIds()
+ 
+        # If successful, list will not be empty.
+        self.assertEqual(responseBody['status'], "saved!",
+                          msg='test_EditDiffUserRole assert#1 has failed.')
+         
+        # Now ensure that all data was successfully updated & saved.
+        responseBody = self.user.get_articles_details(Authorization = self.user.GetAuthKey(), 
+                                                      articleId = self.user.GetArticleIds())
+          
+        # Ensure all data persists.
+        if articleIds != []:
+            self.assertEqual(responseBody['data']['id'], articleIds[0],
+                              msg='test_EditDiffUserRole assert#2 has failed.') 
+         
+        self.assertEqual(responseBody['data']['title'], ADPQShell.data['testTitle'],
+                          msg='test_EditDiffUserRole assert#3 has failed.') 
+         
+        self.assertEqual(responseBody['data']['summary'], ADPQShell.data['testShortDesc'],
+                          msg='test_EditDiffUserRole assert#4 has failed.') 
+         
+        self.assertEqual(responseBody['data']['description'], ADPQShell.data['testLongDesc'],
+                          msg='test_EditDiffUserRole assert#5 has failed.') 
+         
+        self.assertEqual(responseBody['data']['status'], ADPQShell.data['testStatus'],
+                          msg='test_EditDiffUserRole assert#6 has failed.') 
+         
+        self.assertEqual(responseBody['data']['tags'], [ADPQShell.data['testTags']],
+                          msg='test_EditDiffUserRole assert#7 has failed.') 
          
          
          
@@ -1318,12 +1368,11 @@ class TestEditArticle(unittest.TestCase):
         
         
         
-        
-        
     @classmethod
     def tearDownClass(cls):
         try:
-            pass
+            cls.user.delete_article(Authorization = cls.user.GetAuthKey(), 
+                                     articleId = cls.user.GetArticleIds())
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
     
@@ -1333,6 +1382,7 @@ def suite():
     suite = unittest.TestSuite()
     
     suite.addTest(TestEditArticle('test_success'))
+    suite.addTest(TestEditArticle('test_EditDiffUserRole'))
   
     suite.addTest(TestEditArticle('test_missingAuthorization'))
     suite.addTest(TestEditArticle('test_nullAuthorization'))

@@ -859,6 +859,7 @@ class TestCreateArticles(unittest.TestCase):
 
 
     # Test a int Attachments.
+    @unittest.skip("attachments - int value")
     def test_intAttachments(self):
         responseBody = self.user.create_article(Authorization = self.user.GetAuthKey(), 
                                                 title = ADPQShell.data['testTitle'], 
@@ -875,6 +876,7 @@ class TestCreateArticles(unittest.TestCase):
 
 
     # Test a float Attachments.
+    @unittest.skip("attachments - float value")
     def test_floatAttachments(self):
         responseBody = self.user.create_article(Authorization = self.user.GetAuthKey(), 
                                                 title = ADPQShell.data['testTitle'], 
@@ -931,6 +933,11 @@ class TestCreateArticles(unittest.TestCase):
             pass
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
+            
+            
+    def tearDown(self):
+        self.user.delete_article(Authorization = self.user.GetAuthKey(), 
+                                 articleId = self.user.GetArticleIds())
     
     
     
