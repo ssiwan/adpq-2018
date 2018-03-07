@@ -6,6 +6,7 @@ var userModel = new Schema({
     name: {first: String, last: String},
     email: String,
     phone: String,
+    agency: {type: Schema.Types.ObjectId, ref: 'agency'},
     role: Number,// 1 - 4. 0 is guest
     createdAt: Date,
     updatedAt: Date

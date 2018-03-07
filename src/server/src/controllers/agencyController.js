@@ -48,3 +48,22 @@ exports.incrementAgencyArticleCount = function(agencyIdString) {
     });
     return; 
 }
+
+exports.decrementAgencyArticleCount = function(agencyIdString) {
+    var agencyId = new ObjectId(agencyIdString); 
+
+    var queryParams = {};
+    queryParams._id = agencyId; 
+    var query = agency.findOne(queryParams);
+    query.exec();
+    query.then(function(ag) {
+        if (!ag.articleCount) {
+            ag.articleCount = 0; 
+        }
+        else if (ag.articleCount > 0) {
+            ag.articleCount = ag.articleCount - 1; 
+        }
+        ag.save(); 
+    });
+    return; 
+}
