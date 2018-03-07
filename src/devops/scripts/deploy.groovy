@@ -1,4 +1,8 @@
 node {
+    stage('Clean Up') {
+        deleteDir()
+    }
+
     stage('Checkout') {
 
         // Load Node.js
@@ -14,9 +18,10 @@ node {
         } else {
             if (scmVars.GIT_BRANCH == 'origin/staging') {
                 println "Staging Branch"
+                
                 sh 'cp /aws/adpq/server/local/config.json ./src/server/src/config.json' // Setup Local Config for Tests
-                println "Copied Staging Config.json"
                 runStagingTests()
+
                 sh 'cp /aws/adpq/server/staging/config.json ./src/server/src/config.json' // Setup Staging Config for Deployment
                 build()
                 publish()
