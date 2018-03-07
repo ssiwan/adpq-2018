@@ -103,9 +103,9 @@ def runStagingTests() {
             aws s3 cp --acl public-read ./testResultsImg.svg s3://adpq-assets/buildAssets/testResults.svg
             rm -rf ./testResultsImg.svg
 
-            docker kill $(docker ps -q) || true
-            docker rm $(docker ps -a -q) || true
-            docker rmi $(docker images -q) || true
+            docker kill -f $(docker ps -q) || true
+            docker rm -f $(docker ps -a -q) || true
+            docker rmi -f $(docker images -q) || true
         '''
     }
 }
@@ -230,7 +230,7 @@ def sendSlackNotification() {
     stage ('Notify') {
         RESULTS = readFile 'RESULTS'
         RESULT_TYPE = readFile 'RESULT_TYPE'
-        sh "sleep 10 && logs=\$(git log -1 --pretty=%B origin/staging) && echo \'$RESULTS\' && node ./src/devops/scripts/slackNotification.js \"$RESULT_TYPE\" \"*New Staging Build Available*\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n\$logs\n\n\" \'$RESULTS\'"
+        sh "sleep 10 && logs=\$(git log -1 --pretty=%B origin/staging) && echo \'$RESULTS\' && node ./src/devops/scripts/slackNotification.js \'$RESULT_TYPE\' \"*New Staging Build Available*\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n\$logs\n\n\" \'$RESULTS\'"
     }
 }
 
