@@ -18,7 +18,7 @@
     "clean": "",
     "lint": "./node_modules/.bin/eslint . --fix",
     "test": "",
-    "docker:start": "npm run docker:build && docker run -e NODE_ENV=production -d --restart=always -p 3001:3001 --name api -i api && clear",
+    "docker:start": "npm run docker:build && docker run -e NODE_ENV=local -d --restart=always -p 3001:3001 --name api -i api && clear",
     "docker:build": "docker build --force-rm --no-cache -t api . && clear",
     "docker:stop": "docker stop api && clear",
     "docker:teardown": "npm run docker:stop && docker rm api && docker rmi api -f && clear"
@@ -30,7 +30,8 @@
     "express": "4.16.2",
     "helmet": "3.10.0",
     "jsonwebtoken": "8.1.1",
-    "mongoose": "5.0.3"
+    "mongoose": "5.0.3",
+    "nodemailer": "4.6.2"
   },
   "devDependencies": {
     "eslint": "^4.17.0"
@@ -44,7 +45,7 @@
   ],
   "private": false,
   "contributors": [
-    "Noel Eom <neom@hotbsoftware.com>", 
+    "Noel Eom <neom@hotbsoftware.com>",
     "Raghu Jonnala <rjonnala@counselordirect.com>",
     "Eric Dobyns <edobyns@hotbsoftware.com>",
     "Ken Baker <kbaker@hotbsoftware.com>",

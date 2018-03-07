@@ -3,17 +3,18 @@ $(document).ready(function(){
     var role = sessionStorage.getItem("role");
     var token = sessionStorage.getItem("token");
     var articleId = getParameterByName("articleId"); // gets articleId from the URL querystring
+    var agencyid = sessionStorage.getItem("agencyid");
    /* console.log(role);
     console.log(token);
     console.log(articleId);*/
 
     if(!isEmpty(role) && !isEmpty(token) && !isEmpty(articleId))
  {
-            if (role === "admin") {
+         /*    if (role === "admin") {
                 $("#adminsettingsbtn").show();
-            }
-            LoadAgencies();
-            //SuggestedTitles();
+            } */
+           
+           
             
         
             var attachments = [];
@@ -24,7 +25,7 @@ $(document).ready(function(){
             function LoadTags() {
             
                 $.ajax({
-                    url: APIURL + "tags",
+                    url: APIURL + "suggestedTags",
                     type: 'GET',
                     dataType: 'json',
                     cache:false
@@ -91,65 +92,13 @@ $(document).ready(function(){
                     })
                 }
             }
-            function SuggestedTitles() {
-                $("#title").autocomplete({
-                    source: function (request, response) {
-                        $.ajax({
-                            url: APIURL + "agencies", // Change to suggested title endpoint
-                            data: { term: request.term },
-                            dataType: 'json',
-                            type: 'GET',
-                            cache:false,
-                            contentType: "application/json; charset=utf-8",
-                            success: function (result) {
-                                var agencyarr = new Array();
-                                for (let index = 0; index < result.data.length; index++) {
-                                    agencyarr.push(result.data[index].name);
-                                }
-                                response(agencyarr);
-                            },
-                            error: function (data) {
-                                console.log(data);
-                            }
-                        });
-                    },
-                    minLength: 2
-                });
-            }
-
-            function LoadAgencies() {
-                var options = $("#agency");
-                $.ajax({
-                    url: APIURL + "agencies",
-                    type: 'GET',
-                    dataType: 'json',
-                    cache:false
-                })
-                .done(function(response) {
-                    if (!isEmpty(response.data)){
-                        for (let index = 0; index < response.data.length; index++) {
-                            options.append($("<option />").val(response.data[index].id).text(response.data[index].name));
-                        }
-                    }
-                    else
-                    {
-                        alert(response.error);
-                    }
-
-                })
-                .fail(function(xhr) {
-                    console.log('error', xhr);
-                });
-
-        }
-
+            
 
         $('#tags').tagsInput({
             width: 'auto'
         });
 
         function LoadData() {
-            //generateTable();
             $.ajax({
                 url: APIURL + "articles/" + articleId,
                 type: 'GET',
@@ -164,9 +113,8 @@ $(document).ready(function(){
                 //console.log(JSON.parse(response.data.description));
                 if (!isEmpty(response.data)) {
                     $("#title").val(response.data.title);                    
-                    document.getElementById("agency").value = response.data.agencyId;
+                    $("#agency").val(response.data.agencyName);
                     document.getElementById("audience").value = response.data.role;
-                    //article.type = $("#articletype").val(); // no back end logic yet
                     $("#shortdesc").val(response.data.summary);
                     quill.setContents(JSON.parse(response.data.description),'api');
                     article.tags = $("#tags").val(); // need to uncomment once create article endpoint accepts tags
@@ -208,9 +156,9 @@ $(document).ready(function(){
         $("#btnSave").click(function(){
 
             article.title = $("#title").val();
-            article.agencyId = $("#agency").val();
+            article.agencyId = agencyid;
             article.audience = $("#audience").val();
-            article.type = $("#articletype").val();
+           
             article.shortDesc = $("#shortdesc").val();
             article.longDesc = JSON.stringify(quill.getContents());
             article.tags = $("#tags").val();
@@ -254,7 +202,7 @@ $(document).ready(function(){
                 console.log(isEmpty(response.status));
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
-                       window.location.href = "dashboard.html";
+                       window.location.href = "dashboard-staff.html";
                     }
                 }
                 else{
@@ -268,8 +216,13 @@ $(document).ready(function(){
 
         });
 
+        $("#logout").click(function() {
+            sessionStorage.clear();
+            window.location.href = "index.html";
+        })
+
         $("#btnCancel").click(function() {
-            window.location.href = "dashboard.html";
+            window.location.href = "dashboard-staff.html";
         });
 
  }

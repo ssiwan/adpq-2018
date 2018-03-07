@@ -70,7 +70,7 @@ class TestGetAgencies(unittest.TestCase):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(TestGetAgencies('test_liveEndPoint'))
-    suite.addTest(TestGetAgencies('test_success'))
+    # suite.addTest(TestGetAgencies('test_success'))
     return suite
     
     

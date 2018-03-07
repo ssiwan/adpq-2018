@@ -13,7 +13,6 @@ if 'Environment' not in os.environ.keys():
     setEnv = environmentBody['staging']
 else:
     # print('\n[AutoScript] Setting environment to', os.environ['Environment'], '\n')
-    #setEnv = os.environ['Environment']
     if os.environ['Environment'] == 'local':
         setEnv = 'http://localhost:3001'
     elif os.environ['Environment'] == 'staging':
@@ -22,6 +21,7 @@ else:
         setEnv = 'http://adpq-production-loadbalancer-557804625.us-west-1.elb.amazonaws.com'
  
 setEnv.strip()
+
 
 
 ## @class ADPQ Test Automation Shell 
@@ -73,21 +73,13 @@ class QaADPQShell:
     articleDateEnd = 'dateEnd=03-01-2018&'
     articleAgencyId = 'agencyId=5a8b73f94212d1f20f847b9a&'
     agencyTagId = 'tagId=5a8b55bca2d13ad4ba5369ef&'
-    
-        
         
     ## @fn __init__ : Class initializations.
     def __init__(self, env=setEnv):
-        # Essential information used to successfully run calling scripts.
         self.ClientID = QaADPQShell.ClientId
-#         self.apiKey = data['api_key']
-        self.UserNetwork = ''
         self.AuthKey = ''
         self.UserID = ''
         self.email = ''
-        self.password = ''
-        self.placeId = []
-        self.groupId = []
         self.environment = env
         self.role = ''
         self.agencyId = []
@@ -122,12 +114,6 @@ class QaADPQShell:
         # ~~ TESTING ~~
         # print('\nget_agencies\n', responseBody)
         # print('response.status_code: ', response.status_code)
-        
-#         # Iterate through the list items (items are dicts)
-#         for i in range(len(responseBody['data'])):
-#             # Iterate through the dicts within the list.
-#             for keys in responseBody['data'][i]:
-                # print(keys) 
 
         return responseBody
     

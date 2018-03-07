@@ -27,6 +27,40 @@ exports.getTags = function (req, res) {
     });
 };
 
+exports.getSuggestedTags = function(req, res) {    
+    var returnlist = []; 
+    
+    var limit = 0; 
+    if (req.query.limit != null) {
+        limit = parseInt(req.query.limit); 
+    }
+
+    var query = tags.find(); 
+    var sortObj = {}; 
+    sortObj['articleCount'] = -1; 
+
+    query.sort(sortObj); 
+
+    if (limit > 0) {
+        query.limit(limit); 
+    }
+
+    query.exec().catch(function (err) {
+        res.json({'error':'Query error'});
+    });  
+    
+    query.then(function(tgs, blah) {
+        tgs.forEach(function(tg) {
+                var obj = {};                
+                obj["id"] = tg._id.toString(); 
+                obj["name"] = tg.value;
+                obj["articleCount"] = tg.articleCount; 
+                returnlist.push(obj);
+            });
+        res.json({'data': returnlist}); 
+    });
+}
+
 //*******************************INTERNAL API FUNCTIONS ************************//
 
 exports.convertTags = function(tagStringArray, articleId) {
@@ -82,6 +116,21 @@ exports.incrementTagArticleCounts = function(tagIds) {
     var queryParams =  {'_id': { $in: tagObjectIds}};
 
     tags.update(queryParams, { $inc: { articleCount: 1}}, { multi: true }, 
+                                function(err, returnvals) {
+                                    return; 
+                                });
+}
+
+exports.decrementTagArticleCounts = function(tagIds) {
+    var tagObjectIds = []; 
+
+    tagIds.forEach(function(tagid) {
+        tagObjectIds.push(new ObjectId(tagid.toString())); 
+    });
+
+    var queryParams =  {'_id': { $in: tagObjectIds}};
+
+    tags.update(queryParams, { $inc: { articleCount: -1}}, { multi: true }, 
                                 function(err, returnvals) {
                                     return; 
                                 });

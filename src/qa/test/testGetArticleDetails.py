@@ -67,7 +67,7 @@ class TestGetArticlesDetails(unittest.TestCase):
                                                       AuthorizationExclude=True)
         
         # Currently passing. 
-        self.assertEqual(responseBody['error'], 'Please provide an authentication token',
+        self.assertNotIn( 'Error', responseBody.keys(),
                           msg='test_missingAuthorization assert#1 has failed.')
         
 #         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
@@ -81,7 +81,7 @@ class TestGetArticlesDetails(unittest.TestCase):
         responseBody = self.user.get_articles_details(Authorization = '')
         
         # Currently passing. 
-        self.assertEqual(responseBody['error'], 'Please provide an authentication token',
+        self.assertNotIn( 'Error', responseBody.keys(),
                           msg='test_nullAuthorization assert#1 has failed.')
         
 #         self.assertEqual(responseBody['error'], 'Failed to authenticate token',

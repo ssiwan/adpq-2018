@@ -8,18 +8,28 @@
 <link rel="stylesheet" type="text/css" href="css/jquery.tagsinput.min.css" />
 <link rel="stylesheet" href="css/adpq-styles.css">
 <link href="https://cdn.quilljs.com/1.3.5/quill.snow.css" rel="stylesheet">
+<title>ADPQ - Knowledge Articles - Create Articles</title>	
 </head>
 <body>
 <div class="main-wrapper-sm">
   <div class="adpq-container">
-    <header class="adpq-headcontainer">
-      <div class="adpq-brand"></div>
-      <div class="adpq-adminwrap">
-        <div class="adpq-settings-btn" id="adminsettingsbtn" style="display:none"></div>
-        <a href="create-article.html"><div class="adpq-plus-btn"></div></a>
-		  <div class="adpq-profile-btn"></div>
-      </div>
-    </header>
+  <header class="adpq-headcontainer">
+      <nav class="cssmenu">
+         <div class="adpq-brand"><a href="index.html"></a></div>
+         <div id="head-mobile"></div>
+         <div class="button"></div>
+         <ul>
+            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn"></a></li>
+            <li><a href="#" class="adpq-profile-btn"></a>
+               <ul class="under-menu">
+                  <li><a href="#">My Profile</a></li>
+                  <li><a href="create-article.html">Create Article</a></li>
+                  <li><a href="#" id="logout">Logout</a></li>
+				</ul>
+            </li>
+         </ul>
+      </nav>
+   </header>		  
     <div class="mypublished-row">
       <div class="mypublished-header">
         <div class="section-title">Create Article</div>
@@ -30,45 +40,33 @@
             <div class="form-group">
               <label class="col-sm-4 control-label" for="title">Title</label>
               <div class="col-sm-6">
-                <input id="title" name="title" type="text" placeholder="" class="form-control input-md" required>
+                <input id="title" name="title" type="text" placeholder="" class="form-control input-md" required maxlength="60">
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-4 control-label" for="selectbasic">Agency</label>
               <div class="col-md-6">
-                <select id="agency" name="selectbasic" class="form-control" required>
-                </select>
+                <input class="form-control" id="agency" name="agency" type="text" disabled="disabled"/>
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-4 control-label" for="audience">Audience</label>
               <div class="col-md-6">
                 <select id="audience" name="audience" class="form-control" required>
-                  <option value="1">Staff</option>
-                  <option value="0">Public</option>
-                  <option value="2">Admin</option>
+                  <option value="0">Public Article</option>
+                  <option value="1">Internal Staff Article</option>
                 </select>
               </div>
             </div>
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="article_type">Article Type</label>
-              <div class="col-md-6">
-                <select id="articletype" name="article_type" class="form-control" required>
-                    <option value="3">Default</option>
-                    <option value="4">Public Notification</option>
-                    <option value="5">Technical</option>
-                    <option value="6">Regulatory</option>
-                </select>
-              </div>
-            </div>
+
             <div class="form-group">
               <label class="col-sm-4 control-label" for="short_desc">Short Description</label>
               <div class="col-md-6">
-                <textarea id="shortdesc" name="short_desc" class="form-control" cols="40" rows="5" required></textarea>
+                <textarea id="shortdesc" name="short_desc" class="form-control" cols="40" rows="2" required></textarea>
               </div>
             </div>
             <div class="form-group"> 
-              <label class="col-md-4 control-label">Long Description</label>
+              <label class="col-sm-4 control-label" for="long_desc">Long Description</label>
                 <div id="longdesc"> 
                 </div>
             </div>
@@ -94,7 +92,7 @@
               <label class="col-md-4 control-label" for="cancelbtn"></label>
               <div class="col-md-8">
                 <button id="btnCancel" name="cancelbtn" class="cs-button">Cancel</button>
-                <button id="btnSave" name="submitbtn" class="cs-button" type="button">Submit</button>
+                <button id="btnSave" name="savebtn" class="cs-button" type="button">Save</button>
               </div>
             </div>
           </fieldset>
@@ -102,6 +100,7 @@
       </div>
     </div>
   </div>
+	<footer></footer>
 </div>
 <script src="https://cdn.quilljs.com/1.3.5/quill.js"></script>
 <script src="js/quill-custom.js"></script>

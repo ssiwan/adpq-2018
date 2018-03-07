@@ -25,7 +25,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
                                     '/agencies', 
                                     '/searchArticles',
                                     '/incrementViews',
-                                    '/incrementShares']; //(permissibleRoutes.indexOf(req.url) < 0)
+                                    '/incrementShares',
+                                    '/suggestedTags']; 
 
         var token = req.header('Authorization');
         var reqpaths = req.path.split('/');  
@@ -58,7 +59,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
 
 //tagRoutes
     //GET    
-        router.get('/tags', tagsController.getTags); 
+        router.get('/tags', tagsController.getTags);
+        router.get('/suggestedTags', tagsController.getSuggestedTags); 
 
 //agencyRoutes
     //GET
@@ -68,7 +70,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //GET
         router.get('/searchArticles', articleController.search);
         router.get('/articles/:articleId', articleController.getArticleDetails);
-        router.get('/articles', articleController.getArticles);        
+        router.get('/articles', articleController.getArticles);  
 
     //POST
         router.post('/articles', articleController.createArticle);
@@ -76,6 +78,9 @@ module.exports = function (app, apiParseKey, AWSKeys) {
     //PATCH
         router.patch('/incrementViews/:articleId', articleController.incrementViews); 
         router.patch('/incrementShares/:articleId', articleController.incrementShares); 
+
+    //DELETE
+        router.delete('/articles/:articleId', articleController.deleteArticle); 
 
 //articleEditRoutes
     //POST
@@ -88,15 +93,25 @@ module.exports = function (app, apiParseKey, AWSKeys) {
         router.post('/articleComment', articleCommentController.createArticleComment);
 
 //userRoutes
+    //GET
+        router.get('/user', userController.getUsers); 
+
     //POST
         router.post('/user/signIn', userController.signIn);
+        router.post('/user', userController.createUser); 
+
+    //DELETE
+        router.delete('/user/:userId', userController.deleteUser); 
 
 //Dashboard
     //GET 
         router.get('/dashboardAnalytics', articleController.dashboardAnalytics);
         router.get('/dashboardTrending', articleController.dashboardTrending);  
         router.get('/dashboardMyPublished', articleController.dashboardPublishedArticles);
-        router.get('/dashboardWorkflow', articleController.dashboardWorkflow);  
+        router.get('/dashboardWorkflow', articleController.dashboardWorkflow);
+        router.get('/adminDashboardDeclined', articleController.admindbdeclined);
+        router.get('/adminDashboardPending', articleController.admindbpending);
+        router.get('/adminDashboardApproved', articleController.admindbapproved);      
 
 //UTILIES - will create utility file if need grows
 //presigned s3 url

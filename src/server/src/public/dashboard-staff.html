@@ -5,60 +5,72 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto Condensed" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="css/adpq-styles.css">
+<title>ADPQ - Knowledge Articles - Staff Dashboard</title>	
 </head>
 <body>
 <div class="main-wrapper-sm">
   <div class="adpq-container">
-    <header class="adpq-headcontainer">
-      <div class="adpq-brand"></div>
-      <div class="adpq-adminwrap">
-        <div class="adpq-settings-btn" id="adminsettingsbtn" style="display:none"></div>
-        <a href="create-article.html"><div class="adpq-plus-btn"></div></a>
-		  <div class="adpq-profile-btn"></div>
 
-      </div>
-    </header>
+  <header class="adpq-headcontainer">
+
+      <nav class="cssmenu">
+         <div class="adpq-brand"><a href="index.html"></a></div>
+         <div id="head-mobile"></div>
+         <div class="button"></div>
+         <div class="dash-view">STAFF / AUTHOR VIEW</div>
+         <ul class="dash-menu-admin">
+            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn"></a></li>
+            <li><a href="#" class="adpq-profile-btn"></a>
+               <ul class="under-menu">
+                  <li><a href="#">My Profile</a></li>
+                  <li><a href="create-article.html">Create Article</a></li>
+                  <li><a href="#" id="logout">Logout</a></li>
+				</ul>
+            </li>
+         </ul>
+      </nav>
+    </header>  
     <div class="kpi-row">
       <div class="kpi-header">
         <div class="section-title">
-          <div class="section-title-kpi">My Article Metrics -</div>
-          <div class="kpi-lastupdate">Last Updated:<span class="update-span"></span></div>
+          <div class="section-title-kpi" title="My Article Metrics">My Article Metrics -</div>
+          <div class="kpi-lastupdate" title="Article Last Updated">Last Updated:<span class="update-span"></span></div>
         </div>
       </div>
       <div class="kpi-content">
         <div class="kpi-publish">
-          <div class="kpi-publish-head">Articles Published</div>
+          <div class="kpi-publish-head" title="Articles Published">Articles Published</div>
       <div class="kpi-publish-bottom">
-        <div class="kpi-pub-total" id="publishCount"></div>
+        <div class="kpi-pub-total" id="publishCount" title=""></div>
       </div>
         </div>
         <div class="kpi-review">
-          <div class="kpi-review-head">Articles In Review</div>
+          <div class="kpi-review-head" title="">Articles In Review</div>
           <div class="kpi-review-bottom">
-           <div class="kpi-pub-total" id="reviewCount"></div> 
+           <div class="kpi-pub-total" id="reviewCount" title=""></div> 
           </div>
         </div>
         <div class="kpi-declined">
-          <div class="kpi-declined-head">Articles Declined</div>
+          <div class="kpi-declined-head" title="">Articles Declined</div>
           <div class="kpi-declined-bottom">  <div class="kpi-pub-total" id="declineCount"></div> </div>
         </div>
         <div class="kpi-views">
-          <div class="kpi-views-head">Views</div>
+          <div class="kpi-views-head" title="">Views</div>
           <div class="kpi-views-bottom"><div class="kpi-pub-total" id="viewCount"></div></div>
         </div>
         <div class="kpi-shares">
-          <div class="kpi-shares-head">Shares</div>
+          <div class="kpi-shares-head" title="">Shares</div>
           <div class="kpi-shares-bottom"><div class="kpi-pub-total" id="shareCount"></div></div>
         </div>
         <div class="kpi-users" id="adminusersbtn"  style="display:none">
-          <div class="kpi-users-head">Users</div>
+          <div class="kpi-users-head" title="">Users</div>
           <div class="kpi-users-bottom"><div class="kpi-pub-total" id="userCount"></div></div>
         </div>
       </div>
     </div>
     <div class="trending-row">
       <div class="trending-header">
-        <div class="section-title">Trending Articles</div>
+        <div class="section-title" title="Trending Articles">Trending Articles</div>
       </div>
       <div class="trending-content">
         <div class="trending-head"></div>
@@ -68,11 +80,11 @@
               <div class="left-row-one">
                 <div class="left-title" id="trendingarticle1title"></div>
                 <div class="left-column-tools">
-                  <div class="left-most">Most</div>
-                  <div class="left-views"></div>
-                  <div class="left-total" id="trendingarticle1views"></div>
-                  <div class="left-shares"></div>
-                  <div class="left-total" id="trendingarticle1shares"></div>
+                  <div class="left-most" title="Most views and shares">Most</div>
+                  <div class="left-views" title="Views Icon"></div>
+                  <div class="left-total" id="trendingarticle1views" title="Views Count"></div>
+                  <div class="left-shares" title="Shares Icon"></div>
+                  <div class="left-total" id="trendingarticle1shares" title="Shares Count"></div>
                 </div>
               </div>
               <div class="left-row-two">
@@ -91,7 +103,7 @@
               </div>
             </div>
             <div class="trending-right-column">
-              <input type="button" name="btn" class="cs-button" value="Create Similar" />
+              <input type="button" name="btn" class="cs-button" value="Create Similar" title="Create Similar Button" />
             </div>
           </div>
           <div class="trending-row-two" id="trending2">
@@ -99,11 +111,11 @@
               <div class="left-row-one">
                 <div class="left-title" id="trendingarticle2title"></div>
                 <div class="left-column-tools">
-                  <div class="left-most">Most</div>
-                  <div class="left-views"></div>
-                  <div class="left-total" id="trendingarticle2views"></div>
-                  <div class="left-shares"></div>
-                  <div class="left-total" id="trendingarticle2shares"></div>
+                  <div class="left-most" title="Most views and shares">Most</div>
+                  <div class="left-views" title="Most views"></div>
+                  <div class="left-total" id="trendingarticle2views" title="Views Count"></div>
+                  <div class="left-shares" title="Most shares"></div>
+                  <div class="left-total" id="trendingarticle2shares" title="Shares Count"></div>
                 </div>
               </div>
               <div class="left-row-two">
@@ -122,38 +134,38 @@
               </div>
             </div>
             <div class="trending-right-column">
-              <input type="button" name="btn" class="cs-button" value="Create Similar" />
+              <input type="button" name="btn" class="cs-button" value="Create Similar" title="Create Similar Button" />
             </div>
           </div>
           <div class="trending-row-three" id="trending3">
             <div class="trending-left-column">
               <div class="left-row-one">
-                <div class="left-title" id="trendingarticle3title"></div>
+                <div class="left-title" id="trendingarticle3title" title="Article Title"></div>
                 <div class="left-column-tools">
-                  <div class="left-most">Most</div>
-                  <div class="left-views"></div>
-                  <div class="left-total" id="trendingarticle3views"></div>
-                  <div class="left-shares"></div>
-                  <div class="left-total" id="trendingarticle3shares"></div>
+                  <div class="left-most" title="Most views and shares">Most</div>
+                  <div class="left-views" title="Views Icon"></div>
+                  <div class="left-total" id="trendingarticle3views" title="Views Count"></div>
+                  <div class="left-shares" title="Shares Icon"></div>
+                  <div class="left-total" id="trendingarticle3shares" title="Shares Count"></div>
                 </div>
               </div>
               <div class="left-row-two">
-                <div class="left-agency" id="trendingarticle3agency"></div>
+                <div class="left-agency" id="trendingarticle3agency" title=""></div>
               </div>
               <div class="left-row-three">
-                <div class="left-shortdesc" id="trendingarticle3shortdesc"></div>
+                <div class="left-shortdesc" id="trendingarticle3shortdesc" title=""></div>
               </div>
               <div class="left-row-four">
                 <div class="left-publish-date">
-                  <div class="author" id="trendingarticle3author"></div>
+                  <div class="author" id="trendingarticle3author" title=""></div>
                 </div>
                 <div class="left-column-tools">
-                  <div class="left-most-pubdate" id="trendingarticle3publishdate"></div>
+                  <div class="left-most-pubdate" id="trendingarticle3publishdate" title=""></div>
                 </div>
               </div>
             </div>
             <div class="trending-right-column">
-              <input type="button" name="btn" class="cs-button" value="Create Similar" />
+              <input type="button" name="btn" class="cs-button" value="Create Similar" title="Create Similar Button" />
             </div>
           </div>
         </div>
@@ -161,11 +173,11 @@
     </div>
     <div class="mypublished-row">
       <div class="mypublished-header">
-        <div class="section-title">My Published Articles</div>
+        <div class="section-title" title="My Published Articles">My Published Articles</div>
       </div>
       <div class="mypublished-content">
         <div class="mypublished-head">
-          <div class="tools-left-wrap">Create Article</div>
+            <div class="tools-left-wrap"><a href="create-article.html" title="Create Article" >Create Article<div class="create-plus-btn" title="Create Article"></div></a> </div>
           <div class="tools-right-wrap">
             <div class="mypublish-updated"></div>
             <div class="mypublish-views"></div>
@@ -174,29 +186,30 @@
         </div>
         <div class="mypublished-bottom">
           <div id="publishedarticles"></div> <br/>
-         <div class="viewmore-link"><a href="published-view-list.html" title="View More">View More...</a></div><br/> 
+         <div class="viewmore-link" id="publishedstaffviewmorelink" style="display:none"><a href="published-view-staff-list.html" title="View More">View More...</a></div><br/> 
         </div>
       </div>
     </div>
     <div class="workflow-row">
       <div class="workflow-header">
-        <div class="section-title">Workflow</div>
+        <div class="section-title" title="My Non-Published Articles">My Non-Published Articles</div>
       </div>
       <div class="workflow-content">
-        <div class="workflow-head">Status</div>
+        <div class="workflow-head" title="Status">Status</div>
         <div class="workflow-bottom">
             <div id="workflowarticles"></div> <br/>
-            <div class="viewmore-link"><a href="workflow-view-list.html" title="View More">View More...</a></div><br/> 
+            <div class="viewmore-link" id="workflowstaffviewmorelink" style="display:none"><a href="workflow-view-staff-list.html" title="View More">View More...</a></div><br/> 
         </div>
       </div>
     </div>
   </div>
+	<footer></footer>
 </div>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 <script src="js/constants.js"></script> 
 <script src="js/utility.js"></script>
-<script src="js/dashboard.js"></script> 
+<script src="js/dashboardstaff.js"></script> 
 </body>
 </html>
