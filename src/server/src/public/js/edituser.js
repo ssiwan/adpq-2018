@@ -2,10 +2,7 @@ var userid = getParameterByName("userid"); // gets userid from the URL querystri
 var role = sessionStorage.getItem("role");
 var token = sessionStorage.getItem("token");
 $(document).ready(function(){
-
-
-
-    if(!isEmpty(role) && !isEmpty(token))
+ if(!isEmpty(role) && !isEmpty(token))
  {
           
 
@@ -35,6 +32,11 @@ $(document).ready(function(){
       });
 
    }
+
+
+        function LoadData() {
+            
+        }
 
            
 
