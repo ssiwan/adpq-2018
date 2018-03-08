@@ -28,13 +28,17 @@ $(document).ready(function(){
             for (let index = 0; index < response.data.length; index++) {
                     var name= " ";
                     var email= " ";
+                    var id = " ";
                 if (!isEmpty(response.data[index].name)) {
                     name = response.data[index].name;
                 } 
                 if (!isEmpty(response.data[index].email)) {
                     email = response.data[index].email;
+                }
+                if (!isEmpty(response.data[index].id)) {
+                    id = response.data[index].id;
                 } 
-                str += "<div class='manage-user-wrap'><div class='man-user-inwrap'><div class='man-user-labels'><div class='man-username'>" + name + "</div></div><div class='man-btnwrap'><div class='man-edit'> <button id='btnEdit' name='Save User Button' class='cs-button' type='button' onclick=\"EditUser('"+name+"')\">Edit</button></div><div class='man-remove'> <button id='btnRemove' name='Remove User Button' class='cs-button' type='button' onclick=\"DeleteUser('"+name+"')\">Remove</button></div></div></div></div>";
+                str += "<div class='manage-user-wrap'><div class='man-user-inwrap'><div class='man-user-labels'><div class='man-username'>" + name + "</div></div><div class='man-btnwrap'><div class='man-edit'> <button id='btnEdit' name='Save User Button' class='cs-button' type='button' onclick=\"EditUser('"+id+"')\">Edit</button></div><div class='man-remove'> <button id='btnRemove' name='Remove User Button' class='cs-button' type='button' onclick=\"DeleteUser('"+id+"')\">Remove</button></div></div></div></div>";
                  //console.log(str);
                 }
             $("#users").append(str);

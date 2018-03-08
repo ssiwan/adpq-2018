@@ -57,7 +57,8 @@ a:hover, a:focus { color:#046b99; text-decoration: underline;}
 	padding: 0px;
 	float: left;
 	height: 51px;
-	width: 195px;
+/*	width: 195px;*/
+	width: 150px;	
 	position: relative;
 	left: 0px;
 	top: 0px;
@@ -439,7 +440,8 @@ nav{width:100%;}
 	display: block;
 	float: left;
 	height: auto;
-	width: 1068px;
+	width: 900px;
+	max-width: 900px;
 	position: relative;
 	-webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
 	-moz-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
@@ -1150,6 +1152,14 @@ a.viewmore-link:focus {
 	top: 45px;
 	margin: 0px auto;
 }
+.create-article-form-wrap {
+	display: block;
+	height: 100%;
+	width: 900px;
+	position: relative;
+	top: 45px;
+	margin: 0px auto;
+}
 .uploadbtn { position: relative; float:left; }
 .double-btn-wrap {
 	display: block;
@@ -1289,7 +1299,7 @@ a.viewmore-link:focus {
     margin-bottom: 10px;
     position: relative;
 }
-.details-longdescription
+.details-longdescription { }
 .details-tags {
     font-family: "Roboto", serif; 
     font-size: 14px;
@@ -1450,7 +1460,7 @@ a.viewmore-link:focus {
 .history-status, .history-state { position:relative; float: left; }
 .history-state { padding-left: 5px; }
 /*Stepped on default boostrap styles begins */
-.control-label { font-family: "Roboto", serif; font-size: 14px; font-weight: normal; display: block; padding-bottom: 3px; }
+.control-label { font-family: "Roboto", serif; font-size: 14px; font-weight: bold; display: block; padding-bottom: 3px; }
 .datatable .odd td, .even td { font-family: "roboto", serif; font-size: 14px;}
 .filter-checkbox { margin: 10px auto; }
 .datatable-wrap { width: 1000px; margin: 0px auto; }
