@@ -187,7 +187,7 @@ exports.editUser = function(req, res) {
     if (parseInt(req.userRole) != 2) {
         return res.json({error: 'User not allowed'}); 
     }
-
+    var userobjid = req.userId; 
     // if (req.body.firstName != null && req.body.firstName != "") {
     //     returnuser.firstName = req.body.firstName; 
     // }
@@ -204,6 +204,17 @@ exports.editUser = function(req, res) {
     //     returnuser.newPassword = req.body.newPassword; 
     // }
     // returnuser.allowUploads = req.body.allowUploads; 
+
+    bcrypt.hash(req.body.newPassword, saltRounds, function(err, newHashedPassword) {
+        var queryParams = {}; 
+        queryParams._id = userobjid; 
+        var query = users.findOne(queryParams); 
+
+        query.exec().catch(function(err) {
+            
+        }); 
+
+    });
 
 }
 
