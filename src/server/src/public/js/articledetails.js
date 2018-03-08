@@ -35,12 +35,14 @@ $(document).ready(function(){
                         }
                 
                 
-                        $("#articleeditlnk").attr("href","edit-article.html?articleId="+articleId);
+                        
+
+                        $("#articleeditlnk").click(function() {
+                            window.location.href = "edit-article.html?articleId="+articleId;
+                        });
+                        
                         incrementViews();
                         LoadData();
-
-
-
                     function LoadData() {
                         $.ajax({
                             url: APIURL + "articles/" + articleId,
@@ -57,6 +59,14 @@ $(document).ready(function(){
                                 $("#agency").append("Agency - " + response.data.agencyName);
                                 $("#title").append(response.data.title);
                                 $("#description").append(response.data.summary);
+                               
+                                var longdesc = JSON.parse(response.data.description);
+                                console.log(longdesc);
+                                var desc = "";
+                                for (let index = 0; index < longdesc.ops.length; index++) {
+                                    desc += longdesc.ops[index].insert;
+                                }
+                                $('#longdescription').append(desc);
                                 var tgs = "";
                                 for (let index = 0; index < response.data.tags.length; index++) {
                                     tgs += response.data.tags[index] + ",";
@@ -67,6 +77,15 @@ $(document).ready(function(){
                                 $("#reviewby").append(response.data.approvedBy);
                                 $("#publishdate").append(convertToLocalDate(response.data.createdAt));
                                 $("#lastupdate").append(convertToLocalDate(response.data.lastUpdated));
+
+                                $('#dynamictable').append('<table class="table table-stripped"></table>');
+                                var table = $('#dynamictable').children();    
+                                var j = 0;
+                                for (let index = 0; index < response.data.attachments.length; index++) {
+                                    j++;
+                                    table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+response.data.attachments[index]+">View</a></td></tr>");
+                                }
+                                table.append("</tbody>");
 
                                 $("#tagcount").append(response.data.tags.length);
                                 $("#views").append(response.data.views);

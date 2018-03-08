@@ -444,6 +444,9 @@ nav{width:100%;}
 	-webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
 	-moz-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
 	box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+	padding: 5px;
+	font-size: 14px;
+	font-family: "roboto", serif;
 }
 .trending-content-listview {
 	background-color: #E8F4DB;
@@ -586,7 +589,7 @@ div.kpi-lastupdate {
 	font-style: normal;
 	line-height: 18px;
 	font-weight: normal;
-	bottom: 20px;
+	bottom: 30px;
 
 }
 a.viewmore-link:focus {
@@ -594,8 +597,8 @@ a.viewmore-link:focus {
 .agency-drpdwn, .tags-drpdwn, .calendar-drpdwn { height: 40px; }
 .tags-drpdwn { position:relative; left:19px; }
 .calendar-drpdwn { position:relative; left:69px; bottom:10px; }
-.cs-button2 { left: 100px; }
-.cs-button3 { bottom: 32px; left: 100px; }
+.cs-button2 { left: 30px; margin: 10px 0px; }
+.cs-button3 { bottom: 8px; left: 30px; }
 .cs-button2, .cs-button3, .cs-button-filter {
 	position: relative;
 	border: 1px solid #999999;
@@ -1165,15 +1168,18 @@ a.viewmore-link:focus {
 .artcles-details-view { width:870px; position:relative; float:left; left:100px; }
 .details-title-wrap { width: 868px; height:50px; position:relative; float:left; border-bottom: 1px solid #000; }
 .details-title {
-	font-family: "Roboto Condensed", serif; font-size: 24px; font-weight: bold;
-	color:#000;
+	    font-family: "Roboto Condensed", serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
     display: block;
     float: left;
     height: 50px;
     width: 468px;
-    
     position: relative;
-	padding-top:13px;	
+    padding-top: 13px;
+    overflow-x: hidden;
+    white-space: nowrap;	
 }
 .details-agency-name {
 	font-family: "Roboto Condensed", serif; font-size: 18px; font-weight: bold; 	
@@ -1263,7 +1269,7 @@ a.viewmore-link:focus {
     width: 100px;
     position: relative;
 }
-.details-paragraph {
+.details-paragraph, .details-longdescription {
     font-family: "Roboto", serif; 
     font-size: 14px;
     font-weight: normal;
@@ -1272,8 +1278,9 @@ a.viewmore-link:focus {
     height: auto;
     width: 870px;
     position: relative;
+	margin-bottom:20px;
 }
-.details-paragraph p { padding: 5px 0px; }
+.details-paragraph p, .details-longdescription p { padding: 5px 0px; }
 .details-tags-wrap {
     display: block;
     float: left;
@@ -1282,6 +1289,7 @@ a.viewmore-link:focus {
     margin-bottom: 10px;
     position: relative;
 }
+.details-longdescription
 .details-tags {
     font-family: "Roboto", serif; 
     font-size: 14px;
@@ -1434,7 +1442,7 @@ a.viewmore-link:focus {
     height: auto;
     width: 870px;
     position: relative;
-	left:100px;
+
 }
 .history-table { font-family: "Roboto", serif; font-size: 14px; line-height: 18px; }
 .history-table th { font-weight: bold;  padding: 5px 10px; border: 1px solid #999; background-color: #efefef; }
@@ -1444,9 +1452,10 @@ a.viewmore-link:focus {
 /*Stepped on default boostrap styles begins */
 .control-label { font-family: "Roboto", serif; font-size: 14px; font-weight: normal; display: block; padding-bottom: 3px; }
 .datatable .odd td, .even td { font-family: "roboto", serif; font-size: 14px;}
-
+.filter-checkbox { margin: 10px auto; }
 .datatable-wrap { width: 1000px; margin: 0px auto; }
 .dataTables_paginate .paging_full_numbers {}
+.dataTables_length { }
 .dataTables_length select  { height: 40px; font-size: 12px; }
 .adpq-form-control:focus, .dataTables_length select:focus {
   border-color: #66afe9;
@@ -1461,6 +1470,11 @@ a.viewmore-link:focus {
 .views-column { width:98px; }
 .shares-column { width:80px; }
 /* Data Tables Begin */
+.Description-wrap { width: 870px; /*left: 100px; */position: relative; }
+.Description-wrap label { font-size: 14px; font-weight: bold; float:left; position: relative; margin:5px auto; }
+.dynamic-table { max-width: 870px; position:relative; float: left; }
+table.dataTable tbody tr { background-color: transparent!important; }
+table.dataTable.compact thead th { vertical-align: middle!important; }
 .compact .dataTable .no-footer { font-family: "roboto condensed", serif; }
 .compact .dataTable .no-footer thead tr th.sorting_asc {  }
 #articles { max-width: 870px }
@@ -1475,32 +1489,9 @@ th.sorting_asc { height: 30px!important; max-height: 35px; vertical-align: middl
 .location { position: relative; float: right; right: 69px; top: -55px; }
 .dataTables_info { font-size: 14px; }
 /*.dataTables_filter label { display:none; }*/
-.dataTables_wrapper .dataTables_filter input { 
- width:300px;
-	height: 40px;
-	/*    font-weight: 500;
-    width: 170%;
-    padding: .5em;
-    margin: 0;
-    overflow: hidden;
-    vertical-align: middle;
-    background-color: #e6eef8;
-	border: #b7b7b7 solid 1px;
-
--webkit-border-top-left-radius: 3px;
--webkit-border-bottom-left-radius: 3px;
--moz-border-radius-topleft: 3px;
--moz-border-radius-bottomleft: 3px;
-border-top-left-radius: 3px;
-border-bottom-left-radius: 3px;	
-    -webkit-box-shadow: 0 0 3px #ccc;
-    box-shadow: 0 0 3px #ccc;
-	position: relative;
-	top: -72px;
-	height: 40px;
-	float: right;
-	right:300px;*/
-}
+.dataTables_wrapper .dataTables_filter {float: right; text-align: right; position: relative; right: 50px; }
+.dataTables_wrapper .dataTables_filter input { width:300px; height: 40px; border: 1px solid #999!important; padding: 5px; }
+.dataTables_wrapper strong { font-weight: bold; padding: 5px 0px!important; }
 .hasDatepicker {
 	width: 150px;
 	padding: 10px 10px;

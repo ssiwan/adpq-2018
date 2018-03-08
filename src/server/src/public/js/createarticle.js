@@ -129,6 +129,7 @@ $(document).ready(function(){
                 return;
             }
 
+            
             UploadToS3();
             article.attachments = attachments;
          console.log("Request JSON" + JSON.stringify(article));
@@ -148,7 +149,8 @@ $(document).ready(function(){
                 console.log(isEmpty(response.status));
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
-                        window.location.href = "dashboard-staff.html";
+                        alert("Article created successfully.")
+                        setTimeout(function(){ window.location.href = "dashboard-staff.html"; }, 2000);
                     }
                 }
                 else{

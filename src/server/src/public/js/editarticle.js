@@ -124,11 +124,12 @@ $(document).ready(function(){
                     }
                     tgs = tgs.substring(0, tgs.length - 1)
                     $('#tags').importTags(tgs);
-                    $('#dynamictable').append('<table class="table table-stripped"><thead><tr>Existing Attachments</tr></thead></table>');
+                    $('#dynamictable').append('<table class="table table-stripped"><thead><tr>Attachments</tr></thead></table>');
                     var table = $('#dynamictable').children();    
-
+                    var j = 0;
                     for (let index = 0; index < response.data.attachments.length; index++) {
-                        table.append("<tbody><tr><td>" +response.data.attachments[index]+"</td><td><button type='button' class='btn'>Delete</button></td></tr>");
+                        j++;
+                        table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+response.data.attachments[index]+">View</a></td><td><button type='button' class='btn' onclick='DeleteAttachments(" + response.data.attachments[index]  +")'>Delete</button></td></tr>");
                     }
                     table.append("</tbody>");
                 }
@@ -139,7 +140,46 @@ $(document).ready(function(){
             });
         }
 
+        var deleteAtts = {
+            articleId:"",
+            attachmentUrl:""
+        }
 
+       function DeleteAttachments(attachmentUrl) 
+       {
+        deleteAtts.articleId = articleId;
+        deleteAtts.attachmentUrl = attachmentUrl;
+
+        console.log(JSON.stringify(deleteAtts));
+           if (!isEmpty(attachmentUrl)) 
+           {
+                $.ajax({
+                    url: APIURL + "deleteAttachment",
+                    type: 'PATCH',
+                    dataType: 'json',
+                    headers:{
+                        'Authorization':token,
+                        'Content-Type':'application/json'
+                    },
+                    data: JSON.stringify(deleteAtts)
+                })
+                .done(function(response) {
+                    console.log(response);
+                    //console.log(isEmpty(response.status));
+                    if (!isEmpty(response.status)) {
+                        if (response.status === "saved!") {
+                        alert("Attachment deleted.");
+                        }
+                    }
+                    else{
+                        alert("There seems to be a problem with deleting attachments.Please try again.");
+                    }
+                })
+                .fail(function(data, textStatus, xhr) {
+                    alert(data.responseJSON.Error);
+                });
+           }        
+       }
 
         var article = {
             title:"",
@@ -185,7 +225,7 @@ $(document).ready(function(){
             UploadToS3();
             article.attachments = attachments;
 
-        console.log("Request JSON" + JSON.stringify(article));
+           console.log("Request JSON" + JSON.stringify(article));
             
             $.ajax({
                 url: APIURL + "editArticle",
@@ -202,7 +242,9 @@ $(document).ready(function(){
                 console.log(isEmpty(response.status));
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
-                       window.location.href = "dashboard-staff.html";
+                       //window.location.href = "dashboard-staff.html";
+                       alert("Article edited successfully.")
+                       setTimeout(function(){ window.location.href = "dashboard-staff.html"; }, 2000);
                     }
                 }
                 else{
