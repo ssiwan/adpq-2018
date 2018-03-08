@@ -97,7 +97,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
 
 //userRoutes
     //GET
-        router.get('/user', userController.getUsers); 
+        router.get('/user', userController.getUsers);
+        router.get('/user/:userId', userController.getUserDetails);  
 
     //POST
         router.post('/user/signIn', userController.signIn);
