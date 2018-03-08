@@ -45,11 +45,12 @@ $(document).ready(function(){
               })
             .done(function(response) {
                 console.log(response);
-                $("#idfirst").val(response.firstName);
-                $("#idlast").val(response.lastName);
-                $("#idemail").val(response.email);
-                document.getElementById('idagency').value = response.agencyId;
-                if (response.allowUploads === 1) {
+                var name = response.data.name.split(" ");
+                $("#idfirst").val(name[0]);
+                $("#idlast").val(name[1]);
+                $("#idemail").val(response.data.email);
+                document.getElementById('idagency').value = response.data.agencyId;
+                if (response.data.allowUploads === 1) {
                     $("#uploadchk").prop('checked', true);
                 } 
                 else
@@ -70,7 +71,9 @@ $(document).ready(function(){
             email: "",
             phone: "",
             agencyId: "",
-            allowUploads: "no"
+            allowUploads: 0,
+            userId:"",
+            password:""
           }
 
 
@@ -86,6 +89,11 @@ $(document).ready(function(){
             } else {
                 user.allowUploads = 0;
             }
+            user.userId = userid;
+            if (!isEmpty($("#idpassword").val())) {
+                user.password = $("#idpassword").val();
+            }
+
             // Validation
             var errors = "";
             if (isEmpty(user.firstName)) {
@@ -106,7 +114,7 @@ $(document).ready(function(){
             
             $.ajax({
                 url: APIURL + "user",
-                type: 'POST',
+                type: 'PATCH',
                 dataType: 'json',
                 headers:{
                     'Authorization':token,
