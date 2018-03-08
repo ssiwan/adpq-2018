@@ -5,75 +5,71 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto Condensed" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="css/adpq-styles.css">
-<title>ADPQ - Knowledge Articles - Create User</title>	
+<title>ADPQ - Knowledge Articles - Create User</title>
 </head>
 <body>
 <div class="main-wrapper-sm">
   <div class="adpq-container">
     <header class="adpq-headcontainer">
-      <div class="adpq-brand"></div>
-      <div class="adpq-adminwrap">
-        <div class="adpq-plus-btn"></div>
-        <div class="adpq-settings-btn"></div>
-        <div class="adpq-profile-btn"></div>
-      </div>
+      <div class="adpq-adminwrap">	   
+        <nav class="cssmenu">
+           <div class="adpq-brand"><a href="index.html"></a></div>
+           <div id="head-mobile"></div>
+           <div class="button"></div>
+        <div class="dash-view">ADMINISTRATOR VIEW</div>	
+           <ul class="dash-menu-admin">
+              <li><a href="dashboard-admin.html" class="adpq-dashboard-btn"></a></li>
+              <li><a href="#" class="adpq-profile-btn"></a>
+                 <ul class="under-menu">
+                    <li><a href="#">My Profile</a></li>
+                    <li><a href="#" id="logout">Logout</a></li>
+      </ul>
+              </li>
+         <li><a href="#" class="adpq-settings-btn"></a>
+                 <ul class="under-menu">
+                    <li><a href="#">Manage Users</a></li>
+                 </ul>
+              </li>
+         <li><a href="#" class="adpq-plus-btn"></a>
+                 <ul class="under-menu">
+                    <li><a href="add-user-admin.html">Create User</a></li>
+                 </ul>
+              </li>			 
+           </ul>
+        </nav>
+       </div> 
     </header>
     <div class="mypublished-row">
       <div class="mypublished-header">
         <div class="section-title">Create User</div>
       </div>
       <div class="create-article-wrap">
-        <form class="form-horizontal">
           <fieldset>
-            
-            <!-- Form Name --> 
-            <!-- Text input-->
             <div class="form-group">
               <label class="col-md-4 control-label" for="idfirst">First Name</label>
               <div class="col-md-6">
                 <input id="idfirst" name="idfirst" type="text" placeholder="" class="form-control input-md">
               </div>
             </div>
-            
-            <!-- Text input-->
             <div class="form-group">
               <label class="col-md-4 control-label" for="idlast">Last Name</label>
               <div class="col-md-6">
                 <input id="idlast" name="idlast" type="text" placeholder="" class="form-control input-md">
               </div>
             </div>
-            
-            <!-- Text input-->
             <div class="form-group">
               <label class="col-md-4 control-label" for="idemail">Email</label>
               <div class="col-md-6">
                 <input id="idemail" name="idemail" type="text" placeholder="" class="form-control input-md">
               </div>
             </div>
-            
-            <!-- Select Basic -->
             <div class="form-group">
               <label class="col-md-4 control-label" for="idagency">Agency</label>
               <div class="col-md-6">
                 <select id="idagency" name="idagency" class="form-control">
-                  <option value="1">Option one</option>
-                  <option value="2">Option two</option>
                 </select>
               </div>
             </div>
-            
-            <!-- Select Basic -->
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="idusertype">User Type</label>
-              <div class="col-md-6">
-                <select id="idusertype" name="idusertype" class="form-control">
-                  <option value="1">Option one</option>
-                  <option value="2">Option two</option>
-                </select>
-              </div>
-            </div>
-            
-            <!-- Password input-->
             <div class="form-group">
               <label class="col-md-4 control-label" for="idpassword">Password</label>
               <div class="col-md-6">
@@ -81,16 +77,14 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-4 control-label" for="idpassword">Can upload attachments</label>
+              <label class="col-md-4 control-label" for="uploadattachments">Can upload attachments</label>
               <div class="col-md-6">
                 <label class="switch">
-                <input type="checkbox">
+                <input type="checkbox" id="uploadchk">
                 <div class="slider round"></div>
                 </label>
               </div>
             </div>
-            
-            <!-- Button (Double) -->
             <div class="form-group">
               <label class="col-md-4 control-label" for="button1id"></label>
               <div class="col-md-8">
@@ -99,16 +93,14 @@
               </div>
             </div>
           </fieldset>
-        </form>
       </div>
     </div>
   </div>
 </div>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-<script src="js/config.js"></script> 
-<script src="js/landing.js"></script> 
+<script src="js/constants.js"></script> 
+<script src="js/adduser.js"></script> 
 <script src="js/utility.js"></script>
 </body>
 </html>

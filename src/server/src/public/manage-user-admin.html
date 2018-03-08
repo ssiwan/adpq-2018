@@ -11,65 +11,47 @@
 <div class="main-wrapper-sm">
   <div class="adpq-container">
     <header class="adpq-headcontainer">
-      <div class="adpq-brand"></div>
-      <div class="adpq-adminwrap">
-        <div class="adpq-plus-btn"></div>
-        <div class="adpq-settings-btn"></div>
-        <div class="adpq-profile-btn"></div>
-      </div>
+      <div class="adpq-adminwrap">	   
+        <nav class="cssmenu">
+           <div class="adpq-brand"><a href="index.html"></a></div>
+           <div id="head-mobile"></div>
+           <div class="button"></div>
+        <div class="dash-view">ADMINISTRATOR VIEW</div>	
+           <ul class="dash-menu-admin">
+              <li><a href="dashboard-admin.html" class="adpq-dashboard-btn"></a></li>
+              <li><a href="#" class="adpq-profile-btn"></a>
+                 <ul class="under-menu">
+                    <li><a href="#">My Profile</a></li>
+                    <li><a href="#" id="logout">Logout</a></li>
+      </ul>
+              </li>
+         <li><a href="#" class="adpq-settings-btn"></a>
+                 <ul class="under-menu">
+                    <li><a href="manage-user-admin.html">Manage Users</a></li>
+                 </ul>
+              </li>
+         <li><a href="#" class="adpq-plus-btn"></a>
+                 <ul class="under-menu">
+                    <li><a href="add-user-admin.html">Create User</a></li>
+                 </ul>
+              </li>			 
+           </ul>
+        </nav>
+       </div> 
     </header>
     <div class="mypublished-row">
       <div class="mypublished-header">
         <div class="section-title">Manager Users</div>
       </div>
-      <div class="manage-user-wrap">
-        <div class="man-user-inwrap">
-          <div class="profile-img"></div>
-          <div class="man-user-labels">
-            <div class="man-username">Jumpin Jack</div>
-            <div class="man-name">Jack Flash</div>
-          </div>
-          <div class="man-btnwrap">
-            <div class="man-edit">
-              <button id="btnEdit" name="Save User Buttom" class="cs-button" type="button">Edit</button>
-            </div>
-            <div class="man-remove">
-              <button id="btnRemove" name="Remove User Button" class="cs-button" type="button">Remove</button>
-            </div>
-            <div class="man-create">
-              <button id="btnCreate" name="Create User Button" class="cs-button" type="button">Create</button>
-            </div>
-          </div>
-        </div>
-		  
-        <div class="man-user-inwrap">
-          <div class="profile-img"></div>
-          <div class="man-user-labels">
-            <div class="man-username">Jumpin Jack</div>
-            <div class="man-name">Jack Flash</div>
-          </div>
-          <div class="man-btnwrap">
-            <div class="man-edit">
-              <button id="" name="Save User Buttom" class="cs-button" type="button">Edit</button>
-            </div>
-            <div class="man-remove">
-              <button id="" name="Remove User Button" class="cs-button" type="button">Remove</button>
-            </div>
-            <div class="man-create">
-              <button id="" name="Create User Button" class="cs-button" type="button">Create</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="users"></div>
     </div>
   </div>
 <footer></footer>	
 </div>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
-<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 <script src="js/constants.js"></script> 
-<script src="js/landing.js"></script> 
+<script src="js/manageusers.js"></script> 
 <script src="js/utility.js"></script>
 </body>
 </html>
