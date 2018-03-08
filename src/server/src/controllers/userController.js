@@ -187,34 +187,85 @@ exports.editUser = function(req, res) {
     if (parseInt(req.userRole) != 2) {
         return res.json({error: 'User not allowed'}); 
     }
-    var userobjid = req.userId; 
-    // if (req.body.firstName != null && req.body.firstName != "") {
-    //     returnuser.firstName = req.body.firstName; 
-    // }
-    // if (req.body.lastName != null && req.body.lastName != "") {
-    //     returnuser.lastName = req.body.lastName; 
-    // }
-    // if (req.body.email != null && req.body.email != "") {
-    //     returnuser.email = req.body.email; 
-    // }
-    // if (req.body.agencyId != null && req.body.agencyId != "") {
-    //     returnuser.agencyId = req.body.agencyId; 
-    // }
-    // if (req.body.newPassword != null && req.body.newPassword != "") {
-    //     returnuser.newPassword = req.body.newPassword; 
-    // }
-    // returnuser.allowUploads = req.body.allowUploads; 
+    var userobjid = req.body.userId; 
 
-    bcrypt.hash(req.body.newPassword, saltRounds, function(err, newHashedPassword) {
+    bcrypt.hash(req.body.password, saltRounds, function(err, newHashedPassword) {
         var queryParams = {}; 
         queryParams._id = userobjid; 
         var query = users.findOne(queryParams); 
 
         query.exec().catch(function(err) {
-            
+            return res.json({error: err.toString()}); 
+        }); 
+
+        query.then(function(returnuser) {
+            if (returnuser != null) {
+                if (req.body.firstName != null && req.body.firstName != "") {
+                    returnuser.name.first = req.body.firstName; 
+                }
+                if (req.body.lastName != null && req.body.lastName != "") {
+                    returnuser.name.last = req.body.lastName; 
+                }
+                if (req.body.email != null && req.body.email != "") {
+                    returnuser.email = req.body.email; 
+                }
+                if (req.body.agencyId != null && req.body.agencyId != "") {
+                    returnuser.agencyId = req.body.agencyId; 
+                }
+                if (req.body.password != null && req.body.password != "") {
+                    returnuser.hashedPassword = newHashedPassword; 
+                }
+                returnuser.allowUploads = req.body.allowUploads; 
+                returnuser.save(); 
+                return res.json({status:'saved!'}); 
+            }
+            else {
+                return res.json({error: 'user not found'}); 
+            }
         }); 
 
     });
 
+}
+
+exports.editProfile = function(req, res) {
+    if (parseInt(req.userRole) == 0) {
+        return res.json({error: 'User not allowed'}); 
+    }
+    var userobjid = req.userId; 
+
+    bcrypt.hash(req.body.password, saltRounds, function(err, newHashedPassword) {
+        var queryParams = {}; 
+        queryParams._id = userobjid; 
+        var query = users.findOne(queryParams); 
+
+        query.exec().catch(function(err) {
+            return res.json({error: err.toString()}); 
+        }); 
+
+        query.then(function(returnuser) {
+            if (returnuser != null) {
+                if (req.body.firstName != null && req.body.firstName != "") {
+                    returnuser.name.first = req.body.firstName; 
+                }
+                if (req.body.lastName != null && req.body.lastName != "") {
+                    returnuser.name.last = req.body.lastName; 
+                }
+                if (req.body.email != null && req.body.email != "") {
+                    returnuser.email = req.body.email; 
+                }
+                if (req.body.password != null && req.body.password != "") {
+                    returnuser.hashedPassword = newHashedPassword; 
+                }
+
+                returnuser.save(); 
+                return res.json({status:'saved!'}); 
+            }
+            else {
+                return res.json({error: 'user not found'}); 
+            }
+        }); 
+
+    });
 }
 
