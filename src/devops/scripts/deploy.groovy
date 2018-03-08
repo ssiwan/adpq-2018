@@ -20,15 +20,15 @@ node {
                 println "Staging Branch"
 
                 // Run tests locally
-                sh 'cp /aws/adpq/server/local/config.json ./src/server/src/config.json' // Setup Local Config for Tests
-                runStagingTests()
+                //sh 'cp /aws/adpq/server/local/config.json ./src/server/src/config.json' // Setup Local Config for Tests
+                //runStagingTests()
 
                 // Build and deploy to staging
                 sh 'cp /aws/adpq/server/staging/config.json ./src/server/src/config.json' // Setup Staging Config for Deployment
                 build()
                 publish()
                 deployStaging()
-                sendSlackNotification()
+                //sendSlackNotification()
             } else if (scmVars.GIT_BRANCH == 'origin/master') {
                 println "Master Branch"
                 // sh 'cp /aws/adpq/server/production/config.json ./src/server/src/config.json'

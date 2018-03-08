@@ -20,7 +20,9 @@
     "test:build": "docker build ./src/qa -t adpq_tests",
     "test:teardown": "docker stop 'adpq_tests' && docker rm -f 'adpq_tests' && docker rmi 'adpq_tests'"
   },
-  "dependencies": {},
+  "dependencies": {
+    "bcrypt": "^1.0.3"
+  },
   "devDependencies": {},
   "engines": {
     "node": "9.5.0",
