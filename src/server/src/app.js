@@ -18,7 +18,6 @@ var cors = require('cors');
 //email
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
-
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
 })
@@ -57,8 +56,6 @@ const options = {
         authdb: 'admin'
     }
 };
-
-
 
 mongoose.connect(config.dbUrl, process.env.NODE_ENV == 'local' ? null : options).then(() => {
     var db = mongoose.connection;
