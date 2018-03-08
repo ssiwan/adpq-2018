@@ -1,9 +1,10 @@
+var articleId = getParameterByName("articleId"); // gets articleId from the URL querystring
+var token = sessionStorage.getItem("token");
+var role = sessionStorage.getItem("role");
+var agencyid = sessionStorage.getItem("agencyid");
 $(document).ready(function(){
 
-    var role = sessionStorage.getItem("role");
-    var token = sessionStorage.getItem("token");
-    var articleId = getParameterByName("articleId"); // gets articleId from the URL querystring
-    var agencyid = sessionStorage.getItem("agencyid");
+   
    /* console.log(role);
     console.log(token);
     console.log(articleId);*/
@@ -126,10 +127,10 @@ $(document).ready(function(){
                     $('#tags').importTags(tgs);
                     $('#dynamictable').append('<table class="table table-stripped"><thead><tr>Attachments</tr></thead></table>');
                     var table = $('#dynamictable').children();    
-                    var j = 0;
+                    var j = 0; //onclick='DeleteAttachments("+response.data.attachments[index]+")'
                     for (let index = 0; index < response.data.attachments.length; index++) {
                         j++;
-                        table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+response.data.attachments[index]+">View</a></td><td><button type='button' class='btn' onclick='DeleteAttachments(" + response.data.attachments[index]  +")'>Delete</button></td></tr>");
+                        table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+response.data.attachments[index]+">View</a></td><td><button type='button' class='btn' onclick=\"DeleteAttachments('"+response.data.attachments[index]+"')\">Delete</button></td></tr>");
                     }
                     table.append("</tbody>");
                 }
@@ -140,46 +141,7 @@ $(document).ready(function(){
             });
         }
 
-        var deleteAtts = {
-            articleId:"",
-            attachmentUrl:""
-        }
-
-       function DeleteAttachments(attachmentUrl) 
-       {
-        deleteAtts.articleId = articleId;
-        deleteAtts.attachmentUrl = attachmentUrl;
-
-        console.log(JSON.stringify(deleteAtts));
-           if (!isEmpty(attachmentUrl)) 
-           {
-                $.ajax({
-                    url: APIURL + "deleteAttachment",
-                    type: 'PATCH',
-                    dataType: 'json',
-                    headers:{
-                        'Authorization':token,
-                        'Content-Type':'application/json'
-                    },
-                    data: JSON.stringify(deleteAtts)
-                })
-                .done(function(response) {
-                    console.log(response);
-                    //console.log(isEmpty(response.status));
-                    if (!isEmpty(response.status)) {
-                        if (response.status === "saved!") {
-                        alert("Attachment deleted.");
-                        }
-                    }
-                    else{
-                        alert("There seems to be a problem with deleting attachments.Please try again.");
-                    }
-                })
-                .fail(function(data, textStatus, xhr) {
-                    alert(data.responseJSON.Error);
-                });
-           }        
-       }
+        
 
         var article = {
             title:"",
@@ -273,3 +235,45 @@ else {
 }
 
 });
+
+var deleteAtts = {
+    articleId:"",
+    attachmentUrl:""
+}
+
+function DeleteAttachments(attachmentUrl) 
+{
+deleteAtts.articleId = articleId;
+deleteAtts.attachmentUrl = attachmentUrl;
+
+console.log(JSON.stringify(deleteAtts));
+   if (!isEmpty(attachmentUrl))
+   {
+        $.ajax({
+            url: APIURL + "deleteAttachment",
+            type: 'PATCH',
+            dataType: 'json',
+            headers:{
+                'Authorization':token,
+                'Content-Type':'application/json'
+            },
+            data: JSON.stringify(deleteAtts)
+        })
+        .done(function(response) {
+            console.log(response);
+            //console.log(isEmpty(response.status));
+            if (!isEmpty(response.data)) {
+                if (response.data === "saved!") {
+                   alert("Attachment deleted.");
+                   setTimeout(function(){ window.location.href = "dashboard-staff.html"; }, 1000);
+                }
+            }
+            else{
+                alert("There seems to be a problem with deleting attachments.Please try again.");
+            }
+        })
+        .fail(function(data, textStatus, xhr) {
+            alert(data.responseJSON.Error);
+        });
+   }        
+}
