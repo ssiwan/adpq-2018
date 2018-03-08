@@ -63,7 +63,7 @@
         <div class="details-tools">
           <div class="details-icon-wrap">
             <div class="tool-history" id="btnhistory" style="display:none"></div>   
-           <a href="#" id="articleeditlnk" style="display:none"> <div class="tools-edit"></div></a>
+            <div class="tools-edit"  id="articleeditlnk" style="display:none"></div>
             <div class="tool-delete" id="articledelete" style="display:none"></div>
           </div>
           <div class="tool-approve-btn">
@@ -80,9 +80,15 @@
           <div class="share-fbook" id="sharefb" ></div><div class="share-twitter" id="sharetw"></div><div class="share-email" id="shareemail"></div>
           </div>
         </div>
-      </div>
+		  <div class="Description-wrap">
+	  <label> Summary</label>
       <div class="details-paragraph" id="description"> </div>
-      <div class="details-tags-wrap">
+	  <label> Description</label>
+	  <div class="details-longdescription" id="longdescription"> </div>
+        <label> Attachments </label>
+	  <div id="dynamictable" class="dynamic-table"></div>
+      </div>
+	  <div class="details-tags-wrap">
         <div class="details-tags">Tags:</div>
         <div class="details-tags-field" id="tags"></div>
       </div>
@@ -110,7 +116,6 @@
           <div class="stat-row-two" id="commentcount"></div>
         </div>
       </div>
-    </div>
     <div class="comments-wrap" id="commentsection" style="display:none">
       <div class="details-comments">Comments</div>
       <div class="form-group">
@@ -123,23 +128,22 @@
       <br/>
       <div class="form-group">
         <div id="addcomment" style="display:none">
-         <div class="col-sm-6">
-                <textarea id="txtcomment" name="comment" class="form-control" cols="40" rows="5" maxlength="500"></textarea>
-              </div>
-        <div class="form-group">
+          <div class="col-sm-6">
+            <textarea id="txtcomment" name="comment" class="form-control" cols="40" rows="5" maxlength="500"></textarea>
+          </div>
+          <div class="form-group">
             <div class="col-md-8">
               <button id="btnCancel" name="cancelbtn" class="cs-button">Cancel</button>
               <button id="btnSave" name="submitbtn" class="cs-button" type="button">Submit</button>
             </div>
-       </div>
+          </div>
         </div>
-        </div>
-     </div>
-      <div id="comments" style="display:none"></div>
+      </div>
     </div>
-    <div class="history-wrap" style="display:none">
-      <div class="details-history">History</div>
-        <table width="860" border="0" class="history-table">
+    <div id="comments" style="display:none"></div>
+  <div class="history-wrap" style="display:none">
+    <div class="details-history">History</div>
+    <table width="860" border="0" class="history-table">
       <tbody>
         <tr>
           <th scope="col">Created On</th>
@@ -165,12 +169,16 @@
     </table>
 <footer></footer>
 	</div>
+      </div>
+	</div>
+
+  </div>
 
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 <script src="js/constants.js"></script> 
-<script src="js/utility.js"></script>
+<script src="js/utility.js"></script> 
 <script src="js/articledetails.js"></script> 
 <script src="https://cdn.quilljs.com/1.3.5/quill.js"></script>
 </body>

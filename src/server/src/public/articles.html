@@ -6,19 +6,17 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="css/datatables.css">
 <link rel="stylesheet" href="css/adpq-styles.css">
-</head>
+<title>ADPQ - Knowledge Articles - Edit Staff Profile</title>
+	</head>
 <body>
 	<div class="main-wrapper-sm">
 	  <div class="adpq-container">
    <header class="adpq-headcontainer">
-<!--	   <div class="adpq-brand"></div>-->
       <nav class="cssmenu">
          <div class="adpq-brand"><a href="index.html"></a></div>
          <div id="head-mobile"></div>
          <div class="button"></div>
          <ul>
-<!--            <li class="active"><a href="#"><i class="fa fa-home"></i></a></li>-->
-
             <li><a href="index.html" class="adpq-listview-btn"></a></li>
 			 
          </ul>
@@ -29,11 +27,11 @@
   <input type="button" value="Filters" id="btnFilters" class="cs-button">
   <br/>
   <br/>
-  <input type="button" value="Hide Filters" id="btnHideFilters" class="cs-button" style="display:none">
+  <input type="button" value="Hide Filters" id="btnHideFilters" class="cs-button3" style="display:none">
   <br/>
   <br/>
   <div class="alert alert-danger" id="error" style="display:none"> Both Datefrom and Dateto are required. </div>
-  <div id="filters" style="display:none">
+  <div id="filters" style="display:none" class="filter-checkbox">
     <div class="checkbox">
       <label>
         <input type="checkbox" id="chkAgency">
@@ -63,7 +61,7 @@
       <label for="to">to</label>
       <input type="text" id="to">
     </div>
-    <button type="button" class="btn btn-default" id="btnSearch">OK</button>
+    <button type="button" class="cs-button2" id="btnSearch">OK</button>
   </div>
   <table id="articles" class="compact" width="100%" cellspacing="0">
     <thead>
