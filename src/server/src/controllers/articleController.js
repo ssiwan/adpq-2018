@@ -500,9 +500,9 @@ exports.dashboardWorkflow = function(req, res) {
 
     var queryParams = {};
     queryParams.createdBy = userobjid; 
-    queryParams.status = 0; 
+    //queryParams.status = 0; 
 
-    var query = article.find(queryParams).populate('createdBy').populate('agency').populate('tags');
+    var query = article.find(queryParams).in('status', [0, 2]).populate('createdBy').populate('agency').populate('tags');
     var sortObj = {};
     sortObj['createdAt'] = -1;
     query.sort(sortObj);  
