@@ -18,11 +18,19 @@ var cors = require('cors');
 //email
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
-//if (process.env.NODE_ENV == 'development') {
+
+//https
+app.use(function(req, res, next) {
+    if((!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
+        res.redirect('https://' + req.get('Host') + req.url);
+    }
+    else
+        next();
+});
+
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
 })
-//}
 
 // Configure Request Logging
 app.use(expressWinston.logger({
