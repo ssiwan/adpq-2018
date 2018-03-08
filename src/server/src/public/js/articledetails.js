@@ -87,6 +87,23 @@ $(document).ready(function(){
                                 }
                                 table.append("</tbody>");
 
+                                $('#historytable').append('<table width="860" border="0" class="history-table"><tr><th>Created On</th><th>Last Updated</th><th>Edit By</th><th>Change</th></tr></table>');
+                                var table = $('#historytable').children();    
+                                for (let index = 0; index < response.data.history.length; index++) {
+                                    var status = "";
+                                    if (response.data.history[index].status === 0) {
+                                        status = "pending"
+                                    }
+                                    if (response.data.history[index].status === 1) {
+                                        status = "published"
+                                    }
+                                    if (response.data.history[index].status === 2) {
+                                        status = "declined"
+                                    }
+                                    table.append("<tbody><tr><td>"+convertToLocalDate(convertToLocalDate(response.data.createdAt))+"</td><td>" + convertToLocalDate(response.data.history[index].createdAt)+"</td><td>" +response.data.history[index].createdBy.name.first + " " + response.data.history[index].createdBy.name.last +"</td><td>Status: " +status +"</td></tr>");
+                                }
+                                table.append("</tbody>");
+
                                 $("#tagcount").append(response.data.tags.length);
                                 $("#views").append(response.data.views);
                                 $("#shares").append(response.data.shares);
@@ -287,7 +304,13 @@ $(document).ready(function(){
                 
             });
 
+            $("#btnhistory").click(function() {
 
+                $("#historywrap").show();
+                
+
+                
+            });
 
             $("#sharefb").click(function() {
                 var title = $("#title").text();

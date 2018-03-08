@@ -5,8 +5,7 @@ $(document).ready(function(){
  if(!isEmpty(role) && !isEmpty(token))
  {
           
-
-    LoadAgencies(); 
+   LoadAgencies(); 
     function LoadAgencies() {
         var options = $("#idagency");
     $.ajax({
@@ -33,9 +32,34 @@ $(document).ready(function(){
 
    }
 
-
+   LoadData();
         function LoadData() {
-            
+            $.ajax({
+                url: APIURL + "user/" + userid,
+                type: 'GET',
+                dataType: 'json',
+                headers:{
+                    'Authorization':token,
+                    'Content-Type':'application/json'
+                }
+              })
+            .done(function(response) {
+                console.log(response);
+                $("#idfirst").val(response.firstName);
+                $("#idlast").val(response.lastName);
+                $("#idemail").val(response.email);
+                document.getElementById('idagency').value = response.agencyId;
+                if (response.allowUploads === 1) {
+                    $("#uploadchk").prop('checked', true);
+                } 
+                else
+                {
+                    $("#uploadchk").prop('checked', false);
+                }             
+            })
+            .fail(function(data, textStatus, xhr) {
+                alert("Loading user details failed");
+            });
         }
 
            
@@ -58,7 +82,9 @@ $(document).ready(function(){
             user.agencyId = $("#idagency").val();
             var flag = $('#uploadchk').prop('checked');
             if (flag === true) {
-                user.allowUploads = "yes";
+                user.allowUploads = 1;
+            } else {
+                user.allowUploads = 0;
             }
             // Validation
             var errors = "";
@@ -76,9 +102,6 @@ $(document).ready(function(){
                 alert(errors);
                 return;
             }
-
-            
-          
            console.log("Request JSON" + JSON.stringify(user));
             
             $.ajax({
@@ -106,8 +129,6 @@ $(document).ready(function(){
             .fail(function(data, textStatus, xhr) {
                 alert("Create user failed");
             });
-
-
         });
 
         $("#btnCancel").click(function() {
