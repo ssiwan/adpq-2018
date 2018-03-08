@@ -148,6 +148,7 @@ button.adpq-default-btn { margin-left: 10px; }
 -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 }
+.adpq-blurb h2 { font-family: "Roboto", serif; font-weight: bold; margin: 0 0 20px 0; font-size:24px; }
 .adpq-blurb p { color: #000; font-family: "roboto condensed", serif; font-size: 16px; line-height:18px; }
 .adpq-loginwrap, .adpq-adminwrap {
 	margin: 0px;
