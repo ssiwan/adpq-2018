@@ -65,6 +65,95 @@ class ADPQ:
         self.articleId = []
         
         
+        
+    ## @fn create_user : Will create a user with role 1.
+    #
+    def create_user(self, Authorization='', firstName='', lastName='', email='',
+                    phone='', agencyId=[], AuthorizationExclude=False,  
+                    fNameExclude=False, lNameExclude=False, emailExclude=False,
+                    phoneExclude=False, agencyIdExclude=False, return_status=False):
+        
+        url = self.environment + data["CreateUser"]
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+        
+        # firstName body parameter.
+        if fNameExclude == True:
+            pass
+        elif firstName != '':
+            body['firstName'] = firstName
+        else:
+            body['firstName'] = ''
+            
+        # lastName body parameter.
+        if lNameExclude == True:
+            pass
+        elif lastName != '':
+            body['lastName'] = lastName
+        else:
+            body['lastName'] = ''
+            
+        # email body parameter.
+        if emailExclude == True:
+            pass
+        elif email != '':
+            body['email'] = email
+        else:
+            body['email'] = ''
+            
+        # phone body parameter.
+        if phoneExclude == True:
+            pass
+        elif phone != '':
+            body['phone'] = phone
+        else:
+            body['phone'] = ''
+        
+        # agencyId body parameter.
+        if agencyIdExclude == True:
+            pass
+        elif agencyId != '' and agencyId != []:
+            if type(agencyId) == list: 
+                body['agencyId'] = agencyId[0]
+            else:
+                body['agencyId'] = agencyId
+        else:
+            body['agencyId'] = ''
+            
+        response = requests.request('POST', url, json={}, headers=headers, verify=False)
+    
+        responseBody = response.json()
+        
+        if TestOutput == True:
+            print('\ncreate_user\n', responseBody)
+            print('response.status_code: ', response.status_code)
+            print('body:', body)
+            print('headers:', headers)
+        
+        # Delete the articleId if successful.
+        if response.status_code == 200 and "error" not in responseBody.keys():
+            del self.articleId[0]
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
+        
+        return responseBody
+        
+        
     
     ## @fn delete_article : Will add comments to the specified article.
     #
@@ -967,11 +1056,20 @@ class ADPQ:
 def Test_Class():
     # Declare class objects. Create class instance. DONE
     user = ADPQ()
-    
+
     
     # Method signature. DONE
-    # sign_in(self, email='', emailExclude=False, return_status=False):
-    user.sign_in(email = data['testEmail'])
+    # create_user(Authorization='', firstName='', lastName='', email='',
+    #             phone='', agencyId=[], AuthorizationExclude=False,  
+    #             fNameExclude=False, lNameExclude=False, emailExclude=False,
+    #             phoneExclude=false, agencyIdExclude=False, return_status=False):
+    user.create_user(data['testFirstName'], data['testLastName'], data['testEmail'],
+                     data['testPhone'], data['testAgencyId'])
+    
+    
+#     # Method signature. DONE
+#     # sign_in(self, email='', emailExclude=False, return_status=False):
+#     user.sign_in(email = data['testEmail'])
     
     
 #     # Method signature. DONE
@@ -1090,4 +1188,4 @@ def Test_Class():
     user.delete_article(user.GetAuthKey(), user.GetArticleIds())
     
     
-# Test_Class()
+Test_Class()

@@ -1,8 +1,9 @@
 {
 	"testTitle" : "Ministry of Truth",
-	"testEmail" : "rstar@hotbsoftware.com",
+	"testEmail" : "ldriver@hotbsoftware.com",
     "testPassword" : "p@assw0rd1!",
     "testFirstName" : "Ragnar",
+    "testPhone" : "7144444444",
     "testLastName" : "Lothbrok",
     "testGender" : "Male",
     "testAge" : "55",
@@ -10,7 +11,7 @@
     "testEducation" : "UCI",
     "testFcmId" : "abc123321bca",
     "testArticleId" : "5a98378b47c4e20019ac0f86",
-    "testAgencyId" : "5a8b73f94212d1f20f847b9a",
+    "testAgencyId" : "",
     "testAudience" : 0,
     "testShortDesc" : "Shill me to sleep.",
     "testLongDesc" : "California 123",
@@ -40,6 +41,7 @@
     "AdminDashApproved":"adminDashboardApproved",
     "AdminDashPending":"adminDashboardPending",
     "DeleteArticle":"articles/",
+    "CreateUser":"user",
     
     
     "articleSort" : "sort=createdAt&",
