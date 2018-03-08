@@ -16,7 +16,7 @@ $(document).ready(function(){
 
     Load();
 
-
+//   strwf += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+title+"</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+publishdate+"</div></div></div></div><div class='trending-right-column'><div class='article-status'>"+articlestatus+"</div></div></div>";
     function Load() {
         table = $('#articles').DataTable({
             "bDestroy": true,
@@ -34,16 +34,17 @@ $(document).ready(function(){
                    var return_data = new Array();
                    for (let index = 0; index < json.data.length; index++) {
                         return_data[index] = {
-                            /*'articleinfo':"<div class='article-title'>"    + json.data[index].title + "</div>"
-                                          +"<div class='article-agency'>Agency:" + json.data[index].agency + "</div>"
+/*                             'articleinfo':"<div class='left-title'>"    + json.data[index].title + "</div>"
+                                          +"<div class='left-a'>Agency:" + json.data[index].agency + "</div>"
                                           + json.data[index].summary + "<br/>"
                                           + "<div class='article-author'>Author: </div>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last +
-                                          + "<div class='article-publishdate'>PublishedDate:</div> " + convertToLocalDate(json.data[index].createdAt),*/
-                            'articleinfo': "<strong>" + json.data[index].title + "</strong><br/>"
+                                          + "<div class='article-publishdate'>PublishedDate:</div> " + convertToLocalDate(json.data[index].createdAt), */
+                            'articleinfo':"<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+json.data[index].title+"</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+json.data[index].agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+json.data[index].summary+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+convertToLocalDate(json.data[index].createdAt)+"</div></div></div></div><div class='trending-right-column'><div class='article-status'>"+json.data[index].status+"</div></div></div>",
+                           /*  'articleinfo': "<strong>" + json.data[index].title + "</strong><br/>"
                                              + "<strong>Agency:" + json.data[index].agency + "</strong><br/>" 
                                              + json.data[index].summary + "<br/>" 
                                              + "<strong>Author: </strong>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last + "<br/>"
-                                             + "<strong>PublishedDate:</strong> " + convertToLocalDate(json.data[index].createdAt),
+                                             + "<strong>PublishedDate:</strong> " + convertToLocalDate(json.data[index].createdAt), */
                             'lastupdated': convertToLocalDate(json.data[index].createdAt),
                             'views': json.data[index].views,
                             'shares': json.data[index].shares,
