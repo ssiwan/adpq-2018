@@ -105,7 +105,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
         router.post('/user', userController.createUser);
 
     //PATCH
-        router.patch('/user', userController.editUser);  
+        router.patch('/user', userController.editUser); 
+        router.patch('/user/editProfile', userController.editProfile); 
 
     //DELETE
         router.delete('/user/:userId', userController.deleteUser); 
