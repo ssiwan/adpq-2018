@@ -13,15 +13,9 @@ var ObjectId = mongoose.Types.ObjectId;
 
 //GET /searchArticles
 exports.search = function (req, res) {
-    var keyword = req.query.keyword;
+    var keyword = req.query.keyword.toLowerCase();
     var returnlist = []; 
     var queryParams = {};
-
-    //if keyword exists in any title or description
-    if (keyword != null && keyword.length > 0) {
-        queryParams.title = {'$regex': keyword, '$options': 'i'};
-        //queryParams.description = {'$regex': {value: keyword}, '$options': 'i'};
-    }
 
     queryParams.role = {"$lte": parseInt(req.userRole)};
     queryParams.status = 1; 
@@ -38,23 +32,29 @@ exports.search = function (req, res) {
     
     query.then(function(articles) {
         articles.forEach(function (art, index) {
-            var articleobj = {};
-            articleobj['id'] = art._id.toString();
-            articleobj['title'] = art.title;
-            articleobj['summary'] = art.summary;
-            articleobj['tags'] = getTagNames(art.tags);
-            articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit 
-            articleobj['createdAt'] = art.createdAt;
-            articleobj['createdBy'] = art.createdBy; 
-            articleobj['agency'] = art.agency.value;
-            articleobj['status'] = art.status;
-            articleobj['approvedBy'] =  art.approvedBy; 
-            articleobj['description'] = art.description;
-            articleobj['attachments'] = art.attachments;
-            articleobj['views'] = art.views;
-            articleobj['shares'] = art.shares; 
+            var tagNamesArray = getTagNames(art.tags); 
+            if (checkTagNameCompares(keyword, tagNamesArray) || (art.agency.value).toLowerCase().includes(keyword)
+                   || (art.description).toLowerCase().includes(keyword) || (art.createdBy.name.first).toLowerCase().includes(keyword) 
+                   || (art.createdBy.name.last).toLowerCase().includes(keyword) || (art.agency.value).toLowerCase().includes(keyword) 
+                   || (art.summary).toLowerCase().includes(keyword) ) {
+                var articleobj = {};
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = tagNamesArray;
+                articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit 
+                articleobj['createdAt'] = art.createdAt;
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['approvedBy'] =  art.approvedBy; 
+                articleobj['description'] = art.description;
+                articleobj['attachments'] = art.attachments;
+                articleobj['views'] = art.views;
+                articleobj['shares'] = art.shares; 
 
-            returnlist.push(articleobj);   
+                returnlist.push(articleobj);
+            }   
         }); 
         res.json({'data':returnlist}); 
     });      
@@ -925,6 +925,14 @@ function getTagNames(tags) {
     })
     return returnarray; 
 }; 
+
+function checkTagNameCompares(keyword, tagStringArray) {
+    tagStringArray.forEach(function(tagName) {
+        if (tagName.toLowerCase().includes(keyword)) {
+            return true; 
+        }
+    }); 
+}
 
 function getLastUpdatedDate(edits) {
     if (edits != null && edits.length > 0) {
