@@ -183,17 +183,27 @@ exports.getUserDetails = function(req, res) {
     }); 
 }
 
-// exports.editUser = function(req, res) {
-//     if ((req.body.userId == req.userId) || parseInt(req.userRole) == 2) {
+exports.editUser = function(req, res) {
+    if (parseInt(req.userRole) != 2) {
+        return res.json({error: 'User not allowed'}); 
+    }
 
-//         var textpassword 
+    // if (req.body.firstName != null && req.body.firstName != "") {
+    //     returnuser.firstName = req.body.firstName; 
+    // }
+    // if (req.body.lastName != null && req.body.lastName != "") {
+    //     returnuser.lastName = req.body.lastName; 
+    // }
+    // if (req.body.email != null && req.body.email != "") {
+    //     returnuser.email = req.body.email; 
+    // }
+    // if (req.body.agencyId != null && req.body.agencyId != "") {
+    //     returnuser.agencyId = req.body.agencyId; 
+    // }
+    // if (req.body.newPassword != null && req.body.newPassword != "") {
+    //     returnuser.newPassword = req.body.newPassword; 
+    // }
+    // returnuser.allowUploads = req.body.allowUploads; 
 
-//         bcrypt.hash(plainpassword, saltRounds, function(err, newHashedPassword) {
-
-//         });
-//     }
-//     else {
-//         res.json({error:'Not allowed to edit this user'}); 
-//     }
-// }
+}
 
