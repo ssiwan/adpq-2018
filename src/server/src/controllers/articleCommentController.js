@@ -29,3 +29,10 @@ exports.createArticleComment = function(req, res) {
         return res.json({'error': err.toString() });
     });
 }
+
+//*******************************INTERNAL API FUNCTIONS*********************//
+
+exports.deleteArticleComments = function(articleId) {
+    var articleObjId = new ObjectId(articleId); 
+    articleComment.deleteMany({'articleId': articleObjId}).exec();     
+}

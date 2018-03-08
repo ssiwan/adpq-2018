@@ -234,6 +234,14 @@ def sendSlackNotification() {
         RESULTS = readFile 'RESULTS'
         RESULT_TYPE = readFile 'RESULT_TYPE'
         sh "sleep 10 && logs=\$(git log -1 --pretty=%B origin/staging) && echo \'$RESULT_TYPE\' && node ./src/devops/scripts/slackNotification.js \'$RESULT_TYPE\' \"*New Staging Build Available*\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n\$logs\n\n\" \'$RESULTS\'"
+
+        // Cleanup
+        sh '''
+            # Docker Cleanup
+            docker kill -f $(docker ps -q) || true
+            docker rm -f $(docker ps -a -q) || true
+            docker rmi -f $(docker images -q) || true
+        '''
     }
 }
 

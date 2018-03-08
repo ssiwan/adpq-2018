@@ -92,7 +92,7 @@ $(document).ready(function(){
      
         function LoadPublishedArticles() {
             $.ajax({
-                url: APIURL + "dashboardMyPublished?limit=3",
+                url: APIURL + "dashboardMyPublished",
                 type: 'GET',
                 dataType: 'json',
                 headers:{
@@ -108,9 +108,14 @@ $(document).ready(function(){
                 $("#publishedstaffviewmorelink").show();
             }
 
+            var length = response.data.length;
+            if (length > 3) {
+                length = 3;
+            }
+
             if (!isEmpty(response.data)) {
             
-            for (let index = 0; index < response.data.length; index++) {
+            for (let index = 0; index < length; index++) {
                     var title= " ";
                     var agency= " ";
                     var author= " ";
@@ -158,7 +163,7 @@ $(document).ready(function(){
 
         function LoadWorkflowArticles() {
             $.ajax({
-                url: APIURL + "dashboardWorkflow?limit=3",
+                url: APIURL + "dashboardWorkflow",
                 type: 'GET',
                 dataType: 'json',
                 headers:{
@@ -174,9 +179,13 @@ $(document).ready(function(){
             {
                 $("#workflowstaffviewmorelink").show();
             }
-            
+            var length = response.data.length;
+            if (length > 3) {
+                length = 3;
+            }
+
             if (!isEmpty(response.data)) {
-            for (let index = 0; index < response.data.length; index++) {
+            for (let index = 0; index < length; index++) {
                     var title= " ";
                     var agency= " ";
                     var author= " ";
@@ -224,6 +233,11 @@ $(document).ready(function(){
                 alert("Workflow endpoint error");
             });
         } 
+        $("#logout").click(function() {
+            sessionStorage.clear();
+            window.location.href = "index.html";
+        })
+  
 
 
     }

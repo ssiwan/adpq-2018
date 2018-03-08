@@ -5,6 +5,7 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto Condensed" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="css/adpq-styles.css">
+<title>ADPQ - Knowledge Articles - Edit Administator Profile</title>	
 </head>
 <body>
 <div class="main-wrapper-sm">
@@ -18,7 +19,7 @@
       </div>
     </header>-->
     <header class="adpq-headcontainer">
-      <nav id="cssmenu">
+      <nav class="cssmenu">
         <div class="adpq-brand"><a href="index.html"></a></div>
         <div id="head-mobile"></div>
         <div class="button"></div>
@@ -50,37 +51,74 @@
       <div class="create-article-wrap">
         <form class="form-horizontal">
           <fieldset>
+            
+            <!-- Form Name --> 
+            <!-- Text input-->
             <div class="form-group">
-              <label class="col-sm-4 control-label" for="title">First Name</label>
-              <div class="col-sm-8">
-                <input id="title" name="title" type="text" placeholder="" class="form-control input-md" required="true">
+              <label class="col-md-4 control-label" for="idfirst">First Name</label>
+              <div class="col-md-6">
+                <input id="idfirst" name="idfirst" type="text" placeholder="" class="form-control input-md">
+              </div>
+            </div>
+            
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="idlast">Last Name</label>
+              <div class="col-md-6">
+                <input id="idlast" name="idlast" type="text" placeholder="" class="form-control input-md">
+              </div>
+            </div>
+            
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="idemail">Email</label>
+              <div class="col-md-6">
+                <input id="idemail" name="idemail" type="text" placeholder="" class="form-control input-md">
+              </div>
+            </div>
+            
+            <!-- Select Basic -->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="idagency">Agency</label>
+              <div class="col-md-6">
+                <select id="idagency" name="idagency" class="form-control">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Password input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="idcurrentpassword">Current Password</label>
+              <div class="col-md-6">
+                <input id="idcurrentpassword" name="idcurrentpassword" type="password" placeholder="" class="form-control input-md">
+              </div>
+            </div>
+            
+            <!-- Password input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="idnewpassword">New Password</label>
+              <div class="col-md-6">
+                <input id="idnewpassword" name="idnewpassword" type="password" placeholder="" class="form-control input-md">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-4 control-label" for="lastname">Last Name</label>
-              <div class="col-sm-8">
-                <input id="lastname" name="lastname" type="text" placeholder="" class="form-control input-md">
+              <label class="col-md-4 control-label" for="idpassword">Email Notifications</label>
+              <div class="col-md-6">
+                <label class="switch">
+                <input type="checkbox">
+                <div class="slider round"></div>
+                </label>
               </div>
             </div>
+            
+            <!-- Button (Double) -->
             <div class="form-group">
-              <label class="col-sm-4 control-label" for="emailID">Email</label>
-              <div class="col-sm-8">
-                <input id="emailID" name="emailID" type="text" placeholder="" class="form-control input-md">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="resetPassword"></label>
-              <div class="col-md-4">
-                <button id="resetPassword" name="resetPassword" class="cs-button">Reset Password</button>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="cancelbtn"></label>
-              <div class="double-btn-wrap">
-                <div class="col-md-8">
-                  <button id="cancelbtn" name="cancelbtn" class="cs-button">Cancel</button>
-                  <button id="submitbtn" name="submitbtn" class="cs-button">Submit</button>
-                </div>
+              <label class="col-md-4 control-label" for="button1id"></label>
+              <div class="col-md-8">
+                <button id="btnCancel" name="Cancel Button" class="cs-button">Cancel</button>
+                <button id="btnSave" name="Save Button" class="cs-button">Save</button>
               </div>
             </div>
           </fieldset>
@@ -88,12 +126,13 @@
       </div>
     </div>
   </div>
+<footer></footer>	
 </div>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-<script src="js/config.js"></script> 
-<script src="js/landing.js"></script> 
+<script src="js/constants.js"></script> 
+ 
 <script src="js/utility.js"></script>
 </body>
 </html>

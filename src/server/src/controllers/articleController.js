@@ -4,7 +4,10 @@ var mongoose = require('mongoose'),
     article = mongoose.model('article'),
     users = mongoose.model('user'),
     tagController = require('./tagsController'),
-    agencyController = require('./agencyController'); 
+    agencyController = require('./agencyController'),
+    articleEditController = require('./articleEditController'),
+    articleCommentController = require('./articleCommentController'),  
+    emailController = require('./emailController');
     
 var ObjectId = mongoose.Types.ObjectId; 
 
@@ -278,7 +281,8 @@ exports.createArticle = function(req, res) {
     var prom = newArticle.save();
 
     prom.then(function(artreturn) {
-        tagController.convertTags(tagArray, artreturn._id.toString()); 
+        tagController.convertTags(tagArray, artreturn._id.toString());
+        emailController.sendNotificationEmail();  
         var jsonreturn = {
             status: 'saved!',
             articleId: artreturn._id.toString() 
@@ -760,10 +764,13 @@ exports.deleteArticle = function(req, res) {
                     agencyController.decrementAgencyArticleCount(returnarticle.agency.toString()); 
                 }
 
+                articleEditController.deleteArticleEdits(returnarticle._id.toString());
+                articleCommentController.deleteArticleComments(returnarticle._id.toString()); 
+
                 var deleteQuery = article.find(queryParams).remove().exec();
                 deleteQuery.then(function(ret){
                     return res.json({data:'article removed!'}); 
-                }) 
+                }); 
             }
             else {
                 return res.json({error: 'Delete is not permitted'}); 
@@ -773,6 +780,54 @@ exports.deleteArticle = function(req, res) {
             return res.json({error: 'article not found'}); 
         }
     }); 
+}
+
+//PATCH /deleteAttachment
+exports.deleteAttachment = function(req, res) {
+    if (parseInt(req.userRole) == 0) {
+        return res.json({error: 'User not allowed'});
+    }
+
+    var articleobjid = new ObjectId(req.body.articleId);
+    var attchmtToDelete = req.body.attachmentUrl.toString(); 
+
+    var queryParams = {};
+    queryParams._id = articleobjid; 
+
+    var query = article.findOne(queryParams); 
+
+    query.exec().catch(function(err) {
+        return res.json({error: err.toString()}); 
+    });
+
+    var atindex = 0; 
+
+    query.then(function(returnarticle) {
+        if (returnarticle != null) {
+            if (returnarticle.status == 0) {
+                if (returnarticle.attachments.length > 0) {
+                    var attachments = returnarticle.attachments; 
+                        if (attachments.includes(attchmtToDelete)) {
+                        for (var i=attachments.length-1; i>=0; i--) { //remove from tagstringarray
+                            if (attachments[i] === attchmtToDelete) {
+                                attachments.splice(i, 1);
+                                break; 
+                            }
+                        }
+                    }
+                    returnarticle.attachments = attachments; 
+                    returnarticle.save();                     
+                }
+                return res.json({data:'saved!'});
+            } else {
+                return res.json({error: 'Article has already been published or declined'});
+            } 
+        }
+        else {
+            return res.json({error: 'Article not found'}); 
+        }
+    });
+
 }
 
 //*****************************API internal functions****************//

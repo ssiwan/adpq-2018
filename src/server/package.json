@@ -28,9 +28,15 @@
     "body-parser": "1.16.0",
     "cors": "2.8.4",
     "express": "4.16.2",
+    "express-brute": "^1.0.1",
+    "express-brute-mongoose": "^1.0.2",
+    "express-winston": "^2.5.0",
     "helmet": "3.10.0",
     "jsonwebtoken": "8.1.1",
-    "mongoose": "5.0.3"
+    "mongoose": "5.0.3",
+    "sendmail": "^1.2.0",
+    "winston": "2.4.0",
+    "winston-mongodb": "3.0.1"
   },
   "devDependencies": {
     "eslint": "^4.17.0"
@@ -44,7 +50,7 @@
   ],
   "private": false,
   "contributors": [
-    "Noel Eom <neom@hotbsoftware.com>", 
+    "Noel Eom <neom@hotbsoftware.com>",
     "Raghu Jonnala <rjonnala@counselordirect.com>",
     "Eric Dobyns <edobyns@hotbsoftware.com>",
     "Ken Baker <kbaker@hotbsoftware.com>",

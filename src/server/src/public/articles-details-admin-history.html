@@ -9,6 +9,7 @@
 <!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.-->
 <script>var __adobewebfontsappname__="dreamweaver"</script>
 <script src="http://use.edgefonts.net/roboto:n2:default.js" type="text/javascript"></script>
+<title>ADPQ - Knowledge Articles - Article Details</title>	
 </head>
 <body>
 <div class="main-wrapper-sm">
@@ -24,7 +25,7 @@
             <li><a href="#" class="adpq-profile-btn"></a>
                <ul class="under-menu">
                   <li><a href="#">My Profile</a></li>
-                  <li><a href="#">Logout</a></li>
+                  <li><a href="#" id="logoutadmin">Logout</a></li>
 		</ul>
             </li>
 			 <li><a href="#" class="adpq-settings-btn"></a>
@@ -50,7 +51,7 @@
                <ul class="under-menu">
                   <li><a href="#">My Profile</a></li>
                   <li><a href="create-article.html">Create Article</a></li>
-                  <li><a href="#">Logout</a></li>
+                  <li><a href="#" id="logoutstaff">Logout</a></li>
 				</ul>
             </li>
          </ul>
@@ -71,20 +72,16 @@
           <div class="tool-approve-btn">
             <input type="button" name="btn" class="approve-btn" value="Approve" id="btnapprove" style="display:none" />
           </div>
-          <div class="tool-approve-btn">
-            <input type="button" name="btn" class="approve-btn" value="FB" id="sharefb" style="display:none"/>
-          </div>
-          <div class="tool-approve-btn">
-            <input type="button" name="btn" class="approve-btn" value="TW" id="sharetw" style="display:none"/>
-          </div>
-          <div class="tool-approve-btn">
-            <input type="button" name="btn" class="approve-btn" value="Email" id="shareemail" style="display:none"/>
+       </div>
+      </div>
+      <div class="details-agency-name" id="agency">
+        <div class="share-icon-wrap" id="shareicons" style="display:none">
+          <label>Share:</label>
+          <div class="share-fbook" id="sharefb" ></div><div class="share-twitter" id="sharetw"></div><div class="share-email" id="shareemail"></div>
           </div>
         </div>
       </div>
-      <div class="details-agency-name" id="agency"></div>
-      <div class="details-paragraph" id="description">
-      </div>
+      <div class="details-paragraph" id="description"> </div>
       <div class="details-tags-wrap">
         <div class="details-tags">Tags:</div>
         <div class="details-tags-field" id="tags"></div>
@@ -115,14 +112,16 @@
       </div>
     </div>
     <div class="comments-wrap" id="commentsection" style="display:none">
-        <div class="details-comments">Comments</div>
-        <div class="form-group">
-              <label class="col-md-4 control-label"></label>
-              <div class="col-md-8">
-                <button id="addbtn" name="submitbtn" class="cs-button" type="button">Add Comment</button>
-              </div>
-        </div> <br/> <br/>
-        <div class="form-group">
+      <div class="details-comments">Comments</div>
+      <div class="form-group">
+        <label class="col-md-4 control-label"></label>
+        <div class="col-md-8">
+          <button id="addbtn" name="submitbtn" class="cs-button" type="button">Add Comment</button>
+        </div>
+      </div>
+      <br/>
+      <br/>
+      <div class="form-group">
         <div id="addcomment" style="display:none">
          <div class="col-sm-6">
                 <textarea id="txtcomment" name="comment" class="form-control" cols="40" rows="5" maxlength="500"></textarea>
@@ -152,19 +151,21 @@
           <td>12/1/2017</td>
           <td>12/5/2017</td>
           <td>Charles E. Cheez</td>
-          <td><div class="history-status">Status:</div> <div class="history-state">In Review</div></td>
+          <td><div class="history-status">Status:</div>
+            <div class="history-state">In Review</div></td>
         </tr>
         <tr>
           <td>12/1/2017</td>
           <td>12/4/2017</td>
           <td>Kevin Hart</td>
-          <td><div class="history-status">Status:</div> <div class="history-state">Declined</div></td>
+          <td><div class="history-status">Status:</div>
+            <div class="history-state">Declined</div></td>
         </tr>
       </tbody>
     </table>
-    </div>
-  </div>
-</div>
+<footer></footer>
+	</div>
+
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 

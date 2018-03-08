@@ -166,6 +166,11 @@ $(document).ready(function(){
             window.location.href = "dashboard-staff.html";
         });
 
+        $("#logout").click(function() {
+            sessionStorage.clear();
+            window.location.href = "index.html";
+        })
+
  }
 else {
     window.location.href = "index.html";
