@@ -69,13 +69,20 @@ $(document).ready(function(){
                     var j = 1;
                     for (let index = 0; index < response.data.length; index++) {
                         var title = "<a href='articles-details-admin-history.html?articleId="+response.data[index].id+"'>"+ response.data[index].title +"</a>";
-                        $("#trendingarticle"+j+"title").append(response.data[index].title);
+                        $("#trendingarticle"+j+"title").append(title);
                         $("#trendingarticle"+j+"views").append(response.data[index].views);
                         $("#trendingarticle"+j+"shares").append(response.data[index].shares);
                         $("#trendingarticle"+j+"agency").append("Agency - " + response.data[index].agency);
                         $("#trendingarticle"+j+"shortdesc").append(response.data[index].summary);
                         $("#trendingarticle"+j+"author").append("Author: " + response.data[index].createdBy.name.first + " " +response.data[index].createdBy.name.last);
                         $("#trendingarticle"+j+"publishdate").append("Publish Date: " + convertToLocalDate(response.data[index].createdAt));
+                        $("#trendingarticle"+j+"role").append(response.data[index].id);
+                         var tgs = "";
+                        for (let counter = 0; counter < response.data[index].tags.length; counter++) {
+                            tgs += response.data[index].tags[counter] + ",";
+                        }
+                        tgs = tgs.substring(0, tgs.length - 1) 
+                        $("#trendingarticle"+j+"tags").append(tgs);
                         j++;
                     }
                    if (response.data.length === 1) {
@@ -245,6 +252,26 @@ $(document).ready(function(){
             sessionStorage.clear();
             window.location.href = "index.html";
         })
+
+        $("#createsimilar1").click(function() {
+            sessionStorage.setItem("articlerole", $("#trendingarticle1role").text());
+            sessionStorage.setItem("articletags", $("#trendingarticle1tags").text());
+            sessionStorage.setItem("createsimilar", 1);
+            location.href = "create-article.html";
+        });
+        $("#createsimilar2").click(function() {
+            sessionStorage.setItem("articlerole", $("#trendingarticle2role").text());
+            sessionStorage.setItem("articletags", $("#trendingarticle2tags").text());
+            sessionStorage.setItem("createsimilar", 1);
+            location.href = "create-article.html";
+        });
+
+        $("#createsimilar3").click(function() {
+            sessionStorage.setItem("articlerole", $("#trendingarticle3role").text());
+            sessionStorage.setItem("articletags", $("#trendingarticle3tags").text());
+            sessionStorage.setItem("createsimilar", 1);
+            location.href = "create-article.html";
+        });
   
 
 
