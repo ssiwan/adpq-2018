@@ -1,8 +1,4 @@
 node {
-    // stage('Clean Up') {
-    //     deleteDir()
-    // }
-
     stage('Checkout') {
 
         // Load Node.js
