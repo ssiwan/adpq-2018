@@ -1,6 +1,7 @@
 $(document).ready(function(){
     var role = sessionStorage.getItem("role");
     var token = sessionStorage.getItem("token");
+    var userid = sessionStorage.getItem("id");
     //console.log(role);
     //console.log(token);
     if(!isEmpty(role) && !isEmpty(token))
@@ -10,6 +11,12 @@ $(document).ready(function(){
    LoadPendingArticles();
    LoadPublishedArticles();
    LoadDeclinedArticles();
+   if (role === "admin") {
+    $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
+    }
+    else{
+        $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+    }
 
         function LoadAnalytics() {
             $.ajax({

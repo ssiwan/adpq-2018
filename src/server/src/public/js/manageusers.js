@@ -1,5 +1,6 @@
 var role = sessionStorage.getItem("role");
 var token = sessionStorage.getItem("token");
+var userid = sessionStorage.getItem("id");
 $(document).ready(function(){
 
     //console.log(role);
@@ -7,7 +8,12 @@ $(document).ready(function(){
     if(!isEmpty(role) && !isEmpty(token))
     {
         
-    
+        if (role === "admin") {
+            $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
+        }
+        else{
+            $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+        }
      LoadUsers();
  
     function LoadUsers() {

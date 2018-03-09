@@ -4,12 +4,22 @@ $(document).ready(function(){
     var token = sessionStorage.getItem("token");
     var agencyid = sessionStorage.getItem("agencyid");
     var agency = sessionStorage.getItem("agency");
+    var userid = sessionStorage.getItem("id");
 
     if(!isEmpty(role) && !isEmpty(token))
  {
            var attachments = [];
             var FileJSON = { "mime":"","name":""};
             var options = "";
+           
+            if (role === "admin") {
+                $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
+            }
+            else{
+                $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+            }
+
+
 
             $("#agency").val(agency);
             LoadTags();

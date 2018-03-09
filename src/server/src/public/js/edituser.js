@@ -1,9 +1,17 @@
 var userid = getParameterByName("userid"); // gets userid from the URL querystring
 var role = sessionStorage.getItem("role");
 var token = sessionStorage.getItem("token");
+var userid = sessionStorage.getItem("id");
 $(document).ready(function(){
  if(!isEmpty(role) && !isEmpty(token))
  {
+
+    if (role === "admin") {
+        $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
+    }
+    else{
+        $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+    }
           
    LoadAgencies(); 
     function LoadAgencies() {
@@ -126,16 +134,16 @@ $(document).ready(function(){
                 console.log(response);
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
-                        alert("User created successfully.")
+                        alert("User updated successfully.")
                         setTimeout(function(){ window.location.href = "dashboard-admin.html"; }, 1000);
                     }
                 }
                 else{
-                    alert("There seems to be a problem with saving.Please try again.");
+                    alert("There seems to be a problem with updating.Please try again.");
                 }
             })
             .fail(function(data, textStatus, xhr) {
-                alert("Create user failed");
+                alert("Updated user failed");
             });
         });
 

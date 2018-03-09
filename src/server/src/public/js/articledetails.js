@@ -3,6 +3,7 @@ $(document).ready(function(){
     var role = sessionStorage.getItem("role");
     var token = sessionStorage.getItem("token");
     var articleId = getParameterByName("articleId"); // gets articleId from the URL querystring
+    var userid = sessionStorage.getItem("id");
 
     //console.log(role);
     //console.log(token);
@@ -21,13 +22,15 @@ $(document).ready(function(){
                                 $("#commentsection").show();
                                 $("#comments").show();
                                 $("#adminsettingsbtn").show();
-                                $("#admincssmenu").show();                 
+                                $("#admincssmenu").show();
+                                $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);                 
                                 break;
                                 case "staff":
                                 $("#btnhistory").show();
                                 $("#commentsection").show();
                                 $("#comments").show();
                                 $("#staffcssmenu").show();
+                                $("#staffprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
                                 break;
                     
                             default: // public
