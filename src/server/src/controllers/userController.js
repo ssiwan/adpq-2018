@@ -3,7 +3,8 @@
 var mongoose = require('mongoose'),
     bcrypt = require('bcrypt'),
     jwt = require('jsonwebtoken'), 
-    users = mongoose.model('user');
+    users = mongoose.model('user'),
+    emailController = require('./emailController');
 
 var ObjectId = mongoose.Types.ObjectId; 
 const saltRounds = 2; 
@@ -86,6 +87,7 @@ exports.createUser = function(req, res) {
 
         var prom = newUser.save(); 
         prom.then(function(userreturn){
+            emailController.sendWelcomeEmail(newEmail); 
             var jsonreturn = {
                 status: 'saved!',
                 userId: userreturn._id.toString(),
