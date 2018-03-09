@@ -74,7 +74,7 @@ $(document).ready(function(){
 
 
 function EditUser(userid) {
-    window.location.href = "edit-user-admin.html?userid="+userid;
+    window.location.href = "edit-user-admin.html?userId="+userid;
 }
 
 function DeleteUser(userid) {

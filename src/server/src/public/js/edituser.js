@@ -1,16 +1,16 @@
-var userid = getParameterByName("userid"); // gets userid from the URL querystring
+var userid = getParameterByName("userId"); // gets userid from the URL querystring
 var role = sessionStorage.getItem("role");
 var token = sessionStorage.getItem("token");
-var userid = sessionStorage.getItem("id");
+var usersid = sessionStorage.getItem("id");
 $(document).ready(function(){
  if(!isEmpty(role) && !isEmpty(token))
  {
 
     if (role === "admin") {
-        $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
+        $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ usersid);
     }
     else{
-        $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+        $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ usersid); 
     }
           
    LoadAgencies(); 
@@ -90,7 +90,7 @@ $(document).ready(function(){
             user.firstName = $("#idfirst").val();
             user.lastName = $("#idlast").val();
             user.email = $("#idemail").val();
-            user.agencyId = $("#idagency").val();
+            user.agencyId =  document.getElementById('idagency').value;
             var flag = $('#uploadchk').prop('checked');
             if (flag === true) {
                 user.allowUploads = 1;
@@ -98,9 +98,8 @@ $(document).ready(function(){
                 user.allowUploads = 0;
             }
             user.userId = userid;
-            if (!isEmpty($("#idpassword").val())) {
-                user.password = $("#idpassword").val();
-            }
+            user.password = $("#idpassword").val();
+        
 
             // Validation
             var errors = "";
@@ -135,7 +134,7 @@ $(document).ready(function(){
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
                         alert("User updated successfully.")
-                        setTimeout(function(){ window.location.href = "dashboard-admin.html"; }, 1000);
+                        window.location.href = "dashboard-admin.html";
                     }
                 }
                 else{
