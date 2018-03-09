@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "aws-sdk": "2.202.0",
+    "bcrypt": "1.0.3",
     "body-parser": "1.16.0",
     "cors": "2.8.4",
     "express": "4.16.2",
