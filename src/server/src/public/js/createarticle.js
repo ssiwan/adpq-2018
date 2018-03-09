@@ -100,7 +100,7 @@ $(document).ready(function(){
             
            function LoadCreateSimilarData() {
                if (createsimilar === "1") {
-                   //console.log(articlerole);
+                   console.log(articlerole);
                    //console.log(articletags);
                    document.getElementById('audience').value = articlerole;
                    $('#tags').importTags(articletags);
