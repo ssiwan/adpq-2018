@@ -76,7 +76,7 @@ $(document).ready(function(){
                         $("#trendingarticle"+j+"shortdesc").append(response.data[index].summary);
                         $("#trendingarticle"+j+"author").append("Author: " + response.data[index].createdBy.name.first + " " +response.data[index].createdBy.name.last);
                         $("#trendingarticle"+j+"publishdate").append("Publish Date: " + convertToLocalDate(response.data[index].createdAt));
-                        $("#trendingarticle"+j+"role").append(response.data[index].id);
+                        $("#trendingarticle"+j+"role").append(response.data[index].role);
                          var tgs = "";
                         for (let counter = 0; counter < response.data[index].tags.length; counter++) {
                             tgs += response.data[index].tags[counter] + ",";
