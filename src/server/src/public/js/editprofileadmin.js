@@ -1,15 +1,15 @@
 var userid = getParameterByName("userid"); // gets userid from the URL querystring
 var role = sessionStorage.getItem("role");
 var token = sessionStorage.getItem("token");
-var userid = sessionStorage.getItem("id");
+var usersid = sessionStorage.getItem("id");
 $(document).ready(function(){
  if(!isEmpty(role) && !isEmpty(token))
  {
     if (role === "admin") {
-        $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
+        $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ usersid);
     }
     else{
-        $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+        $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ usersid); 
     }
    LoadAgencies(); 
     function LoadAgencies() {
@@ -51,11 +51,9 @@ $(document).ready(function(){
               })
             .done(function(response) {
                 console.log(response);
-                $("#idfirst").val(response.firstName);
-                $("#idlast").val(response.lastName);
-                $("#idemail").val(response.email);
-                document.getElementById('idagency').value = response.agencyId;
-                
+                $("#idfirst").val(response.data.firstName);
+                $("#idlast").val(response.data.lastName);
+                $("#idemail").val(response.data.email);
             })
             .fail(function(data, textStatus, xhr) {
                 alert("Loading user details failed");
@@ -68,9 +66,7 @@ $(document).ready(function(){
             firstName: "",
             lastName: "",
             email: "",
-            phone: "",
-            agencyId: "",
-            allowUploads: "no"
+            password: ""
           }
 
 
