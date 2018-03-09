@@ -210,7 +210,7 @@ exports.editUser = function(req, res) {
                     returnuser.email = req.body.email; 
                 }
                 if (req.body.agencyId != null && req.body.agencyId != "") {
-                    returnuser.agencyId = req.body.agencyId; 
+                    returnuser.agency = new ObjectId(req.body.agencyId); 
                 }
                 if (req.body.password != null && req.body.password != "") {
                     returnuser.hashedPassword = newHashedPassword; 
