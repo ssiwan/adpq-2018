@@ -5,6 +5,10 @@ $(document).ready(function(){
     var agencyid = sessionStorage.getItem("agencyid");
     var agency = sessionStorage.getItem("agency");
     var userid = sessionStorage.getItem("id");
+    var articlerole = sessionStorage.getItem("articlerole");
+    var articletags = sessionStorage.getItem("articletags");
+    var createsimilar = sessionStorage.getItem("createsimilar");
+
 
     if(!isEmpty(role) && !isEmpty(token))
  {
@@ -20,7 +24,7 @@ $(document).ready(function(){
             }
 
 
-
+            LoadCreateSimilarData();
             $("#agency").val(agency);
             LoadTags();
             function LoadTags() {
@@ -94,7 +98,14 @@ $(document).ready(function(){
                 }
             }
             
-
+           function LoadCreateSimilarData() {
+               if (createsimilar === "1") {
+                   //console.log(articlerole);
+                   //console.log(articletags);
+                   document.getElementById('audience').value = articlerole;
+                   $('#tags').importTags(articletags);
+               }
+           }
 
         $('#tags').tagsInput({
             width: 'auto'
