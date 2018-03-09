@@ -18,11 +18,9 @@ var cors = require('cors');
 //email
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
-//if (process.env.NODE_ENV == 'development') {
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
 })
-//}
 
 // Configure Request Logging
 app.use(expressWinston.logger({
@@ -58,8 +56,6 @@ const options = {
         authdb: 'admin'
     }
 };
-
-
 
 mongoose.connect(config.dbUrl, process.env.NODE_ENV == 'local' ? null : options).then(() => {
     var db = mongoose.connection;

@@ -3,6 +3,7 @@ $(document).ready(function(){
     var role = sessionStorage.getItem("role");
     var token = sessionStorage.getItem("token");
     var articleId = getParameterByName("articleId"); // gets articleId from the URL querystring
+    var userid = sessionStorage.getItem("id");
 
     //console.log(role);
     //console.log(token);
@@ -21,13 +22,15 @@ $(document).ready(function(){
                                 $("#commentsection").show();
                                 $("#comments").show();
                                 $("#adminsettingsbtn").show();
-                                $("#admincssmenu").show();                 
+                                $("#admincssmenu").show();
+                                $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);                 
                                 break;
                                 case "staff":
                                 $("#btnhistory").show();
                                 $("#commentsection").show();
                                 $("#comments").show();
                                 $("#staffcssmenu").show();
+                                $("#staffprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
                                 break;
                     
                             default: // public
@@ -84,6 +87,23 @@ $(document).ready(function(){
                                 for (let index = 0; index < response.data.attachments.length; index++) {
                                     j++;
                                     table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+response.data.attachments[index]+">View</a></td></tr>");
+                                }
+                                table.append("</tbody>");
+
+                                $('#historytable').append('<table width="860" border="0" class="history-table"><tr><th>Created On</th><th>Last Updated</th><th>Edit By</th><th>Change</th></tr></table>');
+                                var table = $('#historytable').children();    
+                                for (let index = 0; index < response.data.history.length; index++) {
+                                    var status = "";
+                                    if (response.data.history[index].status === 0) {
+                                        status = "pending"
+                                    }
+                                    if (response.data.history[index].status === 1) {
+                                        status = "published"
+                                    }
+                                    if (response.data.history[index].status === 2) {
+                                        status = "declined"
+                                    }
+                                    table.append("<tbody><tr><td>"+convertToLocalDate(convertToLocalDate(response.data.createdAt))+"</td><td>" + convertToLocalDate(response.data.history[index].createdAt)+"</td><td>" +response.data.history[index].createdBy.name.first + " " + response.data.history[index].createdBy.name.last +"</td><td>Status: " +status +"</td></tr>");
                                 }
                                 table.append("</tbody>");
 
@@ -287,7 +307,13 @@ $(document).ready(function(){
                 
             });
 
+            $("#btnhistory").click(function() {
 
+                $("#historywrap").show();
+                
+
+                
+            });
 
             $("#sharefb").click(function() {
                 var title = $("#title").text();

@@ -1,20 +1,18 @@
+var userid = getParameterByName("userId"); // gets userid from the URL querystring
+var role = sessionStorage.getItem("role");
+var token = sessionStorage.getItem("token");
+var usersid = sessionStorage.getItem("id");
 $(document).ready(function(){
-
-    var role = sessionStorage.getItem("role");
-    var token = sessionStorage.getItem("token");
-    var userid = sessionStorage.getItem("id");
-
-    if(!isEmpty(role) && !isEmpty(token))
+ if(!isEmpty(role) && !isEmpty(token))
  {
-    
     if (role === "admin") {
-        $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
+        $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ usersid);
     }
     else{
-        $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+        $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ usersid); 
     }
-
-    LoadAgencies(); 
+    //console.log(userid)
+/*    LoadAgencies(); 
     function LoadAgencies() {
         var options = $("#idagency");
     $.ajax({
@@ -39,30 +37,47 @@ $(document).ready(function(){
         console.log('error', xhr);
       });
 
-   }    
+   } */
+
+   LoadData();
+        function LoadData() {
+            $.ajax({
+                url: APIURL + "user/" + userid,
+                type: 'GET',
+                dataType: 'json',
+                headers:{
+                    'Authorization':token,
+                    'Content-Type':'application/json'
+                }
+              })
+            .done(function(response) {
+                console.log(response);
+                var name = response.data.name.split(" ");
+                $("#idfirst").val(name[0]);
+                $("#idlast").val(name[1]);
+                $("#idemail").val(response.data.email);
+            })
+            .fail(function(data, textStatus, xhr) {
+                alert("Loading user details failed");
+            });
+        }
+
+           
 
         var user = {
             firstName: "",
             lastName: "",
             email: "",
-            phone: "",
-            agencyId: "",
-            password:"",
-            allowUploads: 0
+            password: ""
           }
 
 
         $("#btnSave").click(function(){
-
+           
             user.firstName = $("#idfirst").val();
             user.lastName = $("#idlast").val();
             user.email = $("#idemail").val();
-            user.agencyId = $("#idagency").val();
-            user.password = $("#idpassword").val();
-            var flag = $('#uploadchk').prop('checked');
-            if (flag === true) {
-                user.allowUploads = 1;
-            }
+            user.password = $("#idnewpassword").val();
             // Validation
             var errors = "";
             if (isEmpty(user.firstName)) {
@@ -75,20 +90,15 @@ $(document).ready(function(){
                 errors+= "Email is required. \r\n";
             }
 
-            if (isEmpty(user.password)) {
-                errors+= "Password is required. \r\n";
-            }
-
             if (!isEmpty(errors)) {
                 alert(errors);
                 return;
             }
-          
            console.log("Request JSON" + JSON.stringify(user));
-            
+          
             $.ajax({
-                url: APIURL + "user",
-                type: 'POST',
+                url: APIURL + "user/editProfile",
+                type: 'PATCH',
                 dataType: 'json',
                 headers:{
                     'Authorization':token,
@@ -100,8 +110,12 @@ $(document).ready(function(){
                 console.log(response);
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
-                        alert("User created successfully.")
-                        setTimeout(function(){ window.location.href = "dashboard-admin.html"; }, 1000);
+                        alert("User edited successfully.")
+                        if (role === "admin") {
+                            window.location.href = "dashboard-admin.html";
+                        } else {
+                            window.location.href = "dashboard-staff.html";
+                        }
                     }
                 }
                 else{
@@ -109,17 +123,20 @@ $(document).ready(function(){
                 }
             })
             .fail(function(data, textStatus, xhr) {
-                alert("Create user failed");
+                alert("edit user failed");
             });
-
-
+           
         });
 
         $("#btnCancel").click(function() {
-            window.location.href = "dashboard-admin.html";
+            if (role === "admin") {
+                window.location.href = "dashboard-admin.html";
+            }
+            else{
+                window.location.href = "dashboard-staff.html"; 
+            }
+           
         });
-
-
 
         $("#logout").click(function() {
             sessionStorage.clear();

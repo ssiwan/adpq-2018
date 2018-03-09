@@ -9,7 +9,10 @@ var userModel = new Schema({
     agency: {type: Schema.Types.ObjectId, ref: 'agency'},
     role: Number,// 1 - 4. 0 is guest
     createdAt: Date,
-    updatedAt: Date
+    updatedAt: Date,
+    salt: String,
+    hashedPassword: String, 
+    allowUploads: Number
 }, {
     collection: 'users'
 });

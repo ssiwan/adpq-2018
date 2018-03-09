@@ -97,11 +97,16 @@ module.exports = function (app, apiParseKey, AWSKeys) {
 
 //userRoutes
     //GET
-        router.get('/user', userController.getUsers); 
+        router.get('/user', userController.getUsers);
+        router.get('/user/:userId', userController.getUserDetails);  
 
     //POST
         router.post('/user/signIn', userController.signIn);
-        router.post('/user', userController.createUser); 
+        router.post('/user', userController.createUser);
+
+    //PATCH
+        router.patch('/user', userController.editUser); 
+        router.patch('/user/editProfile', userController.editProfile); 
 
     //DELETE
         router.delete('/user/:userId', userController.deleteUser); 

@@ -10,29 +10,18 @@
 <body>
 <div class="main-wrapper-sm">
   <div class="adpq-container">
-<!--    <header class="adpq-headcontainer">
-      <div class="adpq-brand"></div>
-      <div class="adpq-adminwrap">
-        <div class="adpq-blank-btn"></div>
-        <div class="adpq-profile-btn"></div>
-        <div class="adpq-plus-btn"></div>
-      </div>
-    </header>-->
   <header class="adpq-headcontainer">
-
-      <nav class="cssmenu">
+     <nav class="cssmenu">
          <div class="adpq-brand"><a href="index.html"></a></div>
          <div id="head-mobile"></div>
          <div class="button"></div>
          <ul>
-            <li><a href="#" class="adpq-dashboard-btn"></a></li>
-            <li><a href="artcles.html" class="adpq-listview-btn"></a></li>
-            <li><a href="#" class="adpq-profile-btn"></a>
+            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn"></a></li>
                <ul class="under-menu">
-                  <li><a href="#">My Profile</a></li>
+                  <li><a href="#" id="adminprofile">My Profile</a></li>
                   <li><a href="create-article.html">Create Article</a></li>
-                  <li><a href="#">Logout</a></li>
-				</ul>
+                  <li><a href="#" id="logout">Logout</a></li>
+				      </ul>
             </li>
          </ul>
       </nav>
@@ -42,7 +31,7 @@
         <div class="section-title">Edit Profile</div>
       </div>
       <div class="create-article-wrap">
-        <form class="form-horizontal">
+      
           <fieldset>
             <!-- Form Name --> 
             <!-- Text input-->
@@ -69,25 +58,6 @@
               </div>
             </div>
             
-            <!-- Select Basic -->
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="idagency">Agency</label>
-              <div class="col-md-6">
-                <select id="idagency" name="idagency" class="form-control">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                </select>
-              </div>
-            </div>
-            
-            <!-- Password input-->
-            <div class="form-group">
-              <label class="col-md-4 control-label" for="idcurrentpassword">Current Password</label>
-              <div class="col-md-6">
-                <input id="idcurrentpassword" name="idcurrentpassword" type="password" placeholder="" class="form-control input-md">
-              </div>
-            </div>
-            
             <!-- Password input-->
             <div class="form-group">
               <label class="col-md-4 control-label" for="idnewpassword">New Password</label>
@@ -95,7 +65,7 @@
                 <input id="idnewpassword" name="idnewpassword" type="password" placeholder="" class="form-control input-md">
               </div>
             </div>
-            <div class="form-group">
+<!--             <div class="form-group">
               <label class="col-md-4 control-label" for="idpassword">Email Notifications</label>
               <div class="col-md-6">
                 <label class="switch">
@@ -103,7 +73,7 @@
                 <div class="slider round"></div>
                 </label>
               </div>
-            </div>
+            </div> -->
             
             <!-- Button (Double) -->
             <div class="form-group">
@@ -114,17 +84,18 @@
               </div>
             </div>
           </fieldset>
-        </form>
+        
       </div>
     </div>
   </div>
 <footer></footer>	
 </div>
-<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="js/constants.js"></script> 
-
 <script src="js/utility.js"></script>
+<script src="js/editprofilestaff.js"></script> 
+
 </body>
 </html>

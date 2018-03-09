@@ -1,12 +1,19 @@
-var userid = getParameterByName("userid"); // gets userid from the URL querystring
+var userid = getParameterByName("userId"); // gets userid from the URL querystring
 var role = sessionStorage.getItem("role");
 var token = sessionStorage.getItem("token");
+var usersid = sessionStorage.getItem("id");
 $(document).ready(function(){
  if(!isEmpty(role) && !isEmpty(token))
  {
-          
 
-    LoadAgencies(); 
+    if (role === "admin") {
+        $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ usersid);
+    }
+    else{
+        $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ usersid); 
+    }
+          
+   LoadAgencies(); 
     function LoadAgencies() {
         var options = $("#idagency");
     $.ajax({
@@ -33,9 +40,35 @@ $(document).ready(function(){
 
    }
 
-
+   LoadData();
         function LoadData() {
-            
+            $.ajax({
+                url: APIURL + "user/" + userid,
+                type: 'GET',
+                dataType: 'json',
+                headers:{
+                    'Authorization':token,
+                    'Content-Type':'application/json'
+                }
+              })
+            .done(function(response) {
+                console.log(response);
+                var name = response.data.name.split(" ");
+                $("#idfirst").val(name[0]);
+                $("#idlast").val(name[1]);
+                $("#idemail").val(response.data.email);
+                document.getElementById('idagency').value = response.data.agencyId;
+                if (response.data.allowUploads === 1) {
+                    $("#uploadchk").prop('checked', true);
+                } 
+                else
+                {
+                    $("#uploadchk").prop('checked', false);
+                }             
+            })
+            .fail(function(data, textStatus, xhr) {
+                alert("Loading user details failed");
+            });
         }
 
            
@@ -46,7 +79,9 @@ $(document).ready(function(){
             email: "",
             phone: "",
             agencyId: "",
-            allowUploads: "no"
+            allowUploads: 0,
+            userId:"",
+            password:""
           }
 
 
@@ -55,11 +90,17 @@ $(document).ready(function(){
             user.firstName = $("#idfirst").val();
             user.lastName = $("#idlast").val();
             user.email = $("#idemail").val();
-            user.agencyId = $("#idagency").val();
+            user.agencyId =  document.getElementById('idagency').value;
             var flag = $('#uploadchk').prop('checked');
             if (flag === true) {
-                user.allowUploads = "yes";
+                user.allowUploads = 1;
+            } else {
+                user.allowUploads = 0;
             }
+            user.userId = userid;
+            user.password = $("#idpassword").val();
+        
+
             // Validation
             var errors = "";
             if (isEmpty(user.firstName)) {
@@ -76,14 +117,11 @@ $(document).ready(function(){
                 alert(errors);
                 return;
             }
-
-            
-          
            console.log("Request JSON" + JSON.stringify(user));
             
             $.ajax({
                 url: APIURL + "user",
-                type: 'POST',
+                type: 'PATCH',
                 dataType: 'json',
                 headers:{
                     'Authorization':token,
@@ -95,19 +133,17 @@ $(document).ready(function(){
                 console.log(response);
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
-                        alert("User created successfully.")
-                        setTimeout(function(){ window.location.href = "dashboard-admin.html"; }, 1000);
+                        alert("User updated successfully.")
+                        window.location.href = "dashboard-admin.html";
                     }
                 }
                 else{
-                    alert("There seems to be a problem with saving.Please try again.");
+                    alert("There seems to be a problem with updating.Please try again.");
                 }
             })
             .fail(function(data, textStatus, xhr) {
-                alert("Create user failed");
+                alert("Updated user failed");
             });
-
-
         });
 
         $("#btnCancel").click(function() {

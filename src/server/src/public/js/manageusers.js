@@ -1,5 +1,6 @@
 var role = sessionStorage.getItem("role");
 var token = sessionStorage.getItem("token");
+var userid = sessionStorage.getItem("id");
 $(document).ready(function(){
 
     //console.log(role);
@@ -7,7 +8,12 @@ $(document).ready(function(){
     if(!isEmpty(role) && !isEmpty(token))
     {
         
-    
+        if (role === "admin") {
+            $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
+        }
+        else{
+            $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+        }
      LoadUsers();
  
     function LoadUsers() {
@@ -35,8 +41,8 @@ $(document).ready(function(){
                 if (!isEmpty(response.data[index].email)) {
                     email = response.data[index].email;
                 }
-                if (!isEmpty(response.data[index].id)) {
-                    id = response.data[index].id;
+                if (!isEmpty(response.data[index].userId)) {
+                    id = response.data[index].userId;
                 } 
                 str += "<div class='manage-user-wrap'><div class='man-user-inwrap'><div class='man-user-labels'><div class='man-username'>" + name + "</div></div><div class='man-btnwrap'><div class='man-edit'> <button id='btnEdit' name='Save User Button' class='cs-button' type='button' onclick=\"EditUser('"+id+"')\">Edit</button></div><div class='man-remove'> <button id='btnRemove' name='Remove User Button' class='cs-button' type='button' onclick=\"DeleteUser('"+id+"')\">Remove</button></div></div></div></div>";
                  //console.log(str);
@@ -68,7 +74,7 @@ $(document).ready(function(){
 
 
 function EditUser(userid) {
-    window.location.href = "edit-user-admin.html?userid="+userid;
+    window.location.href = "edit-user-admin.html?userId="+userid;
 }
 
 function DeleteUser(userid) {

@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     var role = sessionStorage.getItem("role");
     var token = sessionStorage.getItem("token");
-
+    var userid = sessionStorage.getItem("id");
     //console.log(role);
     //console.log(token);
 
@@ -13,7 +13,13 @@ $(document).ready(function(){
             }
             var table;
     var url = APIURL + "dashboardWorkflow";
-
+  
+    if (role === "admin") {
+           $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
+       }
+       else{
+           $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+       }
     Load();
 
 //   strwf += "<div class='trending-row-one'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+title+"</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+shortdesc+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+author+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+publishdate+"</div></div></div></div><div class='trending-right-column'><div class='article-status'>"+articlestatus+"</div></div></div>";

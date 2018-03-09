@@ -2,6 +2,7 @@ var articleId = getParameterByName("articleId"); // gets articleId from the URL 
 var token = sessionStorage.getItem("token");
 var role = sessionStorage.getItem("role");
 var agencyid = sessionStorage.getItem("agencyid");
+var userid = sessionStorage.getItem("id");
 $(document).ready(function(){
 
    
@@ -15,7 +16,12 @@ $(document).ready(function(){
                 $("#adminsettingsbtn").show();
             } */
            
-           
+            if (role === "admin") {
+                $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
+            }
+            else{
+                $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+            }
             
         
             var attachments = [];
