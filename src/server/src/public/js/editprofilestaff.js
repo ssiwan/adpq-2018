@@ -1,4 +1,4 @@
-var userid = getParameterByName("userid"); // gets userid from the URL querystring
+var userid = getParameterByName("userId"); // gets userid from the URL querystring
 var role = sessionStorage.getItem("role");
 var token = sessionStorage.getItem("token");
 var userid = sessionStorage.getItem("id");
@@ -12,32 +12,7 @@ $(document).ready(function(){
     else{
         $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
     }
-   LoadAgencies(); 
-    function LoadAgencies() {
-        var options = $("#idagency");
-    $.ajax({
-        url: APIURL + "agencies",
-        type: 'GET',
-        dataType: 'json',
-        cache:false
-      })
-      .done(function(response) {
-        if (response.data != null) {
-            for (let index = 0; index < response.data.length; index++) {
-                options.append($("<option />").val(response.data[index].id).text(response.data[index].name));
-             }
-        }
-        else
-        {
-            alert(response.error);
-        }
 
-      })
-      .fail(function(xhr) {
-        console.log('error', xhr);
-      });
-
-   }
 
    LoadData();
         function LoadData() {
@@ -52,11 +27,10 @@ $(document).ready(function(){
               })
             .done(function(response) {
                 console.log(response);
-                $("#idfirst").val(response.firstName);
-                $("#idlast").val(response.lastName);
-                $("#idemail").val(response.email);
-                document.getElementById('idagency').value = response.agencyId;
-                
+                var name = response.data.name.split(" ");
+                $("#idfirst").val(name[0]);
+                $("#idlast").val(name[1]);
+                $("#idemail").val(response.data.email);            
             })
             .fail(function(data, textStatus, xhr) {
                 alert("Loading user details failed");
@@ -69,9 +43,7 @@ $(document).ready(function(){
             firstName: "",
             lastName: "",
             email: "",
-            phone: "",
-            agencyId: "",
-            allowUploads: "no"
+            password: ""
           }
 
 
@@ -80,11 +52,7 @@ $(document).ready(function(){
             user.firstName = $("#idfirst").val();
             user.lastName = $("#idlast").val();
             user.email = $("#idemail").val();
-            user.agencyId = $("#idagency").val();
-            var flag = $('#uploadchk').prop('checked');
-            if (flag === true) {
-                user.allowUploads = "yes";
-            }
+            user.password = $("#idnewpassword").val();
             // Validation
             var errors = "";
             if (isEmpty(user.firstName)) {
@@ -102,10 +70,10 @@ $(document).ready(function(){
                 return;
             }
            console.log("Request JSON" + JSON.stringify(user));
-            
+          
             $.ajax({
-                url: APIURL + "user",
-                type: 'POST',
+                url: APIURL + "user/editProfile",
+                type: 'PATCH',
                 dataType: 'json',
                 headers:{
                     'Authorization':token,
@@ -117,8 +85,12 @@ $(document).ready(function(){
                 console.log(response);
                 if (!isEmpty(response.status)) {
                     if (response.status === "saved!") {
-                        alert("User created successfully.")
-                        setTimeout(function(){ window.location.href = "dashboard-admin.html"; }, 1000);
+                        alert("User edited successfully.")
+                        if (role === "admin") {
+                            window.location.href = "dashboard-admin.html";
+                        } else {
+                            window.location.href = "dashboard-staff.html";
+                        }
                     }
                 }
                 else{
@@ -126,12 +98,16 @@ $(document).ready(function(){
                 }
             })
             .fail(function(data, textStatus, xhr) {
-                alert("Create user failed");
+                alert("edit user failed");
             });
         });
 
         $("#btnCancel").click(function() {
-            window.location.href = "dashboard-admin.html";
+            if (role === "admin") {
+                window.location.href = "dashboard-admin.html";
+            } else {
+                window.location.href = "dashboard-staff.html";
+            }
         });
 
         $("#logout").click(function() {

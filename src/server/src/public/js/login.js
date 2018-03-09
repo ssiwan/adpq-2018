@@ -19,7 +19,7 @@ var LoginResponse = { token:""};
         {
                 LoginData.email = username;
                 LoginData.password = password;
-                //console.log("Request JSON" + JSON.stringify(LoginData));
+                console.log("Request JSON" + JSON.stringify(LoginData));
                 $.ajax({
                 type: "POST",
                 url: APIURL + "user/signIn",
@@ -28,7 +28,7 @@ var LoginResponse = { token:""};
                 data: JSON.stringify(LoginData),
                 })
                 .done(function (result) {
-                //console.log(result);
+                console.log(result);
                     if(!isEmpty(result.token))
                     {
                         if (typeof(Storage) !== "undefined") {
