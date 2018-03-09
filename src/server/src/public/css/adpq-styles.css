@@ -598,7 +598,7 @@ div.kpi-lastupdate {
 a.viewmore-link:focus {
 }
 .agency-drpdwn, .tags-drpdwn, .calendar-drpdwn { height: 40px; }
-.tags-drpdwn { position:relative; left:19px; }
+.tags-drpdwn { position:relative; left:19px; max-width:250px; }
 .calendar-drpdwn { position:relative; left:69px; bottom:10px; }
 .cs-button2 { left: 30px; margin: 10px 0px; }
 .cs-button3 { bottom: 8px; left: 30px; }

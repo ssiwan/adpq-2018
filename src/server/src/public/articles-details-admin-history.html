@@ -24,7 +24,7 @@
             <li><a href="dashboard-admin.html" class="adpq-dashboard-btn"></a></li>
             <li><a href="#" class="adpq-profile-btn"></a>
                <ul class="under-menu">
-                  <li><a href="#">My Profile</a></li>
+                  <li><a href="#" id="adminprofile">My Profile</a></li>
                   <li><a href="#" id="logoutadmin">Logout</a></li>
 		</ul>
             </li>
@@ -49,7 +49,7 @@
             <li><a href="dashboard-staff.html" class="adpq-dashboard-btn"></a></li>
             <li><a href="#" class="adpq-profile-btn"></a>
                <ul class="under-menu">
-                  <li><a href="#">My Profile</a></li>
+                  <li><a href="#" id="staffprofile">My Profile</a></li>
                   <li><a href="create-article.html">Create Article</a></li>
                   <li><a href="#" id="logoutstaff">Logout</a></li>
 				</ul>
@@ -141,32 +141,9 @@
       </div>
     </div>
     <div id="comments" style="display:none"></div>
-  <div class="history-wrap" style="display:none">
+  <div class="history-wrap" style="display:none" id="historywrap">
     <div class="details-history">History</div>
-    <table width="860" border="0" class="history-table">
-      <tbody>
-        <tr>
-          <th scope="col">Created On</th>
-          <th scope="col">Last Updated</th>
-          <th scope="col">Edit By</th>
-          <th scope="col">Change</th>
-        </tr>
-        <tr>
-          <td>12/1/2017</td>
-          <td>12/5/2017</td>
-          <td>Charles E. Cheez</td>
-          <td><div class="history-status">Status:</div>
-            <div class="history-state">In Review</div></td>
-        </tr>
-        <tr>
-          <td>12/1/2017</td>
-          <td>12/4/2017</td>
-          <td>Kevin Hart</td>
-          <td><div class="history-status">Status:</div>
-            <div class="history-state">Declined</div></td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="historytable" class="history-table"></div>
 <footer></footer>
 	</div>
       </div>

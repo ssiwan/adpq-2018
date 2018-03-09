@@ -21,7 +21,7 @@
                   <li><a href="dashboard-admin.html" class="adpq-dashboard-btn"></a></li>
                   <li><a href="#" class="adpq-profile-btn"></a>
                      <ul class="under-menu">
-                        <li><a href="#">My Profile</a></li>
+                        <li><a href="#" id="adminprofile">My Profile</a></li>
                         <li><a href="#" id="logout">Logout</a></li>
           </ul>
                   </li>
@@ -44,7 +44,7 @@
         <div class="section-title">Edit User</div>
       </div>
       <div class="create-article-wrap">
-        <form class="form-horizontal">
+     
           <fieldset>
             
             <!-- Form Name --> 
@@ -82,13 +82,13 @@
             </div>
             <!-- Password input-->
             <div class="form-group">
-              <label class="col-md-4 control-label" for="idpassword">Password</label>
+              <label class="col-md-4 control-label" for="idpassword">New Password</label>
               <div class="col-md-6">
                 <input id="idpassword" name="idpassword" type="password" placeholder="" class="form-control input-md">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-4 control-label" for="idpassword">Can upload attachments</label>
+              <label class="col-md-4 control-label" for="uploadattachments">Can upload attachments</label>
               <div class="col-md-6">
                 <label class="switch">
                 <input type="checkbox" id="uploadchk">
@@ -104,7 +104,6 @@
               </div>
             </div>
           </fieldset>
-        </form>
       </div>
     </div>
   </div>
@@ -112,8 +111,8 @@
 </div>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-<script src="js/config.js"></script> 
-<script src="js/edituser.js"></script> 
 <script src="js/utility.js"></script>
+<script src="js/constants.js"></script> 
+<script src="js/edituser.js"></script> 
 </body>
 </html>
