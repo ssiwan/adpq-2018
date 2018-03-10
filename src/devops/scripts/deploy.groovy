@@ -99,10 +99,13 @@ def runStagingTests() {
             # Upload Image Badge to S3
             curl $testBadge >> ./testResultsImg.svg
             aws s3 cp --acl public-read --cache-control no-cache ./testResultsImg.svg s3://adpq-assets/buildAssets/testResults.svg
-            rm -rf ./testResultsImg.svg
+            
+            # Wait
+            sleep 2
 
             # Docker Cleanup
             docker system prune -f
+            rm -rf ./testResultsImg.svg
         '''
     }
 }
