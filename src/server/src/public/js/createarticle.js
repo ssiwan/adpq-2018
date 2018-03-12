@@ -15,6 +15,7 @@ $(document).ready(function(){
            var attachments = [];
             var FileJSON = { "mime":"","name":""};
             var options = "";
+            var allowUploads = "0";
            
             if (role === "admin") {
                 $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);
@@ -22,8 +23,7 @@ $(document).ready(function(){
             else{
                 $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
             }
-
-
+            getUserDetails();
             LoadCreateSimilarData();
             $("#agency").val(agency);
             LoadTags();
@@ -54,6 +54,30 @@ $(document).ready(function(){
                     console.log('error', xhr);
                 });
             }
+
+            function getUserDetails() {
+                $.ajax({
+                    url: APIURL + "user/" + userid,
+                    type: 'GET',
+                    dataType: 'json',
+                    headers:{
+                        'Authorization':token,
+                        'Content-Type':'application/json'
+                    }
+                })
+                .done(function(response) {
+                    console.log(response);
+                    if (response.data.allowUploads === 1) {
+                        allowUploads = "1";
+                        $("#divfileattachments").show();   
+                    }
+                })
+                .fail(function(data, textStatus, xhr) {
+                    alert("Loading user details failed");
+                });
+            }
+
+            
 
             function UploadToS3() {
                 var x = document.getElementById("fileattachments");
@@ -150,10 +174,12 @@ $(document).ready(function(){
                 return;
             }
 
-            
-            UploadToS3();
-            article.attachments = attachments;
-         console.log("Request JSON" + JSON.stringify(article));
+            if (allowUploads === "1") {
+                UploadToS3();
+                article.attachments = attachments;
+            }
+
+            console.log("Request JSON" + JSON.stringify(article));
             
             $.ajax({
                 url: APIURL + "articles",
@@ -193,6 +219,8 @@ $(document).ready(function(){
             sessionStorage.clear();
             window.location.href = "index.html";
         })
+
+
 
  }
 else {
