@@ -7,7 +7,8 @@ var mongoose = require('mongoose'),
 var ObjectId = mongoose.Types.ObjectId; 
 
 exports.editArticle = function(req, res) {
-    if (req.userRole == '0') {//will need to change to 2 later
+    if (req.userRole == '0') {
+        res.status(401); 
         return res.json({error: 'User not permitted'});
     }
 
@@ -49,12 +50,14 @@ exports.editArticle = function(req, res) {
         return res.json({status: 'saved!'});
     })
     .catch(function(err) {
+        res.status(400); 
         return res.json({'error': err.toString() });
     });  
 }
 
 exports.publishArticle = function(req, res) {
-    if (req.userRole != '2') {//will need to change to 2 later
+    if (req.userRole != '2') {
+        res.status(401); 
         return res.json({error: 'User not permitted'});
     }
 
@@ -72,12 +75,14 @@ exports.publishArticle = function(req, res) {
         return res.json({status: 'saved!'});
     })
     .catch(function(err) {
+        res.status(400); 
         return res.json({'error': err.toString() });
     });
 }
 
 exports.declineArticle = function(req, res) {
     if (parseInt(req.userRole) != 2) {
+        res.status(401); 
         return res.json({error: 'User not permitted'});
     }
 
@@ -95,6 +100,7 @@ exports.declineArticle = function(req, res) {
         return res.json({status: 'saved!'});
     })
     .catch(function(err) {
+        res.status(400); 
         return res.json({'error': err.toString() });
     });
 }

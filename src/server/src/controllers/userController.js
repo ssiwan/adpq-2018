@@ -19,11 +19,13 @@ exports.signIn = function(req, res) {
 
     query.exec()
         .catch(function (err) {
+            res.status(400); 
             res.send(err);
         });  
     
     query.then(function(user) {
         if (!user) {
+            res.status(400); 
             return res.json({error: 'User not found'});          
         }
         else {
@@ -44,6 +46,7 @@ exports.signIn = function(req, res) {
                     //set token expiring at a week 
                 }
                 else {
+                    res.status(401); 
                     res.json({error: 'Invalid password'});
                 }
             });
@@ -54,6 +57,7 @@ exports.signIn = function(req, res) {
 
 exports.createUser = function(req, res) {
     if (parseInt(req.userRole) != 2) {
+        res.status(401); 
         return res.json({error: 'User not allowed'}); 
     }
 
@@ -67,6 +71,7 @@ exports.createUser = function(req, res) {
 
     bcrypt.hash(plainpassword, saltRounds, function(err, newHashedPassword) {
         if (err) {
+            res.status(400); 
             return res.json({error: err.toString()}); 
         }
 
@@ -95,6 +100,7 @@ exports.createUser = function(req, res) {
             }; 
             return res.json(jsonreturn);
         }).catch(function(err) {
+            res.status(400); 
             return res.json({'error': err.toString() });
         });
 
@@ -104,6 +110,7 @@ exports.createUser = function(req, res) {
 
 exports.getUsers = function(req, res) {
     if (parseInt(req.userRole) != 2) {
+        res.status(401); 
         return res.json({error: 'User not allowed'}); 
     }
 
@@ -115,6 +122,7 @@ exports.getUsers = function(req, res) {
     sortObj['email'] = -1; 
 
     query.exec().catch(function(err){
+        res.status(400); 
         return res.json({error:err.toString()});
     });
 
@@ -136,10 +144,12 @@ exports.getUsers = function(req, res) {
 
 exports.deleteUser = function(req, res) {
     if (parseInt(req.userRole) != 2) {
+        res.status(401); 
         return res.json({error: 'User not allowed'}); 
     }
 
     if (req.params.userId == null) {
+        res.status(400); 
         return res.json({error: 'Please submit a user to delete'}); 
     }
 
@@ -151,6 +161,7 @@ exports.deleteUser = function(req, res) {
     var query = users.find(queryParams).remove().exec(); 
 
     query.catch(function(err) {
+        res.status(400); 
         return res.json({error: err.toString()});
     });
 
@@ -167,6 +178,7 @@ exports.getUserDetails = function(req, res) {
     var query = users.findOne(queryParams).populate('agency'); 
 
     query.exec().catch(function(err) {
+        res.status(400); 
         return res.json({error: err.toString()}); 
     }); 
 
@@ -187,6 +199,7 @@ exports.getUserDetails = function(req, res) {
 
 exports.editUser = function(req, res) {
     if (parseInt(req.userRole) != 2) {
+        res.status(401); 
         return res.json({error: 'User not allowed'}); 
     }
     var userobjid = req.body.userId; 
@@ -197,6 +210,7 @@ exports.editUser = function(req, res) {
         var query = users.findOne(queryParams); 
 
         query.exec().catch(function(err) {
+            res.status(400); 
             return res.json({error: err.toString()}); 
         }); 
 
@@ -222,6 +236,7 @@ exports.editUser = function(req, res) {
                 return res.json({status:'saved!'}); 
             }
             else {
+                res.status(400); 
                 return res.json({error: 'user not found'}); 
             }
         }); 
@@ -232,6 +247,7 @@ exports.editUser = function(req, res) {
 
 exports.editProfile = function(req, res) {
     if (parseInt(req.userRole) == 0) {
+        res.status(401); 
         return res.json({error: 'User not allowed'}); 
     }
     var userobjid = req.userId; 
@@ -242,6 +258,7 @@ exports.editProfile = function(req, res) {
         var query = users.findOne(queryParams); 
 
         query.exec().catch(function(err) {
+            res.status(400); 
             return res.json({error: err.toString()}); 
         }); 
 
@@ -264,6 +281,7 @@ exports.editProfile = function(req, res) {
                 return res.json({status:'saved!'}); 
             }
             else {
+                res.status(400); 
                 return res.json({error: 'user not found'}); 
             }
         }); 

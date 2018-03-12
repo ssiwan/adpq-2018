@@ -31,6 +31,7 @@
     "express": "4.16.2",
     "express-brute": "1.0.1",
     "express-brute-mongoose": "1.0.2",
+    "express-healthcheck": "0.1.0",
     "express-winston": "2.5.0",
     "helmet": "3.10.0",
     "jsonwebtoken": "8.1.1",
