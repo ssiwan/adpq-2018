@@ -5,6 +5,8 @@ var mongoose = require('mongoose'),
     articleController = require('./articleController');
 mongoose.Promise = Promise;
 
+var ObjectId = mongoose.Types.ObjectId;
+
 exports.createArticleComment = function(req, res) {
 
     var newComment = new articleComment({
