@@ -13,6 +13,7 @@ exports.getTags = function (req, res) {
     var query = tags.find();
     
     query.exec().catch(function (err) {
+        res.status(400); 
         res.json({'error':'Query error'});
     });  
     
@@ -46,6 +47,7 @@ exports.getSuggestedTags = function(req, res) {
     }
 
     query.exec().catch(function (err) {
+        res.status(400); 
         res.json({'error':'Query error'});
     });  
     

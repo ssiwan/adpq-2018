@@ -7,7 +7,8 @@ var config = require('./config'),
     winston = require('winston'),
     expressWinston = require('express-winston'),
     expressBrute = require('express-brute'),
-    MongooseStore = require('express-brute-mongoose'), 
+    MongooseStore = require('express-brute-mongoose'),
+    healthCheck = require('express-healthcheck'), 
     BruteForceModel = require('./models/bruteforce'),
     port = process.env.port || 3001;
 
@@ -104,9 +105,15 @@ mongoose.connect(config.dbUrl, process.env.NODE_ENV == 'local' ? null : options)
 
     app.use(express.static(require('path').join(__dirname, 'public')));
 
+    app.get('/healthcheck', healthCheck({
+        healthy: function() {
+            return {status: "Ok", version: config.version}; 
+        }
+    }));
+
     app.get('/', (req, res) => {
         res.sendFile('/index.html', {root : __dirname + 'public'})
-    })
+    });
 
     app.use(expressWinston.errorLogger({
         transports: [

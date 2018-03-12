@@ -36,7 +36,8 @@ module.exports = function (app, apiParseKey, AWSKeys) {
 
         if (token && token.length > 0) {
             jwt.verify(token, apiParseKey, function(err, decoded) {
-                if (err) {                    
+                if (err) {
+                    res.status(401);                     
                     return res.json({error: 'Failed to authenticate token'});
                 }
                 else {
@@ -54,6 +55,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
             next(); 
         }
         else {
+            res.status(401);  
             return res.json({error: 'Please provide an authentication token'}); 
         }
 
@@ -73,6 +75,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
         router.get('/searchArticles', articleController.search);
         router.get('/articles/:articleId', articleController.getArticleDetails);
         router.get('/articles', articleController.getArticles);  
+        router.get('/staffArticles', articleController.getStaffArticles); 
 
     //POST
         router.post('/articles', articleController.createArticle);

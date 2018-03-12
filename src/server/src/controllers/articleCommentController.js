@@ -26,6 +26,7 @@ exports.createArticleComment = function(req, res) {
         return res.json(jsonreturn); 
     })
     .catch(function(err) {
+        res.status(400); 
         return res.json({'error': err.toString() });
     });
 }
