@@ -20,6 +20,26 @@ p { font-family: roboto; }
 footer { height: 25px; }
 a { color:#000; text-decoration: underline;}
 a:hover, a:focus { color:#046b99; text-decoration: underline;}
+ section {
+	max-width:70%;
+	font-family: "roboto", serif;
+	font-size: 14px;
+	 line-height: 18px;
+	margin: 15px auto;
+}
+.terms {     
+	font-family: "roboto", serif;
+	font-size: 12px;
+	display:block;
+	margin: 50px auto;
+    height: auto;
+    width: 500px
+}
+a.terms {     
+	margin: 50px auto;
+    height: auto;
+	display:block;	
+}
 .adpq-header {
 	font-family:"Roboto", serif;
 	font-size: 18px;
@@ -32,7 +52,8 @@ a:hover, a:focus { color:#046b99; text-decoration: underline;}
 	top: 0px;
 }
 .adpq-headcontainer {
-	font: bold 26px/normal "Roboto", serif;
+  font-family: 26px/32px "Roboto",Helvetica,Arial,sans-serif;
+    font-weight: bold;
 	color: #FFFFFF;
 	background-color: #046b99;
 	height: 51px;
@@ -42,6 +63,7 @@ a:hover, a:focus { color:#046b99; text-decoration: underline;}
 	padding: 0px;
 	margin: 0px auto 10px auto;
 	border-bottom: 1px solid #E9911B;
+	    top: 0px;
 }
 .adpq-container {
 	margin: 0px auto;
@@ -51,13 +73,11 @@ a:hover, a:focus { color:#046b99; text-decoration: underline;}
 	background: url("../img/adpq-mainbg.gif") repeat-x!important;
 }
 .adpq-brand {
-	background-color: #e5e5e5;
 	background: url(../img/adpq-brand.png) no-repeat;
 	margin: 0px;
 	padding: 0px;
 	float: left;
 	height: 51px;
-/*	width: 195px;*/
 	width: 150px;	
 	position: relative;
 	left: 0px;
@@ -437,7 +457,7 @@ nav{width:100%;}
 	background-color: #FDDDE0;
 	border: 1px solid #F31832;
 }
-.trending-content-listview, .mypublished-content-listview, .workflow-content-listview {
+.trending-content-listview, .mypublished-content-listview {
 	display: block;
 	float: left;
 	height: auto;
@@ -451,6 +471,17 @@ nav{width:100%;}
 	font-size: 14px;
 	font-family: "roboto", serif;
 }
+.workflow-content-listview {
+	display: block;
+	float: left;
+	height: auto;
+	width: 900px;
+	max-width: 900px;
+	position: relative;
+	padding: 5px;
+	font-size: 14px;
+	font-family: "roboto", serif;
+}
 .trending-content-listview {
 	background-color: #E8F4DB;
 	border: 1px solid #64b80b;
@@ -459,10 +490,10 @@ nav{width:100%;}
 	background-color: #FCEFDD;
 	border: 1px solid #E9911B;
 }
-.workflow-content-listview {
+/*.workflow-content-listview {
 	background-color: #FDDDE0;
-	border: 1px solid #F31832;
-}
+	border: 1px solid #F31832; 
+}*/
 .trending-listview, .mypublished-listview, .workflow-listview {
 	display: block;
 	float: left;
@@ -583,14 +614,15 @@ div.kpi-lastupdate {
 	top: 0px;
 	padding-left: 15px;
 }
+.trending-staff-non-publish, .trending-staff-publish, .trending-admin-review, .trending-admin-approved, .trending-admin-declined, .trending-landing-articles { width: 800px }  
 .viewmore-link {
 	display: block;
 	float: right;
 	position:relative;
 	font-family: "roboto", serif;
-	font-size: 14px;
+	font-size: 12px;
 	font-style: normal;
-	line-height: 18px;
+	line-height: 16px;
 	font-weight: normal;
 	bottom: 30px;
 
@@ -737,8 +769,7 @@ a.viewmore-link:focus {
 .mypublish-views { background-image: url(../img/views-n.png); }
 .mypublish-shares { background-image: url(../img/shares-n.png); }
 .landing-view-btn {
-	display: inline-block;
-	width: 600px;
+	width: 200px;
 	margin: 0px auto;
 
 }
@@ -1465,7 +1496,7 @@ a.viewmore-link:focus {
 .datatable .odd td, .even td { font-family: "roboto", serif; font-size: 14px;}
 .filter-checkbox { margin: 10px auto; }
 .datatable-wrap { width: 1000px; margin: 0px auto; }
-.dataTables_paginate .paging_full_numbers {}
+.dataTables_paginate .paging_full_numbers { font-size: 14px!important; }
 .dataTables_length { }
 .dataTables_length select  { height: 40px; font-size: 12px; }
 .adpq-form-control:focus, .dataTables_length select:focus {

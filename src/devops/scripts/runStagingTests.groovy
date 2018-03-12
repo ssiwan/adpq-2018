@@ -39,9 +39,9 @@ def runStagingTests() {
             fi
 
             # Upload Image Badge to S3
+            rm -rf ./testResultsImg.svg || true
             curl $testBadge >> ./testResultsImg.svg
             aws s3 cp --acl public-read ./testResultsImg.svg s3://adpq-assets/buildAssets/testResults.svg
-            rm -rf ./testResultsImg.svg
         '''
     }
 }
@@ -53,5 +53,7 @@ def sendSlackNotification() {
         RESULTS = readFile 'RESULTS'
         RESULT_TYPE =  readFile 'RESULT_TYPE'
         sh "sleep 10 && node ./src/devops/scripts/slackNotification.js \"$RESULT_TYPE\" \"*Nightly Test Results*\" \"$RESULTS\""
+
+        sh "docker system prune -f"
     }
 }

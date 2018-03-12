@@ -24,7 +24,7 @@ node {
                 build()
                 publish()
                 deployStaging()
-                //sendSlackNotification()
+                sendSlackNotification()
             } else if (scmVars.GIT_BRANCH == 'origin/master') {
                 println "Master Branch"
                 // sh 'cp /aws/adpq/server/production/config.json ./src/server/src/config.json'
@@ -97,14 +97,15 @@ def runStagingTests() {
             fi
 
             # Upload Image Badge to S3
+            rm -rf ./testResultsImg.svg || true
             curl $testBadge >> ./testResultsImg.svg
-            aws s3 cp --acl public-read ./testResultsImg.svg s3://adpq-assets/buildAssets/testResults.svg
-            rm -rf ./testResultsImg.svg
+            aws s3 cp --acl public-read --cache-control no-cache ./testResultsImg.svg s3://adpq-assets/buildAssets/testResults.svg
+            
+            # Wait
+            sleep 2
 
             # Docker Cleanup
-            docker kill -f $(docker ps -q) || true
-            docker rm -f $(docker ps -a -q) || true
-            docker rmi -f $(docker images -q) || true
+            docker system prune -f
         '''
     }
 }
@@ -227,9 +228,9 @@ def deployStaging() {
 
 def sendSlackNotification() {
     stage ('Notify') {
-        RESULTS = readFile 'RESULTS'
-        RESULT_TYPE = readFile 'RESULT_TYPE'
-        sh "sleep 10 && logs=\$(git log -1 --pretty=%B origin/staging) && echo \'$RESULT_TYPE\' && node ./src/devops/scripts/slackNotification.js \'$RESULT_TYPE\' \"*New Staging Build Available*\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n\$logs\n\n\" \'$RESULTS\'"
+        // RESULTS = readFile 'RESULTS'
+        // RESULT_TYPE = readFile 'RESULT_TYPE'
+        sh "sleep 10 && logs=\$(git log -1 --pretty=%B origin/staging) && node ./src/devops/scripts/slackNotification.js \"SUCCESS\" \"*New Staging Build Available*\nhttp://adpq-staging.hotbsoftware.com\n\n*Build Notes:*\n\$logs\n\n\""
 
         // Cleanup
         sh '''

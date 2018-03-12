@@ -427,6 +427,7 @@ exports.dashboardTrending = function(req, res) {
                 articleobj['agency'] = art.agency.value;
                 articleobj['status'] = art.status;
                 articleobj['description'] = art.description;
+                articleobj['role'] = art.role; 
                 articleobj['views'] = art.views;
                 articleobj['shares'] = art.shares; 
 
