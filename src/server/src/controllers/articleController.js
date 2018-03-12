@@ -27,6 +27,7 @@ exports.search = function (req, res) {
 
     query.exec()
         .catch(function (err) {
+            res.status(400); 
             res.send(err);
         });  
     
@@ -142,6 +143,7 @@ exports.getArticles = function(req, res, next) {
     //execute query
     query.exec()
         .catch(function (err) {
+            res.status(400); 
             res.send(err);
         });  
 
@@ -179,7 +181,8 @@ exports.getArticleDetails = function(req, res) {
     }
     //param check
     if (articleId == null || articleId == '') {
-        return res.send({'error': 'Please submit an articleId'});
+        res.status(400); 
+        return res.json({'error': 'Please submit an articleId'});
     }
 
     var queryParams = {};
@@ -198,6 +201,7 @@ exports.getArticleDetails = function(req, res) {
 
     query.exec()
         .catch(function (err) {
+            res.status(400); 
             res.send(err);
         });
     
@@ -231,10 +235,50 @@ exports.getArticleDetails = function(req, res) {
     }); 
 }
 
+//GET /staffarticles
+exports.getStaffArticles = function(req, res) {
+    
+    var queryParams = {};
+    queryParams.role = 0;
+    queryParams.status = 1;  
+
+    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+                            .populate('createdBy').populate('agency').populate('tags');
+
+    query.exec().catch(function(err) {
+        res.status(400); 
+        return res.json({error: err.toString()}); 
+    }); 
+
+    query.then(function(returnarticles) {
+        var returnlist = []; 
+        returnarticles.forEach(function (art, index) {
+            var articleobj = {};
+            articleobj['id'] = art._id.toString();
+            articleobj['title'] = art.title;
+            articleobj['summary'] = art.summary;
+            articleobj['tags'] = getTagNames(art.tags); 
+            articleobj['createdAt'] = art.createdAt;
+            articleobj['createdBy'] = art.createdBy; 
+            articleobj['agency'] = art.agency.value;
+            articleobj['status'] = art.status;
+            articleobj['approvedBy'] =  art.approvedBy; 
+            articleobj['description'] = art.description;
+            articleobj['attachments'] = art.attachments;
+            articleobj['views'] = art.views;
+            articleobj['shares'] = art.shares; 
+
+            returnlist.push(articleobj);   
+        }); 
+        res.json({data:returnlist}); 
+    }); 
+}
+
 //POST /articles
 exports.createArticle = function(req, res) {
 
     if (req.userRole == '0') {
+        res.status(401); 
         return res.json({error: 'User not permitted'});
     }
     var userRole = parseInt(req.userRole); 
@@ -290,6 +334,7 @@ exports.createArticle = function(req, res) {
         res.json(jsonreturn);
     })
     .catch(function(err) {
+        res.status(400); 
         res.json({'error': err.toString() });
     });
 }    
@@ -409,6 +454,7 @@ exports.dashboardTrending = function(req, res) {
     }
 
     query.exec().catch(function(err) {
+        res.status(400); 
         return res.json({error: err.toString()}); 
     });
 
@@ -461,6 +507,7 @@ exports.dashboardPublishedArticles = function(req, res) {
     }
 
     query.exec().catch(function(err) {
+        res.status(400); 
         return res.json({error: err.toString()}); 
     });
 
@@ -501,7 +548,6 @@ exports.dashboardWorkflow = function(req, res) {
 
     var queryParams = {};
     queryParams.createdBy = userobjid; 
-    //queryParams.status = 0; 
 
     var query = article.find(queryParams).in('status', [0, 2]).populate('createdBy').populate('agency').populate('tags');
     var sortObj = {};
@@ -512,6 +558,7 @@ exports.dashboardWorkflow = function(req, res) {
     }
 
     query.exec().catch(function(err) {
+        res.status(400); 
         return res.json({error: err.toString()}); 
     });
 
@@ -544,6 +591,7 @@ exports.dashboardWorkflow = function(req, res) {
 //GET /adminDashboardDeclined
 exports.admindbdeclined = function(req, res) {
     if (parseInt(req.userRole) != 2) {
+        res.status(401); 
         return res.json({error: 'User not permitted'}); 
     }
     var limit = 0; 
@@ -564,6 +612,7 @@ exports.admindbdeclined = function(req, res) {
     }
 
     query.exec().catch(function(err) {
+        res.status(400); 
         return res.json({error: err.toString()}); 
     });
 
@@ -597,6 +646,7 @@ exports.admindbdeclined = function(req, res) {
 //GET /adminDashboardPending
 exports.admindbpending = function(req, res) {
     if (parseInt(req.userRole) != 2) {
+        res.status(401); 
         return res.json({error: 'User not permitted'}); 
     }
     var limit = 0; 
@@ -617,6 +667,7 @@ exports.admindbpending = function(req, res) {
     }
 
     query.exec().catch(function(err) {
+        res.status(400); 
         return res.json({error: err.toString()}); 
     });
 
@@ -650,6 +701,7 @@ exports.admindbpending = function(req, res) {
 //GET /adminDashboardApproved
 exports.admindbapproved = function(req, res) {
     if (parseInt(req.userRole) != 2) {
+        res.status(401); 
         return res.json({error: 'User not permitted'}); 
     }
     var limit = 0; 
@@ -670,6 +722,7 @@ exports.admindbapproved = function(req, res) {
     }
 
     query.exec().catch(function(err) {
+        res.status(400); 
         return res.json({error: err.toString()}); 
     });
 
@@ -739,11 +792,13 @@ exports.incrementShares = function(req, res) {
 //DELETE /deleteArticle
 exports.deleteArticle = function(req, res) {
     if (req.params.articleId == null) {
+        res.status(400); 
         return res.json({error: 'Please submit an article id to delete'}); 
     }
     var userRole = parseInt(req.userRole); 
 
     if (userRole == 0) {
+        res.status(401); 
         return res.json({error: 'Role not allowed'}); 
     }
 
@@ -774,10 +829,12 @@ exports.deleteArticle = function(req, res) {
                 }); 
             }
             else {
+                res.status(401); 
                 return res.json({error: 'Delete is not permitted'}); 
             }
         }
         else {
+            res.status(400); 
             return res.json({error: 'article not found'}); 
         }
     }); 
@@ -786,6 +843,7 @@ exports.deleteArticle = function(req, res) {
 //PATCH /deleteAttachment
 exports.deleteAttachment = function(req, res) {
     if (parseInt(req.userRole) == 0) {
+        res.status(401); 
         return res.json({error: 'User not allowed'});
     }
 
@@ -798,6 +856,7 @@ exports.deleteAttachment = function(req, res) {
     var query = article.findOne(queryParams); 
 
     query.exec().catch(function(err) {
+        res.status(400); 
         return res.json({error: err.toString()}); 
     });
 
@@ -821,10 +880,12 @@ exports.deleteAttachment = function(req, res) {
                 }
                 return res.json({data:'saved!'});
             } else {
+                res.status(400); 
                 return res.json({error: 'Article has already been published or declined'});
             } 
         }
         else {
+            res.status(400); 
             return res.json({error: 'Article not found'}); 
         }
     });

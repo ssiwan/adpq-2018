@@ -22,11 +22,13 @@ $(document).ready(function(){
             else{
                 $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
             }
-            
+           
         
             var attachments = [];
             var FileJSON = { "mime":"","name":""};
             var options = "";
+            var allowUploads = "0";
+            getUserDetails();
             LoadTags();
             LoadData();
             function LoadTags() {
@@ -56,6 +58,29 @@ $(document).ready(function(){
                     console.log('error', xhr);
                 });
             }
+
+            function getUserDetails() {
+                $.ajax({
+                    url: APIURL + "user/" + userid,
+                    type: 'GET',
+                    dataType: 'json',
+                    headers:{
+                        'Authorization':token,
+                        'Content-Type':'application/json'
+                    }
+                })
+                .done(function(response) {
+                    console.log(response);
+                    if (response.data.allowUploads === 1) {
+                        allowUploads = "1";
+                        $("#divfileattachments").show();   
+                    }
+                })
+                .fail(function(data, textStatus, xhr) {
+                    alert("Loading user details failed");
+                });
+            }
+
 
             function UploadToS3() {
                 var x = document.getElementById("fileattachments");
@@ -131,14 +156,17 @@ $(document).ready(function(){
                     }
                     tgs = tgs.substring(0, tgs.length - 1)
                     $('#tags').importTags(tgs);
-                    $('#dynamictable').append('<table class="table table-stripped"><thead><tr>Attachments</tr></thead></table>');
-                    var table = $('#dynamictable').children();    
-                    var j = 0; //onclick='DeleteAttachments("+response.data.attachments[index]+")'
-                    for (let index = 0; index < response.data.attachments.length; index++) {
-                        j++;
-                        table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+response.data.attachments[index]+">View</a></td><td><button type='button' class='btn' onclick=\"DeleteAttachments('"+response.data.attachments[index]+"')\">Delete</button></td></tr>");
+                    if (allowUploads === "1") {
+                        $('#dynamictable').append('<table class="table table-stripped"><thead><tr>Attachments</tr></thead></table>');
+                        var table = $('#dynamictable').children();    
+                        var j = 0; //onclick='DeleteAttachments("+response.data.attachments[index]+")'
+                        for (let index = 0; index < response.data.attachments.length; index++) {
+                            j++;
+                            table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+response.data.attachments[index]+">View</a></td><td><button type='button' class='btn' onclick=\"DeleteAttachments('"+response.data.attachments[index]+"')\">Delete</button></td></tr>");
+                        }
+                        table.append("</tbody>");
                     }
-                    table.append("</tbody>");
+                   
                 }
 
             })
@@ -170,7 +198,6 @@ $(document).ready(function(){
             article.shortDesc = $("#shortdesc").val();
             article.longDesc = JSON.stringify(quill.getContents());
             article.tags = $("#tags").val();
-            article.attachments = attachments;
             article.articleId = articleId;
 
             // Validation
@@ -190,8 +217,10 @@ $(document).ready(function(){
                 return;
             }
 
-            UploadToS3();
-            article.attachments = attachments;
+            if (allowUploads === "1") {
+                UploadToS3();
+                article.attachments = attachments;
+            }
 
            console.log("Request JSON" + JSON.stringify(article));
             

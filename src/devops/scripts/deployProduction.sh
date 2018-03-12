@@ -22,6 +22,7 @@ ECS_FAMILY=adpq-production
 ECS_TASK_DEFINITION=adpq-production
 
 ### Build & Tag ECS Docker Image
+export NODE_ENV='production'
 docker build -t adpq-server ../../server &&
 $(aws ecr get-login --no-include-email --region us-west-1) &&
 

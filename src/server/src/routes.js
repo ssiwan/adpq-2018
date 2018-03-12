@@ -31,12 +31,18 @@ module.exports = function (app, apiParseKey, AWSKeys) {
                                     '/sendTestEmail']; 
 
         var token = req.header('Authorization');
+
+        if (token == undefined) {
+            token = ""; 
+        }
         var reqpaths = req.path.split('/');  
-        var reqbase = '/' + reqpaths[1];        
+        var reqbase = '/' + reqpaths[1]; 
 
         if (token && token.length > 0) {
             jwt.verify(token, apiParseKey, function(err, decoded) {
-                if (err) {                    
+                if (err) {
+                    //console.log(err);
+                    res.status(401);                     
                     return res.json({error: 'Failed to authenticate token'});
                 }
                 else {
@@ -54,6 +60,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
             next(); 
         }
         else {
+            res.status(401);  
             return res.json({error: 'Please provide an authentication token'}); 
         }
 
@@ -73,6 +80,7 @@ module.exports = function (app, apiParseKey, AWSKeys) {
         router.get('/searchArticles', articleController.search);
         router.get('/articles/:articleId', articleController.getArticleDetails);
         router.get('/articles', articleController.getArticles);  
+        router.get('/staffArticles', articleController.getStaffArticles); 
 
     //POST
         router.post('/articles', articleController.createArticle);

@@ -5,6 +5,8 @@ var mongoose = require('mongoose'),
     articleController = require('./articleController');
 mongoose.Promise = Promise;
 
+var ObjectId = mongoose.Types.ObjectId;
+
 exports.createArticleComment = function(req, res) {
 
     var newComment = new articleComment({
@@ -26,6 +28,7 @@ exports.createArticleComment = function(req, res) {
         return res.json(jsonreturn); 
     })
     .catch(function(err) {
+        res.status(400); 
         return res.json({'error': err.toString() });
     });
 }

@@ -1,7 +1,7 @@
 'use strict'
 
 var APIURL = "https://adpq-staging.hotbsoftware.com/api/v1/";
-var SocialMediaURL = "https://adpq-staging.hotbsoftware.com/";;
+var SocialMediaURL = "https://adpq-staging.hotbsoftware.com/";
 
 // console.log(process.env.NODE_ENV)
 
