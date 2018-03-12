@@ -11,6 +11,9 @@ var LoginResponse = { token:""};
 }
 
 */
+
+       
+
     $("#signin").click(function(){
         var password = $('#password').val();
         var username = $('#email').val();
@@ -37,6 +40,7 @@ var LoginResponse = { token:""};
                                 sessionStorage.setItem("id", result.id);
                                 sessionStorage.setItem("agencyid", result.agencyId);
                                 sessionStorage.setItem("agency", result.agencyName);
+                                
                             }
                         $('#password').val("");
                         $('#username').val("");
@@ -66,4 +70,7 @@ var LoginResponse = { token:""};
             return;
         }
     });
+
+
+
 });
