@@ -12,6 +12,9 @@
                     "containerPort": 3001,
                     "hostPort": 3001
                 }
+            ],
+            "environment" : [
+                { "name" : "NODE_ENV", "value" : "%ENVIRONMENT%" }
             ]
         }
     ]
