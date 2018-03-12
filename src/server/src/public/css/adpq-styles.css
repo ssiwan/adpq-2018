@@ -27,18 +27,18 @@ a:hover, a:focus { color:#046b99; text-decoration: underline;}
 	 line-height: 18px;
 	margin: 15px auto;
 }
-.terms {     
-	font-family: "roboto", serif;
-	font-size: 12px;
-	display:block;
-	margin: 50px auto;
+.terms {
+    font-family: "roboto", serif;
+    font-size: 12px;
+    display: block;
+    margin: 50px auto;
     height: auto;
-    width: 500px
+    width: 124px
 }
-a.terms {     
-	margin: 50px auto;
+a.terms {
+    margin: 50px auto;
     height: auto;
-	display:block;	
+    display: inline-block;
 }
 .adpq-header {
 	font-family:"Roboto", serif;
@@ -95,7 +95,7 @@ margin: 0 auto;
 top: 20px;
 position: relative;
 }
-.dash-menu-admin { position:relative!important; float: right!important; bottom:18px; }
+.dash-menu-admin { position:relative!important; float: right!important;/* bottom:18px; */}
 .adpq-default-btn {
 	-webkit-box-shadow: 1px 1px 3px 0px rgba(15, 15, 15, 0.4);
 	-moz-box-shadow: 1px 1px 3px 0px rgba(15, 15, 15, 0.4);
@@ -1495,8 +1495,9 @@ a.viewmore-link:focus {
 .control-label { font-family: "Roboto", serif; font-size: 14px; font-weight: bold; display: block; padding-bottom: 3px; }
 .datatable .odd td, .even td { font-family: "roboto", serif; font-size: 14px;}
 .filter-checkbox { margin: 10px auto; }
+.filter-checkbox .checkbox label, #articles_filter label { font-family: "Roboto", serif; font-size: 14px }
 .datatable-wrap { width: 1000px; margin: 0px auto; }
-.dataTables_paginate .paging_full_numbers { font-size: 14px!important; }
+.dataTables_paginate .paging_full_numbers, .paginate_button, .left-most-pubdate, .odd td, .even td { font-size: 14px!important; font-family: "Roboto", serif;  }
 .dataTables_length { }
 .dataTables_length select  { height: 40px; font-size: 12px; }
 .adpq-form-control:focus, .dataTables_length select:focus {
@@ -1529,7 +1530,7 @@ th.sorting_asc { height: 30px!important; max-height: 35px; vertical-align: middl
 .article-author { font-weight: bold; font-size: 14px;  padding: 4px 0 4px 0;  }
 .article-publishdate { position:relative; float: right; color:red;}
 .location { position: relative; float: right; right: 69px; top: -55px; }
-.dataTables_info { font-size: 14px; }
+.dataTables_info { font-size: 14px; font-family:"roboto", serif; }
 /*.dataTables_filter label { display:none; }*/
 .dataTables_wrapper .dataTables_filter {float: right; text-align: right; position: relative; right: 50px; }
 .dataTables_wrapper .dataTables_filter input { width:300px; height: 40px; border: 1px solid #999!important; padding: 5px; }
