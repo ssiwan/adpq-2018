@@ -54,23 +54,13 @@ if stringEnv == 'local':
     suite.addTests(loader.suiteClass(testAdminDashboard.suite()))
     suite.addTests(loader.suiteClass(testDeleteArticle.suite()))
 elif stringEnv == 'staging':
-    suite.addTests(loader.suiteClass(testGetArticleDetails.suite()))
-    suite.addTests(loader.suiteClass(testEditArticle.suite()))
-    suite.addTests(loader.suiteClass(testCreateArticle.suite()))
-    suite.addTests(loader.suiteClass(testSignIn.suite()))
-    suite.addTests(loader.suiteClass(testPresignedS3.suite()))
-    suite.addTests(loader.suiteClass(testAdminDashboard.suite()))
-    suite.addTests(loader.suiteClass(testDeleteArticle.suite()))
+    suite.addTests(loader.suiteClass(smokeTest.suite()))
 elif stringEnv == 'prod':
-    suite.addTests(loader.suiteClass(testDashboard.suite()))
-    suite.addTests(loader.suiteClass(testGetAgencies.suite()))
-    suite.addTests(loader.suiteClass(testGetTags.suite()))
-    suite.addTests(loader.suiteClass(testGetArticles.suite()))
-    suite.addTests(loader.suiteClass(testAdminDashboard.suite()))
+    suite.addTests(loader.suiteClass(smokeTest.suite()))
     
 
 # Initialize an xml runner.
-testRunner=xmlrunner.XMLTestRunner(output='data/testReports', verbosity=0)
+testRunner=xmlrunner.XMLTestRunner(output='data/testReports', verbosity=2)
  
 # Run the suite & save the results.
 results = testRunner.run(suite)

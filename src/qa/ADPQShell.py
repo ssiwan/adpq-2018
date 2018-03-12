@@ -354,7 +354,7 @@ class ADPQ:
     ## @fn sign_in : Allows an existing user to log into their account. 
     # :required - email
     #
-    def sign_in(self, email='', emailExclude=False):
+    def sign_in(self, email='', emailExclude=False, return_status=False):
 
         url = self.environment + data['UsersSignIn']
         
@@ -388,6 +388,10 @@ class ADPQ:
         if TestOutput == True:
             print('\nsign_in\n', responseBody)
             print('response.status_code: ', response.status_code)
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
         
         return responseBody
     
