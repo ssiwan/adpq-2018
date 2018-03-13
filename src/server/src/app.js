@@ -19,6 +19,17 @@ var cors = require('cors');
 //email
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
+//https
+app.enable('trust proxy');
+app.use(function(req, res, next) {
+    const xfp = req.headers["X-Forwarded-Proto"] || req.headers["x-forwarded-proto"];
+    if (xfp === "http") {
+        res.redirect(301, 'https://' + req.headers.host + req.url);
+    } else {
+        next();
+    }
+});
+
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
 })
