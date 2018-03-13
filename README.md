@@ -43,7 +43,7 @@ https://app.swaggerhub.com/apis/HOTB-Software/adpq_knowledge_base
 [insert description]
 
 # US DIGITAL SERVICES PLAYBOOK
-We followed the US Digital Services Playbook. Our responses to each can be found [here](src/administration/U.S.\ Digital\ Services\ Playbook/US\ Digital\ Services\ Playbook.pdf).
+We followed the US Digital Services Playbook. Our responses to each can be found [here](src/administration/U.S.%20Digital%20Services%20Playbook/US%20Digital%20Services%20Playbook.pdf).
 
 # OTHER REQUESTED ITEMS
 [insert description]
