@@ -1,12 +1,12 @@
 # HOTB Software - ADPQ Knowledge Base
 
-## CREDENTIALS AND LINKS
+# CREDENTIALS AND LINKS
 
-### Links
+## Links
 **ADPQ Knowledge Articles Website:**<br>
 https://adpq.hotbsoftware.com<br>
 
-### User Accounts
+## User Accounts
 
 **Staff Account**<br>
 **Username:** adpq-staff@hotbsoftware.com<br>
@@ -17,50 +17,50 @@ https://adpq.hotbsoftware.com<br>
 **Password:** Hotb&2018
 
 # TECHNICAL APPROACH
-HOTB Software Solutions developed the ADPQ Knowledge Management System Prototype in response to the California Department of Technology ADPQ Vendor Pool RFI Submission due on March 16, 2018.<br>
-Our technical approach was based on HOTB’s agile development process that utilizes Scrum Methodology focused on short, iterative sprints to deliver functional components that are evolved based on user feedback. We started with the concept of delivering a functional prototype that would provide authorized users with the ability to create Knowledge Articles. This primary use case was expanded to include administrative features like User Creation and Article Approval workflow. In subsequent iterations we introduced the ability to share articles (while being mindful of role-based access) and began to capture those metrics to identify trending articles, tags and topics that were used to prompt the user to create new or similar articles.<br>
-Our design process incorporated several user-centric design methodologies that provided feedback which was incorporated into our subsequent design iterations. Our goal was to build a prototype with a clear and intuitive design that was driven by user feedback and delivered in an agile software development environment.<br>
-We chose a modern technology stack that utilized open source technologies and implemented those using a continuous integration and continuous deployment methodology based on Docker containers and Jenkins. Automated tests scripts were written in Python and executed against the prototype during the development process.<br>
-The project team met daily to review project status, action items and deliverables. Progress was tracked using Aha!, our internal project management and ticketing system, and we relied upon Slack as our collaboration tool. All code updates were committed to Github along with our agile process documentation, design iterations and test scripts.<br>
+HOTB Software Solutions developed the ADPQ Knowledge Management System Prototype in response to the California Department of Technology ADPQ Vendor Pool RFI Submission due on March 16, 2018.<br><br>
+Our technical approach was based on HOTB’s agile development process that utilizes Scrum Methodology focused on short, iterative sprints to deliver functional components that are evolved based on user feedback. We started with the concept of delivering a functional prototype that would provide authorized users with the ability to create Knowledge Articles. This primary use case was expanded to include administrative features like User Creation and Article Approval workflow. In subsequent iterations we introduced the ability to share articles (while being mindful of role-based access) and began to capture those metrics to identify trending articles, tags and topics that were used to prompt the user to create new or similar articles.<br><br>
+Our design process incorporated several user-centric design methodologies that provided feedback which was incorporated into our subsequent design iterations. Our goal was to build a prototype with a clear and intuitive design that was driven by user feedback and delivered in an agile software development environment.<br><br>
+We chose a modern technology stack that utilized open source technologies and implemented those using a continuous integration and continuous deployment methodology based on Docker containers and Jenkins. Automated tests scripts were written in Python and executed against the prototype during the development process.<br><br>
+The project team met daily to review project status, action items and deliverables. Progress was tracked using Aha!, our internal project management and ticketing system, and we relied upon Slack as our collaboration tool. All code updates were committed to Github along with our agile process documentation, design iterations and test scripts.<br><br>
 Further information about our process can be found in the [California RFI Process Documentation attached](http://google.com) and in our responses below.
 
-## ARCHITECTURAL FLOW
+# ARCHITECTURAL FLOW
 [insert description]
 
-## US DIGITAL SERVICES PLAYBOOK
+# US DIGITAL SERVICES PLAYBOOK
 We followed the US Digital Services Playbook. Our responses to each can be found [here](src/administration/U.S.%20Digital%20Services%20Playbook/US%20Digital%20Services%20Playbook.pdf).
 
-## OTHER REQUESTED ITEMS
+# OTHER REQUESTED ITEMS
 
 ## a) Assigned one (1) leader and gave that person authority and responsibility and held that person accountable for the quality of the prototype submitted
 We assigned the role of Project Lead to Jason Connolly. Jason acted as the Business Owner and established project priorities and acted as the primary leader taking accountability for all phases of the project.
 
 ## b) Assembled a multidisciplinary and collaborative team that includes, at a minimum, five (5) of the labor categories as identified in Attachment B: PQVP DS-AD Labor Category Descriptions
-Project Lead – Jason Connolly<br>
-Product Manager – Mark Witte<br>
-Technical Architect – Mike Firoved<br>
-Interaction Designer/User Researcher/Usability Tester – Tracie DePietro<br>
-Visual Designer – Ken Baker<br>
-Front End Web Developer – Raghu Jonnala<br>
-Backend Web Developer – Noel Eom<br>
-Quality Assurance Engineer - Luis Escobar<br>
-DevOps Engineer – Eric Dobyns<br>
+**Project Lead** – Jason Connolly<br>
+**Product Manager** – Mark Witte<br>
+**Technical Architect** – Mike Firoved<br>
+**Interaction Designer/User Researcher/Usability Tester** – Tracie DePietro<br>
+**Visual Designer** – Ken Baker<br>
+**Front End Web Developer** – Raghu Jonnala<br>
+**Backend Web Developer** – Noel Eom<br>
+**Quality Assurance Engineer** - Luis Escobar<br>
+**DevOps Engineer** – Eric Dobyns<br>
 
 ## c) Understood what people needed, by including people in the prototype development and design process
-During our initial discovery process we utilized surveys and questionnaires conducted with prospective users which helped shape our understanding of user requirements and key features. We also conducted interviews with KMT providers and super users. Their experience and insights were extremely valuable in shaping the features and functions of the prototype.<br>
-We constructed an initial user survey to get feedback on general user experience with Knowledge Management Tools. Results of the survey are included [here](http://www.google.com).<br>
-We also had users provide feedback following a user session with a clickable prototype. A sample of those responses can be found [here](http://www.google.com).<br> 
-Interview Notes can be found [here](http://www.google.com).<br>
+During our initial discovery process we utilized surveys and questionnaires conducted with prospective users which helped shape our understanding of user requirements and key features. We also conducted interviews with KMT providers and super users. Their experience and insights were extremely valuable in shaping the features and functions of the prototype.<br><br>
+We constructed an initial user survey to get feedback on general user experience with Knowledge Management Tools. Results of the survey are included [here](http://www.google.com).<br><br>
+We also had users provide feedback following a user session with a clickable prototype. A sample of those responses can be found [here](http://www.google.com).<br><br>
+Interview Notes can be found [here](http://www.google.com).
 
 ## d) Used at least a minimum of three (3) “user-centric design” techniques and/or tools
-We used at least three (3) user centric design techniques that included: Key Experience Pillar Documents, Online Survey, User Interviews following a clickable prototype review and phone interviews with subject matter experts.<br>
-In addition to the surveys and interviews above, we created Key Experience Pillar documents to define user stories and use cases. Those can be found [here](http://www.google.com).<br>
+We used at least three (3) user centric design techniques that included: Key Experience Pillar Documents, Online Survey, User Interviews following a clickable prototype review and phone interviews with subject matter experts.<br><br>
+In addition to the surveys and interviews above, we created Key Experience Pillar documents to define user stories and use cases. Those can be found [here](http://www.google.com).
 
 ## e) Used GitHub to document code commits
 A GitHub repository was setup to capture code commits for each developer. We also included agile process documentation, design changes and automated testing scripts. We utilized version control by separating branches for each developer as well as managed code merges through individual pull requests.
 
 ## f) Used Swagger to document the RESTful API, and provided a link to the Swagger API
-OpenAPI v3.0.0 (Swagger) was used to document our RESTful APIs and other technical documentation.<br>
+OpenAPI v3.0.0 (Swagger) was used to document our RESTful APIs and other technical documentation.
 
 **API Docs**<br>
 http://adpq-docs.hotbsoftware.com
@@ -108,7 +108,7 @@ We used at least five (5) modern and open-source technologies including:
 - Unittest
 
 ## m) Deployed the prototype on an Infrastructure as a Service (IaaS) or Platform as Service (PaaS) provider, and indicated which provider they used
-Our API is built using a dockerized Node.js containers deployed on Amazon EC2 Instances. The EC2 instances are managed with Amazon ECS and auto-scale based on incoming traffic. All incoming traffic is passed through an elastic load balancer which automatically distributes incoming application traffic across multiple Amazon EC2 instances.<br>
+Our API is built using a dockerized Node.js containers deployed on Amazon EC2 Instances. The EC2 instances are managed with Amazon ECS and auto-scale based on incoming traffic. All incoming traffic is passed through an elastic load balancer which automatically distributes incoming application traffic across multiple Amazon EC2 instances.<br><br>
 Our database is comprised of a MongoDB cluster with three replica sets to ensure high availability in case one of the servers goes down.
 
 ## n) Developed automated unit tests for their code
@@ -133,7 +133,7 @@ See individual [README.md](src/server/README.md) files for each component.
 All components used to deliver and run the prototype are openly licensed and free of charge.
 
 
-## License 
+# License 
 [The MIT License](https://opensource.org/licenses/MIT)
 
 Copyright (c) 2018 Homeowners Toolbox Inc.
