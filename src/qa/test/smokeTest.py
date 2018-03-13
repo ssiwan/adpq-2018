@@ -21,7 +21,8 @@ class SmokeTest(unittest.TestCase):
             cls.user = ADPQShell.ADPQ()
             # Create shell BaseURL class object (version appended).
             cls.BaseUrl = ADPQShell.ADPQ.setEnv
-            cls.user.sign_in(email = ADPQShell.data['testEmail'])
+            cls.user.sign_in(email = ADPQShell.data['testEmail'],
+                             password = ADPQShell.data['testPassword'])
             assert(cls.BaseUrl != None)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
@@ -60,7 +61,9 @@ class SmokeTest(unittest.TestCase):
          
     ## Get the status of the SignIn end point.
     def test_UserSignInStatus(self):
-        status = self.user.sign_in(email = ADPQShell.data['testEmail'], return_status=True)
+        status = self.user.sign_in(email = ADPQShell.data['testEmail'], 
+                                   password = ADPQShell.data['testPassword'], 
+                                   return_status=True)
         self.assertEqual(status.status_code, 200, msg='test_UserSignInStatus assert#1 failed.')
         
         
@@ -71,7 +74,7 @@ class SmokeTest(unittest.TestCase):
         self.assertEqual(status.status_code, 200, msg='test_GetArticleDetailsStatus assert#1 failed.')
         
         
-        
+         
     ## Get the status of the CreateArticle end point.
     def test_CreateArticleStatus(self):
         status = self.user.create_article(Authorization = self.user.GetAuthKey(), 
@@ -86,17 +89,18 @@ class SmokeTest(unittest.TestCase):
         self.assertEqual(status.status_code, 200, msg='test_CreateArticleStatus assert#1 failed.')
         
         
-        
     ## Get the status of the dashboard_analytics end point.
     def test_DashboardAnalyticsStatus(self):
         status = self.user.dashboard_analytics(self.user.GetAuthKey(), return_status=True)
         self.assertEqual(status.status_code, 200, msg='test_DashboardAnalyticsStatus assert#1 failed.')
+        
         
 
     ## Get the status of the dashboard_trending end point.
     def test_DashboardTrendingStatus(self):
         status = self.user.dashboard_trending(self.user.GetAuthKey(), return_status=True)
         self.assertEqual(status.status_code, 200, msg='test_DashboardTrendingStatus assert#1 failed.')
+        
         
     ## Get the status of the dashboard_pubArticles end point.
     def test_DashboardPubArticlesStatus(self):
@@ -115,17 +119,19 @@ class SmokeTest(unittest.TestCase):
     ## Get the status of the Edit Article end point.
     def test_EditArticleStatus(self):
         status = self.user.edit_article(Authorization = self.user.GetAuthKey(), 
-                                        articleId = '5a907847ca13999bc0d11d92', 
-                                        title = SmokeTest.title,
-                                        agencyId = "5a8b73f94212d1f20f847b9c", 
-                                        audience = SmokeTest.audience, 
-                                        shortDesc = SmokeTest.shortDesc, 
-                                        longDesc = SmokeTest.longDesc, 
-                                        tags = SmokeTest.tags, 
-                                        attachments = SmokeTest.attachments, 
-                                        status = SmokeTest.status,
-                                        return_status=True)
+                                          articleId = self.user.GetArticleIds(), 
+                                          title = ADPQShell.data['testTitle'],
+                                          agencyId = ADPQShell.data['testAgencyId'], 
+                                          audience = ADPQShell.data['testAudience'], 
+                                          shortDesc = ADPQShell.data['testShortDesc'], 
+                                          longDesc = ADPQShell.data['testLongDesc'], 
+                                          tags = ADPQShell.data['testTags'], 
+                                          attachments = ADPQShell.data['testAttachments'], 
+                                          status = ADPQShell.data['testStatus'],
+                                          return_status = True)
         self.assertEqual(status.status_code, 200, msg='test_EditArticleStatus assert#1 failed.')
+        self.user.delete_article(Authorization = self.user.GetAuthKey(), 
+                                    articleId = self.user.GetArticleIds())
         
         
         

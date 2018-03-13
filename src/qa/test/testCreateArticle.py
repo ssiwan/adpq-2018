@@ -88,7 +88,9 @@ class TestCreateArticles(unittest.TestCase):
     def setUpClass(cls):
         try:
             cls.user = ADPQShell.ADPQ()
-            cls.user.sign_in(email = ADPQShell.data['testEmail'])
+            # Only role 1/staff can create articles. Sign in with role 1.
+            cls.user.sign_in(email = ADPQShell.data['testEmailRole1'],
+                             password = ADPQShell.data['testPassword'])
             assert(cls.user != None)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
@@ -107,8 +109,6 @@ class TestCreateArticles(unittest.TestCase):
                                                 longDesc = ADPQShell.data['testLongDesc'], 
                                                 tags = ADPQShell.data['testTags'], 
                                                 attachments = ADPQShell.data['testAttachments'])
-        # GetArticleIds() returns a list of all ids.
-        articleIds = self.user.GetArticleIds()
         
         # If successful, list will not be empty.
         self.assertEqual(responseBody['status'], "saved!",
@@ -120,21 +120,17 @@ class TestCreateArticles(unittest.TestCase):
                                                       articleId = self.user.GetArticleIds())
          
         # Ensure all data persists.
-        if articleIds != []:
-            self.assertEqual(responseBody['data']['id'], articleIds[0],
-                              msg='test_Success assert#2 has failed.') 
-        
         self.assertEqual(responseBody['data']['title'], ADPQShell.data['testTitle'],
-                          msg='test_Success assert#3 has failed.') 
+                          msg='test_Success assert#2 has failed.') 
         
         self.assertEqual(responseBody['data']['summary'], ADPQShell.data['testShortDesc'],
-                          msg='test_Success assert#4 has failed.') 
+                          msg='test_Success assert#3 has failed.') 
         
         self.assertEqual(responseBody['data']['description'], ADPQShell.data['testLongDesc'],
-                          msg='test_Success assert#5 has failed.') 
+                          msg='test_Success assert#4 has failed.') 
         
         self.assertEqual(responseBody['data']['tags'], [ADPQShell.data['testTags']],
-                          msg='test_Success assert#6 has failed.') 
+                          msg='test_Success assert#5 has failed.') 
          
          
          
@@ -924,15 +920,6 @@ class TestCreateArticles(unittest.TestCase):
                           msg='test_arrayAttachments assert#1 failed.')
         
         
-        
-        
-        
-    @classmethod
-    def tearDownClass(cls):
-        try:
-            pass
-        except:
-            print("Unexpected error during setUp:", sys.exc_info()[0])
             
             
     def tearDown(self):
@@ -952,49 +939,49 @@ def suite():
     suite.addTest(TestCreateArticles('test_floatAuthorization'))
     suite.addTest(TestCreateArticles('test_stringAuthorization'))
     suite.addTest(TestCreateArticles('test_arrayAuthorization'))
-       
+        
     suite.addTest(TestCreateArticles('test_missingTitle'))
     suite.addTest(TestCreateArticles('test_nullTitle'))
     suite.addTest(TestCreateArticles('test_intTitle'))
     suite.addTest(TestCreateArticles('test_floatTitle'))
     suite.addTest(TestCreateArticles('test_stringTitle'))
     suite.addTest(TestCreateArticles('test_arrayTitle'))
-      
+       
 #     suite.addTest(TestCreateArticles('test_missingAgencyId'))
 #     suite.addTest(TestCreateArticles('test_nullAgencyId'))
 #     suite.addTest(TestCreateArticles('test_intAgencyId'))
 #     suite.addTest(TestCreateArticles('test_floatAgencyId'))
 #     suite.addTest(TestCreateArticles('test_stringAgencyId'))
 #     suite.addTest(TestCreateArticles('test_arrayAgencyId'))
-      
+       
 #     suite.addTest(TestCreateArticles('test_missingAudience'))
 #     suite.addTest(TestCreateArticles('test_nullAudience'))
 #     suite.addTest(TestCreateArticles('test_intAudience'))
 #     suite.addTest(TestCreateArticles('test_floatAudience'))
 #     suite.addTest(TestCreateArticles('test_stringAudience'))
 #     suite.addTest(TestCreateArticles('test_arrayAudience'))
-      
+       
     suite.addTest(TestCreateArticles('test_missingShortDesc'))
     suite.addTest(TestCreateArticles('test_nullShortDesc'))
     suite.addTest(TestCreateArticles('test_intShortDesc'))
     suite.addTest(TestCreateArticles('test_floatShortDesc'))
     suite.addTest(TestCreateArticles('test_stringShortDesc'))
     suite.addTest(TestCreateArticles('test_arrayShortDesc'))
-      
+       
     suite.addTest(TestCreateArticles('test_missingLongDesc'))
     suite.addTest(TestCreateArticles('test_nullLongDesc'))
     suite.addTest(TestCreateArticles('test_intLongDesc'))
     suite.addTest(TestCreateArticles('test_floatLongDesc'))
     suite.addTest(TestCreateArticles('test_stringLongDesc'))
     suite.addTest(TestCreateArticles('test_arrayLongDesc'))
-      
+       
     suite.addTest(TestCreateArticles('test_missingTags'))
     suite.addTest(TestCreateArticles('test_nullTags'))
     suite.addTest(TestCreateArticles('test_intTags'))
     suite.addTest(TestCreateArticles('test_floatTags'))
     suite.addTest(TestCreateArticles('test_stringTags'))
     suite.addTest(TestCreateArticles('test_arrayTags'))
-     
+      
     suite.addTest(TestCreateArticles('test_missingAttachments'))
     suite.addTest(TestCreateArticles('test_nullAttachments'))
     suite.addTest(TestCreateArticles('test_intAttachments'))

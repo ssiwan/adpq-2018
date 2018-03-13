@@ -36,7 +36,8 @@ class TestPresignedS3(unittest.TestCase):
     def setUpClass(cls):
         try:
             cls.user = ADPQShell.ADPQ()
-            cls.user.sign_in(email = ADPQShell.data['testEmail'])
+            cls.user.sign_in(email = ADPQShell.data['testEmail'],
+                             password = ADPQShell.data['testPassword'])
             assert(cls.user != None)
         except:
             print("Unexpected error during setUpClass:", sys.exc_info()[0])
@@ -181,15 +182,6 @@ class TestPresignedS3(unittest.TestCase):
                                                  name = ['hodl', 666, [.6, 0], {}])
 
         self.assertNotEqual(responseBody['fileKey'], "", msg='test_arrayName assert#1 failed.')
-        
-        
-   
-    @classmethod
-    def tearDownClass(cls):
-        try:
-            pass
-        except:
-            print("Unexpected error during setUp:", sys.exc_info()[0])
     
     
     
