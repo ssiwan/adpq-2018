@@ -20,6 +20,7 @@ var cors = require('cors');
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 //https
+app.enable('trust proxy');
 app.use(function(req, res, next) {
     const xfp = req.headers["X-Forwarded-Proto"] || req.headers["x-forwarded-proto"];
     if (xfp === "http") {
