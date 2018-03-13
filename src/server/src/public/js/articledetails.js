@@ -134,6 +134,7 @@ $(document).ready(function(){
                                     $("#status").append("declined");
                                     $("#btndecline").hide();
                                     $("#btnapprove").hide();
+                                    $("#articledelete").show();
                                 }
                                 var commentstr = "";
                                 for (let index = 0; index < response.data.comments.length; index++) {
