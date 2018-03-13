@@ -106,26 +106,27 @@ We used at least five (5) modern and open-source technologies including:
 - Unittest
 
 ## m) Deployed the prototype on an Infrastructure as a Service (IaaS) or Platform as Service (PaaS) provider, and indicated which provider they used
-Our API is built using a dockerized Node.js containers deployed on Amazon EC2 Instances. The EC2 instances are managed with Amazon ECS and auto-scale based on incoming traffic. All incoming traffic is passed through an elastic load balancer which automatically distributes incoming application traffic across multiple Amazon EC2 instances.<br><br>
-Our database is comprised of a MongoDB cluster with three replica sets to ensure high availability in case one of the servers goes down.
+Our website and API are built with Node.js and are deployed as a containerized solution on AWS ECS. ECS instances are monitored using AWS Cloudwatch and automatically scale up or down based on defined Cloudwatch alarms. All incoming traffic is passed through an elastic load balancer (AWS ELB) which automatically distributes traffice across multiple ECS instances.<br><br>
+
+Our production databases are typically comprised of a MongoDB cluster with a minimum of three replica sets to ensure high availability in case one of the servers goes down. When necessary we are able to configure additional database sharding to increase the write throughput of the existing database.
 
 ## n) Developed automated unit tests for their code
-We developed automated unit tests written in Python were initiated through Jenkins following the automated build and deployment process.
+We developed automated unit tests written in Python which are automated through Jenkins following the automated build and deployment process. Automated unit tests run nightly and developers may manually run tests at any time.
 
 ## o) Setup or used a continuous integration system to automate the running of tests and continuously deployed their code to their IaaS or PaaS provider
-We setup Docker to containerize our server environment to handle continuous deployments. Deployments were automatically kicked off and managed through Jenkins following each commitment to a development branch. Automated tests built with Python were initiated following each deployment. Some of these jobs consist of deploying dockerized Node.js containers to our staging and production AWS ECS Clusters; making nightly backups of the staging and production MongoDB databases; executing NPM, Bower and Grunt tasks to build and deploy our website to staging and production AWS S3 buckets; and running automated tests to validate previous updates. In addition to automated tests, our QA engineers conduct manual testing of each update across all platforms.
+We have in place automated deployment scripts that handle actions based off of git commits to specific remote branches. Our build server utilizes the CI/CD software "Jenkins" to accept incoming SQS messages from Github and kick off automated scripts to test, build and deploy the project to AWS. Additional Jenkins jobs consist of nightly automated tests and nightly backups of our production database. Automated tests built with Python are run each night as well manually by back-end developers and quality assurance engineers. Our automated tests our monitored daily and manually adjusted whenever necessary.
 
 ## p) Setup or used configuration management
-Jenkins and Docker files were used for configuration management.
+Jenkins and Docker were used to automatically configure environment variables for each environment. Please refer to the [server documentation](src/server/README.md) for configuration instructions.
 
 ## q) Setup or used continuous monitoring
-AWS Cloudwatch was setup to monitor the servers, application availability and general system performance.
+AWS Cloudwatch was setup to monitor the ECS servers, application availability and general system performance.
 
 ## r) Deployed their software in an open source container, such as Docker (i.e., utilized operating-system-level virtualization)
-We utilized Docker for our containerization.
+Both our web and back-end solutions are containerized via Docker. Docker images are uploaded to AWS ECR and then deployed on AWS ECS clusters for scalability.
 
 ## s) Provided sufficient documentation to install and run their prototype on another machine
-See individual [README.md](src/server/README.md) files for each component.
+Please refer to the [server documentation](src/server/README.md) for additional installation instructions.
 
 ## t) Prototype and underlying platforms used to create and run the prototype are openly licensed and free of charge.
 All components used to deliver and run the prototype are openly licensed and free of charge.
