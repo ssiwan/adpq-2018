@@ -21,13 +21,9 @@ dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 //https
 app.use(function(req, res, next) {
-    const xfp =
-    req.headers["X-Forwarded-Proto"] || req.headers["x-forwarded-proto"];
+    const xfp = req.headers["X-Forwarded-Proto"] || req.headers["x-forwarded-proto"];
     if (xfp === "http") {
-        const host = req.headers.host
-        const url = req.url
-        const secureUrl = 'https://' + host + url;
-        res.redirect(301, secureUrl);
+        res.redirect(301, 'https://' + req.headers.host + req.url);
     } else {
         next();
     }
