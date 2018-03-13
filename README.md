@@ -79,7 +79,7 @@ Following the initial wireframe creation, we created a [style guide and color pa
 We conducted usability tests with prospective users who provided relevant feedback that sharpened our focus and improved our design and system features.
 
 ## j) Used an iterative approach, where feedback informed subsequent work or versions of the prototype
-Our initial designs were based on Key Experience Pillars documents. These documents were created and based on feedback we received from our initial consumer survey. We made adjustments to the design and system features following feedback from user testing and interviews.
+Our initial designs were based on [Key Experience Pillars documents](http://www.google.com). These documents were created and based on feedback we received from our initial consumer survey. We made adjustments to the design and system features following feedback from user testing and interviews.
 
 ## k) Created a prototype that works on multiple devices, and presents a responsive design
 The prototype works across multiple devices (phones, tablets and PCs) and is supported by multiple browsers and is responsive to the specific device.
@@ -106,7 +106,7 @@ We used at least five (5) modern and open-source technologies including:
 - Unittest
 
 ## m) Deployed the prototype on an Infrastructure as a Service (IaaS) or Platform as Service (PaaS) provider, and indicated which provider they used
-Our website and API are built with Node.js and are deployed as a containerized solution on AWS ECS. ECS instances are monitored using AWS Cloudwatch and automatically scale up or down based on defined Cloudwatch alarms. All incoming traffic is passed through an elastic load balancer (AWS ELB) which automatically distributes traffice across multiple ECS instances.<br><br>
+Our website and API are built with Node.js and are deployed as a containerized solution on AWS ECS. ECS instances are monitored using AWS Cloudwatch and automatically scale up or down based on defined Cloudwatch alarms. All incoming traffic is passed through an elastic load balancer (AWS ELB) which automatically distributes traffice across multiple ECS instances.<br>
 
 Our production databases are typically comprised of a MongoDB cluster with a minimum of three replica sets to ensure high availability in case one of the servers goes down. When necessary we are able to configure additional database sharding to increase the write throughput of the existing database.
 
