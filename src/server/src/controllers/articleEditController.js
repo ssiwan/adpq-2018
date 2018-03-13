@@ -26,8 +26,8 @@ exports.editArticle = function(req, res) {
     if (req.body.tags != null && req.body.tags.length > 0) {
         var tagpreArray = (req.body.tags).split(','); //hopefully will be a string of tagIds
         tagpreArray.forEach(function(tg) {
-            if (!tagArray.includes(tg.toLowerCase())) {
-                tagArray.push(tg.toLowerCase()); 
+            if (!tagArray.includes(tg.trim().toLowerCase())) {
+                tagArray.push(tg.trim().toLowerCase()); 
             }
         }); 
     }

@@ -10,7 +10,7 @@ var ObjectId = mongoose.Types.ObjectId;
 //GET /tags
 exports.getTags = function (req, res) {
     var returnlist = [];  
-    var query = tags.find();
+    var query = tags.find().sort({value: 1});  
     
     query.exec().catch(function (err) {
         res.status(400); 
