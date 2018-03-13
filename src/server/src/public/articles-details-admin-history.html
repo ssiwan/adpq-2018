@@ -8,45 +8,46 @@
 <link rel="stylesheet" href="css/adpq-styles.css">
 <link rel="stylesheet" href="css/m.query.css" type="text/css">
 <script src="http://use.edgefonts.net/roboto:n2:default.js" type="text/javascript"></script>
-<title>ADPQ - Knowledge Articles - Article Details</title>	
+<title>ADPQ - Knowledge Articles - Article Details</title>
 </head>
 <body>
 <div class="main-wrapper-sm">
   <div class="adpq-container">
     <header class="adpq-headcontainer">
       <nav class="cssmenu" id="admincssmenu" style="display:none">
-        <div class="adpq-brand"><a href="index.html" title="Home"></a></div>
+        <div class="adpq-brand"><a href="index.html" Title="Home"></a></div>
          <div id="head-mobile"></div>
          <div class="button"></div>
          <div class="dash-view"></div>
          <ul class="dash-menu-admin">
             <li><a href="dashboard-admin.html" class="adpq-dashboard-btn" title="Dashboard"></a></li>
-            <li><a href="#" class="adpq-profile-btn" title="Profile"></a>
+            <li><a href="#" class="adpq-profile-btn" Title="Profile"></a>
                <ul class="under-menu">
                     <li><a href="#" Title="My Profile" id="adminprofile">My Profile</a></li>
                     <li><a href="#" Title="Logout" id="logoutadmin">Logout</a></li>
-		</ul>
+		          </ul>
             </li>
-			 <li><a href="#" class="adpq-settings-btn" title="Settings"></a>
+			 <li><a href="#" class="adpq-settings-btn" Title="Settings"></a>
                <ul class="under-menu">
-                  <li><a href="#" title="Manage Users">Manage Users</a></li>
+                  <li><a href="manage-user-admin.html" Title="Manage Users">Manage Users</a></li>
                </ul>
             </li>
 			 <li><a href="#" class="adpq-plus-btn" title="Add Menu"></a>
                <ul class="under-menu">
-                  <li><a href="#" title="Create User">Create User</a></li>
+                  <li><a href="add-user-admin.html" Title="Create User">Create User</a></li>
                </ul>
             </li>			 
          </ul>
       </nav>
       <nav class="cssmenu" id="staffcssmenu" style="display:none">
-         <div class="adpq-brand"><a href="index.html"></a></div>
+        <div class="adpq-brand"><a href="index.html" title="Home"></a></div>
          <div id="head-mobile"></div>
          <div class="button"></div>
          <div class="dash-view"></div>
          <ul class="dash-menu-admin">
-            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn"></a></li>
-            <li><a href="#" class="adpq-profile-btn"></a>
+            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn" Title="Dashboard Staff"></a></li>
+            <li><a href="articles-staff-list.html" Title="Listview" class="adpq-listview-btn"></a></li>
+            <li><a href="#" class="adpq-profile-btn" Title="profile button"></a>
                <ul class="under-menu">
                   <li><a href="#" Title="My Profile" id="staffprofile">My Profile</a></li>
                   <li><a href="create-article.html" Title="Create Article">Create Article</a></li>
@@ -115,6 +116,12 @@
           <div class="stat-row-two" id="commentcount"></div>
         </div>
       </div>
+      <div class="history-wrap" style="display:none" id="historywrap">
+        <div class="details-history">History</div>
+        <div id="historytable" class="history-table"></div>
+    </div>
+    <br/>
+    <br/>
     <div class="comments-wrap" id="commentsection" style="display:none">
       <div class="details-comments">Comments</div>
       <div class="form-group">
@@ -125,10 +132,11 @@
       </div>
       <br/>
       <br/>
+
       <div class="form-group">
         <div id="addcomment" style="display:none">
           <div class="col-sm-6">
-            <textarea id="txtcomment" name="comment" class="form-control" cols="40" rows="5" maxlength="500"></textarea>
+            <textarea id="txtcomment" name="comment" class="form-control" cols="40" rows="5" maxlength="500" title="Comments"></textarea>
           </div>
           <div class="form-group">
             <div class="col-md-8">
@@ -140,16 +148,15 @@
       </div>
     </div>
     <div id="comments" style="display:none"></div>
-  <div class="history-wrap" style="display:none" id="historywrap">
-    <div class="details-history">History</div>
-    <div id="historytable" class="history-table"></div>
+
+
 <footer></footer>
-	</div>
+<!-- </div> -->
       </div>
 	</div>
 
   </div>
-
+</div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 

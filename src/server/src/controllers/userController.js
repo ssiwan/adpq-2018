@@ -24,7 +24,8 @@ exports.signIn = function(req, res) {
         });  
     
     query.then(function(user) {
-        if (!user) {
+        console.log(user.isDeleted); 
+        if (!user || user.isDeleted == 1) {
             res.status(400); 
             return res.json({error: 'User not found'});          
         }
@@ -68,44 +69,60 @@ exports.createUser = function(req, res) {
     var newAgencyId = req.body.agencyId; 
     var newAllowUploads = req.body.allowUploads; 
     var plainpassword = req.body.password; 
+    var queryParams = {}; 
+    queryParams.email = newEmail; 
 
-    bcrypt.hash(plainpassword, saltRounds, function(err, newHashedPassword) {
-        if (err) {
-            res.status(400); 
-            return res.json({error: err.toString()}); 
-        }
-
-        var newUser = new users({
-            name: {
-                first: firstName, 
-                last: lastName
-            },
-            createdAt: Date.now(),
-            updatedAt: Date.now(),
-            email: newEmail,
-            agency: new ObjectId(newAgencyId),
-            hashedPassword: newHashedPassword, 
-            phone: newPhone,
-            allowUploads: newAllowUploads, 
-            role: 1
-        });
-
-        var prom = newUser.save(); 
-        prom.then(function(userreturn){
-            emailController.sendWelcomeEmail(newEmail); 
-            var jsonreturn = {
-                status: 'saved!',
-                userId: userreturn._id.toString(),
-                pswd: newHashedPassword  
-            }; 
-            return res.json(jsonreturn);
-        }).catch(function(err) {
-            res.status(400); 
-            return res.json({'error': err.toString() });
-        });
-
+    var query = users.find(queryParams); 
+    query.exec().catch(function(err) {
+        res.status(400);
+        return res.json({error:err.toString()});
     });
 
+    query.then(function(returnart) { 
+        if (returnart.length > 0) {
+            res.status(400);
+            return res.json({error: 'User already exists with that email'}); 
+        }
+        else {
+            bcrypt.hash(plainpassword, saltRounds, function(err, newHashedPassword) {
+                if (err) {
+                    res.status(400); 
+                    return res.json({error: err.toString()}); 
+                }
+
+                var newUser = new users({
+                    name: {
+                        first: firstName, 
+                        last: lastName
+                    },
+                    createdAt: Date.now(),
+                    updatedAt: Date.now(),
+                    email: newEmail,
+                    agency: new ObjectId(newAgencyId),
+                    hashedPassword: newHashedPassword, 
+                    phone: newPhone,
+                    allowUploads: newAllowUploads, 
+                    role: 1,
+                    isDeleted: 0
+                });
+
+                var prom = newUser.save(); 
+                prom.then(function(userreturn){
+                    emailController.sendWelcomeEmail(newEmail); 
+                    var jsonreturn = {
+                        status: 'saved!',
+                        userId: userreturn._id.toString(),
+                        pswd: newHashedPassword  
+                    }; 
+                    return res.json(jsonreturn);
+                }).catch(function(err) {
+                    res.status(400); 
+                    return res.json({'error': err.toString() });
+                });
+
+            });
+        }
+    });
 }
 
 exports.getUsers = function(req, res) {
@@ -116,6 +133,7 @@ exports.getUsers = function(req, res) {
 
     var queryParams = {};
     queryParams.role = 1; 
+    queryParams.isDeleted = 0; 
 
     var query = users.find(queryParams); 
     var sortObj = {};
@@ -158,7 +176,7 @@ exports.deleteUser = function(req, res) {
     var queryParams = {}; 
     queryParams._id = userobjid; 
 
-    var query = users.find(queryParams).remove().exec(); 
+    var query = users.findOne(queryParams);
 
     query.catch(function(err) {
         res.status(400); 
@@ -166,6 +184,10 @@ exports.deleteUser = function(req, res) {
     });
 
     query.then(function(returnuser) {
+        if (returnuser != null) {
+            returnuser.isDeleted = 1; 
+            returnuser.save(); 
+        }
         return res.json({data:'user removed!'}); 
     });
 }
@@ -174,6 +196,7 @@ exports.getUserDetails = function(req, res) {
     var userobjid = new ObjectId(req.params.userId); 
     var queryParams = {}; 
     queryParams._id = userobjid; 
+    queryParams.isDeleted = 0; 
 
     var query = users.findOne(queryParams).populate('agency'); 
 
@@ -222,9 +245,6 @@ exports.editUser = function(req, res) {
                 if (req.body.lastName != null && req.body.lastName != "") {
                     returnuser.name.last = req.body.lastName; 
                 }
-                if (req.body.email != null && req.body.email != "") {
-                    returnuser.email = req.body.email; 
-                }
                 if (req.body.agencyId != null && req.body.agencyId != "") {
                     returnuser.agency = new ObjectId(req.body.agencyId); 
                 }
@@ -269,9 +289,6 @@ exports.editProfile = function(req, res) {
                 }
                 if (req.body.lastName != null && req.body.lastName != "") {
                     returnuser.name.last = req.body.lastName; 
-                }
-                if (req.body.email != null && req.body.email != "") {
-                    returnuser.email = req.body.email; 
                 }
                 if (req.body.password != null && req.body.password != "") {
                     returnuser.hashedPassword = newHashedPassword; 

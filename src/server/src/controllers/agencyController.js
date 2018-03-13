@@ -10,7 +10,7 @@ var ObjectId = mongoose.Types.ObjectId;
 exports.getAgencies = function (req, res) {
     var returnlist = [];
 
-    var query = agency.find();   
+    var query = agency.find().sort({value: 1});  
     query.exec().catch(function () {
         res.send("error"); 
     });
@@ -20,8 +20,11 @@ exports.getAgencies = function (req, res) {
             var obj = {};
             obj['name'] = ag.value;
             obj['id'] = ag._id;
-            //getArticleCount function here?
-            obj['articleCount'] = index; // query to get article count            
+            var artCount = 0; 
+            if (ag.articleCount != null && ag.articleCount > 0) {
+                artCount = ag.articleCount; 
+            }
+            obj['articleCount'] = artCount; // query to get article count            
             returnlist.push(obj); 
         })
         res.json({'data': returnlist});//will probably standardize later

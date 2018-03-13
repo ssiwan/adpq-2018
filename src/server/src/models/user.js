@@ -12,7 +12,8 @@ var userModel = new Schema({
     updatedAt: Date,
     salt: String,
     hashedPassword: String, 
-    allowUploads: Number
+    allowUploads: Number,
+    isDeleted: Number
 }, {
     collection: 'users'
 });

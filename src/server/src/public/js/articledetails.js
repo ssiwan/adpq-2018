@@ -18,7 +18,6 @@ $(document).ready(function(){
                             switch (role) {
                             case "admin":
                                 $("#btnhistory").show();
-                                $("#articledelete").show();
                                 $("#commentsection").show();
                                 $("#comments").show();
                                 $("#adminsettingsbtn").show();
@@ -37,9 +36,6 @@ $(document).ready(function(){
                                 break;
                         }
                 
-                
-                        
-
                         $("#articleeditlnk").click(function() {
                             window.location.href = "edit-article.html?articleId="+articleId;
                         });
@@ -124,6 +120,7 @@ $(document).ready(function(){
                                     if (role === "admin") {
                                         $("#btndecline").show();
                                         $("#btnapprove").show();
+                                        $("#articledelete").show();
                                     }
                                 }
 
@@ -137,6 +134,7 @@ $(document).ready(function(){
                                     $("#status").append("declined");
                                     $("#btndecline").hide();
                                     $("#btnapprove").hide();
+                                    $("#articledelete").show();
                                 }
                                 var commentstr = "";
                                 for (let index = 0; index < response.data.comments.length; index++) {
@@ -179,6 +177,12 @@ $(document).ready(function(){
             $("#btnSave").click(function() {
                 articlecomment.articleId = articleId;
                 articlecomment.comment = $("#txtcomment").val();
+                if (isEmpty($("#txtcomment").val())) {
+                  alert("Please enter a comment");
+                  return;   
+                }
+
+
                 $.ajax({
                     url: APIURL + "articleComment",
                     type: 'POST',

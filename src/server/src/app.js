@@ -19,6 +19,17 @@ var cors = require('cors');
 //email
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
+//https
+app.enable('trust proxy');
+app.use(function(req, res, next) {
+    const xfp = req.headers["X-Forwarded-Proto"] || req.headers["x-forwarded-proto"];
+    if (xfp === "http") {
+        res.redirect(301, 'https://' + req.headers.host + req.url);
+    } else {
+        next();
+    }
+});
+
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason)
 })
@@ -79,7 +90,7 @@ mongoose.connect(config.dbUrl, process.env.NODE_ENV == 'local' ? null : options)
     var store = new MongooseStore(BruteForceModel); 
     // Setup brute force configuration for all endpoints
     var bruteforceAll = new expressBrute(store, {
-        freeRetries: 1000, // Per Hour
+        freeRetries: 5000, // Per Hour
         refreshTimeoutOnRequest: false,
         minWait: 15 * 1000,
         maxWait: 61*60*1000,

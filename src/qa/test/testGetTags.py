@@ -1,4 +1,4 @@
-import sys, unittest, QaAdpqShell, requests
+import sys, unittest, ADPQShell
 
 '''
     ADPQ v1 Get Tags end point.
@@ -12,64 +12,32 @@ import sys, unittest, QaAdpqShell, requests
         <none>
 
     Test cases
+        Test end point status.
         Successfully get all tags.
-        
-        ApiKey missing from request call.
-        Null ApiKey value. 
-        Int ApiKey value.     # commented out
-        Float ApiKey value.   # commented out
-        String ApiKey value.
-        Array ApiKey value.   # commented out
 '''
 class TestGetTags(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         try:
-            # Create user object.
-            cls.user = QaAdpqShell.QaADPQShell()
+            cls.user = ADPQShell.ADPQ()
             assert(cls.user != None)
-            
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
-            raise
 
     
     
     # Make sure the end point is live.
     def test_liveEndPoint(self):
-        # URL end point.
-        url = QaAdpqShell.QaADPQShell.setEnv + QaAdpqShell.QaADPQShell.GetTags
-
-        # HTTP Action.
-        HTTP_action = 'GET'
-        
-        # Header Parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-        
-        # Dynamically set key/value body pairs. Add all body parameters.
-        body = {}
-            
-        # Make HTTPS Request.
-        response = requests.request(HTTP_action, url, json=body, 
-                                    headers=headers, verify=False)
-        
-        # Ensure end point is live.
-        self.assertEqual(response.status_code, 200, msg='test_liveEndPoint assert#1 has failed.')
+        status = self.user.get_tags(return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_liveEndPoint assert#1 failed.')
         
         
         
     # Test successfully getting a list of tags by hitting the end point.
     def test_success(self):
-        # Hit the end point, should return a list of tags.
         responseBody = self.user.get_tags()
-        
-        # If successful, list will not be empty.
-        self.assertNotEqual(responseBody['data'], [],
-                          msg='test_Success assert#1 has failed.')
+        self.assertNotEqual(responseBody['data'], [], msg='test_Success assert#1 has failed.')
     
     
     

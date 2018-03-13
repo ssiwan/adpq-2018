@@ -39,14 +39,18 @@ $(document).ready(function(){
                    //console.log(json);
                    var return_data = new Array();
                    for (let index = 0; index < json.data.length; index++) {
+                        var id = json.data[index].id;
+                        var title = json.data[index].title;
+                        var agency = json.data[index].agency;
+                        var summary = json.data[index].summary;
+                        var name = "";
+                        if (!isEmpty(json.data[index].createdBy.name.first) && !isEmpty(json.data[index].createdBy.name.last)) {
+                            name = json.data[index].createdBy.name.first+ "  " +json.data[index].createdBy.name.last;
+                        }
+                        var createdAt = convertToLocalDate(json.data[index].createdAt);
                         return_data[index] = {
-/*                             'articleinfo':"<div class='left-title'>"    + json.data[index].title + "</div>"
-                                          +"<div class='left-a'>Agency:" + json.data[index].agency + "</div>"
-                                          + json.data[index].summary + "<br/>"
-                                          + "<div class='article-author'>Author: </div>" + json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last +
-                                          + "<div class='article-publishdate'>PublishedDate:</div> " + convertToLocalDate(json.data[index].createdAt), */
-							'articleinfo':"<div class='trending-staff-non-published'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'>"+json.data[index].title+"</div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+json.data[index].agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+json.data[index].summary+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+json.data[index].createdBy.name.first + "  " + json.data[index].createdBy.name.last+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+convertToLocalDate(json.data[index].createdAt)+"</div></div></div></div></div>",
-							//'views': json.data[index].views,
+                            'articleinfo':"<div class='trending-staff-non-published'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'><a href=articles-details-admin-history.html?articleId="+id+">"+title+"</a></div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+summary+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+name+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+createdAt+"</div></div></div></div></div>",
+                            //'views': json.data[index].views,
                             //'shares': json.data[index].shares,
                             'status': json.data[index].status,
                             'id': json.data[index].id
@@ -85,10 +89,6 @@ $(document).ready(function(){
     }
     
 
-    $('#articles').delegate('tbody tr', 'click', function () {
-        //console.log("articleid  " + table.row(this).data().id);
-        window.location.href = "articles-details-admin-history.html?articleId=" + table.row(this).data().id;
-    });
     $("#logout").click(function() {
         sessionStorage.clear();
         window.location.href = "index.html";

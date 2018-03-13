@@ -20,6 +20,12 @@ p { font-family: roboto; }
 footer { height: 25px; }
 a { color:#000; text-decoration: underline;}
 a:hover, a:focus { color:#046b99; text-decoration: underline;}
+/* required for the long description field on create and edit article pages*/
+.ql-editor strong {font-weight:bold;}
+.ql-editor em {font-style: italic;}
+.ql-editor u {text-decoration: underline;}
+.ql-editor s {text-decoration: line-through;}
+/*required for the long description field on create and edit article pages */
  section {
 	max-width:70%;
 	font-family: "roboto", serif;
@@ -33,7 +39,6 @@ a:hover, a:focus { color:#046b99; text-decoration: underline;}
     display: block;
     margin: 50px auto;
     height: auto;
-    width: 124px
 }
 a.terms {
     margin: 50px auto;
@@ -154,7 +159,7 @@ button.adpq-default-btn { margin-left: 10px; }
 .adpq-blurb {
 	background-color: rgba(4,107,153,0.15);
 	display: block;
-	height: 190px;
+	height:260px;
 	width: 600px;
 	padding-top: 20px;
 	padding-right: 15px;
@@ -168,8 +173,8 @@ button.adpq-default-btn { margin-left: 10px; }
 -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 }
-.adpq-blurb h2 { font-family: "Roboto", serif; font-weight: bold; margin: 0 0 20px 0; font-size:24px; }
-.adpq-blurb p { color: #000; font-family: "roboto condensed", serif; font-size: 16px; line-height:18px; }
+.adpq-blurb h2 { font-family: "Roboto", serif; font-weight: bold; margin: 0 0 20px 0; font-size:28px; }
+.adpq-blurb p { color: #000; font-family: "roboto condensed", serif; font-size: 18px; line-height:22px; }
 .adpq-loginwrap, .adpq-adminwrap {
 	margin: 0px;
 	float: right;
