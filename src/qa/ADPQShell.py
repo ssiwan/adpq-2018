@@ -29,9 +29,7 @@ else:
 # Get all necessary data.
 with open('data.json') as data_file:    
     data = json.load(data_file)
-# print(data)
 
-print('\n\nsetEnv:', setEnv, '\n')
     
 
 '''
