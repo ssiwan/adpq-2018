@@ -29,9 +29,7 @@ app.use(expressWinston.logger({
         new winston.transports.MongoDB({
             db: config.logsDatabaseURL,
             collection: 'Requests',
-            expireAfterSeconds: 30 * 24 * 60 * 60, // One Month
-            username: config.dbUser,
-            password: config.dbPassword
+            expireAfterSeconds: 30 * 24 * 60 * 60 // One Month
         })
     ],
     meta: true, // optional: control whether you want to log the meta data about the request (default to true)

@@ -14,6 +14,8 @@
   "main": "./src/app.js",
   "scripts": {
     "start": "export NODE_ENV=staging && sh setEnv.sh && node ./src/app.js",
+    "start:local": "export NODE_ENV=local && sh setEnv.sh && node ./src/app.js",
+    "start:prod": "export NODE_ENV=production && sh setEnv.sh && node ./src/app.js",
     "build": "",
     "clean": "",
     "lint": "./node_modules/.bin/eslint . --fix",

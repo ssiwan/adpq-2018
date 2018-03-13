@@ -7,13 +7,15 @@
 #
 #    Args:
 #    $1 = Build Number (ex. 0.0.1)
+#    $2 = Environment Type (ex. staging)
 #  
 #    Example Command:
-#    sh deployProduction.sh 0.0.1
+#    sh deployProduction.sh 0.0.1 production
 #
 
 ### Constants
 BUILD_NUMBER=$1
+ENVIRONMENT=$2
 ECS_REGION=us-west-1
 ECR_REPOSITORY_NAME_SERVER=adpq-server
 ECS_CLUSTER=adpq-production
@@ -22,7 +24,6 @@ ECS_FAMILY=adpq-production
 ECS_TASK_DEFINITION=adpq-production
 
 ### Build & Tag ECS Docker Image
-export NODE_ENV='production'
 docker build -t adpq-server ../../server &&
 $(aws ecr get-login --no-include-email --region us-west-1) &&
 
