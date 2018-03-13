@@ -145,6 +145,10 @@ $(document).ready(function(){
                 "searchable": false
             }
         ],
+        "language": {
+            "search":"keyword search",
+            "searchPlaceholder": "keyword search"
+          },
             "columns": [
                     { "data": "articleinfo", "autoWidth": true },
                     { "data": "lastupdated", "autoWidth": true },
