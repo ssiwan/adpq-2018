@@ -69,7 +69,9 @@ elif stringEnv == 'staging':
     suite.addTests(loader.suiteClass(testAdminDashboard.suite()))
     suite.addTests(loader.suiteClass(testDeleteArticle.suite()))
 elif stringEnv == 'prod':
-    suite.addTests(loader.suiteClass(smokeTest.suite()))
+    suite.addTests(loader.suiteClass(testGetAgencies.suite()))
+    suite.addTests(loader.suiteClass(testGetTags.suite()))
+    suite.addTests(loader.suiteClass(testGetArticles.suite()))
     
 
 # Initialize an xml runner.
