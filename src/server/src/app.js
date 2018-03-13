@@ -81,7 +81,7 @@ mongoose.connect(config.dbUrl, process.env.NODE_ENV == 'local' ? null : options)
     var store = new MongooseStore(BruteForceModel); 
     // Setup brute force configuration for all endpoints
     var bruteforceAll = new expressBrute(store, {
-        freeRetries: 1000, // Per Hour
+        freeRetries: 5000, // Per Hour
         refreshTimeoutOnRequest: false,
         minWait: 15 * 1000,
         maxWait: 61*60*1000,
