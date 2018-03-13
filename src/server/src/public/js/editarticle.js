@@ -73,7 +73,7 @@ $(document).ready(function(){
                     console.log(response);
                     if (response.data.allowUploads === 1) {
                         allowUploads = "1";
-                        $("#divfileattachments").show();   
+                        $("#divfileattachments").show();  
                     }
                 })
                 .fail(function(data, textStatus, xhr) {
@@ -141,7 +141,7 @@ $(document).ready(function(){
                 }
             })
             .done(function(response) {
-                console.log(response);
+                //console.log(response);
                 //console.log(JSON.parse(response.data.description));
                 if (!isEmpty(response.data)) {
                     $("#title").val(response.data.title);                    
@@ -156,6 +156,7 @@ $(document).ready(function(){
                     }
                     tgs = tgs.substring(0, tgs.length - 1)
                     $('#tags').importTags(tgs);
+                    console.log("Allow Uploads " + allowUploads);
                     if (allowUploads === "1") {
                         $('#dynamictable').append('<table class="table table-stripped"><thead><tr>Attachments</tr></thead></table>');
                         var table = $('#dynamictable').children();    

@@ -104,12 +104,13 @@ $(document).ready(function(){
                         setTimeout(function(){ window.location.href = "dashboard-admin.html"; }, 1000);
                     }
                 }
-                else{
+                else
+                {
                     alert("There seems to be a problem with saving.Please try again.");
                 }
             })
-            .fail(function(data, textStatus, xhr) {
-                alert("Create user failed");
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
 
 

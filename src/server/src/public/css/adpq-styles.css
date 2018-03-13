@@ -20,6 +20,12 @@ p { font-family: roboto; }
 footer { height: 25px; }
 a { color:#000; text-decoration: underline;}
 a:hover, a:focus { color:#046b99; text-decoration: underline;}
+/* required for the long description field on create and edit article pages*/
+.ql-editor strong {font-weight:bold;}
+.ql-editor em {font-style: italic;}
+.ql-editor u {text-decoration: underline;}
+.ql-editor s {text-decoration: line-through;}
+/*required for the long description field on create and edit article pages */
  section {
 	max-width:70%;
 	font-family: "roboto", serif;
