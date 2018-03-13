@@ -1,12 +1,11 @@
-import sys, unittest, QaAdpqShell
-
+import sys, unittest, ADPQShell
 '''
     ADPQ v1 - Sign In end point.
     
     Purpose - Logs in/signs in an existing user. 
     
     Method signature:
-        sign_in(self, email='', emailExclude=False):
+        sign_in(self, email='', emailExclude=False, return_status=False):
     
     Required:
         email
@@ -26,23 +25,18 @@ class TestSignIn(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            # Create user object.
-            cls.user = QaAdpqShell.QaADPQShell()
+            cls.user = ADPQShell.ADPQ()
             assert(cls.user != None)
-            
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
-            raise
 
     
     
     # Test successfully signing in an existing user.
     def test_success(self):
-        # Attempt to sign in.
-        responseBody = self.user.sign_in(email = QaAdpqShell.QaADPQShell.testEmail)
+        responseBody = self.user.sign_in(email = ADPQShell.data['testEmail'])
     
            
-        # Ensure that all data is accurate and user is signed in.
         self.assertEqual(responseBody['token'], self.user.GetAuthKey(),
                           msg='test_Success assert#1 has failed.')
           
@@ -63,8 +57,7 @@ class TestSignIn(unittest.TestCase):
     
     # Missing email information from request call.
     def test_missingEmail(self):
-        # Missing Email value.
-        responseBody = self.user.sign_in(email = QaAdpqShell.QaADPQShell.testEmail, 
+        responseBody = self.user.sign_in(email = ADPQShell.data['testEmail'], 
                                          emailExclude = True)
               
         self.assertEqual(responseBody['error'], 'User not found',
@@ -74,17 +67,15 @@ class TestSignIn(unittest.TestCase):
         
     # Test a null email.
     def test_nullEmail(self):
-        # Null Email value.
         responseBody = self.user.sign_in(email = '')
          
         self.assertEqual(responseBody['error'], 'User not found',
-                          msg='test_nullEmail assert#1 has failed.')
+                         msg='test_nullEmail assert#1 has failed.')
         
         
         
     # Test an int email.
     def test_intEmail(self):
-        # Int Email value.
         responseBody = self.user.sign_in(email = 666)
          
         self.assertEqual(responseBody['error'], 'User not found',
@@ -94,7 +85,6 @@ class TestSignIn(unittest.TestCase):
          
     # Test a float email.
     def test_floatEmail(self):
-        # Float Email value.
         responseBody = self.user.sign_in(email = -.123)
          
         self.assertEqual(responseBody['error'], 'User not found',
@@ -105,7 +95,6 @@ class TestSignIn(unittest.TestCase):
     
     # Test a string email value call.
     def test_stringEmail(self):
-        # String Email value.
         responseBody = self.user.sign_in(email = "';:.>,</?]}[{!@#$%^&*()-_=+|\"")
             
         self.assertEqual(responseBody['error'], 'User not found',
@@ -115,15 +104,12 @@ class TestSignIn(unittest.TestCase):
            
     # Test an array email value call.
     def test_arrayEmail(self):
-        # Array Email value.
         responseBody = self.user.sign_in(email = ['hodl', 666, [.6, 0], {}])
             
         self.assertEqual(responseBody['name'], 'CastError',
                           msg='test_arrayEmail assert#1 has failed.') 
         
         
-    
-    
     
 def suite():
     suite = unittest.TestSuite()

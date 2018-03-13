@@ -1,4 +1,4 @@
-import sys, unittest, QaAdpqShell, requests
+import sys, unittest, requests, ADPQShell
 
 '''
     ADPQ v1 - Search Articles end point.
@@ -6,7 +6,7 @@ import sys, unittest, QaAdpqShell, requests
     Purpose - Returns a list of all articles in the db.
     
     Method signature:
-        search_articles(self):
+        search_articles(self, return_status=False):
     
     Required:
         <none>
@@ -20,49 +20,33 @@ class TestSearchArticles(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            # Create user object.
-            cls.user = QaAdpqShell.QaADPQShell()
+            cls.user = ADPQShell.ADPQ()
             assert(cls.user != None)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
-            raise
 
 
     
     # Make sure the end point is live.
     def test_liveEndPoint(self):
-        # URL end point.
-        url = QaAdpqShell.QaADPQShell.setEnv + QaAdpqShell.QaADPQShell.SearchArticles
-
-        # HTTP Action.
-        HTTP_action = 'GET'
+        url = ADPQShell.ADPQ.setEnv + ADPQShell.data['SearchArticles']
         
-        # Header Parameters.
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
-        
-        # Dynamically set key/value body pairs. Add all body parameters.
-        body = {}
             
-        # Make HTTPS Request.
-        response = requests.request(HTTP_action, url, json=body, 
-                                    headers=headers, verify=False)
+        response = requests.request('GET', url, json={}, headers=headers, verify=False)
         
-        # Ensure end point is live.
         self.assertEqual(response.status_code, 200, msg='test_liveEndPoint assert#1 has failed.')
         
         
         
     # Test successfully calling the end point and getting a list of articles.
     def test_success(self):
-        # Attempt to get a list of articles.
         responseBody = self.user.search_articles()
            
-        # Ensure that articles are present.
-        self.assertNotEqual(responseBody['data'], [],
-                          msg='test_Success assert#1 has failed.')
+        self.assertNotEqual(responseBody['data'], [], msg='test_Success assert#1 has failed.')
         
         
         
