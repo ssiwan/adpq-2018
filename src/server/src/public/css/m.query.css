@@ -76,7 +76,7 @@ a.terms {
 }	
 .trending-staff-non-publish, .trending-staff-publish, .trending-admin-review, .trending-admin-approved, .trending-admin-declined, .trending-landing-articles { width: 95%; }
 .trending-row, .mypublished-row, .workflow-row { width: 95%; margin: 0 0 0 3%!important; }
-.kpi-header, .trending-header, .mypublish-header, .workflow-header { 
+.kpi-header,.mypublish-header { 
 	display: block;
     float: left;
     height: 41px;
@@ -110,8 +110,182 @@ table.dataTable thead th, table.dataTable thead td, table th.title-column sortin
     padding: 10px 18px;
     border-bottom: 1px solid #000;
 	max-width:992px;
+}
+/** Dashboards **/
+.adpq-container { margin: 0px auto;  width: 100%; }
+.kpi-row { display:block; padding:0px; height: auto;width: 100%; position:relative; margin-left: 5px!important; }
+.mypublished-row { display:block; padding:0px; height: auto;width: 92%; position:relative; margin-left: 5px!important; }
+.workflow-row { display:block; padding:0px; height: auto;width: 100%; position:relative; margin-left: 5px!important; }
+.trending-row { display:block; padding:0px; height: auto;width: 100%; position:relative; margin-left: 5px!important; }		
+.kpi-header, .mypublished-header { display: block; float: left; height: 41px; width: 100%; position: relative; }
+.workflow-header { display: block; float: left; height: 41px; width: 92%; position: relative; }	
+.trending-header { display: block; float: left; height: 41px; width: 92%; position: relative; }
+.trending-content { display: block; float: left; height: 325px; width: 92%; position: relative; -webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55); -moz-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55); box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55); }	
+.kpi-content { width: 95%; float: left; height: auto; position: relative; margin-bottom: 5px; }
+.kpi-publish, .kpi-review, .kpi-declined, .kpi-views, .kpi-shares, .kpi-users { 
+	background-color: #A8DDFF;
+	display: block;
+    float: left;
+    height: 150px;
+    width: 174px;
+    margin-right: 2px;
+    margin-left: 2px;
+	margin-bottom:10px;
+    border: 1px solid #046b99;
+    position: relative;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    z-index: -1;
+}
+.mypublished-content {
+    display: block;
+    float: left;
+    height: 325px;
+    width: 100%;
+    position: relative;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+}
+.workflow-content {
+    display: block;
+    float: left;
+    height: 325px;
+    width: 92%;
+    position: relative;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
 }	
-	
+.trending-head, .mypublished-head, .workflow-head {
+    float: left;
+    height: 28px;
+    width: 100%;
+    position: relative;
+    top: 0px;
+    font-family: "roboto condensed", serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+.trending-bottom, .mypublished-bottom, .workflow-bottom {
+    display: block;
+    float: left;
+    height: 266px;
+    width: 98%;
+    position: relative;
+    top: 0px;
+    margin-left: 10px;
+}
+.mypublished-bottom { background-color: #FCEFDD; }	
+.trending-left-column { height: auto!important; width:60%!important; }
+.trending-right-column { display: block; float: left; height: 88px; width:250px; position: relative; left: 70px; top: 0px; padding-left: 15px; }
+.left-shortdesc { word-wrap: break-word;  line-height: 18px; height:auto; font-size: 14px; color: #669;/* white-space: normal!important; overflow: auto;*/ overflow: hidden; white-space: nowrap!important; width: 100%!important; }
+.left-row-two, .left-row-three, .left-row-four {
+    display: inline-block;
+    float: left;
+    height: 18px;
+    width: 75%;
+    position: relative;
+    left: 0px;
+    top: 0px;
+}
+.tools-total-shares {
+    display: block;
+    float: left;
+    height: 34px;
+    width: 70px;
+    padding-top: 5px;
+    position: relative;
+    font-family: "roboto", serif;
+    font-size: 12px;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+	left: 15px;
+}
+.left-column-tools	 {
+    display: inline-block;
+    float: right;
+    height: 34px;
+    width: 220px;
+    position: relative;
+    top: 0px;
+    right:0px;
+    font-size: 12px;
+	font-family:"roboto", serif;
+}
+.left-most-pubdate { font-size: 12px!important; font-family: "Roboto", serif; position:relative; left:200px; bottom: 10px; }
+.trending-row-one, .trending-row-two, .trending-row-three { display: block; float: left; height: 100px; width: 103%; position: relative; top: 0px;	}
+/*.cs-button .top { position:relative; }	*/
+/*.top { position: relative; left:87px!important; }*/	
+/*.trending-row, .mypublished-row, .workflow-row { width: 98%; margin: 0 0 0 3%!important; right: 17px; }
+.section-title { position:relative;  }	
+.trending-content, .mypublished-content, .workflow-content {
+    display: block;
+    float: left;
+    height: 325px;
+    width: 98.5%;
+    position: relative;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    left: 7px;
+}
+.trending-row-one, .trending-row-two, .trending-row-three {
+    display: block;
+    float: left;
+    height: 100px;
+    width: 90%;
+    position: relative;
+    top: 0px;
+}
+.trending-head {
+    background-color: #C9E6AA;
+    border-bottom: 1px solid #64B80B;
+}
+.trending-head, .mypublished-head, .workflow-head {
+    float: left;
+    height: 28px;
+    width: 100%;
+    position: relative;
+    top: 0px;
+    font-family: "roboto condensed", serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+.trending-bottom, .mypublished-bottom, .workflow-bottom {
+    display: block;
+    float: left;
+    height: 320px;
+    width: 100%;
+    position: relative;
+    top: 0px;
+    margin-left: 10px;
+}
+.trending-left-column, .left-row-one, .left-row-two, .left-row-three, .left-row-four {
+    display: block;
+    float: left;
+    height: auto;
+    width: 80%!important;
+    position: relative;
+    left: 0px;
+    top: 0px;
+}	
+.trending-right-column {
+    display: block;
+    float: right;
+    height: 88px;
+    width: 180px;
+    position: relative;
+    left: 0px;
+    bottom: 100px;
+    padding-left: 15px;
+}
+.trending-row-one, .trending-row-two, .trending-row-three { display: block; float: left; height: 100px; width: 1046px; position: relative; top: 0px; }	
+.left-most-pubdate { width: 180px; font-size: 14px!important; font-family: "Roboto", serif; }*/	
 }
 @media (max-width: 992px){
 .main-wrapper-sm { background-image: url(../img/adpq-headerbg-sm.jpg); background-repeat: repeat-x; height: 51px; }
@@ -147,7 +321,7 @@ table.dataTable thead th, table.dataTable thead td, table th.title-column sortin
 .adpq-loginwrap { margin: 0px; float: right; height: 51px; position: relative; top: 0px; right: 0px; }
 .adpq-log-input { float: left; height: 50px; width: 320px; position: relative; left: 10px; }
 .main-wrapper-sm .adpq-container #container { width: 98%!important; max-width: 991px; margin-left:10px; }
-.trending-staff-non-publish, .trending-staff-publish, .trending-admin-review, .trending-admin-approved, .trending-admin-declined, .trending-landing-articles { width: 95%; }
+/*.trending-staff-non-publish, .trending-staff-publish, .trending-admin-review, .trending-admin-approved, .trending-admin-declined, .trending-landing-articles { width: 95%; }
 .trending-row, .mypublished-row, .workflow-row { width: 95%; margin: 0 0 0 3%!important; }
 .kpi-header, .trending-header, .mypublish-header, .workflow-header { display: block; float: left; height: 41px; width: 98%; position: relative; }
 .left-title, .left-publish-date	{ display: inline-block; float: left; width: 376px; position: relative; left: 0px; top: 0px; font-family: "roboto", serif; font-size: 16px; color: #000; font-weight: bold; line-height: 20px; }
@@ -161,6 +335,58 @@ table.dataTable thead th, table.dataTable thead td {
     padding: 10px 18px;
     border-bottom: 1px solid #000;
 	max-width:768px;
+}*/	
+/*.trending-row { position: relative; float: left }
+.left-column-tools {
+    display: inline-block;
+    float: left;
+    height: 34px;
+    width: 220px;
+    position: relative;
+    top: 0px;
+    right: 0px;
+    font-size: 12px;
+    font-family: "roboto", serif;
+}	*/
+.trending-row-one, .trending-row-two, .trending-row-three { display: block; float: left; height: 100px; width: 103%; position: relative; top: 0px;	}
+.trending-right-column {
+    display: block;
+    float: left;
+    height: 88px;
+    width: 250px;
+    position: relative;
+    left: -10px;
+    top: 0px;
+    padding-left: 15px;
+}
+.left-most-pubdate {
+    font-size: 12px!important;
+    font-family: "Roboto", serif;
+    position: relative;
+    left: 200px;
+    bottom: 10px;
+	width: 120px;
+    float: right;	
+}
+.left-row-one, .left-row-two, .left-row-three, .left-row-four { 
+	display: inline-block;
+    float: left;
+    height: 34px;
+    width: 100%;
+    position: relative;
+    left: 0px;
+    top: 5px;
+}
+.workflow-content {
+    display: block;
+    float: left;
+    height: 350px;
+    width: 95%;
+    position: relative;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    left: 7px;
 }	
 }
 
@@ -227,7 +453,7 @@ table.dataTable thead th, table.dataTable thead td {
 .adpq-blurb {
     background-color: rgba(4,107,153,0.15);
     display: block;
-    height: 100%;
+    height: 170px;
     width: 87%;
     padding-top: 20px;
     padding-right: 15px;
@@ -355,9 +581,58 @@ table.dataTable thead th, table.dataTable thead td {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
+.terms {     
+	font-family: "roboto", serif;
+	font-size: 12px;
+	display:block;
+	margin: 50px auto;
+    height: auto;
+    width: 150px
+}
+a.terms {     
+	margin: 50px auto;
+    height: auto;
+	display:block;
+	text-align: center;
+}	
+.trending-content, .mypublished-content, .workflow-content {
+    display: block;
+    float: left;
+    height: 350px;
+    width: 98.5%;
+    position: relative;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    left: 7px;
+}
+.left-row-three .left-shortdesc { word-wrap: break-word;  }
+.trending-row { position:relative; right:10px; }
+.trending-row .left-row-one, .trending-row .left-row-two, .trending-row .left-row-three, .trending-row .left-row-four { width: 500px }  
+/*.mypublished-row { position:relative; top:170px; }	*/
 .main-wrapper-sm .adpq-container #container { width: 100%!important; max-width: 735px; margin-left:5px; }
 #filters .filter-checkbox .checkbox label, #filters .filter-checkbox .checkbox label input, #agency, #tags, #daterange label, .checkbox label { font-family:"", serif; font-size: 14px; }
 .agency-drpdwn, .tags-drpdwn, .calendar-drpdwn { height: 40px; max-width: 350px; width: 350px }
+.kpi-row { 
+	height: 350px;
+    display: block;
+    padding: 0px;
+    width: 100%;
+    position: relative;
+    margin-left: 0px!important;
+} 
+.kpi-content { float: left; height: 320px; width: 535px; position: relative; }
+.trending-content, .mypublished-content, .workflow-content {
+    display: block;
+    float: left;
+    height: 350px;
+    width: 100%;
+    position: relative;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    box-shadow: 2px 2px 5px 0px rgba(50, 50, 50, 0.55);
+    left: 7px;
+}
 /*#articles_length .datatables_length label {
     position: relative;
 	float: left;
@@ -824,7 +1099,8 @@ a.terms {
     top: 0px;
     font-family: "roboto", serif;
     font-size: 18px;
-    color: #000; }
+    color: #000;
+}
 .left-shortdesc {
     font-size: 14px;
     color: #999;
@@ -869,11 +1145,11 @@ table.dataTable thead th, table.dataTable thead td {
     height: 28px;
     width: 380px;
     position: relative;
-    /* top: 0px; */
     font-family: "roboto condensed", serif;
     font-size: 14px;
     font-weight: 600;
     text-align: center;
     padding: 7px 0px;
-}	
+}
+	
 }

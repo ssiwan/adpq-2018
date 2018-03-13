@@ -33,27 +33,21 @@
   <div class="alert alert-danger" id="error" style="display:none"> Both Datefrom and Dateto are required. </div>
   <div id="filters" style="display:none" class="filter-checkbox">
     <div class="checkbox">
-      <label>
-        <input type="checkbox" id="chkAgency">
-        Agency</label>
+      <label><input type="checkbox" id="chkAgency" title="Agency">Agency</label>
       &nbsp; &nbsp; </div>
     <div id="Agency" style="display:none"> Select Agency:
-    <select id="ddlAgency" class="agency-drpdwn">
-    </select>
+                        <select id="ddlAgency" class="agency-drpdwn" title="Select Agency">
+                        </select>
     </div>
     <div class="checkbox">
-      <label>
-        <input type="checkbox" id="chkTags">
-        Tags</label>
+      <label><input type="checkbox" id="chkTags" title="Tags">Tags</label>
       &nbsp; &nbsp; </div>
-    <div id="Tags" style="display:none">
-      Select Tags:
-      <select id="ddlTags" class="tags-drpdwn">
-      </select>
+    <div id="Tags" style="display:none"><label style="display:none;">Select Tags:</label> Select Tags:
+                        <select id="ddlTags" class="tags-drpdwn" title="Select Tags">
+                        </select>
     </div>
     <div class="checkbox">
-      <label>
-        <input type="checkbox" id="chkDate">&nbsp;Date Range</label>
+      <label><input type="checkbox" id="chkDate" title="Date Range">&nbsp;Date Range</label>
     </div>
     <div id="daterange" style="display:none">
       <label for="from">From</label>
