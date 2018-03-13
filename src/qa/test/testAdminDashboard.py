@@ -35,13 +35,12 @@ class TestAdminDashboard(unittest.TestCase):
     def setUpClass(cls):
         try:
             cls.role2 = ADPQShell.ADPQ()
-            cls.role2.sign_in(email = ADPQShell.data['testEmail'])   # Role 2.
+            cls.role2.sign_in(email = ADPQShell.data['testEmail'], 
+                              password = ADPQShell.data['testPassword'])   # Role 2.
             
             cls.role1 = ADPQShell.ADPQ()
-            cls.role1.sign_in(email = 'pmccartney@hotbsoftware.com') # Role 1.
-            
-            cls.role0 = ADPQShell.ADPQ()
-            cls.role0.sign_in(email = 'jlennon@hotbsoftware.com')    # Role 0.
+            cls.role1.sign_in(email = 'pmccartney@hotbsoftware.com',
+                              password = ADPQShell.data['testPassword']) # Role 1.
             
         except:
             print("Unexpected error during setUpClass:", sys.exc_info()[0])
@@ -72,20 +71,7 @@ class TestAdminDashboard(unittest.TestCase):
                                                          return_status=True)
 
         self.assertEqual(status.status_code, 200, msg='test_successPending assert#1 has failed.')
-         
-         
-        
-    # Test whether user of role 0 & 1 can access admin dashboards.
-    def test_invalidUserRole(self):
-        responseBody = self.role1.admin_dashboard_pending(self.role1.GetAuthKey())
 
-        self.assertEqual(responseBody['error'], 'User not permitted', 
-                         msg='test_invalidUserRole assert#1 has failed.')
-        
-        responseBody = self.role0.admin_dashboard_pending(self.role0.GetAuthKey())
-
-        self.assertEqual(responseBody['error'], 'User not permitted', 
-                         msg='test_invalidUserRole assert#1 has failed.') 
         
         
         
@@ -250,8 +236,6 @@ def suite():
     suite.addTest(TestAdminDashboard('test_successDeclined'))
     suite.addTest(TestAdminDashboard('test_successApproved'))
     suite.addTest(TestAdminDashboard('test_successPending'))
-     
-    suite.addTest(TestAdminDashboard('test_invalidUserRole'))
 
     suite.addTest(TestAdminDashboard('test_missingAuthorization'))
     suite.addTest(TestAdminDashboard('test_nullAuthorization'))

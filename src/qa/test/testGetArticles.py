@@ -33,7 +33,10 @@ class TestGetArticles(unittest.TestCase):
     def setUpClass(cls):
         try:
             cls.user = ADPQShell.ADPQ()
-            cls.user.sign_in(email = ADPQShell.data['testEmail'])
+            
+            cls.user.sign_in(email = ADPQShell.data['testEmail'],
+                             password = ADPQShell.data['testPassword'])
+            
             assert(cls.user != None)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
@@ -42,8 +45,7 @@ class TestGetArticles(unittest.TestCase):
     
     # Test successfully getting a list of tags by hitting the end point.
     def test_success(self):
-        responseBody = self.user.get_articles(Authorization = self.user.GetAuthKey(),
-                                              sortUrl=True, limitUrl=True, tagIdUrl=True)
+        responseBody = self.user.get_articles(Authorization = self.user.GetAuthKey())
 
         self.assertNotEqual(responseBody['data'], [], msg='test_Success assert#1 has failed.')
          
@@ -111,17 +113,6 @@ class TestGetArticles(unittest.TestCase):
         
         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
                           msg='test_arrayAuthorization assert#1 failed.')
-        
-        
-        
-        
-        
-    @classmethod
-    def tearDownClass(cls):
-        try:
-            pass
-        except:
-            print("Unexpected error during setUp:", sys.exc_info()[0])
     
     
     
