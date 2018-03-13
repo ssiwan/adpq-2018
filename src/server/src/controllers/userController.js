@@ -78,8 +78,8 @@ exports.createUser = function(req, res) {
         return res.json({error:err.toString()});
     });
 
-    query.then(function(returnart) {
-        if (returnart != null || returnart.length > 0) {
+    query.then(function(returnart) { 
+        if (returnart.length > 0) {
             res.status(400);
             return res.json({error: 'User already exists with that email'}); 
         }
