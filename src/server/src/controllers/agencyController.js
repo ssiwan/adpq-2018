@@ -10,7 +10,7 @@ var ObjectId = mongoose.Types.ObjectId;
 exports.getAgencies = function (req, res) {
     var returnlist = [];
 
-    var query = agency.find();   
+    var query = agency.find().sort({value: 1});  
     query.exec().catch(function () {
         res.send("error"); 
     });
