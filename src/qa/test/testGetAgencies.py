@@ -1,4 +1,4 @@
-import sys, unittest, requests, ADPQShell
+import sys, unittest, ADPQShell
 '''
     ADPQ v1 Get Agencies end point.
     
@@ -28,21 +28,14 @@ class TestGetAgencies(unittest.TestCase):
     
     # Make sure the end point is live.
     def test_liveEndPoint(self):
-        url = ADPQShell.ADPQ.setEnv + ADPQShell.data['GetAgencies']
+        status = self.user.get_agencies(return_status=True)
         
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-
-        response = requests.request('GET', url, json={}, headers=headers, verify=False)
-        
-        self.assertEqual(response.status_code, 200, msg='test_liveEndPoint assert#1 has failed.')
+        self.assertEqual(status.status_code, 200, msg='test_Success assert#1 has failed.')
         
         
     
     # Successfully get back a list of agencies.
-    def test_success(self):
+    def test_successData(self):
         responseBody = self.user.get_agencies()
            
         self.assertNotEqual(responseBody['data'], [], msg='test_Success assert#1 has failed.')
@@ -52,7 +45,7 @@ class TestGetAgencies(unittest.TestCase):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(TestGetAgencies('test_liveEndPoint'))
-    suite.addTest(TestGetAgencies('test_success'))
+    suite.addTest(TestGetAgencies('test_successData'))
     return suite
     
     

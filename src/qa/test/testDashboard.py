@@ -33,7 +33,8 @@ class TestGetArticlesDetails(unittest.TestCase):
     def setUpClass(cls):
         try:
             cls.user = ADPQShell.ADPQ()
-            cls.user.sign_in(email = ADPQShell.data['testEmail'])
+            cls.user.sign_in(email = ADPQShell.data['testEmail'],
+                             password = ADPQShell.data['testPassword'])
             assert(cls.user != None)
         except:
             print("Unexpected error during setUpClass:", sys.exc_info()[0])

@@ -16,6 +16,7 @@ import sys, unittest, ADPQShell
 
     Test cases
         Successfully get all articles.
+        Article that doesnt exist.
         
         Authorization missing from request call.
         Null Authorization value. 
@@ -30,7 +31,18 @@ class TestGetArticlesDetails(unittest.TestCase):
     def setUpClass(cls):
         try:
             cls.user = ADPQShell.ADPQ()
-            cls.user.sign_in(email = ADPQShell.data['testEmail'])
+            
+            cls.user.sign_in(email = ADPQShell.data['testEmail'],
+                             password = ADPQShell.data['testPassword'])
+            
+            cls.user.create_article(Authorization = cls.user.GetAuthKey(), 
+                                    title = ADPQShell.data['testTitle'], 
+                                    agencyId = ADPQShell.data['testAgencyId'],
+                                    audience = ADPQShell.data['testAudience'], 
+                                    shortDesc = ADPQShell.data['testShortDesc'], 
+                                    longDesc = ADPQShell.data['testLongDesc'], 
+                                    tags = ADPQShell.data['testTags'], 
+                                    attachments = ADPQShell.data['testAttachments'])
             assert(cls.user != None)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
@@ -39,9 +51,45 @@ class TestGetArticlesDetails(unittest.TestCase):
     
     # Test successfully getting a list of tags by hitting the end point.
     def test_success(self):
-        responseBody = self.user.get_articles_details(self.user.GetAuthKey())
+        responseBody = self.user.get_articles_details(Authorization = self.user.GetAuthKey(),
+                                                      articleId = self.user.GetArticleIds())
 
         self.assertNotEqual(responseBody['data'], [], msg='test_Success assert#1 has failed.')
+        
+        # Ensure all data persists.
+        self.assertEqual(responseBody['data']['title'], ADPQShell.data['testTitle'],
+                          msg='test_Success assert#2 has failed.') 
+        
+        self.assertEqual(responseBody['data']['summary'], ADPQShell.data['testShortDesc'],
+                          msg='test_Success assert#3 has failed.') 
+        
+        self.assertEqual(responseBody['data']['description'], ADPQShell.data['testLongDesc'],
+                          msg='test_Success assert#4 has failed.') 
+        
+        self.assertEqual(responseBody['data']['tags'], [ADPQShell.data['testTags']],
+                          msg='test_Success assert#5 has failed.') 
+        
+        
+        
+    # Test does not exist.
+    def test_doesNotExist(self):
+        responseBody = self.user.get_articles_details(Authorization = self.user.GetAuthKey(),
+                                                      articleId = 'doesnotexist')
+
+        self.assertEqual(responseBody['data'], {}, msg='test_Success assert#1 has failed.')
+        
+#         # Ensure all data persists.
+#         self.assertEqual(responseBody['data']['title'], ADPQShell.data['testTitle'],
+#                           msg='test_Success assert#2 has failed.') 
+#         
+#         self.assertEqual(responseBody['data']['summary'], ADPQShell.data['testShortDesc'],
+#                           msg='test_Success assert#3 has failed.') 
+#         
+#         self.assertEqual(responseBody['data']['description'], ADPQShell.data['testLongDesc'],
+#                           msg='test_Success assert#4 has failed.') 
+#         
+#         self.assertEqual(responseBody['data']['tags'], [ADPQShell.data['testTags']],
+#                           msg='test_Success assert#5 has failed.') 
          
          
          
@@ -116,7 +164,8 @@ class TestGetArticlesDetails(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         try:
-            pass
+            cls.user.delete_article(Authorization = cls.user.GetAuthKey(), 
+                                    articleId = cls.user.GetArticleIds())
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
     
@@ -126,6 +175,7 @@ def suite():
     suite = unittest.TestSuite()
     
     suite.addTest(TestGetArticlesDetails('test_success'))
+    suite.addTest(TestGetArticlesDetails('test_doesNotExist'))
 
     suite.addTest(TestGetArticlesDetails('test_missingAuthorization'))
     suite.addTest(TestGetArticlesDetails('test_nullAuthorization'))

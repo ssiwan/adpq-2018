@@ -1,11 +1,12 @@
 import requests, os, json
 
+requests.packages.urllib3.disable_warnings()
 
 # Set API Development Environment.
 setEnv = ''
 if 'Environment' not in os.environ.keys():
     print('\n[AutoScript] Defaulting to staging.\n')
-    setEnv = 'http://adpq-staging-loadbalancer-777882718.us-west-1.elb.amazonaws.com'
+    setEnv = 'https://adpq-staging.hotbsoftware.com'
 else:
     print('\n[AutoScript] Setting environment to', os.environ['Environment'], '\n')
     if os.environ['Environment'] == 'local':
@@ -28,7 +29,7 @@ else:
 # Get all necessary data.
 with open('data.json') as data_file:    
     data = json.load(data_file)
-# print(data)
+
     
 
 '''
@@ -63,15 +64,17 @@ class ADPQ:
         self.role = ''
         self.agencyId = []
         self.articleId = []
+        self.newUserIds = []
         
         
         
     ## @fn create_user : Will create a user with role 1.
     #
     def create_user(self, Authorization='', firstName='', lastName='', email='',
-                    phone='', agencyId=[], AuthorizationExclude=False,  
+                    phone='', password='', agencyId=[], allowUploads=0, AuthorizationExclude=False,  
                     fNameExclude=False, lNameExclude=False, emailExclude=False,
-                    phoneExclude=False, agencyIdExclude=False, return_status=False):
+                    phoneExclude=False, agencyIdExclude=False, passwordExclude=False,
+                    allowUploadsExclude=False, return_status=False):
         
         url = self.environment + data["CreateUser"]
         
@@ -121,6 +124,14 @@ class ADPQ:
             body['phone'] = phone
         else:
             body['phone'] = ''
+            
+        # password body parameter.
+        if passwordExclude == True:
+            pass
+        elif password != '':
+            body['password'] = password
+        else:
+            body['password'] = ''
         
         # agencyId body parameter.
         if agencyIdExclude == True:
@@ -133,19 +144,88 @@ class ADPQ:
         else:
             body['agencyId'] = ''
             
-        response = requests.request('POST', url, json={}, headers=headers, verify=False)
+        # allowUploads body parameter.
+        if allowUploadsExclude == True:
+            pass
+        elif password != '':
+            body['allowUploads'] = allowUploads
+        else:
+            body['allowUploads'] = ''
+            
+        response = requests.request('POST', url, json=body, headers=headers, verify=False)
     
         responseBody = response.json()
         
         if TestOutput == True:
             print('\ncreate_user\n', responseBody)
-            print('response.status_code: ', response.status_code)
+            print('responseBody: ', response.status_code)
             print('body:', body)
             print('headers:', headers)
+            print('url:', url)
+        
+        # Append the new user id.
+        if 'status' in responseBody.keys():
+            if responseBody['status'] == 'saved!':
+                self.newUserIds.append(responseBody['userId'])
+            
+        # If triggered, will return request object instead of json object.
+        if return_status == True:
+            return response
+        
+        return responseBody
+    
+    
+    
+    ## @fn delete_user : Will 
+    #
+    def delete_user(self, Authorization='', userId=[],
+                       AuthorizationExclude=False,  userIdExclude=False,
+                       return_status=False):
+        
+        url = self.environment + data['DeleteUser']
+        
+        headers = {
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        }
+            
+        # Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass
+        elif Authorization != '':
+            headers['Authorization'] = Authorization
+        else:
+            headers['Authorization'] = ''
+        
+        body = {}
+        
+        # articleId body parameter.
+        if userIdExclude == True:
+            pass
+        elif userId != '' and userId != []:
+            if type(userId) == list: 
+                body['userId'] = userId[0]
+            else:
+                body['userId'] = userId
+        else:
+            body['userId'] = ''
+        
+        # Delete the article at this dict value.
+        url = url + body['userId']
+            
+        response = requests.request('DELETE', url, json={}, headers=headers, verify=False)
+    
+        responseBody = response.json()
+        
+        if TestOutput == True:
+            print('\ndelete_user\n', responseBody)
+            print('response.status_code: ', response.status_code)
+            print('headers: ', headers)
+            print('url: ', url)
         
         # Delete the articleId if successful.
         if response.status_code == 200 and "error" not in responseBody.keys():
-            del self.articleId[0]
+            self.UserID = ''
             
         # If triggered, will return request object instead of json object.
         if return_status == True:
@@ -323,19 +403,28 @@ class ADPQ:
     
     
     
-    ## @fn search_articles : Get all articles within the db.
+    ## @fn search_articles : Get all articles within the db with 
+    #                        keyword health.
     #
-    def search_articles(self, return_status=False):
+    def search_articles(self, Authorization='', AuthorizationExclude=False, 
+                        return_status=False):
 
-        url = self.environment + data['SearchArticles']
+        url = self.environment + 'searchArticles?keyword=health'
         
         headers = {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         }
+        
+        # Authorization header parameter.
+        if AuthorizationExclude == True:
+            pass                                     
+        elif Authorization != '':      
+            headers['Authorization'] = Authorization 
+        else:           
+            headers['Authorization'] = ''            
             
-        response = requests.request('GET', url, json={}, 
-                                    headers=headers, verify=False)
+        response = requests.request('GET', url, json={},  headers=headers, verify=False)
     
         responseBody = response.json()
         
@@ -353,8 +442,10 @@ class ADPQ:
     
     ## @fn sign_in : Allows an existing user to log into their account. 
     # :required - email
+    # :required - password
     #
-    def sign_in(self, email='', emailExclude=False, return_status=False):
+    def sign_in(self, email='', password='', emailExclude=False, passwordExclude=False,
+                return_status=False):
 
         url = self.environment + data['UsersSignIn']
         
@@ -365,13 +456,21 @@ class ADPQ:
         
         body = {}
         
-        # Network body parameter.
+        # email body parameter.
         if emailExclude == True:
             pass
         elif email != '':
             body['email'] = email
         else:
             body['email'] = ''
+            
+        # password body parameter.
+        if passwordExclude == True:
+            pass
+        elif password != '':
+            body['password'] = password
+        else:
+            body['password'] = ''
             
         response = requests.request('POST', url, json=body, 
                                     headers=headers, verify=False)
@@ -387,7 +486,6 @@ class ADPQ:
         
         if TestOutput == True:
             print('\nsign_in\n', responseBody)
-            print('response.status_code: ', response.status_code)
             
         # If triggered, will return request object instead of json object.
         if return_status == True:
@@ -416,7 +514,7 @@ class ADPQ:
                 url = self.environment + 'articles/' + articleId
         # Append nothing to the url, no specified articleId.
         else:
-            url = self.environment + 'articles/'
+            url = self.environment + 'articles/' + ''
         
         headers = {
             'Content-Type' : 'application/json',
@@ -431,15 +529,16 @@ class ADPQ:
         else:
             headers['Authorization'] = ''
             
-        response = requests.request('GET', url, json={}, 
-                                    headers=headers, verify=False)
-    
-        responseBody = response.json()
+        response = requests.request('GET', url, headers=headers, verify=False)
         
         if TestOutput == True:
-            print('\nget_articles_details\n', responseBody)
-            print('response.status_code: ', response.status_code)
+            print('\nresponse.status_code:', response.status_code)
+            print('response:', response)
+            print('url: ', url)
+            print('headers: ', headers)
             
+        responseBody = response.json()
+        
         # If triggered, will return request object instead of json object.
         if return_status == True:
             return response
@@ -544,7 +643,7 @@ class ADPQ:
         
         if TestOutput == True:
             print('\ncreate_article\n', responseBody)
-            print('response.status_code: ', response.status_code)
+            print('self.articleId: ', self.articleId)
             
         # If triggered, will return request object instead of json object.
         if return_status == True:
@@ -657,8 +756,7 @@ class ADPQ:
         else:
             body['status'] = ''
             
-        response = requests.request('POST', url, json=body, 
-                                    headers=headers, verify=False)
+        response = requests.request('POST', url, json=body, headers=headers, verify=False)
     
         responseBody = response.json()
         
@@ -716,8 +814,7 @@ class ADPQ:
         else:
             body['comment'] = ''
             
-        response = requests.request('POST', url, json=body, 
-                                    headers=headers, verify=False)
+        response = requests.request('POST', url, json=body, headers=headers, verify=False)
     
         responseBody = response.json()
         
@@ -763,8 +860,7 @@ class ADPQ:
         else:
             body['name'] = ''
         
-        response = requests.request('POST', url, json=body, 
-                                    headers=headers, verify=False)
+        response = requests.request('POST', url, json=body, headers=headers, verify=False)
     
         responseBody = response.json()
         
@@ -801,8 +897,7 @@ class ADPQ:
         else:
             headers['Authorization'] = ''
         
-        response = requests.request('GET', url, json={}, 
-                                    headers=headers, verify=False)
+        response = requests.request('GET', url, json={}, headers=headers, verify=False)
     
         responseBody = response.json()
         
@@ -1051,3 +1146,6 @@ class ADPQ:
     
     def GetArticleIds(self):
         return self.articleId
+    
+    def GetNewUserIds(self):
+        return self.newUserIds

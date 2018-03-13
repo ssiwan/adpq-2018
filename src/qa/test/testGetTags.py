@@ -1,4 +1,4 @@
-import sys, unittest, requests, ADPQShell
+import sys, unittest, ADPQShell
 
 '''
     ADPQ v1 Get Tags end point.
@@ -12,14 +12,8 @@ import sys, unittest, requests, ADPQShell
         <none>
 
     Test cases
+        Test end point status.
         Successfully get all tags.
-        
-        ApiKey missing from request call.
-        Null ApiKey value. 
-        Int ApiKey value.     # commented out
-        Float ApiKey value.   # commented out
-        String ApiKey value.
-        Array ApiKey value.   # commented out
 '''
 class TestGetTags(unittest.TestCase):
 
@@ -35,24 +29,14 @@ class TestGetTags(unittest.TestCase):
     
     # Make sure the end point is live.
     def test_liveEndPoint(self):
-        url = ADPQShell.ADPQ.setEnv + ADPQShell.data['GetTags']
-        
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-            
-        response = requests.request('GET', url, json={}, 
-                                    headers=headers, verify=False)
-        
-        self.assertEqual(response.status_code, 200, msg='test_liveEndPoint assert#1 has failed.')
+        status = self.user.get_tags(return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_liveEndPoint assert#1 failed.')
         
         
         
     # Test successfully getting a list of tags by hitting the end point.
     def test_success(self):
         responseBody = self.user.get_tags()
-        
         self.assertNotEqual(responseBody['data'], [], msg='test_Success assert#1 has failed.')
     
     
