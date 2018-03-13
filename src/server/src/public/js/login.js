@@ -12,7 +12,14 @@ var LoginResponse = { token:""};
 
 */
 
-       
+var btns = $('#email,#password');
+btns.on('keyup', function(e){
+    if (e.which === 13) {
+        event.preventDefault();
+        $("#signin").click();
+    }
+});
+      
 
     $("#signin").click(function(){
         var password = $('#password').val();

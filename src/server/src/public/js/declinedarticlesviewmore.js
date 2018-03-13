@@ -48,9 +48,9 @@ $(document).ready(function(){
                     var createdAt = convertToLocalDate(json.data[index].createdAt);
                         return_data[index] = {                            
                             'articleinfo':"<div class='trending-admin-declined'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'><a href=articles-details-admin-history.html?articleId="+id+">"+title+"</a></div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+summary+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+name+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+createdAt+"</div></div></div></div></div>",
-                            'lastupdated': convertToLocalDate(json.data[index].createdAt),
+/*                             'lastupdated': convertToLocalDate(json.data[index].createdAt),
                             'views': json.data[index].views,
-                            'shares': json.data[index].shares,
+                            'shares': json.data[index].shares, */
                             'status': json.data[index].status,
                             'id': json.data[index].id
                         }
@@ -71,16 +71,16 @@ $(document).ready(function(){
         },
         "columnDefs": [
             {
-                "targets": [ 5 ],
+                "targets": [ 2 ],
                 "visible": false,
                 "searchable": false
             }
         ],
             "columns": [
                     { "data": "articleinfo", "autoWidth": true },
-                    { "data": "lastupdated", "autoWidth": true },
-                    { "data": "views", "autoWidth": true },
-                    { "data": "shares", "autoWidth": true },   
+                    // { "data": "lastupdated", "autoWidth": true },
+                    // { "data": "views", "autoWidth": true },
+                    // { "data": "shares", "autoWidth": true },   
                     { "data": "status", "autoWidth": true },
                     { "data": "id", "autoWidth": true }    
             ]
@@ -88,10 +88,7 @@ $(document).ready(function(){
     }
     
 
-    $('#articles').delegate('tbody tr', 'click', function () {
-        //console.log("articleid  " + table.row(this).data().id);
-        window.location.href = "articles-details-admin-history.html?articleId=" + table.row(this).data().id;
-    });
+
     $("#logout").click(function() {
         sessionStorage.clear();
         window.location.href = "index.html";
