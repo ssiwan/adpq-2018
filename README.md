@@ -11,19 +11,16 @@
 https://adpq-staging.hotbsoftware.com<br><br>
 **Production**<br>
 https://adpq.hotbsoftware.com<br><br>
-**Build Server**<br>
-(Please request whitelist access)<br>
-
 
 
 ## User Accounts
 **Admin**<br>
 **Username:** adpq-admin@hotbsoftware.com<br>
-**Password:** N/A
+**Password:** Hotb&2018
 
 **Staff Member**<br>
 **Username:** adpq-staff@hotbsoftware.com<br>
-**Password:** N/A
+**Password:** Hotb&2018
 
 # API Documentation
 
@@ -34,7 +31,7 @@ http://adpq-docs.hotbsoftware.com
 https://app.swaggerhub.com/apis/HOTB-Software/adpq_knowledge_base
 
 **OpenAPI v3.0.0 Code**<br>
-[JSON](https://www.google.com) | [YAML](https://www.google.com)
+[JSON](src/documentation/swagger/api-docs.json) | [YAML](src/documentation/swagger/api-docs.yaml)
 
 # TECHNICAL APPROACH
 [insert description]
