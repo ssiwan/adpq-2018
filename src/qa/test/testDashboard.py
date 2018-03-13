@@ -1,4 +1,4 @@
-import sys, unittest, QaAdpqShell
+import sys, unittest, ADPQShell
 
 '''
     ADPQ v1 - Dashboard analytics, trending, published articles, & workflow end point.
@@ -6,10 +6,10 @@ import sys, unittest, QaAdpqShell
     Purpose - Will return a list of articles pertaining to the end point.
     
     Method signature:
-        dashboard_analytics(self, Authorization='', AuthorizationExclude=False): 
-        dashboard_trending(self, Authorization='', AuthorizationExclude=False): 
-        dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False):
-        dashboard_workflow(self, Authorization='', AuthorizationExclude=False):
+        dashboard_analytics(self, Authorization='', AuthorizationExclude=False, return_status=False): 
+        dashboard_trending(self, Authorization='', AuthorizationExclude=False, return_status=False): 
+        dashboard_pubArticles(self, Authorization='', AuthorizationExclude=False, return_status=False):
+        dashboard_workflow(self, Authorization='', AuthorizationExclude=False, return_status=False):
     
     Required:
         Authorization
@@ -32,60 +32,43 @@ class TestGetArticlesDetails(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            # Create user object.
-            cls.user = QaAdpqShell.QaADPQShell()
-            
-            # SignIn the user. 
-            cls.user.sign_in(email = QaAdpqShell.QaADPQShell.testEmail)
-            
+            cls.user = ADPQShell.ADPQ()
+            cls.user.sign_in(email = ADPQShell.data['testEmail'])
             assert(cls.user != None)
         except:
             print("Unexpected error during setUpClass:", sys.exc_info()[0])
-            raise
 
     
     
     # Test successfully getting the users dashboard analytics.
     def test_successAnalytics(self):
-        # Hit the end point, should return a list of dashboard analytic.
-        responseBody = self.user.dashboard_analytics(self.user.GetAuthKey())
+        status = self.user.dashboard_analytics(self.user.GetAuthKey(), return_status=True)
 
-        # If successful, list will not be empty.
-        self.assertNotEqual(responseBody['data'], [],
-                          msg='test_successAnalytics assert#1 has failed.')
+        self.assertEqual(status.status_code, 200, msg='test_successAnalytics assert#1 failed.')
         
     
     
     # Test successfully getting the users dashboard trending articles.
     def test_successTrendings(self):
-        # Hit the end point, should return a list of trending articles.
-        responseBody = self.user.dashboard_trending(self.user.GetAuthKey())
+        status = self.user.dashboard_trending(self.user.GetAuthKey(), return_status=True)
 
-        # If successful, list will not be empty.
-        self.assertNotEqual(responseBody['data'], [],
-                          msg='test_successTrendings assert#1 has failed.')
+        self.assertEqual(status.status_code, 200, msg='test_successTrendings assert#1 failed.')
         
         
         
     # Test successfully getting the users published articles.
     def test_successPublishedArticles(self):
-        # Hit the end point, should return a list of the users published articles.
-        responseBody = self.user.dashboard_pubArticles(self.user.GetAuthKey())
+        status = self.user.dashboard_pubArticles(self.user.GetAuthKey(), return_status=True)
 
-        # If successful, list will not be empty.
-        self.assertNotEqual(responseBody['data'], [],
-                          msg='test_successPublishedArticles assert#1 has failed.')
+        self.assertEqual(status.status_code, 200, msg='test_successPublishedArticles assert#1 failed.')
         
         
         
     # Test successfully getting the users dashboard workflow.
     def test_successWorkflow(self):
-        # Hit the end point, should return a list of the dashboard workflow.
-        responseBody = self.user.dashboard_workflow(self.user.GetAuthKey())
+        status = self.user.dashboard_workflow(self.user.GetAuthKey(), return_status=True)
 
-        # If successful, list will not be empty.
-        self.assertNotEqual(responseBody['data'], [],
-                          msg='test_successWorkflow assert#1 has failed.')
+        self.assertEqual(status.status_code, 200, msg='test_successWorkflow assert#1 failed.')
          
          
          
@@ -283,11 +266,8 @@ class TestGetArticlesDetails(unittest.TestCase):
     def tearDownClass(cls):
         try:
             pass
-#             cls.user.remove_user(cls.user.testEmail)
         except:
             print("Unexpected error during tearDownClass:", sys.exc_info()[0])
-            #raise
-        #cls.user.remove_user(cls.user.testEmail)
     
     
     

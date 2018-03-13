@@ -1,8 +1,4 @@
-import sys, unittest, QaAdpqShell, requests
-
-## @package smoke test
-#
-
+import sys, unittest, ADPQShell
 '''
     ADPQ v1 - All end points.
     
@@ -18,296 +14,101 @@ import sys, unittest, QaAdpqShell, requests
         Test end point UserSignIn by extracting a status code.
 '''
 class SmokeTest(unittest.TestCase):
-    title = 'Department of funky beats'
-    agencyId = '5a8b73f94212d1f20f847b9a'
-    audience = 0
-    shortDesc = 'short description here'
-    longDesc = 'This is a longer description'
-    tags = '5a8b55bca2d13ad4ba5369ef'
-    attachments = ["url1"]
-    status = 0
 
     @classmethod
     def setUpClass(cls):
         try:
-            # Make a class object user.
-            cls.user = QaAdpqShell.QaADPQShell()
+            cls.user = ADPQShell.ADPQ()
             # Create shell BaseURL class object (version appended).
-            cls.BaseUrl = QaAdpqShell.QaADPQShell.setEnv
-            # SignIn a user. 
-            cls.user.sign_in(email = QaAdpqShell.QaADPQShell.testEmail)
+            cls.BaseUrl = ADPQShell.ADPQ.setEnv
+            cls.user.sign_in(email = ADPQShell.data['testEmail'])
             assert(cls.BaseUrl != None)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
-            raise
 
      
      
     ## Get the status of the get agencies end point.
     def test_GetAgenciesStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.GetAgencies
-        
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-        
-        # Assign the body parameters.
-        body = {}
-        
-        # Make the call and return the save the results.
-        response = requests.request('GET', url, json=body, 
-                                    headers=headers, verify=False)
-        
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_GetAgenciesStatus assert#1 failed.')
+        status = self.user.get_agencies(return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_GetAgenciesStatus assert#1 failed.')
          
          
          
     ## Get the status of the get tags end point.
     def test_GetTagStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.GetTags
-         
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-         
-        # Assign the body parameters.
-        body = {}
-         
-        # Make the call and return the save the results.
-        response = requests.request('GET', url, json=body, 
-                                    headers=headers, verify=False)
-         
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_GetTagStatus assert#1 failed.')
+        status = self.user.get_tags(return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_GetTagStatus assert#1 failed.')
          
          
          
     ## Get the status of the get articles end point.
     def test_GetArticleStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.Articles
-         
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-         
-        # Assign the body parameters.
-        body = {}
-         
-        # Make the call and return the save the results.
-        response = requests.request('GET', url, json=body, 
-                                    headers=headers, verify=False)
-         
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_GetArticleStatus assert#1 failed.')
+        status = self.user.get_articles(Authorization = self.user.GetAuthKey(),
+                                        sortUrl=True, limitUrl=True, tagIdUrl=True,
+                                        return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_GetArticleStatus assert#1 failed.')
           
           
           
     ## Get the status of the search articles end point.
     def test_GetSearchArticleStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.SearchArticles 
-         
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-         
-        # Assign the body parameters.
-        body = {}
-         
-        # Make the call and return the save the results.
-        response = requests.request('GET', url, json=body, 
-                                    headers=headers, verify=False)
-         
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_GetSearchArticleStatus assert#1 failed.')
+        status = self.user.search_articles(return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_GetSearchArticleStatus assert#1 failed.')
          
          
          
     ## Get the status of the SignIn end point.
     def test_UserSignInStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.UsersSignIn 
-         
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-         
-        # Assign the body parameters.
-        body = {'email':'jlennon@hotbsoftware.com'}
-         
-        # Make the call and return the save the results.
-        response = requests.request('POST', url, json=body, 
-                                    headers=headers, verify=False)
-         
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_UserSignInStatus assert#1 failed.')
+        status = self.user.sign_in(email = ADPQShell.data['testEmail'], return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_UserSignInStatus assert#1 failed.')
         
         
         
     ## Get the status of the GetArticleDetails end point.
     def test_GetArticleDetailsStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.Articles 
-         
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-         
-        # Assign the body parameters.
-        body = {}
-         
-        # Make the call and return the save the results.
-        response = requests.request('GET', url, json=body, 
-                                    headers=headers, verify=False)
-         
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_GetArticleDetailsStatus assert#1 failed.')
+        status = self.user.get_articles_details(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_GetArticleDetailsStatus assert#1 failed.')
         
         
         
-    ## Get the status of the GetArticleDetails end point.
+    ## Get the status of the CreateArticle end point.
     def test_CreateArticleStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.Articles 
-         
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-         
-        # Assign the body parameters.
-        body = {}
-         
-        # Make the call and return the save the results.
-        response = requests.request('POST', url, json=body, 
-                                    headers=headers, verify=False)
-         
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_CreateArticleStatus assert#1 failed.')
+        status = self.user.create_article(Authorization = self.user.GetAuthKey(), 
+                                        title = ADPQShell.data['testTitle'], 
+                                        agencyId = ADPQShell.data['testAgencyId'],
+                                        audience = ADPQShell.data['testAudience'], 
+                                        shortDesc = ADPQShell.data['testShortDesc'], 
+                                        longDesc = ADPQShell.data['testLongDesc'], 
+                                        tags = ADPQShell.data['testTags'], 
+                                        attachments = ADPQShell.data['testAttachments'],
+                                        return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_CreateArticleStatus assert#1 failed.')
         
         
         
     ## Get the status of the dashboard_analytics end point.
     def test_DashboardAnalyticsStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.DashAnalytics 
-         
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache',
-            'Authorization': str(self.user.GetAuthKey())
-        }
-         
-        # Assign the body parameters.
-        body = {}
-         
-        # Make the call and return the save the results.
-        response = requests.request('GET', url, json=body, 
-                                    headers=headers, verify=False)
-         
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_DashboardAnalyticsStatus assert#1 failed.')
+        status = self.user.dashboard_analytics(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_DashboardAnalyticsStatus assert#1 failed.')
         
-        
-        
+
     ## Get the status of the dashboard_trending end point.
     def test_DashboardTrendingStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.DashTrending 
-         
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache',
-            'Authorization': str(self.user.GetAuthKey())
-        }
-         
-        # Assign the body parameters.
-        body = {}
-         
-        # Make the call and return the save the results.
-        response = requests.request('GET', url, json=body, 
-                                    headers=headers, verify=False)
-         
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_DashboardTrendingStatus assert#1 failed.')
-        
-        
+        status = self.user.dashboard_trending(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_DashboardTrendingStatus assert#1 failed.')
         
     ## Get the status of the dashboard_pubArticles end point.
     def test_DashboardPubArticlesStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.DashPubArticles 
-         
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache',
-            'Authorization': str(self.user.GetAuthKey())
-        }
-         
-        # Assign the body parameters.
-        body = {}
-         
-        # Make the call and return the save the results.
-        response = requests.request('GET', url, json=body, 
-                                    headers=headers, verify=False)
-         
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_DashboardPubArticlesStatus assert#1 failed.')
+        status = self.user.dashboard_pubArticles(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_DashboardPubArticlesStatus assert#1 failed.')
         
         
         
     ## Get the status of the dashboard_workflow end point.
     def test_DashboardWorkflowStatus(self):
-        # Build the URL for this end point.
-        url = self.BaseUrl + QaAdpqShell.QaADPQShell.DashWorkflow 
-         
-        # Assign the header parameters.
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache',
-            'Authorization': str(self.user.GetAuthKey())
-        }
-         
-        # Assign the body parameters.
-        body = {}
-         
-        # Make the call and return the save the results.
-        response = requests.request('GET', url, json=body, 
-                                    headers=headers, verify=False)
-         
-        # Ensure that the end point is live.
-        self.assertEqual(response.status_code, 200, 
-                         msg='test_DashboardWorkflowStatus assert#1 failed.')
+        status = self.user.dashboard_workflow(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_DashboardWorkflowStatus assert#1 failed.')
         
         
         
@@ -324,8 +125,6 @@ class SmokeTest(unittest.TestCase):
                                         attachments = SmokeTest.attachments, 
                                         status = SmokeTest.status,
                                         return_status=True)
-        
-        # Ensure that the end point is live.
         self.assertEqual(status.status_code, 200, msg='test_EditArticleStatus assert#1 failed.')
         
         
@@ -335,8 +134,6 @@ class SmokeTest(unittest.TestCase):
         status = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                            articleId = '5a907847ca13999bc0d11d92', 
                                            comment = "comments", return_status=True)
-        
-        # Ensure that the end point is live.
         self.assertEqual(status.status_code, 200, msg='test_CommentArticleeStatus assert#1 failed.')
         
         
@@ -345,10 +142,20 @@ class SmokeTest(unittest.TestCase):
     def test_PresignedS3Status(self):
         status = self.user.get_presignedS3(Authorization = self. user.GetAuthKey(), 
                                            name = 'puppy.jpeg', return_status=True)
-        
-        # Ensure that the end point is live.
         self.assertEqual(status.status_code, 200, msg='test_PresignedS3Status assert#1 failed.')
-
+    
+    
+    
+    ## Get the status of the AdminDashboard end point.
+    def test_AdminDashboardsStatus(self):
+        status = self.user.admin_dashboard_decline(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_AdminDashboardStatus assert#1 failed.')
+        
+        status = self.user.admin_dashboard_approved(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_AdminDashboardStatus assert#2 failed.')
+        
+        status = self.user.admin_dashboard_pending(self.user.GetAuthKey(), return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_AdminDashboardStatus assert#3 failed.')
 
 
     
@@ -371,6 +178,7 @@ def suite():
     suite.addTest(SmokeTest('test_EditArticleStatus'))
     suite.addTest(SmokeTest('test_CommentArticleeStatus'))
     suite.addTest(SmokeTest('test_PresignedS3Status'))
+    suite.addTest(SmokeTest('test_AdminDashboardsStatus'))
     
     return suite
     

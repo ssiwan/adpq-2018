@@ -1,5 +1,6 @@
-import sys, unittest, QaAdpqShell
+import sys, unittest, ADPQShell
 
+    
 '''
     ADPQ v1 - Comment Articles end point.
     
@@ -40,39 +41,35 @@ import sys, unittest, QaAdpqShell
         Array comment value.
 '''
 class TestCommentArticle(unittest.TestCase):
-    title = 'Department of funky beats'
-    agencyId = '5a8b73f94212d1f20f847b9a'
-    audience = 0
-    shortDesc = 'short description here'
-    longDesc = 'This is a longer description'
-    tags = '5a8b55bca2d13ad4ba5369ef'
-    attachments = ["url1"]
-    status = 0
-    comment = 'hodl'
+    '''
+        Ideally here, we want to create a brand new article. Use the new 
+        id to run all the tests, then delete the article.
+        
+        **** COME BACK TO THIS WHEN WE HAVE A DELETE ARTICLE ENDPOINT ****
+    '''
     
     
     @classmethod
     def setUpClass(cls):
         try:
             # Create user object.
-            cls.user = QaAdpqShell.QaADPQShell()
+            cls.user = ADPQShell.ADPQ()
             
             # SignIn the user. 
-            cls.user.sign_in(email = QaAdpqShell.QaADPQShell.testEmail)
+            cls.user.sign_in(email = ADPQShell.data['testEmail'])
             # Create an article
             cls.user.create_article(Authorization = cls.user.GetAuthKey(), 
-                                    title = TestCommentArticle.title, 
-                                    agencyId = TestCommentArticle.agencyId,
-                                    audience = TestCommentArticle.audience, 
-                                    shortDesc = TestCommentArticle.shortDesc, 
-                                    longDesc = TestCommentArticle.longDesc, 
-                                    tags = TestCommentArticle.tags, 
-                                    attachments = TestCommentArticle.attachments)
+                                    title = ADPQShell.data['testTitle'], 
+                                    agencyId = ADPQShell.data['testAgencyId'],
+                                    audience = ADPQShell.data['testAudience'], 
+                                    shortDesc = ADPQShell.data['testShortDesc'], 
+                                    longDesc = ADPQShell.data['testLongDesc'], 
+                                    tags = ADPQShell.data['testTags'], 
+                                    attachments = ADPQShell.data['testAttachments'])
             
             assert(cls.user != None)
         except:
             print("Unexpected error during setUpClass:", sys.exc_info()[0])
-            raise
 
     
     
@@ -81,7 +78,7 @@ class TestCommentArticle(unittest.TestCase):
         # Comment article.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
 
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_Success assert#1 has failed.')
@@ -90,8 +87,8 @@ class TestCommentArticle(unittest.TestCase):
         responseBody = self.user.get_articles_details(Authorization = self.user.GetAuthKey(), 
                                                       articleId = self.user.GetArticleIds())
           
-        self.assertEqual(responseBody['data']['comments'][0]['comment'], TestCommentArticle.comment,
-                          msg='test_Success assert#2 has failed.') 
+        self.assertEqual(responseBody['data']['comments'][0]['comment'], 
+                         ADPQShell.data['testComment'], msg='test_Success assert#2 has failed.') 
 
          
          
@@ -107,7 +104,7 @@ class TestCommentArticle(unittest.TestCase):
         # Missing Authorization value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment,
+                                                 comment = ADPQShell.data['testComment'],
                                                  AuthorizationExclude=True)
          
         self.assertEqual(responseBody['error'], 'Please provide an authentication token',
@@ -120,7 +117,7 @@ class TestCommentArticle(unittest.TestCase):
         # Null Authorization value.
         responseBody = self.user.comment_article(Authorization = '', 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         
         self.assertEqual(responseBody['error'], 'Please provide an authentication token',
                           msg='test_nullAuthorization assert#1 has failed.')
@@ -133,7 +130,7 @@ class TestCommentArticle(unittest.TestCase):
         # Int Authorization value.
         responseBody = self.user.comment_article(Authorization = 6666, 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         
         self.assertEqual(responseBody['data'], [],
                           msg='test_intAuthorization assert#1 has failed.')
@@ -146,7 +143,7 @@ class TestCommentArticle(unittest.TestCase):
         # Float Authorization value.
         responseBody = self.user.comment_article(Authorization = 6.666, 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         
         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
                           msg='test_floatAuthorization assert#1 failed.')
@@ -158,7 +155,7 @@ class TestCommentArticle(unittest.TestCase):
         # String Authorization value.
         responseBody = self.user.comment_article(Authorization = "';:.>,</?]}[{!@#$%^&*()-_=+|\"", 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         
         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
                           msg='test_stringAuthorization assert#1 failed.')
@@ -171,7 +168,7 @@ class TestCommentArticle(unittest.TestCase):
         # Array Authorization value.
         responseBody = self.user.comment_article(Authorization = ['hodl', 666, [.6, 0], {}], 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         
         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
                           msg='test_arrayAuthorization assert#1 failed.')
@@ -189,7 +186,7 @@ class TestCommentArticle(unittest.TestCase):
         # Missing ArticleId value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment,
+                                                 comment = ADPQShell.data['testComment'],
                                                  articleIdExclude=True)
        
         self.assertEqual(responseBody['status'], "saved!",
@@ -203,7 +200,7 @@ class TestCommentArticle(unittest.TestCase):
         # Null ArticleId value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = '', 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_nullArticleId assert#1 has failed.')
@@ -215,7 +212,7 @@ class TestCommentArticle(unittest.TestCase):
         # Int ArticleId value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = 123456, 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         # TEST HAS BEEN COMMENTED OUT.
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_intArticleId assert#1 has failed.')
@@ -227,7 +224,7 @@ class TestCommentArticle(unittest.TestCase):
         # Float ArticleId value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = 12.3456, 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_floatArticleId assert#1 failed.')
@@ -240,7 +237,7 @@ class TestCommentArticle(unittest.TestCase):
         # String ArticleId value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = "';:.>,</?]}[{!@#$%^&*()-_=+|\"", 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         # TEST HAS BEEN COMMENTED OUT.
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_stringArticleId assert#1 failed.')
@@ -253,7 +250,7 @@ class TestCommentArticle(unittest.TestCase):
         # Array ArticleId value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = ['hodl', 666, [.6, 0], {}], 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         # TEST HAS BEEN COMMENTED OUT.
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_arrayArticleId assert#1 failed.')
@@ -271,7 +268,7 @@ class TestCommentArticle(unittest.TestCase):
         # Missing Comment value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
          
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_missingComment assert#1 has failed.')
@@ -283,7 +280,7 @@ class TestCommentArticle(unittest.TestCase):
         # Null Comment value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
          
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_nullComment assert#1 has failed.')
@@ -295,7 +292,7 @@ class TestCommentArticle(unittest.TestCase):
         # Int Comment value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
          
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_intComment assert#1 has failed.')
@@ -307,7 +304,7 @@ class TestCommentArticle(unittest.TestCase):
         # Float Comment value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_floatComment assert#1 failed.')
@@ -319,7 +316,7 @@ class TestCommentArticle(unittest.TestCase):
         # String Comment value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_stringComment assert#1 failed.')
@@ -331,7 +328,7 @@ class TestCommentArticle(unittest.TestCase):
         # Array Comment value.
         responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
                                                  articleId = self.user.GetArticleIds(), 
-                                                 comment = TestCommentArticle.comment)
+                                                 comment = ADPQShell.data['testComment'])
         
         self.assertEqual(responseBody['status'], "saved!",
                           msg='test_arrayComment assert#1 failed.')

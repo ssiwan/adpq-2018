@@ -1,7 +1,7 @@
-import sys, unittest, QaAdpqShell
+import sys, unittest, ADPQShell
 
 '''
-    ADPQ v1 - Get Articles Details end point.
+    ADPQ v1 - Get Article Details end point.
     
     Purpose - Will return a list of all articles according to user permission. 
               If a user passes in a particular article ID which exists, then
@@ -9,7 +9,7 @@ import sys, unittest, QaAdpqShell
     
     Method signature:
         get_articles_details(Authorization='', AuthorizationExclude=False,
-                             articleId=[]):
+                             articleId=[], return_status=False):
     
     Optional:
         Authorization
@@ -29,27 +29,19 @@ class TestGetArticlesDetails(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            # Create user object.
-            cls.user = QaAdpqShell.QaADPQShell()
-            
-            # SignIn the user. 
-            cls.user.sign_in(email = QaAdpqShell.QaADPQShell.testEmail)
-            
+            cls.user = ADPQShell.ADPQ()
+            cls.user.sign_in(email = ADPQShell.data['testEmail'])
             assert(cls.user != None)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
-            raise
 
     
     
     # Test successfully getting a list of tags by hitting the end point.
     def test_success(self):
-        # Hit the end point, should return a list of articles.
         responseBody = self.user.get_articles_details(self.user.GetAuthKey())
 
-        # If successful, list will not be empty.
-        self.assertNotEqual(responseBody['data'], [],
-                          msg='test_Success assert#1 has failed.')
+        self.assertNotEqual(responseBody['data'], [], msg='test_Success assert#1 has failed.')
          
          
          
@@ -62,86 +54,60 @@ class TestGetArticlesDetails(unittest.TestCase):
         
     # Missing Authorization information from request call.
     def test_missingAuthorization(self):
-        # Missing Authorization value.
         responseBody = self.user.get_articles_details(Authorization = self.user.GetAuthKey(),
                                                       AuthorizationExclude=True)
         
-        # Currently passing. 
+
         self.assertNotIn( 'Error', responseBody.keys(),
                           msg='test_missingAuthorization assert#1 has failed.')
-        
-#         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
-#                           msg='test_missingAuthorization assert#2 failed.')
         
         
         
     # Test a null Authorization.
     def test_nullAuthorization(self):
-        # Null Authorization value.
         responseBody = self.user.get_articles_details(Authorization = '')
         
-        # Currently passing. 
-        self.assertNotIn( 'Error', responseBody.keys(),
-                          msg='test_nullAuthorization assert#1 has failed.')
-        
-#         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
-#                           msg='test_nullAuthorization assert#2 failed.')
+
+        self.assertNotIn('Error', responseBody.keys(), msg='test_nullAuthorization assert#1 has failed.')
 
 
 
     # Test a int Authorization.
     @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_intAuthorization(self):
-        # Int Authorization value.
         responseBody = self.user.get_articles_details(Authorization = 8523154687)
         
-        # Currently passing. 
         self.assertNotEqual(responseBody['data'], [],
                           msg='test_intAuthorization assert#1 has failed.')
-        
-#         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
-#                           msg='test_intAuthorization assert#2 failed.')
 
 
 
     # Test a float Authorization.
     @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_floatAuthorization(self):
-        # Float Authorization value.
         responseBody = self.user.get_articles_details(Authorization = -852315.4687)
         
         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
                           msg='test_floatAuthorization assert#1 failed.')
         
-#         self.assertEqual(responseBody['err']['err'], 'Not authorized [Missing Authorization Key]',
-#                           msg='test_floatAuthorization assert#1 has failed.')
-        
         
         
     # Test a string Authorization value call.
     def test_stringAuthorization(self):
-        # String Authorization value.
         responseBody = self.user.get_articles_details(Authorization = "';:.>,</?]}[{!@#$%^&*()-_=+|\"")
         
         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
                           msg='test_stringAuthorization assert#1 failed.')
-        
-#         self.assertEqual(responseBody['err']['err'], 'Not authorized [Incorrect Authorization Key]',
-#                           msg='test_stringAuthorization assert#1 has failed.')
 
 
 
     # Test an array Authorization value call.
     @unittest.skip("requests.exceptions - must be of type str or bytes")
     def test_arrayAuthorization(self):
-        # Array Authorization value.
         responseBody = self.user.get_articles_details(Authorization = ['hodl', 666, [.6, 0], {}])
         
         self.assertEqual(responseBody['error'], 'Failed to authenticate token',
                           msg='test_arrayAuthorization assert#1 failed.')
-        
-#         self.assertEqual(responseBody['err']['err'], 'Not authorized [Incorrect Authorization Key]',
-#                           msg='test_arrayAuthorization assert#1 has failed.')
         
         
         
@@ -151,11 +117,8 @@ class TestGetArticlesDetails(unittest.TestCase):
     def tearDownClass(cls):
         try:
             pass
-#             cls.user.remove_user(cls.user.testEmail)
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
-            #raise
-        #cls.user.remove_user(cls.user.testEmail)
     
     
     
