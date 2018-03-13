@@ -1,7 +1,5 @@
 # HOTB Software - ADPQ Knowledge Base
 
-# CREDENTIALS AND LINKS
-
 ## Links
 **ADPQ Knowledge Articles Website:**<br>
 https://adpq.hotbsoftware.com<br>
@@ -36,15 +34,15 @@ We followed the US Digital Services Playbook. Our responses to each can be found
 We assigned the role of Project Lead to Jason Connolly. Jason acted as the Business Owner and established project priorities and acted as the primary leader taking accountability for all phases of the project.
 
 ## b) Assembled a multidisciplinary and collaborative team that includes, at a minimum, five (5) of the labor categories as identified in Attachment B: PQVP DS-AD Labor Category Descriptions
-**Project Lead** – Jason Connolly<br>
-**Product Manager** – Mark Witte<br>
-**Technical Architect** – Mike Firoved<br>
-**Interaction Designer/User Researcher/Usability Tester** – Tracie DePietro<br>
-**Visual Designer** – Ken Baker<br>
-**Front End Web Developer** – Raghu Jonnala<br>
-**Backend Web Developer** – Noel Eom<br>
-**Quality Assurance Engineer** - Luis Escobar<br>
-**DevOps Engineer** – Eric Dobyns<br>
+- **Project Lead** – Jason Connolly<br>
+- **Product Manager** – Mark Witte<br>
+- **Technical Architect** – Mike Firoved<br>
+- **Interaction Designer/User Researcher/Usability Tester** – Tracie DePietro<br>
+- **Visual Designer** – Ken Baker<br>
+- **Front End Web Developer** – Raghu Jonnala<br>
+- **Backend Web Developer** – Noel Eom<br>
+- **Quality Assurance Engineer** - Luis Escobar<br>
+- **DevOps Engineer** – Eric Dobyns<br>
 
 ## c) Understood what people needed, by including people in the prototype development and design process
 During our initial discovery process we utilized surveys and questionnaires conducted with prospective users which helped shape our understanding of user requirements and key features. We also conducted interviews with KMT providers and super users. Their experience and insights were extremely valuable in shaping the features and functions of the prototype.<br><br>
