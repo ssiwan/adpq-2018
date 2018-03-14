@@ -10,7 +10,7 @@ if 'Environment' not in os.environ.keys():
 else:
     print('\n[AutoScript] Setting environment to', os.environ['Environment'], '\n')
     if os.environ['Environment'] == 'local':
-        setEnv = 'http://localhost:3001'
+        setEnv = 'api:3001'
     elif os.environ['Environment'] == 'staging':
         setEnv = 'https://adpq-staging.hotbsoftware.com'
     elif os.environ['Environment'] == 'prod':
