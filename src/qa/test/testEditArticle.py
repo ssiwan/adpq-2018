@@ -103,7 +103,10 @@ class TestEditArticle(unittest.TestCase):
     def setUpClass(cls):
         try:
             cls.user = ADPQShell.ADPQ()
-            cls.user.sign_in(email = ADPQShell.data['testEmail'])
+            
+            cls.user.sign_in(email = ADPQShell.data['testEmail'], 
+                             password = ADPQShell.data['testPassword'])
+            
             cls.user.create_article(Authorization = cls.user.GetAuthKey(), 
                                     title = ADPQShell.data['testTitle'], 
                                     agencyId = ADPQShell.data['testAgencyId'],
@@ -112,10 +115,11 @@ class TestEditArticle(unittest.TestCase):
                                     longDesc = ADPQShell.data['testLongDesc'], 
                                     tags = ADPQShell.data['testTags'], 
                                     attachments = ADPQShell.data['testAttachments'])
-            assert(cls.user != None)
             
             cls.role1 = ADPQShell.ADPQ()
-            cls.role1.sign_in(email = 'pmccartney@hotbsoftware.com') # Role 1.
+            
+            cls.role1.sign_in(email = ADPQShell.data['testEmailRole1'],
+                             password = ADPQShell.data['testPassword'])
         except:
             print("Unexpected error during setUpClass:", sys.exc_info()[0])
 
@@ -133,9 +137,6 @@ class TestEditArticle(unittest.TestCase):
                                               tags = ADPQShell.data['testTags'], 
                                               attachments = ADPQShell.data['testAttachments'], 
                                               status = ADPQShell.data['testStatus'])
-        
-        # GetArticleIds() returns a list of all ids.
-        articleIds = self.user.GetArticleIds()
 
         # If successful, list will not be empty.
         self.assertEqual(responseBody['status'], "saved!",
@@ -146,24 +147,20 @@ class TestEditArticle(unittest.TestCase):
                                                       articleId = self.user.GetArticleIds())
          
         # Ensure all data persists.
-        if articleIds != []:
-            self.assertEqual(responseBody['data']['id'], articleIds[0],
-                              msg='test_Success assert#2 has failed.') 
-        
         self.assertEqual(responseBody['data']['title'], ADPQShell.data['testTitle'],
-                          msg='test_Success assert#3 has failed.') 
+                          msg='test_Success assert#2 has failed.') 
         
         self.assertEqual(responseBody['data']['summary'], ADPQShell.data['testShortDesc'],
-                          msg='test_Success assert#4 has failed.') 
+                          msg='test_Success assert#3 has failed.') 
         
         self.assertEqual(responseBody['data']['description'], ADPQShell.data['testLongDesc'],
-                          msg='test_Success assert#5 has failed.') 
+                          msg='test_Success assert#4 has failed.') 
         
         self.assertEqual(responseBody['data']['status'], ADPQShell.data['testStatus'],
-                          msg='test_Success assert#6 has failed.') 
+                          msg='test_Success assert#5 has failed.') 
         
         self.assertEqual(responseBody['data']['tags'], [ADPQShell.data['testTags']],
-                          msg='test_Success assert#7 has failed.') 
+                          msg='test_Success assert#6 has failed.') 
         
         
         

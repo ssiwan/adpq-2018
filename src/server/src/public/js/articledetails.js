@@ -15,26 +15,26 @@ $(document).ready(function(){
 
     if(!isEmpty(articleId)) 
  {
-                            switch (role) {
-                            case "admin":
-                                $("#btnhistory").show();
-                                $("#commentsection").show();
-                                $("#comments").show();
-                                $("#adminsettingsbtn").show();
-                                $("#admincssmenu").show();
-                                $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);                 
-                                break;
-                                case "staff":
-                                $("#btnhistory").show();
-                                $("#commentsection").show();
-                                $("#comments").show();
-                                $("#staffcssmenu").show();
-                                $("#staffprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
-                                break;
-                    
-                            default: // public
-                                break;
-                        }
+                    switch (role) {
+                    case "admin":
+                        $("#btnhistory").show();
+                        $("#commentsection").show();
+                        $("#comments").show();
+                        $("#adminsettingsbtn").show();
+                        $("#admincssmenu").show();
+                        $("#adminprofile").attr("href","edit-profile-admin.html?userId="+ userid);                 
+                        break;
+                        case "staff":
+                        $("#btnhistory").show();
+                        $("#commentsection").show();
+                        $("#comments").show();
+                        $("#staffcssmenu").show();
+                        $("#staffprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
+                        break;
+            
+                    default: // public
+                        break;
+                }
                 
                         $("#articleeditlnk").click(function() {
                             window.location.href = "edit-article.html?articleId="+articleId;
@@ -60,12 +60,14 @@ $(document).ready(function(){
                                 $("#description").append(response.data.summary);
                                
                                 var longdesc = JSON.parse(response.data.description);
-                                console.log(longdesc);
-                                var desc = "";
+                                var htmldesc = quillGetHTML(longdesc);
+                                console.log(htmldesc);
+                                $('#longdescription').append(htmldesc);
+                                /* var desc = "";
                                 for (let index = 0; index < longdesc.ops.length; index++) {
                                     desc += longdesc.ops[index].insert;
                                 }
-                                $('#longdescription').append(desc);
+                                $('#longdescription').append(desc); */
                                 var tgs = "";
                                 for (let index = 0; index < response.data.tags.length; index++) {
                                     tgs += response.data.tags[index] + ",";
@@ -348,7 +350,11 @@ $(document).ready(function(){
                 window.location.href = "index.html";
             })
 
-
+            function quillGetHTML(inputDelta) {
+                var tempCont = document.createElement("div");
+                (new Quill(tempCont)).setContents(inputDelta);
+                return tempCont.getElementsByClassName("ql-editor")[0].innerHTML;
+            }
             function incrementShares() {
                 $.ajax({
                     url: APIURL + "incrementShares/"+ articleId,

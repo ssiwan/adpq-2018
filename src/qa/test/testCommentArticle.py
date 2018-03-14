@@ -54,10 +54,8 @@ class TestCommentArticle(unittest.TestCase):
         try:
             # Create user object.
             cls.user = ADPQShell.ADPQ()
-            
-            # SignIn the user. 
-            cls.user.sign_in(email = ADPQShell.data['testEmail'])
-            # Create an article
+            cls.user.sign_in(email = ADPQShell.data['testEmail'], 
+                             password = ADPQShell.data['testPassword'])
             cls.user.create_article(Authorization = cls.user.GetAuthKey(), 
                                     title = ADPQShell.data['testTitle'], 
                                     agencyId = ADPQShell.data['testAgencyId'],
@@ -339,8 +337,8 @@ class TestCommentArticle(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         try:
-            pass
-#             cls.user.remove_user(cls.user.testEmail)
+            cls.user.delete_article(Authorization = cls.user.GetAuthKey(), 
+                                    articleId = cls.user.GetArticleIds())
         except:
             print("Unexpected error during setUp:", sys.exc_info()[0])
             #raise

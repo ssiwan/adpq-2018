@@ -6,7 +6,8 @@ import sys, unittest, requests, ADPQShell
     Purpose - Returns a list of all articles in the db.
     
     Method signature:
-        search_articles(self, return_status=False):
+        search_articles(self, Authorization='', AuthorizationExclude=False, 
+                        return_status=False):
     
     Required:
         <none>
@@ -29,16 +30,8 @@ class TestSearchArticles(unittest.TestCase):
     
     # Make sure the end point is live.
     def test_liveEndPoint(self):
-        url = ADPQShell.ADPQ.setEnv + ADPQShell.data['SearchArticles']
-        
-        headers = {
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        }
-            
-        response = requests.request('GET', url, json={}, headers=headers, verify=False)
-        
-        self.assertEqual(response.status_code, 200, msg='test_liveEndPoint assert#1 has failed.')
+        status = self.user.search_articles(return_status=True)
+        self.assertEqual(status.status_code, 200, msg='test_liveEndPoint assert#1 failed.')
         
         
         
@@ -47,16 +40,6 @@ class TestSearchArticles(unittest.TestCase):
         responseBody = self.user.search_articles()
            
         self.assertNotEqual(responseBody['data'], [], msg='test_Success assert#1 has failed.')
-        
-        
-        
-        
-    @classmethod
-    def tearDownClass(cls):
-        try:
-            pass
-        except:
-            print("Unexpected error during setUp:", sys.exc_info()[0])
     
     
     
