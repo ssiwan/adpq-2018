@@ -156,7 +156,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\ncreate_user\n', responseBody)
             # print('responseBody: ', response.status_code)
             # print('body:', body)
@@ -217,7 +217,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\ndelete_user\n', responseBody)
             # print('response.status_code: ', response.status_code)
             # print('headers: ', headers)
@@ -276,7 +276,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\ndelete_article\n', responseBody)
             # print('response.status_code: ', response.status_code)
         
@@ -308,7 +308,7 @@ class ADPQ:
         
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nget_agencies\n', responseBody)
             # print('response.status_code: ', response.status_code)
             
@@ -336,7 +336,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nget_tags\n', responseBody)
             # print('response.status_code: ', response.status_code)
             
@@ -391,7 +391,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nget_article_list\n', responseBody)
             # print('response.status_code: ', response.status_code)
             
@@ -428,7 +428,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nsearch_articles\n', responseBody)
             # print('response.status_code: ', response.status_code)
             
@@ -484,7 +484,7 @@ class ADPQ:
                 self.role = responseBody['role']
                 self.UserID = responseBody['id']
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nsign_in\n', responseBody)
             
         # If triggered, will return request object instead of json object.
@@ -531,7 +531,7 @@ class ADPQ:
             
         response = requests.request('GET', url, headers=headers, verify=False)
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nresponse.status_code:', response.status_code)
             # print('response:', response)
             # print('url: ', url)
@@ -641,7 +641,7 @@ class ADPQ:
             if responseBody['status'] == 'saved!':
                 self.articleId.append(responseBody['articleId']) 
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\ncreate_article\n', responseBody)
             # print('self.articleId: ', self.articleId)
             
@@ -760,7 +760,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nEdit_article\n', responseBody)
             # print('response.status_code: ', response.status_code)
         
@@ -818,7 +818,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\ncomment_article\n', responseBody)
             # print('response.status_code: ', response.status_code)
         
@@ -864,7 +864,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nget_presignedS3\n', responseBody)
             # print('response.status_code: ', response.status_code)
         
@@ -901,7 +901,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\ndashboard_analytics\n', responseBody)
             # print('response.status_code: ', response.status_code)
             
@@ -938,7 +938,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\ndashboard_trending\n', responseBody)
             # print('response.status_code: ', response.status_code)
             
@@ -975,7 +975,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\ndashboard_pubArticles\n', responseBody)
             # print('response.status_code: ', response.status_code)
             
@@ -1012,7 +1012,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\ndashboard_workflow\n', responseBody)
             # print('response.status_code: ', response.status_code)
             
@@ -1049,7 +1049,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nadmin_dashboard_decline', responseBody)
             # print('response.status_code: ', response.status_code)
             
@@ -1086,7 +1086,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nadmin_dashboard_approved', responseBody)
             # print('response.status_code: ', response.status_code)
             
@@ -1123,7 +1123,7 @@ class ADPQ:
     
         responseBody = response.json()
         
-        if TestOutput == True:
+        # if TestOutput == True:
             # print('\nadmin_dashboard_pending', responseBody)
             # print('response.status_code: ', response.status_code)
             
