@@ -88,7 +88,7 @@ exports.getArticles = function(req, res, next) {
 
     if (endDateString != null) {
         var tempArray = endDateString.split('-');
-        endDate = new Date(parseInt(tempArray[2]), parseInt(tempArray[0])-1, parseInt(tempArray[1]));
+        endDate = new Date(parseInt(tempArray[2]), parseInt(tempArray[0])-1, parseInt(tempArray[1] + 1));
     }
 
     if (startDate != null && endDate != null) {

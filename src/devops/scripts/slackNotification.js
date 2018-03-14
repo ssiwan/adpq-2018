@@ -1,4 +1,18 @@
-'use strict'
+/*
+*     slackNotification.js
+*     created by HOTB Software
+*
+*     The following code will post a slack notification to a specific slack channel.
+*
+*     Args:
+*     process.argv[2] = Result Type
+*     process.argv[3] = Message
+*     process.argv[4] = Additional Arguments
+*
+*     Example Usage:
+*     node slackNotification.js "SUCCESS" "Insert some message here"
+*
+*/
 
 // Constants
 var http = require("https");
@@ -35,7 +49,7 @@ var additionalArgs = process.argv[4];
 
 // Create Payload
 var payload;
-if (type.trim() == "SUCCESS") { // TODO: trim whitespace later, get it working meow!
+if (type.trim() == "SUCCESS") {
 		payload = {
 				text: message,
 				attachments: [
