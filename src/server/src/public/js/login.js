@@ -67,8 +67,8 @@ btns.on('keyup', function(e){
                     $('#username').val("");
                 }
             })
-            .fail(function (data, textStatus, xhr) {
-             alert("signin endpoint error");
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
         }
         else
