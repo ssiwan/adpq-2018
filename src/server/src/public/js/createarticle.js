@@ -55,6 +55,7 @@ $(document).ready(function(){
                 });
             }
 
+
             function getUserDetails() {
                 $.ajax({
                     url: APIURL + "user/" + userid,
