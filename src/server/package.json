@@ -13,14 +13,15 @@
   },
   "main": "./src/app.js",
   "scripts": {
-    "start": "export NODE_ENV=staging && sh setEnv.sh && node ./src/app.js",
+    "start": "node ./setEnv.js && node ./src/app.js",
     "test": "npm run test:build && npm run test:run && npm run test:teardown",
     "lint": "./node_modules/.bin/eslint . --fix",
+    "start:noel": "node ./src/app.js",
     "start:local": "export NODE_ENV=local && sh setEnv.sh && node ./src/app.js",
     "start:production": "export NODE_ENV=production && sh setEnv.sh && node ./src/app.js",
     "docker:start": "docker-compose up --build -d",
     "docker:teardown": "docker stop 'api' && docker rm -f 'api' && docker rmi 'api' && docker stop 'db' && docker rm -f 'db' && rm -rf ./data",
-    "test:run": "docker run --link api:api --net server_adpq-network -e Environment=local -v ~/Desktop/testResults:/data/testReports --name adpq_tests -i adpq_tests >> ~/Desktop/testResults/testResults.xml",
+    "test:run": "docker run -e Environment=staging -v ~/Desktop/testResults:/data/testReports --name adpq_tests -i adpq_tests >> ~/Desktop/testResults/testResults.xml",
     "test:build": "docker build ../qa -t adpq_tests",
     "test:teardown": "docker stop 'adpq_tests' && docker rm -f 'adpq_tests' && docker rmi 'adpq_tests'",
     "test:cleanup": "rm -rf ~/Desktop/testResults && rm -rf ~/Desktop/testResults/testResults.xml"
