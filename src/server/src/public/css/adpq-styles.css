@@ -25,6 +25,10 @@ a:hover, a:focus { color:#046b99; text-decoration: underline;}
 .ql-editor em {font-style: italic;}
 .ql-editor u {text-decoration: underline;}
 .ql-editor s {text-decoration: line-through;}
+strong { font-weight:bold;}
+em { font-weight:italic;}
+u {text-decoration: underline;}
+s { text-decoration: line-through;}
 /*required for the long description field on create and edit article pages */
  section {
 	max-width:70%;
@@ -1327,7 +1331,7 @@ a.viewmore-link:focus {
     height: auto;
     width: 870px;
     position: relative;
-	margin-bottom:20px;
+	margin:0 10px 20px 10px;
 }
 .details-paragraph p, .details-longdescription p { padding: 5px 0px; }
 .details-tags-wrap {
