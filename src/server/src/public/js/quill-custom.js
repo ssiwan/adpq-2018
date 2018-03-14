@@ -6,10 +6,9 @@
           [{ 'list': 'ordered'}, { 'list': 'bullet' }],  
           [{ 'indent': '-1'}, { 'indent': '+1' }],          
           [{ 'direction': 'rtl' }],                         
-          [{ 'color': [] }, { 'background': [] }],          
+          [{ 'color': [] }],          
           [{ 'font': [] }],
-          [{ 'align': [] }], 
-          ['clean']                                         
+          [{ 'align': [] }]                                
         ];
         var quill = new Quill('#longdesc', {
           modules: {
@@ -27,7 +26,7 @@
  */
 function applyAccessibilityHacks() {
 
-	// Get ref to the toolbar, its not available through the quill api ughh
+	// Get ref to the toolbar
 	const query = quill.container.parentElement.getElementsByClassName('ql-toolbar');
 	if (query.length !== 1) {
 		// No toolbars found OR multiple which is not what we expect either
@@ -48,12 +47,34 @@ function applyAccessibilityHacks() {
 			button.setAttribute('aria-label', 'Toggle italic text');
 		} else if (className.indexOf('underline') >= 0) {
 			button.setAttribute('aria-label', 'Toggle underline text');
-		} else if (className.indexOf('blockquote') >= 0) {
+    } 
+    else if (className.indexOf('strike') >= 0) {
+			button.setAttribute('aria-label', 'Toggle strike text');
+    } 
+    else if (className.indexOf('link') >= 0) {
+			button.setAttribute('aria-label', 'Toggle link text');
+		} 
+      else if (className.indexOf('blockquote') >= 0) {
 			button.setAttribute('aria-label', 'Toggle blockquote text');
 		} else if (className.indexOf('list') >= 0 && button.value === 'ordered') {
 			button.setAttribute('aria-label', 'Toggle ordered list');
 		} else if (className.indexOf('list') >= 0 && button.value === 'bullet') {
 			button.setAttribute('aria-label', 'Toggle bulleted list');
+    }
+    else if (className.indexOf('indent') >= 0 && button.value === '-1') {
+			button.setAttribute('aria-label', 'Toggle left indent');
+    }
+    else if (className.indexOf('indent') >= 0 && button.value === '+1') {
+			button.setAttribute('aria-label', 'Toggle right indent');
+    }
+    else if (className.indexOf('direction') >= 0) {
+			button.setAttribute('aria-label', 'Toggle direction');
+    }
+    else if (className.indexOf('font') >= 0) {
+			button.setAttribute('aria-label', 'Toggle font');
+		}
+    else if (className.indexOf('picker') >= 0) {
+			button.setAttribute('aria-label', 'Toggle picker');
 		}
 	}
 
