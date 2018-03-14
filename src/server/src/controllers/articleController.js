@@ -91,9 +91,6 @@ exports.getArticles = function(req, res, next) {
         endDate = new Date(parseInt(tempArray[2]), parseInt(tempArray[0])-1, parseInt(tempArray[1])+1);
     }
 
-    console.log(startDate);
-    console.log(endDate); 
-
     if (startDate != null && endDate != null) {
         queryParams.createdAt = {"$gt": startDate, "$lt": endDate}
     }
