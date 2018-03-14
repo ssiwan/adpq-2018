@@ -1,9 +1,11 @@
 version: "2.1"
 
-services:
+networks:
+  adpq-network:
 
+services:
   api:
-    build: ./src/server
+    build: ./
     container_name: "api"
     image: "api"
     restart: always
@@ -16,6 +18,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - adpq-network
       
   db:
     image: "mongo:3.6.2"

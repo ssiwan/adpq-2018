@@ -38,5 +38,8 @@ node_modules/
 .pydevproject
 __pycache__
 
+# Editors
+.vscode
+
 # Operating System
 .DS_Store
