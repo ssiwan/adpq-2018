@@ -16,7 +16,6 @@
     "start": "node ./setEnv.js && node ./src/app.js",
     "test": "npm run test:build && npm run test:run && npm run test:teardown",
     "lint": "./node_modules/.bin/eslint . --fix",
-    "start:noel": "node ./src/app.js",
     "start:local": "export NODE_ENV=local && sh setEnv.sh && node ./src/app.js",
     "start:production": "export NODE_ENV=production && sh setEnv.sh && node ./src/app.js",
     "docker:start": "docker-compose up --build -d",

@@ -1,5 +1,9 @@
 node {
     stage('Checkout') {
+        // Load Node.js
+        def nodeHome = tool 'NodeTool'
+        env.PATH="${env.PATH}:${nodeHome}/bin"
+
         checkout scm
         runStagingTests()
         sendSlackNotification()
@@ -57,13 +61,5 @@ def sendSlackNotification() {
         RESULTS = readFile 'RESULTS'
         RESULT_TYPE = readFile 'RESULT_TYPE'
         sh "sleep 10 && node ./src/devops/scripts/slackNotification.js \"$RESULT_TYPE\" \"*Nightly Test Results*\" \"$RESULTS\""
-
-        // Cleanup
-        sh '''
-            # Docker Cleanup
-            docker kill -f $(docker ps -q) || true
-            docker rm -f $(docker ps -a -q) || true
-            docker rmi -f $(docker images -q) || true
-        '''
     }
 }
