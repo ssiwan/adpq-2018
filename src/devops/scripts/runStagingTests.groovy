@@ -1,5 +1,9 @@
 node {
     stage('Checkout') {
+        // Load Node.js
+        def nodeHome = tool 'NodeTool'
+        env.PATH="${env.PATH}:${nodeHome}/bin"
+
         checkout scm
         runStagingTests()
         sendSlackNotification()
