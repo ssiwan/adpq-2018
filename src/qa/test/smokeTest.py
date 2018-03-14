@@ -3,17 +3,18 @@ import sys, unittest, ADPQShell
     ADPQ v1 - Smoke test
     
     Purpose - performed after software build to ascertain that the critical 
-              functionalities of the program is working fine.
+              functionalities of the program are working fine.
 
     Test cases
         Admin dashboard
         Dashboard
         Get agencies
         Get articles
-        Get tafs
+        Get tags
         Sign in
         Create article
         Edit article
+        Comment article
         Delete article
 '''
 class SmokeTest(unittest.TestCase):
@@ -168,6 +169,25 @@ class SmokeTest(unittest.TestCase):
         
         
         
+
+    def test_CommentArticle(self):
+        # Comment article.
+        responseBody = self.user.comment_article(Authorization = self.user.GetAuthKey(), 
+                                                 articleId = self.user.GetArticleIds(), 
+                                                 comment = ADPQShell.data['testComment'])
+
+        self.assertEqual(responseBody['status'], "saved!",
+                          msg='test_CommentArticle assert#1 has failed.')
+        
+        # Now ensure that the comment persists & is present. 
+        responseBody = self.user.get_articles_details(Authorization = self.user.GetAuthKey(), 
+                                                      articleId = self.user.GetArticleIds())
+          
+        self.assertEqual(responseBody['data']['comments'][0]['comment'], 
+                         ADPQShell.data['testComment'], msg='test_Success assert#2 has failed.')
+        
+        
+        
     def test_DeleteArticle(self):
         self.user.delete_article(Authorization = self.user.GetAuthKey(), 
                                  articleId = self.user.GetArticleIds())
@@ -184,6 +204,7 @@ def suite():
     suite.addTest(SmokeTest('test_Signin'))
     suite.addTest(SmokeTest('test_CreateArticle'))
     suite.addTest(SmokeTest('test_EditArticle'))
+    suite.addTest(SmokeTest('test_CommentArticle'))
     suite.addTest(SmokeTest('test_DeleteArticle'))
     
     return suite
