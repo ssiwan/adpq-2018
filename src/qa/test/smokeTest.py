@@ -184,7 +184,7 @@ class SmokeTest(unittest.TestCase):
                                                       articleId = self.user.GetArticleIds())
           
         self.assertEqual(responseBody['data']['comments'][0]['comment'], 
-                         ADPQShell.data['testComment'], msg='test_Success assert#2 has failed.')
+                         ADPQShell.data['testComment'], msg='test_CommentArticle assert#2 has failed.')
         
         
         
