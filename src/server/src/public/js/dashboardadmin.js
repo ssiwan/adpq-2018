@@ -40,8 +40,8 @@ $(document).ready(function(){
                 }
 
             })
-            .fail(function(data, textStatus, xhr) {
-                alert(data.responseJSON.Error);
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
         }
 
@@ -103,8 +103,8 @@ $(document).ready(function(){
             }
 
             })
-            .fail(function(data, textStatus, xhr) {
-                alert("articles in review endpoint error");
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
         } 
      
@@ -141,7 +141,7 @@ $(document).ready(function(){
                     var shares= " ";
                     var shortdesc = " ";
                 if (!isEmpty(response.data[index].title)) {
-                    title = "<a href='articles-details-admin-history.html?articleId="+response.data[index].id+"' target='_blank'>"+ response.data[index].title +"</a>";
+                    title = "<a href='articles-details-admin-history.html?articleId="+response.data[index].id+"'>"+ response.data[index].title +"</a>";
                 } 
                 if (!isEmpty(response.data[index].agency)) {
                     agency = "Agency - " + response.data[index].agency;
@@ -175,8 +175,8 @@ $(document).ready(function(){
             }
 
             })
-            .fail(function(data, textStatus, xhr) {
-                alert("admin approved articles endpoint error");
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
         } 
 
@@ -247,9 +247,8 @@ $(document).ready(function(){
             
 
             })
-            .fail(function(data, textStatus, xhr) {
-               //console.log(xhr);
-                alert("adminDashboardDeclined endpoint error");
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
         } 
       $("#logout").click(function() {

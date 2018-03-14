@@ -61,7 +61,7 @@ $(document).ready(function(){
                                
                                 var longdesc = JSON.parse(response.data.description);
                                 var htmldesc = quillGetHTML(longdesc);
-                                console.log(htmldesc);
+                                //console.log(htmldesc);
                                 $('#longdescription').append(htmldesc);
                                 /* var desc = "";
                                 for (let index = 0; index < longdesc.ops.length; index++) {
@@ -70,7 +70,7 @@ $(document).ready(function(){
                                 $('#longdescription').append(desc); */
                                 var tgs = "";
                                 for (let index = 0; index < response.data.tags.length; index++) {
-                                    tgs += response.data.tags[index] + ",";
+                                    tgs += response.data.tags[index] + ", ";
                                 }
                                 tgs = tgs.substring(0, tgs.length - 1)
                                 $('#tags').append(tgs);
@@ -148,8 +148,8 @@ $(document).ready(function(){
                             }
 
                         })
-                        .fail(function(data, textStatus, xhr) {
-                            alert(data.responseJSON.Error);
+                        .fail(function( jqXHR, textStatus, errorThrown) {
+                            alert(jqXHR.responseJSON.error);
                         });
                     }
 
@@ -208,8 +208,8 @@ $(document).ready(function(){
                         alert("There seems to be a problem with saving the comment.Please try again.");
                     }
                 })
-                .fail(function(data, textStatus, xhr) {
-                    alert(data.responseJSON.Error);
+                .fail(function( jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseJSON.error);
                 });
                 
             });
@@ -240,8 +240,8 @@ $(document).ready(function(){
                         alert("There seems to be a problem with approving the article.Please try again.");
                     }
                 })
-                .fail(function(data, textStatus, xhr) {
-                    alert(data.responseJSON.Error);
+                .fail(function( jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseJSON.error);
                 });
                 
             });
@@ -307,8 +307,8 @@ $(document).ready(function(){
                         alert("There seems to be a problem with deleting the article.Please try again.");
                     }
                 })
-                .fail(function(data, textStatus, xhr) {
-                    alert("Error with deleting an article endpoint.");
+                .fail(function( jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseJSON.error);
                 });
                 
             });
@@ -362,8 +362,8 @@ $(document).ready(function(){
                     })
                 .done(function(response) {
                 })
-                .fail(function(data, textStatus, xhr) {
-                    alert(data.responseJSON.Error);
+                .fail(function( jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseJSON.error);
                 });
             }
 
@@ -375,8 +375,8 @@ $(document).ready(function(){
                 .done(function(response) {
                     //console.log(response);
                 })
-                .fail(function(data, textStatus, xhr) {
-                    alert(data.responseJSON.Error);
+                .fail(function( jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseJSON.error);
                 });
             }
 

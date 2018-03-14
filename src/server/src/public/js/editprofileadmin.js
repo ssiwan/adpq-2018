@@ -57,8 +57,8 @@ $(document).ready(function(){
                 $("#idlast").val(name[1]);
                 $("#idemail").val(response.data.email);
             })
-            .fail(function(data, textStatus, xhr) {
-                alert("Loading user details failed");
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
         }
 
@@ -122,8 +122,8 @@ $(document).ready(function(){
                     alert("There seems to be a problem with saving.Please try again.");
                 }
             })
-            .fail(function(data, textStatus, xhr) {
-                alert("edit user failed");
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
            
         });
