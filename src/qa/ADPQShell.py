@@ -10,11 +10,11 @@ if 'Environment' not in os.environ.keys():
 else:
     print('\n[AutoScript] Setting environment to', os.environ['Environment'], '\n')
     if os.environ['Environment'] == 'local':
-        setEnv = 'http://localhost:3001'
+        setEnv = 'api:3001'
     elif os.environ['Environment'] == 'staging':
-        setEnv = 'http://adpq-staging-loadbalancer-777882718.us-west-1.elb.amazonaws.com'
+        setEnv = 'https://adpq-staging.hotbsoftware.com'
     elif os.environ['Environment'] == 'prod':
-        setEnv = 'http://adpq-production-loadbalancer-557804625.us-west-1.elb.amazonaws.com'
+        setEnv = 'https://adpq.hotbsoftware.com'
 setEnv.strip()
 
 
@@ -29,9 +29,7 @@ else:
 # Get all necessary data.
 with open('data.json') as data_file:    
     data = json.load(data_file)
-# print(data)
 
-print('\n\nsetEnv:', setEnv, '\n')
     
 
 '''
