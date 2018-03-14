@@ -48,7 +48,7 @@ exports.signIn = function(req, res) {
                 }
                 else {
                     res.status(401); 
-                    res.json({error: 'Invalid password'});
+                    res.json({error: 'Invalid password. Please try again.'});
                 }
             });
             
