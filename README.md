@@ -40,8 +40,7 @@ We assigned the role of Project Lead to Jason Connolly. Jason acted as the Busin
 - **Interaction Designer/User Researcher/Usability Tester** – Tracie DePietro<br>
 - **Visual Designer** – Ken Baker<br>
 - **Front End Web Developer** – Raghu Jonnala<br>
-- **Backend Web Developer** – Noel Eom<br>
-- **Quality Assurance Engineer** - Luis Escobar<br>
+- **Backend Web Developer** – Noel Eom, Luis Escobar<br>
 - **DevOps Engineer** – Eric Dobyns<br>
 
 ## c) Understood what people needed, by including people in the prototype development and design process
