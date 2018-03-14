@@ -12,9 +12,9 @@ else:
     if os.environ['Environment'] == 'local':
         setEnv = 'http://localhost:3001'
     elif os.environ['Environment'] == 'staging':
-        setEnv = 'http://adpq-staging-loadbalancer-777882718.us-west-1.elb.amazonaws.com'
+        setEnv = 'https://adpq-staging.hotbsoftware.com'
     elif os.environ['Environment'] == 'prod':
-        setEnv = 'http://adpq-production-loadbalancer-557804625.us-west-1.elb.amazonaws.com'
+        setEnv = 'https://adpq.hotbsoftware.com'
 setEnv.strip()
 
 
