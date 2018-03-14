@@ -48,7 +48,18 @@ module.exports = function (app, apiParseKey, AWSKeys) {
                 else {
                     req.userRole = decoded.role;
                     req.userId = decoded.userId;
-                    next(); 
+
+                    var promise = userController.isUserActive(req.userId);
+
+                    promise.then(function(isActive) {
+                        if (!isActive) {
+                            res.status(400);                     
+                            return res.json({error: 'User is no longer active or has been deleted'});
+                        }
+                        else {
+                            next(); 
+                        }      
+                    })       
                 }
             });
         }
