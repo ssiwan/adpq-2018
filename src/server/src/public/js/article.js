@@ -80,14 +80,20 @@ $(document).ready(function(){
         from = $("#from")
           .datepicker({
             changeMonth: true,
-            numberOfMonths: 1
+            numberOfMonths: 1,
+            onSelect: function(selected) {
+                $("#to").datepicker("option","minDate", selected)
+            }
           })
           .on("change", function() {
             to.datepicker("option", "minDate", getDate(this));
           }),
         to = $("#to").datepicker({
           changeMonth: true,
-          numberOfMonths: 1
+          numberOfMonths: 1,
+          onSelect: function(selected) {
+            $("#from").datepicker("option","maxDate", selected)
+         }
         })
         .on("change", function() {
           from.datepicker("option", "maxDate", getDate(this));
