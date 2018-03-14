@@ -72,7 +72,7 @@ exports.getArticles = function(req, res, next) {
     var agencyId = req.query.agencyId;
     var tagId = req.query.tagId;
     var startDateString = req.query.dateStart;//mm-dd-yyyy
-    var endDateString = req.query.dateEnd;        
+    var endDateString = req.query.dateEnd;     
 
     queryParams.role = {"$lte": parseInt(req.userRole)}; //set logic to less than 
     queryParams.status = 1; 
@@ -88,8 +88,11 @@ exports.getArticles = function(req, res, next) {
 
     if (endDateString != null) {
         var tempArray = endDateString.split('-');
-        endDate = new Date(parseInt(tempArray[2]), parseInt(tempArray[0])-1, parseInt(tempArray[1] + 1));
+        endDate = new Date(parseInt(tempArray[2]), parseInt(tempArray[0])-1, parseInt(tempArray[1])+1);
     }
+
+    console.log(startDate);
+    console.log(endDate); 
 
     if (startDate != null && endDate != null) {
         queryParams.createdAt = {"$gt": startDate, "$lt": endDate}
