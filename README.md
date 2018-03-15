@@ -20,13 +20,13 @@ Our technical approach was based on HOTB’s agile development process that util
 Our design process incorporated several user-centric design methodologies that provided feedback which was incorporated into our subsequent design iterations. Our goal was to build a prototype with a clear and intuitive design that was driven by user feedback and delivered in an agile software development environment.<br><br>
 We chose a modern technology stack that utilized open source technologies and implemented those using a continuous integration and continuous deployment methodology based on Docker containers and Jenkins. Automated tests scripts were written in Python and executed against the prototype during the development process.<br><br>
 The project team met daily to review project status, action items and deliverables. Progress was tracked using Aha!, our internal project management and ticketing system, and we relied upon Slack as our collaboration tool. All code updates were committed to Github along with our agile process documentation, design iterations and test scripts.<br><br>
-Further information about our process can be found in the [California RFI Process Documentation attached](http://google.com) and in our responses below.
+Further information about our process can be found in the [California RFI Process Documentation](http://google.com) and in our responses below.
 
 # ARCHITECTURAL FLOW
-[insert description]
+![](src/administration/Screenshots/Architectural-Flow.jpg)
 
 # US DIGITAL SERVICES PLAYBOOK
-We followed the US Digital Services Playbook. Our responses to each can be found [here](src/administration/Documents/US%20Digital%20Services%20Playbook.pdf).
+We followed the US Digital Services Playbook. [Our responses to each can be found here](src/administration/Documents/US%20Digital%20Services%20Playbook.pdf).
 
 # OTHER REQUESTED ITEMS
 
@@ -45,16 +45,16 @@ We assigned the role of Project Lead to Jason Connolly. Jason acted as the Busin
 
 ## c) Understood what people needed, by including people in the prototype development and design process
 During our initial discovery process we utilized surveys and questionnaires conducted with prospective users which helped shape our understanding of user requirements and key features. We also conducted interviews with KMT providers and super users. Their experience and insights were extremely valuable in shaping the features and functions of the prototype.<br><br>
-We constructed an initial user survey to get feedback on general user experience with Knowledge Management Tools. Results of the survey are included [here](http://www.google.com).<br><br>
-We also had users provide feedback following a user session with a clickable prototype. A sample of those responses can be found [here](http://www.google.com).<br><br>
-Interview Notes can be found [here](http://www.google.com).
+We constructed an initial user survey to get feedback on general user experience with Knowledge Management Tools. Results of the [survey are included here](http://www.google.com).<br><br>
+We also had users provide feedback following a user session with a clickable prototype. A sample of those [responses can be found here](http://www.google.com).<br><br>
+[Interview Notes can be found here](http://www.google.com).
 
 ## d) Used at least a minimum of three (3) “user-centric design” techniques and/or tools
 We used at least three (3) user centric design techniques that included: Key Experience Pillar Documents, Online Survey, User Interviews following a clickable prototype review and phone interviews with subject matter experts.<br><br>
 In addition to the surveys and interviews above, we created [Key Experience Pillar documents](src/administration/Documents/ADPQ%20Experience%20Pillars.pdf) to define user stories and use cases.
 
 ## e) Used GitHub to document code commits
-A git repository was setup on GitHub to capture code commits for each developer. We also included agile process documentation, design changes and automated testing scripts. We utilized version control by separating branches for each developer as well as managed code merges through individual pull requests. [Commit Log](https://www.google.com)
+A git repository was setup on GitHub to capture code commits for each developer. We also included agile process documentation, design changes and automated testing scripts. We utilized version control by separating branches for each developer as well as managed code merges through individual pull requests. [Commit Log](https://github.com/HOTB-Software/adpq-2018/pulse/monthly)
 
 ## f) Used Swagger to document the RESTful API, and provided a link to the Swagger API
 OpenAPI v3.0.0 (Swagger) was used to document our RESTful APIs and other technical documentation.
@@ -78,7 +78,7 @@ Following the initial wireframe creation, we created a [style guide and color pa
 We conducted usability tests with prospective users who provided relevant feedback that sharpened our focus and improved our design and system features. [Please reference the notes for our user feedback sessions](http://www.google.com) 
 
 ## j) Used an iterative approach, where feedback informed subsequent work or versions of the prototype
-Our initial designs were based on [Key Experience Pillars documents](src/administration/Documents/ADPQ%20Experience%20Pillars.pdf). These documents were created and based on feedback we received from our initial consumer survey. We made adjustments to the design and system features following feedback from user testing and interviews. For further details on this process please refer to pages **XX** of the [California RFI Process Documentation attached]()
+Our initial designs were based on [Key Experience Pillars documents](src/administration/Documents/ADPQ%20Experience%20Pillars.pdf). These documents were created and based on feedback we received from our initial consumer survey. We made adjustments to the design and system features following feedback from user testing and interviews. For further details on this process please refer to pages **XX** of the [California RFI Process Documentation attached](http://www.google.com)
 
 ## k) Created a prototype that works on multiple devices, and presents a responsive design
 The prototype works across multiple devices (phones, tablets and PCs) and is supported by multiple browsers and is responsive to the specific device.
