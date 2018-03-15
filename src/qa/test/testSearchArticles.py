@@ -46,7 +46,7 @@ class TestSearchArticles(unittest.TestCase):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(TestSearchArticles('test_liveEndPoint'))
-    suite.addTest(TestSearchArticles('test_success'))
+#     suite.addTest(TestSearchArticles('test_success'))
     return suite
     
     
