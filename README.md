@@ -45,7 +45,11 @@ We assigned the role of Project Lead to Jason Connolly. Jason acted as the Busin
 
 ## c) Understood what people needed, by including people in the prototype development and design process
 During our initial discovery process we utilized surveys and questionnaires conducted with prospective users which helped shape our understanding of user requirements and key features. We also conducted interviews with KMT providers and super users. Their experience and insights were extremely valuable in shaping the features and functions of the prototype.<br><br>
-We constructed an initial user survey to get feedback on general user experience with Knowledge Management Tools. Results of the [survey are included here](http://www.google.com).<br><br>
+We constructed two user surveys to get feedback on general user experience with Knowledge Management Tools.<br>
+
+[Government Knowledge Survey](src/administration/Documents/Government%20Knowledge%20Survey.pdf)<br>
+[Customer Survey (Knowledge Management Tool)](src/administration/Documents/Customer%20Survey%20(Knowledge%20Management%20Tool).pdf)
+
 We also had users provide feedback following a user session with a clickable prototype. A sample of those [responses can be found here](http://www.google.com).<br><br>
 [Interview Notes can be found here](http://www.google.com).
 
