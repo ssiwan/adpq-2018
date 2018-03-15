@@ -84,7 +84,7 @@ $(document).ready(function(){
                                 var j = 0;
                                 for (let index = 0; index < response.data.attachments.length; index++) {
                                     j++;
-                                    table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+response.data.attachments[index]+" title="+response.data.attachments[index]+">View</a></td></tr>");
+                                    table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+encodeURI(response.data.attachments[index])+" title="+encodeURI(response.data.attachments[index])+">View</a></td></tr>");
                                 }
                                 table.append("</tbody>");
 
