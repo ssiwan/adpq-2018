@@ -23,6 +23,7 @@ $(document).ready(function(){
         table = $('#articles').DataTable({
             "bDestroy": true,
             "pagingType": "full_numbers",
+            responsive: true,
             "ajax": {
                 type: "GET",
                 url: url,
@@ -40,12 +41,12 @@ $(document).ready(function(){
                         var agency = json.data[index].agency;
                         var summary = json.data[index].summary;
                         var name = "";
-                        if (!isEmpty(json.data[index].createdBy.name.first) && !isEmpty(json.data[index].createdBy.name.last)) {
-                            name = json.data[index].createdBy.name.first+ "  " +json.data[index].createdBy.name.last;
+                        if (!isEmpty(json.data[index].createdBy)) {
+                           name = json.data[index].createdBy.name.first+ "  " +json.data[index].createdBy.name.last;
                         }
                         var createdAt = convertToLocalDate(json.data[index].createdAt);
                         return_data[index] = {
-                            'articleinfo':"<div class='trending-admin-review'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'><a href=articles-details-admin-history.html?articleId="+id+">"+title+"</a></div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+summary+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+name+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+createdAt+"</div></div></div></div></div>",
+                            'articleinfo':"<div class='trending-admin-review'><div class='trending-left-column'><div class='left-row-one'><div class='left-title-review'><a href=articles-details-admin-history.html?articleId="+id+">"+title+"</a></div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='review-shortdesc'>"+summary+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+name+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+createdAt+"</div></div></div></div></div>",
                             'status': json.data[index].status,
                             'id': json.data[index].id
                         }
