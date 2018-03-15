@@ -245,10 +245,10 @@ exports.getArticleDetails = function(req, res) {
 exports.getStaffArticles = function(req, res) {
     
     var queryParams = {};
-    queryParams.role = 0;
+    queryParams.role = {"$lte": parseInt(req.userRole)};
     queryParams.status = 1;  
 
-    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+    var query = article.find(queryParams)
                             .populate('createdBy').populate('agency').populate('tags');
 
     query.exec().catch(function(err) {
