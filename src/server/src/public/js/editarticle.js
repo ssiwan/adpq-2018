@@ -163,7 +163,7 @@ $(document).ready(function(){
                         var j = 0; //onclick='DeleteAttachments("+response.data.attachments[index]+")'
                         for (let index = 0; index < response.data.attachments.length; index++) {
                             j++;
-                            table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+response.data.attachments[index]+">View</a></td><td><button type='button' class='btn' onclick=\"DeleteAttachments('"+response.data.attachments[index]+"')\">Delete</button></td></tr>");
+                            table.append("<tbody><tr><td>Attachment " + j +"</td><td><a href="+encodeURI(response.data.attachments[index])+">View</a></td><td><button type='button' class='btn' onclick=\"DeleteAttachments('"+encodeURI(response.data.attachments[index])+"')\">Delete</button></td></tr>");
                         }
                         table.append("</tbody>");
                     }
