@@ -29,6 +29,8 @@ strong { font-weight:bold;}
 em { font-style:italic;}
 u {text-decoration: underline;}
 s { text-decoration: line-through;}
+ul { list-style-type: circle;}
+ol {list-style-type: decimal;}
 /*required for the long description field on create and edit article pages */
  section {
 	max-width:70%;
@@ -1809,3 +1811,6 @@ input:checked + .slider:before {
     padding: 10px 0 3px 10px;
 	text-align: left;
 }
+
+.adpq-back-btn { background: url("../img/arrow-back-n.png") no-repeat;}
+.adpq-back-btn:hover { background: url("../img/arrow-back-h.png") no-repeat;}

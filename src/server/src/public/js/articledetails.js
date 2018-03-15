@@ -32,7 +32,7 @@ $(document).ready(function(){
                         $("#staffprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
                         break;
             
-                    default: // public
+                    default:   $("#publiccssmenu").show();// public
                         break;
                 }
                 
@@ -390,3 +390,8 @@ else {
 }
 
 });
+
+
+function goBack() {
+    window.history.back();
+}
