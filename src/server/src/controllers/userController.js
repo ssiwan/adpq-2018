@@ -39,6 +39,7 @@ exports.signIn = function(req, res) {
                     if (user.role == 1) {
                         roleString = "staff"; 
                     }
+
                     var jsonresult = {
                         token: jwt.sign({exp: Math.floor(Date.now() / 1000) + ( 7 * 24 * 60 * 60), userId: user._id.toString(), role: user.role}, req.PK),
                         id: user._id.toString(),
