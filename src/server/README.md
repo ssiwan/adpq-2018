@@ -1,7 +1,4 @@
 # Server
-
-![](https://s3-us-west-1.amazonaws.com/adpq-assets/buildAssets/testResults.svg)
-
 [insert description]
 
 # Getting Started
