@@ -74,7 +74,10 @@ $(document).ready(function(){
                         $("#trendingarticle"+j+"shares").append(response.data[index].shares);
                         $("#trendingarticle"+j+"agency").append("Agency - " + response.data[index].agency);
                         $("#trendingarticle"+j+"shortdesc").append(response.data[index].summary);
-                        $("#trendingarticle"+j+"author").append("Author: " + response.data[index].createdBy.name.first + " " +response.data[index].createdBy.name.last);
+                        if (!isEmpty(response.data[index].createdBy)) {
+                            $("#trendingarticle"+j+"author").append("Author: " + response.data[index].createdBy.name.first + " " +response.data[index].createdBy.name.last);
+                         }
+                      
                         $("#trendingarticle"+j+"publishdate").append("Publish Date: " + convertToLocalDate(response.data[index].createdAt));
                         $("#trendingarticle"+j+"role").append(response.data[index].role);
                          var tgs = "";
@@ -149,12 +152,14 @@ $(document).ready(function(){
                     shortdesc = response.data[index].summary;
                 } 
 
-                if (!isEmpty(response.data[index].createdBy.name.first)) {
-                    author = "Author: " + response.data[index].createdBy.name.first;
-                }
-                if (!isEmpty(response.data[index].createdBy.name.last)) {
-                    author += " " + response.data[index].createdBy.name.last;
-                }
+                if (!isEmpty(response.data[index].createdBy)) {
+                    if (!isEmpty(response.data[index].createdBy.name.first)) {
+                        author = "Author: " + response.data[index].createdBy.name.first;
+                    }
+                    if (!isEmpty(response.data[index].createdBy.name.last)) {
+                        author += " " + response.data[index].createdBy.name.last;
+                    }
+                 }
                 if (!isEmpty(response.data[index].createdAt)) {
                     publishdate = convertToLocalDate(response.data[index].createdAt);
                 }
@@ -216,12 +221,14 @@ $(document).ready(function(){
                 if (!isEmpty(response.data[index].summary)) {
                     shortdesc = response.data[index].summary;
                 } 
-                if (!isEmpty(response.data[index].createdBy.name.first)) {
-                    author = "Author: " + response.data[index].createdBy.name.first;
-                }
-                if (!isEmpty(response.data[index].createdBy.name.last)) {
-                    author += " " + response.data[index].createdBy.name.last;
-                }
+                if (!isEmpty(response.data[index].createdBy)) {
+                    if (!isEmpty(response.data[index].createdBy.name.first)) {
+                        author = "Author: " + response.data[index].createdBy.name.first;
+                    }
+                    if (!isEmpty(response.data[index].createdBy.name.last)) {
+                        author += " " + response.data[index].createdBy.name.last;
+                    }
+                 }
                 if (!isEmpty(response.data[index].createdAt)) {
                     publishdate = convertToLocalDate(response.data[index].createdAt);
                 }

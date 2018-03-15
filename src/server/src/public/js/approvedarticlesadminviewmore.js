@@ -22,6 +22,7 @@ $(document).ready(function(){
         table = $('#articles').DataTable({
             "bDestroy": true,
             "pagingType": "full_numbers",
+            responsive: true,
             "ajax": {
                 type: "GET",
                 url: url,
@@ -44,7 +45,7 @@ $(document).ready(function(){
                     }
                     var createdAt = convertToLocalDate(json.data[index].createdAt);
                         return_data[index] = {
-                            'articleinfo':"<div class='trending-admin-approved'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'><a href=articles-details-admin-history.html?articleId="+id+">"+title+"</a></div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+summary+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+name+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+createdAt+"</div></div></div></div></div>",
+                            'articleinfo':"<div class='trending-admin-approved'><div class='trending-left-column'><div class='left-row-one'><div class='left-title-approved'><a href=articles-details-admin-history.html?articleId="+id+">"+title+"</a></div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+summary+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+name+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+createdAt+"</div></div></div></div></div>",
                             'lastupdated': convertToLocalDate(json.data[index].createdAt),
                             'views': json.data[index].views,
                             'shares': json.data[index].shares,
