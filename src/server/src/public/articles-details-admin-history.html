@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="css/adpq-styles.css">
 <link rel="stylesheet" href="css/m.query.css" type="text/css">
-<script src="http://use.edgefonts.net/roboto:n2:default.js" type="text/javascript"></script>
+<script src="https://use.edgefonts.net/roboto:n2:default.js" type="text/javascript"></script>
 <title>ADPQ - Knowledge Articles - Article Details</title>
 </head>
 <body>
@@ -14,39 +14,39 @@
   <div class="adpq-container">
     <header class="adpq-headcontainer">
       <nav class="cssmenu" id="admincssmenu" style="display:none">
-        <div class="adpq-brand"><a href="index.html" Title="Home"></a></div>
-         <div id="head-mobile"></div>
-         <div class="button"></div>
-         <div class="dash-view"></div>
-         <ul class="dash-menu-admin">
-            <li><a href="dashboard-admin.html" class="adpq-dashboard-btn" title="Dashboard"></a></li>
-            <li><a href="#" class="adpq-profile-btn" Title="Profile"></a>
-               <ul class="under-menu">
-                    <li><a href="#" Title="My Profile" id="adminprofile">My Profile</a></li>
-                    <li><a href="#" Title="Logout" id="logoutadmin">Logout</a></li>
-		          </ul>
-            </li>
-			 <li><a href="#" class="adpq-settings-btn" Title="Settings"></a>
-               <ul class="under-menu">
-                  <li><a href="manage-user-admin.html" Title="Manage Users">Manage Users</a></li>
-               </ul>
-            </li>
-			 <li><a href="#" class="adpq-plus-btn" title="Add Menu"></a>
-               <ul class="under-menu">
-                  <li><a href="add-user-admin.html" Title="Create User">Create User</a></li>
-               </ul>
-            </li>			 
-         </ul>
+        <a href="index.html" title="Home"><div class="adpq-brand"><p style="display: none">Home</p></div></a>
+        <div id="head-mobile"></div>
+        <div class="button"></div>
+        <div class="dash-view"></div>
+        <ul class="dash-menu-admin">
+          <li><a href="dashboard-admin.html" class="adpq-dashboard-btn" Title="Dashboard"><p style="display: none">Dashboard</p></a></li>
+          <li><a href="#" class="adpq-profile-btn" Title="Profile"><p style="display: none">Profile</p></a>
+            <ul class="under-menu">
+              <li><a href="#" Title="My Profile" id="adminprofile">My Profile</a></li>
+              <li><a href="#" Title="Logout" id="logoutadmin">Logout</a></li>
+            </ul>
+          </li>
+          <li><a href="#" class="adpq-settings-btn" Title="Settings"><p style="display: none">Settings</p></a>
+            <ul class="under-menu">
+              <li><a href="manage-user-admin.html" Title="Manage Users">Manage Users</a></li>
+            </ul>
+          </li>
+          <li><a href="#" class="adpq-plus-btn" title="Add Menu"><p style="display: none">Add Menu</p></a>
+            <ul class="under-menu">
+              <li><a href="add-user-admin.html" Title="Create User">Create User</a></li>
+            </ul>
+          </li>
+        </ul>
       </nav>
       <nav class="cssmenu" id="staffcssmenu" style="display:none">
-        <div class="adpq-brand"><a href="index.html" title="Home"></a></div>
+        <a href="index.html" title="Home"><div class="adpq-brand"><p style="display: none">Home</p></div></a>
          <div id="head-mobile"></div>
          <div class="button"></div>
          <div class="dash-view"></div>
          <ul class="dash-menu-admin">
-            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn" Title="Dashboard Staff"></a></li>
-            <li><a href="articles-staff-list.html" Title="Articles" class="adpq-listview-btn"></a></li>
-            <li><a href="#" class="adpq-profile-btn" Title="profile button"></a>
+            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn" Title="Dashboard Staff"><p style="display: none">Dashboard Staff</p></a></li>
+            <li><a href="articles-staff-list.html" Title="Articles" class="adpq-listview-btn"><p style="display: none">Articles</p></a></li>
+            <li><a href="#" class="adpq-profile-btn" Title="profile button"><p style="display: none">Profile</p></a>
                <ul class="under-menu">
                   <li><a href="#" Title="My Profile" id="staffprofile">My Profile</a></li>
                   <li><a href="create-article.html" Title="Create Article">Create Article</a></li>
@@ -61,7 +61,7 @@
         <div class="details-title" id="title"></div>
         <div class="details-tools">
           <div class="details-icon-wrap">
-            <div class="tool-history" id="btnhistory" style="display:none"></div>   
+            <div class="tool-history" id="btnhistory" style="display:none"></div>
             <div class="tools-edit"  id="articleeditlnk" style="display:none"></div>
             <div class="tool-delete" id="articledelete" style="display:none"></div>
           </div>
@@ -71,50 +71,66 @@
           <div class="tool-approve-btn">
             <input type="button" name="btn" class="approve-btn" value="Approve" id="btnapprove" style="display:none" />
           </div>
-       </div>
+        </div>
       </div>
       <div class="details-agency-name" id="agency">
         <div class="share-icon-wrap" id="shareicons" style="display:none">
           <label>Share:</label>
-          <div class="share-fbook" id="sharefb" ></div><div class="share-twitter" id="sharetw"></div><div class="share-email" id="shareemail"></div>
-          </div>
+          <div class="share-fbook" id="sharefb" ></div>
+          <div class="share-twitter" id="sharetw"></div>
+          <div class="share-email" id="shareemail"></div>
         </div>
-		  <div class="Description-wrap">
-	  <label> Summary</label>
-      <div class="details-paragraph" id="description"> </div>
-	  <label> Description</label>
-	  <div class="details-longdescription" id="longdescription"> </div>
-        <label> Attachments </label>
-	  <div id="dynamictable" class="dynamic-table"></div>
       </div>
-	  <div class="details-tags-wrap">
+      <div class="Description-wrap">
+        <label> Summary</label>
+        <div class="details-paragraph" id="description"> </div>
+        <label> Description</label>
+        <div class="details-longdescription" id="longdescription"> </div>
+        <label> Attachments </label>
+        <div id="dynamictable" class="dynamic-table"></div>
+      </div>
+      <div class="details-tags-wrap">
         <div class="details-tags">Tags:</div>
         <div class="details-tags-field" id="tags"></div>
       </div>
-      <div class="details-stats">
-        <div class="details-stats-one">
-          <div class="stat-row-one">Author:</div>
-          <div class="stat-row-one">Review By:</div>
-          <div class="stat-row-one">Publish Date:</div>
-          <div class="stat-row-one">Last Update:</div>
-          <div class="stat-row-one">Tags:</div>
-          <div class="stat-row-one">Views:</div>
-          <div class="stat-row-one">Shares:</div>
-          <div class="stat-row-one">Status:</div>
-          <div class="stat-row-one">Comments:</div>
-        </div>
-        <div class="details-stats-two">
-          <div class="stat-row-two" id="author"></div>
-          <div class="stat-row-two" id="reviewby"></div>
-          <div class="stat-row-two" id="publishdate"></div>
-          <div class="stat-row-two" id="lastupdate"></div>
-          <div class="stat-row-two" id="tagcount"></div>
-          <div class="stat-row-two" id="views"></div>
-          <div class="stat-row-two" id="shares"></div>
-          <div class="stat-row-two" id="status"></div>
-          <div class="stat-row-two" id="commentcount"></div>
-        </div>
-      </div>
+<div class="details-stats">
+  <div class="stats-col-one">
+    <div class="stats-one-top">Author:</div>
+    <div class="stats-one-bottom" id="author"></div>	  
+  </div>
+  <div class="stats-col-two">
+    <div class="stats-two-top">Review By:</div>
+    <div class="stats-one-bottom" id="reviewby"></div>	  
+  </div>
+  <div class="stats-col-three">
+    <div class="stats-three-top">Publish Date:</div>
+    <div class="stats-one-bottom" id="publishdate"></div>
+  </div>
+  <div class="stats-col-four">
+    <div class="stats-four-top">Last Update:</div>
+    <div class="stats-one-bottom" id="lastupdate"></div>	  
+  </div>
+  <div class="stats-col-five">
+    <div class="stats-five-top">Tags:</div>
+    <div class="stats-one-bottom" id="tagcount"></div>	  
+  </div>
+  <div class="stats-col-six">
+    <div class="stats-six-top">Views:</div>
+    <div class="stats-one-bottom" id="views"></div>	  
+  </div>
+  <div class="stats-col-seven">
+    <div class="stats-seven-top">Shares:</div>
+    <div class="stats-one-bottom" id="shares"></div>	  
+  </div>
+  <div class="stats-col-eight">
+    <div class="stats-eight-top">Status:</div>
+    <div class="stats-one-bottom" id="status"></div>	  
+  </div>
+  <div class="stats-col-nine">
+    <div class="stats-nine-top">Comments:</div>
+    <div class="stats-one-bottom" id="commentcount"></div>	  
+  </div>
+</div>		
       <div class="history-wrap" style="display:none" id="historywrap">
         <div class="details-history">History</div>
         <div id="historytable" class="history-table"></div>
@@ -124,7 +140,6 @@
     <div class="comments-wrap" id="commentsection" style="display:none">
       <div class="details-comments">Comments</div>
       <div class="form-group">
-        <label class="col-md-4 control-label"></label>
         <div class="col-md-8">
           <button id="addbtn" name="submitbtn" class="cs-button" type="button">Add Comment</button>
         </div>

@@ -24,10 +24,13 @@ exports.signIn = function(req, res) {
         });  
     
     query.then(function(user) {
-        console.log(user.isDeleted); 
-        if (!user || user.isDeleted == 1) {
+        if (!user) {
             res.status(400); 
-            return res.json({error: 'User not found'});          
+            return res.json({error: 'User not found. Register now!'});          
+        }
+        else if (user.isDeleted == 1) {
+            res.status(400); 
+            return res.json({error: 'User not found. Register now!'}); 
         }
         else {
             bcrypt.compare(textpassword, user.hashedPassword, function(err, match) {
@@ -36,6 +39,7 @@ exports.signIn = function(req, res) {
                     if (user.role == 1) {
                         roleString = "staff"; 
                     }
+
                     var jsonresult = {
                         token: jwt.sign({exp: Math.floor(Date.now() / 1000) + ( 7 * 24 * 60 * 60), userId: user._id.toString(), role: user.role}, req.PK),
                         id: user._id.toString(),
@@ -48,7 +52,7 @@ exports.signIn = function(req, res) {
                 }
                 else {
                     res.status(401); 
-                    res.json({error: 'Invalid password'});
+                    res.json({error: 'Invalid password. Please try again.'});
                 }
             });
             
@@ -306,3 +310,32 @@ exports.editProfile = function(req, res) {
     });
 }
 
+//*********************** INTERNAL API ************************//
+
+exports.isUserActive = function(userId) {
+    
+    var userobjid = new ObjectId(userId);
+
+    var queryParams = {}; 
+    queryParams._id = userobjid; 
+
+    var query = users.findOne(queryParams); 
+
+    query.exec().catch(function(err) {
+        res.status(400);
+        return res.json({error:err.toString()});
+    });
+
+    return query.then(function(returnuser) {
+        if (returnuser == null) {
+            return false;
+        }
+        else if (returnuser.isDeleted == 1) {
+            return false;
+        }
+        else {
+            return true; 
+        }
+    });
+
+}

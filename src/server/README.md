@@ -1,11 +1,9 @@
 # Server
-
-![](https://s3-us-west-1.amazonaws.com/adpq-assets/buildAssets/testResults.svg)
-
 [insert description]
 
 # Getting Started
-Don't Panic.
+
+
 ## Requirements
 ![](https://img.shields.io/badge/node-v9.2.0-blue.svg)
 ![](https://img.shields.io/badge/npm-v5.5.1-blue.svg)

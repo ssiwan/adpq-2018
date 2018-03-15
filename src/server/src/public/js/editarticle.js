@@ -76,8 +76,8 @@ $(document).ready(function(){
                         $("#divfileattachments").show();  
                     }
                 })
-                .fail(function(data, textStatus, xhr) {
-                    alert("Loading user details failed");
+                .fail(function( jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseJSON.error);
                 });
             }
 
@@ -118,9 +118,9 @@ $(document).ready(function(){
                             console.log("Success file uploaded " + file.name);
                             
                         })
-                        .fail(function(){
-                            console.log("S3 file upload failed" + file.name);
-                        })
+                        .fail(function( jqXHR, textStatus, errorThrown) {
+                            alert(jqXHR.responseJSON.error);
+                        });
                     })
                 }
             }
@@ -171,8 +171,8 @@ $(document).ready(function(){
                 }
 
             })
-            .fail(function(data, textStatus, xhr) {
-                alert(data.responseJSON.Error);
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
         }
 
@@ -249,8 +249,8 @@ $(document).ready(function(){
                     alert("There seems to be a problem with saving.Please try again.");
                 }
             })
-            .fail(function(data, textStatus, xhr) {
-                alert(data.responseJSON.Error);
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
 
 
@@ -264,6 +264,15 @@ $(document).ready(function(){
         $("#btnCancel").click(function() {
             window.location.href = "dashboard-staff.html";
         });
+
+        // Accessibility adding labels
+        var x = document.getElementById("tags_tag");
+        //console.log(x);  
+        x.setAttribute('aria-label', 'input tags');
+        $(".ql-preview").attr('aria-label', 'long description preview');
+
+        $("input[data-video$='URL']").attr('aria-label', 'long description preview');
+
 
  }
 else {
@@ -308,8 +317,8 @@ console.log(JSON.stringify(deleteAtts));
                 alert("There seems to be a problem with deleting attachments.Please try again.");
             }
         })
-        .fail(function(data, textStatus, xhr) {
-            alert(data.responseJSON.Error);
+        .fail(function( jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseJSON.error);
         });
    }        
 }

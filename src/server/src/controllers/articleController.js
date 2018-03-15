@@ -38,23 +38,26 @@ exports.search = function (req, res) {
                    || (art.description).toLowerCase().includes(keyword) || (art.createdBy.name.first).toLowerCase().includes(keyword) 
                    || (art.createdBy.name.last).toLowerCase().includes(keyword) || (art.agency.value).toLowerCase().includes(keyword) 
                    || (art.summary).toLowerCase().includes(keyword) ) {
-                var articleobj = {};
-                articleobj['id'] = art._id.toString();
-                articleobj['title'] = art.title;
-                articleobj['summary'] = art.summary;
-                articleobj['tags'] = tagNamesArray;
-                articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit 
-                articleobj['createdAt'] = art.createdAt;
-                articleobj['createdBy'] = art.createdBy; 
-                articleobj['agency'] = art.agency.value;
-                articleobj['status'] = art.status;
-                articleobj['approvedBy'] =  art.approvedBy; 
-                articleobj['description'] = art.description;
-                articleobj['attachments'] = art.attachments;
-                articleobj['views'] = art.views;
-                articleobj['shares'] = art.shares; 
+                if (art.createdBy != null) {
+                    var articleobj = {};
+                    articleobj['id'] = art._id.toString();
+                    articleobj['title'] = art.title;
+                    articleobj['summary'] = art.summary;
+                    articleobj['tags'] = tagNamesArray;
+                    articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit 
+                    articleobj['createdAt'] = art.createdAt;
+                    art.createdBy.hashedPassword = null; 
+                    articleobj['createdBy'] = art.createdBy; 
+                    articleobj['agency'] = art.agency.value;
+                    articleobj['status'] = art.status;
+                    articleobj['approvedBy'] =  art.approvedBy; 
+                    articleobj['description'] = art.description;
+                    articleobj['attachments'] = art.attachments;
+                    articleobj['views'] = art.views;
+                    articleobj['shares'] = art.shares; 
 
-                returnlist.push(articleobj);
+                    returnlist.push(articleobj);
+                }
             }   
         }); 
         res.json({'data':returnlist}); 
@@ -72,7 +75,7 @@ exports.getArticles = function(req, res, next) {
     var agencyId = req.query.agencyId;
     var tagId = req.query.tagId;
     var startDateString = req.query.dateStart;//mm-dd-yyyy
-    var endDateString = req.query.dateEnd;        
+    var endDateString = req.query.dateEnd;     
 
     queryParams.role = {"$lte": parseInt(req.userRole)}; //set logic to less than 
     queryParams.status = 1; 
@@ -88,7 +91,7 @@ exports.getArticles = function(req, res, next) {
 
     if (endDateString != null) {
         var tempArray = endDateString.split('-');
-        endDate = new Date(parseInt(tempArray[2]), parseInt(tempArray[0])-1, parseInt(tempArray[1] + 1));
+        endDate = new Date(parseInt(tempArray[2]), parseInt(tempArray[0])-1, parseInt(tempArray[1])+1);
     }
 
     if (startDate != null && endDate != null) {
@@ -149,23 +152,26 @@ exports.getArticles = function(req, res, next) {
 
     query.then(function(articles) {
         articles.forEach(function (art, index) {
-            var articleobj = {};
-            articleobj['id'] = art._id.toString();
-            articleobj['title'] = art.title;
-            articleobj['summary'] = art.summary;
-            articleobj['tags'] = getTagNames(art.tags); 
-            articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
-            articleobj['createdAt'] = art.createdAt;
-            articleobj['createdBy'] = art.createdBy; 
-            articleobj['agency'] = art.agency.value;
-            articleobj['status'] = art.status;
-            articleobj['approvedBy'] =  art.approvedBy; 
-            articleobj['description'] = art.description;
-            articleobj['attachments'] = art.attachments;
-            articleobj['views'] = art.views;
-            articleobj['shares'] = art.shares; 
+            if (art.createdBy != null) {    
+                var articleobj = {};
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags); 
+                articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
+                articleobj['createdAt'] = art.createdAt;
+                art.createdBy.hashedPassword = null; 
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['approvedBy'] =  art.approvedBy; 
+                articleobj['description'] = art.description;
+                articleobj['attachments'] = art.attachments;
+                articleobj['views'] = art.views;
+                articleobj['shares'] = art.shares; 
 
-            returnlist.push(articleobj);   
+                returnlist.push(articleobj);   
+            }
         }); 
         res.json({'data':returnlist}); 
     });
@@ -253,22 +259,25 @@ exports.getStaffArticles = function(req, res) {
     query.then(function(returnarticles) {
         var returnlist = []; 
         returnarticles.forEach(function (art, index) {
-            var articleobj = {};
-            articleobj['id'] = art._id.toString();
-            articleobj['title'] = art.title;
-            articleobj['summary'] = art.summary;
-            articleobj['tags'] = getTagNames(art.tags); 
-            articleobj['createdAt'] = art.createdAt;
-            articleobj['createdBy'] = art.createdBy; 
-            articleobj['agency'] = art.agency.value;
-            articleobj['status'] = art.status;
-            articleobj['approvedBy'] =  art.approvedBy; 
-            articleobj['description'] = art.description;
-            articleobj['attachments'] = art.attachments;
-            articleobj['views'] = art.views;
-            articleobj['shares'] = art.shares; 
+            if (art.createdBy != null) {   
+                var articleobj = {};
+                articleobj['id'] = art._id.toString();
+                articleobj['title'] = art.title;
+                articleobj['summary'] = art.summary;
+                articleobj['tags'] = getTagNames(art.tags); 
+                articleobj['createdAt'] = art.createdAt;
+                art.createdBy.hashPassword = null; 
+                articleobj['createdBy'] = art.createdBy; 
+                articleobj['agency'] = art.agency.value;
+                articleobj['status'] = art.status;
+                articleobj['approvedBy'] =  art.approvedBy; 
+                articleobj['description'] = art.description;
+                articleobj['attachments'] = art.attachments;
+                articleobj['views'] = art.views;
+                articleobj['shares'] = art.shares; 
 
-            returnlist.push(articleobj);   
+                returnlist.push(articleobj);   
+            }
         }); 
         res.json({data:returnlist}); 
     }); 
@@ -462,22 +471,25 @@ exports.dashboardTrending = function(req, res) {
         var returnlist = []; 
         if (arts != null) {
             arts.forEach(function(art) {
-                var articleobj = {};
-                articleobj['id'] = art._id.toString();
-                articleobj['title'] = art.title;
-                articleobj['summary'] = art.summary;
-                articleobj['tags'] = getTagNames(art.tags); 
-                articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
-                articleobj['createdAt'] = art.createdAt;
-                articleobj['createdBy'] = art.createdBy; 
-                articleobj['agency'] = art.agency.value;
-                articleobj['status'] = art.status;
-                articleobj['description'] = art.description;
-                articleobj['role'] = art.role; 
-                articleobj['views'] = art.views;
-                articleobj['shares'] = art.shares; 
+                if (art.createdBy != null) {   
+                    var articleobj = {};
+                    articleobj['id'] = art._id.toString();
+                    articleobj['title'] = art.title;
+                    articleobj['summary'] = art.summary;
+                    articleobj['tags'] = getTagNames(art.tags); 
+                    articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
+                    articleobj['createdAt'] = art.createdAt;
+                    art.createdBy.hashedPassword = null; 
+                    articleobj['createdBy'] = art.createdBy; 
+                    articleobj['agency'] = art.agency.value;
+                    articleobj['status'] = art.status;
+                    articleobj['description'] = art.description;
+                    articleobj['role'] = art.role; 
+                    articleobj['views'] = art.views;
+                    articleobj['shares'] = art.shares; 
 
-                returnlist.push(articleobj);   
+                    returnlist.push(articleobj);  
+                } 
             }); 
         }
         return res.json({'data': returnlist}); 
@@ -515,23 +527,26 @@ exports.dashboardPublishedArticles = function(req, res) {
         var returnArticles = []; 
         if (arts != null) {
             arts.forEach(function(art) {
-                var articleobj = {}; 
-                articleobj['id'] = art._id.toString();
-                articleobj['title'] = art.title;
-                articleobj['summary'] = art.summary;
-                articleobj['tags'] = getTagNames(art.tags); 
-                articleobj['createdAt'] = art.createdAt;
-                articleobj['createdBy'] = art.createdBy; 
-                articleobj['agency'] = art.agency.value;
-                articleobj['status'] = art.status;
-                articleobj['approvedBy'] =  art.approvedBy; 
-                articleobj['description'] = art.description;
-                articleobj['attachments'] = art.attachments;
-                articleobj['views'] = art.views;
-                articleobj['shares'] = art.shares;
-                articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
+                if (art.createdBy != null) {   
+                    var articleobj = {}; 
+                    articleobj['id'] = art._id.toString();
+                    articleobj['title'] = art.title;
+                    articleobj['summary'] = art.summary;
+                    articleobj['tags'] = getTagNames(art.tags); 
+                    articleobj['createdAt'] = art.createdAt;
+                    art.createdBy.hashedPassword = null; 
+                    articleobj['createdBy'] = art.createdBy; 
+                    articleobj['agency'] = art.agency.value;
+                    articleobj['status'] = art.status;
+                    articleobj['approvedBy'] =  art.approvedBy; 
+                    articleobj['description'] = art.description;
+                    articleobj['attachments'] = art.attachments;
+                    articleobj['views'] = art.views;
+                    articleobj['shares'] = art.shares;
+                    articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
 
-                returnArticles.push(articleobj);
+                    returnArticles.push(articleobj);
+                }
             });
         }
         return res.json({data: returnArticles}); 
@@ -566,22 +581,25 @@ exports.dashboardWorkflow = function(req, res) {
         var returnArticles = []; 
         if (arts != null) {
             arts.forEach(function(art) {
-                var articleobj = {}; 
-                articleobj['id'] = art._id.toString();
-                articleobj['title'] = art.title;
-                articleobj['summary'] = art.summary;
-                articleobj['tags'] = getTagNames(art.tags); 
-                articleobj['createdAt'] = art.createdAt;
-                articleobj['createdBy'] = art.createdBy; 
-                articleobj['agency'] = art.agency.value;
-                articleobj['status'] = art.status;
-                articleobj['approvedBy'] =  art.approvedBy; 
-                articleobj['description'] = art.description;
-                articleobj['attachments'] = art.attachments;
-                articleobj['views'] = art.views;
-                articleobj['shares'] = art.shares;
+                if (art.createdBy != null) {   
+                    var articleobj = {}; 
+                    articleobj['id'] = art._id.toString();
+                    articleobj['title'] = art.title;
+                    articleobj['summary'] = art.summary;
+                    articleobj['tags'] = getTagNames(art.tags); 
+                    articleobj['createdAt'] = art.createdAt;
+                    art.createdBy.hashedPassword = null; 
+                    articleobj['createdBy'] = art.createdBy; 
+                    articleobj['agency'] = art.agency.value;
+                    articleobj['status'] = art.status;
+                    articleobj['approvedBy'] =  art.approvedBy; 
+                    articleobj['description'] = art.description;
+                    articleobj['attachments'] = art.attachments;
+                    articleobj['views'] = art.views;
+                    articleobj['shares'] = art.shares;
 
-                returnArticles.push(articleobj);
+                    returnArticles.push(articleobj);
+                }
             });
         }
         return res.json({data: returnArticles}); 
@@ -620,23 +638,26 @@ exports.admindbdeclined = function(req, res) {
         var returnArticles = []; 
         if (arts != null) {
             arts.forEach(function(art) {
-                var articleobj = {}; 
-                articleobj['id'] = art._id.toString();
-                articleobj['title'] = art.title;
-                articleobj['summary'] = art.summary;
-                articleobj['tags'] = getTagNames(art.tags); 
-                articleobj['createdAt'] = art.createdAt;
-                articleobj['createdBy'] = art.createdBy; 
-                articleobj['agency'] = art.agency.value;
-                articleobj['status'] = art.status;
-                articleobj['approvedBy'] =  art.approvedBy; 
-                articleobj['description'] = art.description;
-                articleobj['attachments'] = art.attachments;
-                articleobj['views'] = art.views;
-                articleobj['shares'] = art.shares;
-                articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
+                if (art.createdBy != null) {   
+                    var articleobj = {}; 
+                    articleobj['id'] = art._id.toString();
+                    articleobj['title'] = art.title;
+                    articleobj['summary'] = art.summary;
+                    articleobj['tags'] = getTagNames(art.tags); 
+                    articleobj['createdAt'] = art.createdAt;
+                    art.createdBy.hashedPassword = null; 
+                    articleobj['createdBy'] = art.createdBy; 
+                    articleobj['agency'] = art.agency.value;
+                    articleobj['status'] = art.status;
+                    articleobj['approvedBy'] =  art.approvedBy; 
+                    articleobj['description'] = art.description;
+                    articleobj['attachments'] = art.attachments;
+                    articleobj['views'] = art.views;
+                    articleobj['shares'] = art.shares;
+                    articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
 
-                returnArticles.push(articleobj);
+                    returnArticles.push(articleobj);
+                }
             });
         }
         return res.json({data: returnArticles}); 
@@ -675,23 +696,26 @@ exports.admindbpending = function(req, res) {
         var returnArticles = []; 
         if (arts != null) {
             arts.forEach(function(art) {
-                var articleobj = {}; 
-                articleobj['id'] = art._id.toString();
-                articleobj['title'] = art.title;
-                articleobj['summary'] = art.summary;
-                articleobj['tags'] = getTagNames(art.tags); 
-                articleobj['createdAt'] = art.createdAt;
-                articleobj['createdBy'] = art.createdBy; 
-                articleobj['agency'] = art.agency.value;
-                articleobj['status'] = art.status;
-                articleobj['approvedBy'] =  art.approvedBy; 
-                articleobj['description'] = art.description;
-                articleobj['attachments'] = art.attachments;
-                articleobj['views'] = art.views;
-                articleobj['shares'] = art.shares;
-                articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
+                if (art.createdBy != null) {   
+                    var articleobj = {}; 
+                    articleobj['id'] = art._id.toString();
+                    articleobj['title'] = art.title;
+                    articleobj['summary'] = art.summary;
+                    articleobj['tags'] = getTagNames(art.tags); 
+                    articleobj['createdAt'] = art.createdAt;
+                    art.createdBy.hashedPassword = null; 
+                    articleobj['createdBy'] = art.createdBy; 
+                    articleobj['agency'] = art.agency.value;
+                    articleobj['status'] = art.status;
+                    articleobj['approvedBy'] =  art.approvedBy; 
+                    articleobj['description'] = art.description;
+                    articleobj['attachments'] = art.attachments;
+                    articleobj['views'] = art.views;
+                    articleobj['shares'] = art.shares;
+                    articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
 
-                returnArticles.push(articleobj);
+                    returnArticles.push(articleobj);
+                }
             });
         }
         return res.json({data: returnArticles}); 
@@ -730,24 +754,27 @@ exports.admindbapproved = function(req, res) {
         var returnArticles = []; 
         if (arts != null) {
             arts.forEach(function(art) {
-                var articleobj = {}; 
-                articleobj['id'] = art._id.toString();
-                articleobj['title'] = art.title;
-                articleobj['summary'] = art.summary;
-                articleobj['tags'] = getTagNames(art.tags); 
-                articleobj['createdAt'] = art.createdAt;
-                articleobj['createdBy'] = art.createdBy; 
-                articleobj['agency'] = art.agency.value;
-                articleobj['status'] = art.status;
-                articleobj['approvedBy'] =  art.approvedBy; 
-                articleobj['description'] = art.description;
-                articleobj['attachments'] = art.attachments;
-                articleobj['views'] = art.views;
-                articleobj['shares'] = art.shares;
-                articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
+                if (art.createdBy != null) {   
+                    var articleobj = {}; 
+                    articleobj['id'] = art._id.toString();
+                    articleobj['title'] = art.title;
+                    articleobj['summary'] = art.summary;
+                    articleobj['tags'] = getTagNames(art.tags); 
+                    articleobj['createdAt'] = art.createdAt;
+                    art.createdBy.hashedPassword = null; 
+                    articleobj['createdBy'] = art.createdBy; 
+                    articleobj['agency'] = art.agency.value;
+                    articleobj['status'] = art.status;
+                    articleobj['approvedBy'] =  art.approvedBy; 
+                    articleobj['description'] = art.description;
+                    articleobj['attachments'] = art.attachments;
+                    articleobj['views'] = art.views;
+                    articleobj['shares'] = art.shares;
+                    articleobj['lastUpdated'] = getLastUpdatedDate(art.articleEdits); 
 
-                returnArticles.push(articleobj);
-            });
+                    returnArticles.push(articleobj);
+                }
+            });            
         }
         return res.json({data: returnArticles}); 
     });

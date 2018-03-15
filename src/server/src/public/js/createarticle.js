@@ -23,6 +23,8 @@ $(document).ready(function(){
             else{
                 $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
             }
+
+         
             getUserDetails();
             LoadCreateSimilarData();
             $("#agency").val(agency);
@@ -30,7 +32,7 @@ $(document).ready(function(){
             function LoadTags() {
             
                 $.ajax({
-                    url: APIURL + "suggestedTags",
+                    url: APIURL + "suggestedTags?limit=5",
                     type: 'GET',
                     dataType: 'json',
                     cache:false
@@ -38,7 +40,7 @@ $(document).ready(function(){
                 .done(function(response) {
                     if (!isEmpty(response.data)) {
                         for (let index = 0; index < response.data.length; index++) {
-                            options += response.data[index].name + ",";
+                            options += response.data[index].name + ", ";
                         }
                         options = options.substring(0, options.length - 1)
                         console.log(options);
@@ -50,10 +52,11 @@ $(document).ready(function(){
                     }
             
                 })
-                .fail(function(xhr) {
-                    console.log('error', xhr);
+                .fail(function( jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseJSON.error);
                 });
             }
+
 
             function getUserDetails() {
                 $.ajax({
@@ -72,8 +75,8 @@ $(document).ready(function(){
                         $("#divfileattachments").show();   
                     }
                 })
-                .fail(function(data, textStatus, xhr) {
-                    alert("Loading user details failed");
+                .fail(function( jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseJSON.error);
                 });
             }
 
@@ -115,9 +118,9 @@ $(document).ready(function(){
                             console.log("Success file uploaded " + file.name);
                             
                         })
-                        .fail(function(){
-                            console.log("S3 file upload failed" + file.name);
-                        })
+                        .fail(function( jqXHR, textStatus, errorThrown) {
+                            alert(jqXHR.responseJSON.error);
+                        });
                     })
                 }
             }
@@ -132,7 +135,8 @@ $(document).ready(function(){
            }
 
         $('#tags').tagsInput({
-            width: 'auto'
+            'width': 'auto',
+            'defaultText':'add a tag'
         });
 
 
@@ -204,8 +208,8 @@ $(document).ready(function(){
                     alert("There seems to be a problem with saving.Please try again.");
                 }
             })
-            .fail(function(data, textStatus, xhr) {
-                alert("Create article failed");
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
 
 
@@ -219,8 +223,14 @@ $(document).ready(function(){
             sessionStorage.clear();
             window.location.href = "index.html";
         })
+        
+        // Accessibility adding labels
+        var x = document.getElementById("tags_tag");
+        //console.log(x);  
+        x.setAttribute('aria-label', 'input tags');
+        $(".ql-preview").attr('aria-label', 'long description preview');
 
-
+        $("input[data-video$='URL']").attr('aria-label', 'long description preview');
 
  }
 else {
