@@ -67,10 +67,7 @@ A git repository was setup on GitHub to capture code commits for each developer.
 ## f) Used Swagger to document the RESTful API, and provided a link to the Swagger API
 OpenAPI v3.0.0 (Swagger) was used to document our RESTful APIs and other technical documentation.
 
-**API Docs**<br>
-http://adpq-docs.hotbsoftware.com
-
-**API Documentation hosted on SwaggerHub**<br>
+**API Documentation**<br>
 https://app.swaggerhub.com/apis/HOTB-Software/adpq_knowledge_base
 
 **OpenAPI v3.0.0 Code**<br>
