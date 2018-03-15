@@ -48,10 +48,10 @@ During our initial discovery process we utilized surveys and questionnaires cond
 We constructed two user surveys to get feedback on general user experience with Knowledge Management Tools.<br>
 
 **Government Knowledge Survey:**<br>
-[CSV](src/administration/Documents/Government%20Knowledge%20Survey.csv) | [PDF](src/administration/Documents/Government%20Knowledge%20Survey.pdf)<br>
+[PDF](src/administration/Documents/Government%20Knowledge%20Survey.pdf) | [CSV](src/administration/Documents/Government%20Knowledge%20Survey.csv)<br>
 
 **Customer Survey (Knowledge Management Tool):**<br>
-[CSV](src/administration/Documents/Customer%20Survey%20(Knowledge%20Management%20Tool).csv) | [PDF](src/administration/Documents/Customer%20Survey%20(Knowledge%20Management%20Tool).pdf)
+[PDF](src/administration/Documents/Customer%20Survey%20(Knowledge%20Management%20Tool).pdf) | [CSV](src/administration/Documents/Customer%20Survey%20(Knowledge%20Management%20Tool).csv)
 
 We also had users provide feedback following a user session with a clickable prototype. A sample of those [responses can be found here](http://www.google.com).<br>
 
