@@ -40,7 +40,7 @@ We assigned the role of Project Lead to Jason Connolly. Jason acted as the Busin
 - **Interaction Designer/User Researcher/Usability Tester** – Tracie DePietro<br>
 - **Visual Designer** – Ken Baker<br>
 - **Front End Web Developer** – Raghu Jonnala<br>
-- **Backend Web Developer** – Noel Eom, Luis Escobar<br>
+- **Backend Web Developer** – Noel Eom, Luis Escobar-Driver<br>
 - **DevOps Engineer** – Eric Dobyns<br>
 
 ## c) Understood what people needed, by including people in the prototype development and design process
@@ -87,13 +87,14 @@ The prototype works across multiple devices (phones, tablets and PCs) and is sup
 We used at least five (5) modern and open-source technologies including:
 
 ### Front-End
-- HTML/CSS
+- HTML
+- CSS
 - Bootstrap
 - Javascript
 - jQuery
 
 ### API/Back-End
-- Node.js/Express.js
+- Node.js
 - MongoDB
 
 ### Dev-Ops
