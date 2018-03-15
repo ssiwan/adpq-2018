@@ -135,7 +135,7 @@ paths:
         - Authorization: []
       responses:
         '200':
-          description: A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.
+          description: insert description
           content:
             application/json:
               schema:
@@ -183,7 +183,7 @@ paths:
       security: 
         - Authorization: []
       requestBody:
-        description: A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.
+        description: insert description
         content:
           application/json:
             schema:
@@ -213,7 +213,7 @@ paths:
                 allowedUploads: true
       responses:
         '200':
-          description: A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.
+          description: insert description
           content:
             application/json:
               schema:
@@ -244,7 +244,7 @@ paths:
           description: Numeric ID of the user to get
       responses:
         '200':
-          description: A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.
+          description: insert description
           content:
             application/json:
               schema:
@@ -279,7 +279,7 @@ paths:
       description: insert description
       parameters: []
       requestBody:
-          description: A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.
+          description: insert description
           content:
             application/json:
               schema:
@@ -304,7 +304,7 @@ paths:
                         type: boolean
       responses:
         '200':
-          description: A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.
+          description: insert description
           content:
             application/json:
               schema:
@@ -333,7 +333,7 @@ paths:
           description: Numeric ID of the user to delete      
       responses:
         '200':
-          description: A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.
+          description: insert description
           content:
             application/json:
               schema:
@@ -355,7 +355,7 @@ paths:
         - Authorization: []      
       parameters: []
       requestBody:
-        description: A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.
+        description: insert description
         content:
           application/json:
             schema:
@@ -373,7 +373,7 @@ paths:
                 password: "asdf"
       responses:
         '200':
-          description: A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.
+          description: insert description
           content:
             application/json:
               schema:
@@ -788,7 +788,7 @@ paths:
       description: insert description
       responses:
         '200':
-          description: Success
+          description: insert description
           content:
             application/json:
               schema:
@@ -814,7 +814,7 @@ paths:
       description: insert description
       responses:
         '200':
-          description: Success
+          description: insert description
           content:
             application/json:
               schema:
@@ -840,7 +840,7 @@ paths:
       description: insert description
       responses:
         '200':
-          description: Success
+          description: insert description
           content:
             application/json:
               schema:
