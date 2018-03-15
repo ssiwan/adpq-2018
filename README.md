@@ -47,10 +47,14 @@ We assigned the role of Project Lead to Jason Connolly. Jason acted as the Busin
 During our initial discovery process we utilized surveys and questionnaires conducted with prospective users which helped shape our understanding of user requirements and key features. We also conducted interviews with KMT providers and super users. Their experience and insights were extremely valuable in shaping the features and functions of the prototype.<br><br>
 We constructed two user surveys to get feedback on general user experience with Knowledge Management Tools.<br>
 
-[Government Knowledge Survey](src/administration/Documents/Government%20Knowledge%20Survey.pdf)<br>
-[Customer Survey (Knowledge Management Tool)](src/administration/Documents/Customer%20Survey%20(Knowledge%20Management%20Tool).pdf)
+**Government Knowledge Survey:**<br>
+[CSV](src/administration/Documents/Government%20Knowledge%20Survey.csv) | [PDF](src/administration/Documents/Government%20Knowledge%20Survey.pdf)<br>
 
-We also had users provide feedback following a user session with a clickable prototype. A sample of those [responses can be found here](http://www.google.com).<br><br>
+**Customer Survey (Knowledge Management Tool):**<br>
+[CSV](src/administration/Documents/Customer%20Survey%20(Knowledge%20Management%20Tool).csv) | [PDF](src/administration/Documents/Customer%20Survey%20(Knowledge%20Management%20Tool).pdf)
+
+We also had users provide feedback following a user session with a clickable prototype. A sample of those [responses can be found here](http://www.google.com).<br>
+
 [Interview Notes can be found here](http://www.google.com).
 
 ## d) Used at least a minimum of three (3) “user-centric design” techniques and/or tools
