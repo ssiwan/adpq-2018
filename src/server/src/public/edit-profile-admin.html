@@ -12,28 +12,29 @@
   <div class="adpq-container"> 
     <header class="adpq-headcontainer">
       <nav class="cssmenu">
-        <div class="adpq-brand"><a href="index.html" title="Home"></a></div>
+        <a href="index.html" title="Home"><div class="adpq-brand"><p style="display:none">Home</p></div></a>
         <div id="head-mobile"></div>
         <div class="button"></div>
-        <ul>
-          <li><a href="dashboard-admin.html" class="adpq-dashboard-btn" title="Dashboard"></a></li>
-          <li><a href="#" class="adpq-profile-btn" title="Profile"></a>
-            <ul class="under-menu">
-              <li><a href="#" id="adminprofile" title="My Profile">My Profile</a></li>
-              <li><a href="#" id="logout" title="Logout">Logout</a></li>
-            </ul>
-          </li>
-          <li><a href="#" class="adpq-settings-btn" title="Settings"></a>
-            <ul class="under-menu">
-              <li><a href="manage-user-admin.html" title="Manager Users">Manage Users</a></li>
-            </ul>
-          </li>
-          <li><a href="#" class="adpq-plus-btn" title="Add Menu"></a>
-            <ul class="under-menu">
-              <li><a href="add-user-admin.html" title="Create User">Create User</a></li>
-            </ul>
-          </li>
-        </ul>
+     <div class="dash-view"></div>	
+        <ul class="dash-menu-admin">
+           <li><a href="dashboard-admin.html" class="adpq-dashboard-btn" title="Dashboard"><p style="display:none">Home</p></a></li>
+           <li><a href="#" class="adpq-profile-btn" title="Profile"><p style="display:none">Profile</p></a>
+              <ul class="under-menu">
+                 <li><a href="#" id="adminprofile" title="My Profile">My Profile</a></li>
+                 <li><a href="#" id="logout" title="Logout">Logout</a></li>
+             </ul>
+           </li>
+      <li><a href="#" class="adpq-settings-btn" title="Settings"><p style="display:none">Settings</p></a>
+              <ul class="under-menu">
+                 <li><a href="manage-user-admin.html" title="Manage Users">Manage Users</a></li>
+              </ul>
+           </li>
+           <li> <a href="#" class="adpq-plus-btn" title="Add Menu"><p style="display:none">Add Menu</p></a>
+             <ul class="under-menu">
+               <li><a href="add-user-admin.html" title="Create User">Create User</a></li>
+             </ul>
+           </li>
+         </ul>
       </nav>
     </header>
     <div class="mypublished-row">
@@ -77,7 +78,7 @@
             </div>
             <!-- Button (Double) -->
             <div class="form-group">
-              <label class="col-md-4 control-label" for="button1id"></label>
+             
               <div class="col-md-8">
                 <button id="btnCancel" name="Cancel Button" class="cs-button">Cancel</button>
                 <button id="btnSave" name="Save Button" class="cs-button">Save</button>
