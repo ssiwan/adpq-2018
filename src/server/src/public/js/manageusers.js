@@ -102,7 +102,7 @@ function DeleteUser(userid) {
             alert("There seems to be a problem with deleting the user.Please try again.");
         }
     })
-    .fail(function(data, textStatus, xhr) {
-        alert("Error with delete user endpoint.");
+    .fail(function( jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.responseJSON.error);
     });
 }

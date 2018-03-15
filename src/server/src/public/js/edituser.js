@@ -34,9 +34,9 @@ $(document).ready(function(){
         }
 
       })
-      .fail(function(xhr) {
-        console.log('error', xhr);
-      });
+      .fail(function( jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.responseJSON.error);
+    });
 
    }
 
@@ -66,8 +66,8 @@ $(document).ready(function(){
                     $("#uploadchk").prop('checked', false);
                 }             
             })
-            .fail(function(data, textStatus, xhr) {
-                alert("Loading user details failed");
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
         }
 
@@ -141,8 +141,8 @@ $(document).ready(function(){
                     alert("There seems to be a problem with updating.Please try again.");
                 }
             })
-            .fail(function(data, textStatus, xhr) {
-                alert("Updated user failed");
+            .fail(function( jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseJSON.error);
             });
         });
 
