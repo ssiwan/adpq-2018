@@ -265,6 +265,15 @@ $(document).ready(function(){
             window.location.href = "dashboard-staff.html";
         });
 
+        // Accessibility adding labels
+        var x = document.getElementById("tags_tag");
+        //console.log(x);  
+        x.setAttribute('aria-label', 'input tags');
+        $(".ql-preview").attr('aria-label', 'long description preview');
+
+        $("input[data-video$='URL']").attr('aria-label', 'long description preview');
+
+
  }
 else {
     window.location.href = "index.html";

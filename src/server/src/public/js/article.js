@@ -11,6 +11,9 @@ $(document).ready(function(){
     Load();
 
 
+        
+
+
     // Set the URL based on the searchvalue parameter
     function SetUrl() {
         var searchval = sessionStorage.getItem("searchValue");

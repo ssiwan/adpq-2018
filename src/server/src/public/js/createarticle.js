@@ -23,6 +23,8 @@ $(document).ready(function(){
             else{
                 $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
             }
+
+         
             getUserDetails();
             LoadCreateSimilarData();
             $("#agency").val(agency);
@@ -133,7 +135,8 @@ $(document).ready(function(){
            }
 
         $('#tags').tagsInput({
-            width: 'auto'
+            'width': 'auto',
+            'defaultText':'add a tag'
         });
 
 
@@ -220,8 +223,14 @@ $(document).ready(function(){
             sessionStorage.clear();
             window.location.href = "index.html";
         })
+        
+        // Accessibility adding labels
+        var x = document.getElementById("tags_tag");
+        //console.log(x);  
+        x.setAttribute('aria-label', 'input tags');
+        $(".ql-preview").attr('aria-label', 'long description preview');
 
-
+        $("input[data-video$='URL']").attr('aria-label', 'long description preview');
 
  }
 else {
