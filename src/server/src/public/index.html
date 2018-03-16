@@ -9,24 +9,20 @@
 <title>ADPQ - Knowledge Articles - Home Page</title>
 </head>
 <body>
-    
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" title="Home" href="#"><img width="150" height="51" alt="Home" src="img/adpq-brand.png"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" id="email" placeholder="Email Address" tabindex="2" title="email" type="text" aria-label="Email Address">
-          <input class="form-control mr-sm-2" id="password" placeholder="Password" tabindex="3" title="password" type="password" aria-label="Password">
-          <button class="btn btn-default my-2 my-sm-0" id="signin" value="signin" tabindex="4" type="button">Sign In</button>
-        </form>
-      </ul>
-    </div>
-</nav>  
 <div class="main-wrapper-sm">
   <div class="adpq-container">
+    <header class="adpq-headcontainer">
+      <a href="index.html" title="Home" tabindex="1"><div class="adpq-brand"><p style="display: none">Home</p></div></a>
+      <div class="adpq-loginwrap">
+          <div class="adpq-log-input">
+            <input type="text"  class="adpq-user" id="email" placeholder="Email Address" tabindex="2" title="email">
+            <input type="password" class="adpq-pass" id="password" placeholder="Password" tabindex="3" title="password">
+          </div>
+          <button type="button" id="signin"  class="adpq-log-arrow" tabindex="4" value="signin"><p style="display: none">signin</p></button>
+      </div>
+    </header>
+    <br>
+    <br>
     <div class="adpq-blurb">
       <h2>Welcome to the ADPQ Knowledge Articles System</h2>
       <p>You can view a list of recent articles by clicking below. Login to create articles or to view additional articles not available to the general public.</p>
