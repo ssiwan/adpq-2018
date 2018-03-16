@@ -29,6 +29,7 @@ $(document).ready(function(){
         table = $('#articles').DataTable({
             "bDestroy": true,
             "pagingType": "full_numbers",
+            responsive: true,
             "ajax": {
                 type: "GET",
                 url: url,
@@ -46,8 +47,8 @@ $(document).ready(function(){
                         var agency = json.data[index].agency;
                         var summary = json.data[index].summary;
                         var name = "";
-                        if (!isEmpty(json.data[index].createdBy.name.first) && !isEmpty(json.data[index].createdBy.name.last)) {
-                            name = json.data[index].createdBy.name.first+ "  " +json.data[index].createdBy.name.last;
+                        if (!isEmpty(json.data[index].createdBy)) {
+                           name = json.data[index].createdBy.name.first+ "  " +json.data[index].createdBy.name.last;
                         }
                         var createdAt = convertToLocalDate(json.data[index].createdAt);
                         return_data[index] = {

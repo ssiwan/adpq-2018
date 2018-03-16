@@ -23,8 +23,6 @@ $(document).ready(function(){
             else{
                 $("#adminprofile").attr("href","edit-profile-staff.html?userId="+ userid); 
             }
-
-         
             getUserDetails();
             LoadCreateSimilarData();
             $("#agency").val(agency);
@@ -135,8 +133,7 @@ $(document).ready(function(){
            }
 
         $('#tags').tagsInput({
-            'width': 'auto',
-            'defaultText':'add a tag'
+            width: 'auto'
         });
 
 

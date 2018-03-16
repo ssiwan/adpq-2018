@@ -27,6 +27,7 @@ $(document).ready(function(){
     function Load() {
         table = $('#articles').DataTable({
             "bDestroy": true,
+            responsive: true,
             "pagingType": "full_numbers",
             "ajax": {
                 type: "GET",
@@ -45,12 +46,12 @@ $(document).ready(function(){
                     var agency = json.data[index].agency;
                     var summary = json.data[index].summary;
                     var name = "";
-                    if (!isEmpty(json.data[index].createdBy.name.first) && !isEmpty(json.data[index].createdBy.name.last)) {
-                        name = json.data[index].createdBy.name.first+ "  " +json.data[index].createdBy.name.last;
+                    if (!isEmpty(json.data[index].createdBy)) {
+                       name = json.data[index].createdBy.name.first+ "  " +json.data[index].createdBy.name.last;
                     }
                     var createdAt = convertToLocalDate(json.data[index].createdAt);
                         return_data[index] = {                            
-                            'articleinfo':"<div class='trending-admin-declined'><div class='trending-left-column'><div class='left-row-one'><div class='left-title'><a href=articles-details-admin-history.html?articleId="+id+">"+title+"</a></div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='left-shortdesc'>"+summary+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+name+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+createdAt+"</div></div></div></div></div>",
+                            'articleinfo':"<div class='trending-admin-declined'><div class='trending-left-column'><div class='left-row-one'><div class='left-title-declined'><a href=articles-details-admin-history.html?articleId="+id+">"+title+"</a></div><div class='left-column-tools'></div></div><div class='left-row-two'><div class='left-agency'>"+agency+"</div></div><div class='left-row-three'><div class='declined-shortdesc'>"+summary+"</div></div><div class='left-row-four'><div class='left-publish-date'><div class='author'>"+name+"</div></div><div class='left-column-tools'><div class='left-most-pubdate'>"+createdAt+"</div></div></div></div></div>",
 /*                             'lastupdated': convertToLocalDate(json.data[index].createdAt),
                             'views': json.data[index].views,
                             'shares': json.data[index].shares, */

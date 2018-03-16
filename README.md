@@ -62,12 +62,15 @@ We used at least three (3) user centric design techniques that included: Key Exp
 In addition to the surveys and interviews above, we created [Key Experience Pillar documents](src/administration/Documents/ADPQ%20Experience%20Pillars.pdf) to define user stories and use cases.
 
 ## e) Used GitHub to document code commits
-A git repository was setup on GitHub to capture code commits for each developer. We also included agile process documentation, design changes and automated testing scripts. We utilized version control by separating branches for each developer as well as managed code merges through individual pull requests. [Commit Log](https://github.com/HOTB-Software/adpq-2018/pulse/monthly)
+A git repository was setup on GitHub to capture code commits for each developer. We also included agile process documentation, design changes and automated testing scripts. We utilized version control by separating branches for each developer as well as managed code merges through individual pull requests. [Github Insights](https://github.com/HOTB-Software/adpq-2018/pulse/monthly)
 
 ## f) Used Swagger to document the RESTful API, and provided a link to the Swagger API
 OpenAPI v3.0.0 (Swagger) was used to document our RESTful APIs and other technical documentation.
 
 **API Documentation**<br>
+http://adpq-docs.hotbsoftware.com
+
+**API Documentation hosted on SwaggerHub**<br>
 https://app.swaggerhub.com/apis/HOTB-Software/adpq_knowledge_base
 
 **OpenAPI v3.0.0 Code**<br>

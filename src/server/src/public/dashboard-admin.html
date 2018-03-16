@@ -5,7 +5,8 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto Condensed" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="css/adpq-styles.css">
-<link rel="stylesheet" href="css/m.query.css">	
+<link href="css/m.query.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> 
 <title>ADPQ - Knowledge Articles - Administrator Dashboard</title>	
 </head>
 <body>
@@ -14,7 +15,7 @@
    <header class="adpq-headcontainer">
 <div class="adpq-adminwrap">	   
       <nav class="cssmenu">
-      <a href="index.html" title="Home"><div class="adpq-brand"><p style="display:none">Home</p></div></a>
+      <a href="index.html" title="Home" tabindex="1"><div class="adpq-brand"><p style="display:none">Home</p></div></a>
          <div id="head-mobile"></div>
          <div class="button"></div>
 		  <div class="dash-view"></div>	
@@ -92,8 +93,8 @@
       </div>
       <div class="mypublished-content">
         <div class="mypublished-head">
-          <div class="tools-left-wrap"></div>
-          <div class="tools-right-wrap"> </div>
+<!--          <div class="tools-left-wrap"></div>
+          <div class="tools-right-wrap"> </div>-->
         </div>
         <div class="mypublished-bottom">
           <div id="articlesinreview"></div>
@@ -126,10 +127,10 @@
     </div>
     <div class="workflow-row">
       <div class="workflow-header">
-        <div class="section-title">Declined Articles</div>
+        <div class="section-title" title="Declined Articles">Declined Articles</div>
       </div>
       <div class="workflow-content">
-        <div class="workflow-head"></div>
+        <div class="workflow-head" title="Status">Status</div>
         <div class="workflow-bottom">
           <div id="declinedarticles"></div>
           <br/>
