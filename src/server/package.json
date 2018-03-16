@@ -15,7 +15,7 @@
   "scripts": {
     "start": "node ./setEnv.js && node ./src/app.js",
     "test": "npm run test:build && npm run test:run && npm run test:teardown",
-    "start:local": "export NODE_ENV=local && node setEnv.js && node ./src/app.js",
+    "start:local": "npm run docker:start",
     "start:production": "export NODE_ENV=production && node setEnv.js && node ./src/app.js",
     "docker:start": "docker-compose up --build -d",
     "docker:teardown": "docker stop 'api' && docker rm -f 'api' && docker rmi 'api' && docker stop 'db' && docker rm -f 'db' && rm -rf ./data",
