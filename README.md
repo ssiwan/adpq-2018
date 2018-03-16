@@ -6,6 +6,9 @@ https://adpq.hotbsoftware.com<br>
 
 ## User Accounts
 
+**Please Note** - Username and password fields ARE CASE-SENSITIVE. Please make sure to format your email and password exactly as you see it here:
+
+
 **Staff Account**<br>
 **Username:** adpq-staff@hotbsoftware.com<br>
 **Password:** Hotb&2018

@@ -15,8 +15,8 @@
   "scripts": {
     "start": "node ./setEnv.js && node ./src/app.js",
     "test": "npm run test:build && npm run test:run && npm run test:teardown",
-    "start:local": "export NODE_ENV=local && sh setEnv.sh && node ./src/app.js",
-    "start:production": "export NODE_ENV=production && sh setEnv.sh && node ./src/app.js",
+    "start:local": "export NODE_ENV=local && node setEnv.js && node ./src/app.js",
+    "start:production": "export NODE_ENV=production && node setEnv.js && node ./src/app.js",
     "docker:start": "docker-compose up --build -d",
     "docker:teardown": "docker stop 'api' && docker rm -f 'api' && docker rmi 'api' && docker stop 'db' && docker rm -f 'db' && rm -rf ./data",
     "test:run": "docker run -e Environment=staging -v ~/Desktop/testResults:/data/testReports --name adpq_tests -i adpq_tests >> ~/Desktop/testResults/testResults.xml",
