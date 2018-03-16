@@ -2,7 +2,7 @@
 
 @media (max-width: 1100px){
 .main-wrapper-sm { background-image: url(../img/adpq-headerbg-sm.jpg) repeat-x; height: 51px; }
-.adpq-container { background-image: url(../img/adpq-mainbg.gif); width: 90%; margin-top: 0px; margin-right: auto; }
+.adpq-container { background-image: /*url(../img/adpq-mainbg.gif);*/ width: 90%; margin-top: 0px; margin-right: auto; }
 .adpq-headcontainer {
     font-family: 26px/32px "Roboto",Helvetica,Arial,sans-serif;
     font-weight: bold;
@@ -116,7 +116,7 @@ table.dataTable.compact tbody td { padding: 8px; color: #000; position: relative
 }
 @media (max-width: 992px){
 .main-wrapper-sm { background-image: url(../img/adpq-headerbg-sm.jpg); background-repeat: repeat-x; height: 51px; }
-.adpq-container { background-image: url(../img/adpq-mainbg.gif); width: 100%; margin-top: 0px; margin-right: auto; }
+.adpq-container { /*background-image: url(../img/adpq-mainbg.gif);*/ width: 100%; margin-top: 0px; margin-right: auto; }
 .adpq-headcontainer {
     font-family: 26px/32px "Roboto",Helvetica,Arial,sans-serif;
     font-weight: bold;
@@ -341,7 +341,7 @@ table.dataTable.compact tbody td { padding: 8px; color: #000; position: relative
     height: 51px;
 }
 .adpq-container {
-    background-image: url(../img/adpq-mainbg.gif);
+    /*background-image: url(../img/adpq-mainbg.gif);*/
     width: 100%;
     margin-top: 0px;
     margin-right: auto;
@@ -547,7 +547,8 @@ table.dataTable.compact tbody td { padding: 8px; color: #000; position: relative
 .tool-history { background-image: url(../img/historyart-n.png); background-repeat: no-repeat; display: block; float: left; height: 24px; width: 34px; position: relative; }		
 }
 
-@media (max-width: 576px){
+@media (max-width: 576px){    
+nav.navbar .form-control { margin-bottom: 5px; }
 .details-agency-name { font-family: "Roboto Condensed", serif; font-size: 18px; font-weight: bold; color: #000; display: block; float: left; height: 30px; width: 850px; position: relative; padding-top: 5px; left: 15px; }	
 .main-wrapper-sm {
     background-image: url(../img/adpq-headerbg-sm.gif);
@@ -555,7 +556,7 @@ table.dataTable.compact tbody td { padding: 8px; color: #000; position: relative
     height: 51px;
 }
 .adpq-container {
-    background-image: url(../img/adpq-mainbg.gif);
+    /*background-image: url(../img/adpq-mainbg.gif);*/
     width: 95%;
     margin-top: 0px;
 	height: 51px;
@@ -836,7 +837,7 @@ details-agency-name { font-family: "Roboto Condensed", serif; font-size: 18px; f
 }
 @media (max-width: 400px) {
 .main-wrapper-sm { background-image: url(../img/adpq-headerbg-sm.gif); background-repeat: repeat-x; height: 51px; }
-.adpq-container { background-image: url(../img/adpq-mainbg.gif); width: 95%; height: 51px; margin-top: 0px; margin-right: auto; }
+.adpq-container { /*background-image: url(../img/adpq-mainbg.gif);*/ width: 95%; height: 51px; margin-top: 0px; margin-right: auto; }
 .adpq-headcontainer {
     font-family: 26px/32px "Roboto", Helvetica, Arial, sans-serif;
     font-weight: bold;
