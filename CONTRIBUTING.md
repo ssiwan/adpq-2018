@@ -5,5 +5,5 @@ Please clone the project and create a branch to get started. We prefer the [GitH
 
 ![](src/administration/Screenshots/Git-Strategy.jpg)
 
-Please refer to the [PULL_REQUEST_TEMPLATE]() for instructions on how to properly structure your pull requests.
+Please refer to the [PULL_REQUEST_TEMPLATE](PULL_REQUEST_TEMPLATE.md) for instructions on how to properly structure your pull requests.
 
