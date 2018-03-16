@@ -430,6 +430,7 @@ exports.dashboardAnalytics = function(req, res) {
     if (!isStaff) {
         var queryParams6 = {}; 
         queryParams6.isDeleted = 0; 
+        queryParams6.role = 1; 
         var query6 = users.count(queryParams6); 
         promiseArray.push(query6); 
     }   
