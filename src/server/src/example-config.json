@@ -1,0 +1,12 @@
+{
+    "dbUrl": "",
+    "dbUser": "",
+    "dbPassword": "", 
+    "apiParseKey":"",
+    "AWSKeys": {
+        "AccessKey": "",
+        "SecretAccessKey": ""
+    },
+    "logsDatabaseURL": "mongodb://",
+    "version": ""
+ }
