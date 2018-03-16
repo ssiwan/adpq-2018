@@ -1,1 +1,3 @@
 # Documentation
+
+This folder contains the Openapi v3.0.0 documentation provided for the latest release. Our documentation is available at [http://adpq-docs.hotbsoftware.com](http://adpq-docs.hotbsoftware.com). We have also published the latest version of our documentation on SwaggerHub at [https://app.swaggerhub.com/apis/HOTB-Software/adpq_knowledge_base](https://app.swaggerhub.com/apis/HOTB-Software/adpq_knowledge_base).
