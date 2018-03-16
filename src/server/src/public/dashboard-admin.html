@@ -10,11 +10,46 @@
 <title>ADPQ - Knowledge Articles - Administrator Dashboard</title>	
 </head>
 <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a href="dashboard-admin.html" class="navbar-brand" title="Dashboard">Navbar</a>
+    
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a href="dashboard-admin.html" class="nav-link" title="Dashboard">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" title="Profile" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Profile</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a href="#" id="adminprofile" title="My Profile" class="dropdown-item">My Profile</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" id="logout" title="Logout" class="dropdown-item">Log Out</a>						
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" title="Profile" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a href="manage-user-admin.html" title="Manage Users" class="dropdown-item">Manage Users</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" title="Add Menu" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Menu</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a href="add-user-admin.html" title="Create User" class="dropdown-item">Manage Users</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
 <div class="main-wrapper-sm">
   <div class="adpq-container">
-   <header class="adpq-headcontainer">
+   <!-- <header class="adpq-headcontainer">
 <div class="adpq-adminwrap">	   
-      <nav class="cssmenu">
+<nav class="cssmenu">
       <a href="index.html" title="Home" tabindex="1"><div class="adpq-brand"><p style="display:none">Home</p></div></a>
          <div id="head-mobile"></div>
          <div class="button"></div>
@@ -39,8 +74,9 @@
             </li>
           </ul>
         </nav>
+        
       </div>
-    </header>
+    </header> -->
     <div class="kpi-row">
       <div class="kpi-header">
         <div class="section-title">
@@ -144,7 +180,8 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="js/constants.js"></script> 
 <script src="js/utility.js"></script> 
 <script src="js/dashboardadmin.js"></script>
