@@ -292,7 +292,7 @@ box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.35);
 .adpq-listview-btn:hover { background: url("../img/articles-h.png") no-repeat;}
 .adpq-home-btn:hover { background: url("../img/home-h.png") no-repeat;}
 .main-wrapper-lrg { background: url("../img/adpq-headerbg-lrg.gif") repeat-x; height: 151px; }
-.main-wrapper-sm { background: url("../img/adpq-headerbg-sm.jpg") repeat-x; height: 51px;  }
+.main-wrapper-sm { /* background: url("../img/adpq-headerbg-sm.jpg") */ repeat-x; height: 51px;  }
 .create-plus-btn {
 	width: 16px!important;
 	height: 16px!important;

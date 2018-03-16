@@ -17,7 +17,7 @@
     position: relative;
     top: 0px;
 }
-.main-wrapper-sm { background-image: url(../img/adpq-headerbg-sm.jpg); background-repeat: repeat-x; height: 51px; }
+.main-wrapper-sm { /* background-image: url(../img/adpq-headerbg-sm.jpg); */ background-repeat: repeat-x; height: 51px; }
 .adpq-brand { background-image: url(../img/adpq-brand.png) no-repeat;  margin: 0px 0px 0px 10%; padding: 0px; float: left; height: 51px; width: 150px; position: relative; left: 3%; top: 0px; }
 .adpq-loginwrap { width: 380px; }
 .adpq-loginwrap { margin: 0px; float: right; height: 51px; position: relative; top: 0px; right: 0px; }
@@ -115,7 +115,7 @@ table.dataTable.compact tbody td { padding: 8px; color: #000; position: relative
 .tool-history { background-image: url(../img/historyart-n.png); background-repeat: no-repeat; display: block; float: right; height: 24px; width: 34px; position: relative; left: 400px; bottom: 50px; }	
 }
 @media (max-width: 992px){
-.main-wrapper-sm { background-image: url(../img/adpq-headerbg-sm.jpg); background-repeat: repeat-x; height: 51px; }
+.main-wrapper-sm { /* background-image: url(../img/adpq-headerbg-sm.jpg); */ background-repeat: repeat-x; height: 51px; }
 .adpq-container { /*background-image: url(../img/adpq-mainbg.gif);*/ width: 100%; margin-top: 0px; margin-right: auto; }
 .adpq-headcontainer {
     font-family: 26px/32px "Roboto",Helvetica,Arial,sans-serif;
@@ -131,7 +131,7 @@ table.dataTable.compact tbody td { padding: 8px; color: #000; position: relative
     position: relative;
     top: 0px;
 }
-.main-wrapper-sm { background-image: url(../img/adpq-headerbg-sm.jpg); background-repeat: repeat-x; height: 51px; }
+.main-wrapper-sm { /* background-image: url(../img/adpq-headerbg-sm.jpg); */ background-repeat: repeat-x; height: 51px; }
 .adpq-brand {
     background-image: url(../img/adpq-brand.png);
     background-repeat: no-repeat;
@@ -336,7 +336,7 @@ table.dataTable.compact tbody td { padding: 8px; color: #000; position: relative
 	text-align: left;
 }	
 .main-wrapper-sm {
-    background-image: url(../img/adpq-headerbg-sm.jpg);
+    /* background-image: url(../img/adpq-headerbg-sm.jpg); */
     background-repeat: repeat-x;
     height: 51px;
 }
@@ -361,7 +361,7 @@ table.dataTable.compact tbody td { padding: 8px; color: #000; position: relative
     top: 0px;
 }
 .main-wrapper-sm {
-    background-image: url(../img/adpq-headerbg-sm.jpg);
+    /* background-image: url(../img/adpq-headerbg-sm.jpg); */
     background-repeat: repeat-x;
     height: 51px;
 }
@@ -577,7 +577,7 @@ nav.navbar .form-control { margin-bottom: 5px; }
     top: 0px;
 }
 .main-wrapper-sm {
-    background-image: url(../img/adpq-headerbg-sm.jpg);
+    /* background-image: url(../img/adpq-headerbg-sm.jpg); */
     background-repeat: repeat-x;
     height: 51px;
 }
@@ -853,7 +853,7 @@ details-agency-name { font-family: "Roboto Condensed", serif; font-size: 18px; f
     top: 0px;
 }
 .main-wrapper-sm {
-    background-image: url(../img/adpq-headerbg-sm.jpg);
+    /* background-image: url(../img/adpq-headerbg-sm.jpg); */
     background-repeat: repeat-x;
     height: 51px;
 }
