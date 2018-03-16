@@ -17,7 +17,7 @@ blockquote:before, blockquote:after, q:before, q:after { content: ''; content: n
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,700);*/
 html, body { font-family:  "Roboto", serif!important; }
 p { font-family: roboto; }
-footer { height: 25px; }
+footer { height: 175px; }
 a { color:#000; text-decoration: underline;}
 a:hover, a:focus { color:#046b99; text-decoration: underline;}
 /* required for the long description field on create and edit article pages*/
@@ -1805,10 +1805,9 @@ input:checked + .slider:before {
     display: block;
     float: left;
     height: 30px;
-    width: 96px;
+    width: 90px;
     position: relative;
 	font-size: 14px;
-    padding: 10px 0 3px 10px;
 	text-align: left;
 }
 
