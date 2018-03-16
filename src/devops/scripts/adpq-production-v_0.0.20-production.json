@@ -1,0 +1,21 @@
+{
+    "family": "adpq-production",
+    "containerDefinitions": [
+        {
+            "image": "485490441211.dkr.ecr.us-west-1.amazonaws.com/adpq-server:v_0.0.20-production",
+            "name": "adpq-server",
+            "cpu": 10,
+            "memory": 256,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 3001,
+                    "hostPort": 3001
+                }
+            ],
+            "environment" : [
+                { "name" : "NODE_ENV", "value" : "production" }
+            ]
+        }
+    ]
+}
