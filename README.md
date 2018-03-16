@@ -84,7 +84,7 @@ https://app.swaggerhub.com/apis/HOTB-Software/adpq_knowledge_base
 We created our and implemented our designs and user experience in accordance with standards outlined in Section 508 of the ADA and WCAG 2.0.
 
 ## h) Created or used a design style guide and/or a pattern library
-Following the initial wireframe creation, we created a [style guide and color palette](http://www.google.com) that was used throughout the application for consistency and uniformity.
+Following the initial wireframe creation, we created a [style guide and color palette](src/administration/Documents/Style-Guide.pdf) that was used throughout the application for consistency and uniformity.
 
 ## i) Performed usability tests with people
 We conducted usability tests with prospective users who provided relevant feedback that sharpened our focus and improved our design and system features. For further details on this process please refer to pages 45-49 of the [California RFI Process Documentation attached](https://s3-us-west-1.amazonaws.com/adpq-assets/buildAssets/California-Prototype-2018.pdf)
