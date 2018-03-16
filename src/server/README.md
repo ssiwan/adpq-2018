@@ -12,8 +12,8 @@ This folder contains the back-end and front-end code used for the project.
 - Supports any Operating System
 - Install Node.js v9.5.0  
 - Install NPM v5.5.1
-- Install [docker](http://insertlink) v17.12.0
-- Install [docker-compose](http://insertlink) v1.18.0
+- Install [docker](https://docs.docker.com/get-started/) v17.12.0
+- Install [docker-compose](https://docs.docker.com/compose/gettingstarted/) v1.18.0
 
 ## Project Configuration
 To keep our sensitive information secure we have bundled any important variables in a config.json file which resides in the following directory:
@@ -77,5 +77,5 @@ NOTE - In order to deploy to production make sure you have the correct AWS crede
 
 ### Additional Installation
 For additional scripts, instructions and configuration of your development environment please refer to the following documentation:<br>
-- [Package.json](https://www.kualo.co.uk/404)<br>
+- [Package.json](package.json)<br>
 - [API Docs](http://adpq-docs.hotbsoftware.com)<br>

@@ -19,8 +19,8 @@ HOTB Software Solutions developed the ADPQ Knowledge Management System Prototype
 Our technical approach was based on HOTB’s agile development process that utilizes Scrum Methodology focused on short, iterative sprints to deliver functional components that are evolved based on user feedback. We started with the concept of delivering a functional prototype that would provide authorized users with the ability to create Knowledge Articles. This primary use case was expanded to include administrative features like User Creation and Article Approval workflow. In subsequent iterations we introduced the ability to share articles (while being mindful of role-based access) and began to capture those metrics to identify trending articles, tags and topics that were used to prompt the user to create new or similar articles.<br><br>
 Our design process incorporated several user-centric design methodologies that provided feedback which was incorporated into our subsequent design iterations. Our goal was to build a prototype with a clear and intuitive design that was driven by user feedback and delivered in an agile software development environment.<br><br>
 We chose a modern technology stack that utilized open source technologies and implemented those using a continuous integration and continuous deployment methodology based on Docker containers and Jenkins. Automated tests scripts were written in Python and executed against the prototype during the development process.<br><br>
-The project team met daily to review project status, action items and deliverables. Progress was tracked using Aha!, our internal project management and ticketing system, and we relied upon Slack as our collaboration tool. All code updates were committed to Github along with our agile process documentation, design iterations and test scripts.<br><br>
-Further information about our process can be found in the [California RFI Process Documentation](src/administration/Documents/California-Prototype-2018.pdf) and in our responses below.
+The project team met daily to review project status, action items and deliverables. Progress was tracked using Aha!, our internal project management and ticketing system, and we relied upon Slack as our collaboration tool. All code updates were committed to Github along with our agile process documentation, design iterations and test scripts. Please refer to our [Aha process flow documentation](https://hotb.aha.io/published/172bc824e09baafff2240beaf232eb29?page=1).<br><br>
+Further information about our process can be found in the [California RFI Process Documentation](https://s3-us-west-1.amazonaws.com/adpq-assets/buildAssets/California-Prototype-2018.pdf) and in our responses below.
 
 # ARCHITECTURAL FLOW
 ![](src/administration/Screenshots/Architectural-Flow.jpg)
@@ -54,7 +54,7 @@ We constructed two user surveys to get feedback on general user experience with 
 **Customer Survey (Knowledge Management Tool):**<br>
 [PDF](src/administration/Documents/Customer%20Survey%20(Knowledge%20Management%20Tool).pdf) | [CSV](src/administration/Documents/Customer%20Survey%20(Knowledge%20Management%20Tool).csv)
 
-We also had users provide feedback following a user session with a clickable prototype. A sample of those please can be found on pages 25-33 of the [California RFI Process Documentation attached](src/administration/Documents/California-Prototype-2018.pdf).
+We also had users provide feedback following a user session with a clickable prototype. A sample of those please can be found on pages 25-33 of the [California RFI Process Documentation attached](https://s3-us-west-1.amazonaws.com/adpq-assets/buildAssets/California-Prototype-2018.pdf).
 
 [Interview Notes can be found here](src/administration/Documents/Dan-Streit-Interview.pdf).
 
@@ -84,10 +84,10 @@ We created our and implemented our designs and user experience in accordance wit
 Following the initial wireframe creation, we created a [style guide and color palette](http://www.google.com) that was used throughout the application for consistency and uniformity.
 
 ## i) Performed usability tests with people
-We conducted usability tests with prospective users who provided relevant feedback that sharpened our focus and improved our design and system features. For further details on this process please refer to pages 45-49 of the [California RFI Process Documentation attached](src/administration/Documents/California-Prototype-2018.pdf)
+We conducted usability tests with prospective users who provided relevant feedback that sharpened our focus and improved our design and system features. For further details on this process please refer to pages 45-49 of the [California RFI Process Documentation attached](https://s3-us-west-1.amazonaws.com/adpq-assets/buildAssets/California-Prototype-2018.pdf)
 
 ## j) Used an iterative approach, where feedback informed subsequent work or versions of the prototype
-Our initial designs were based on [Key Experience Pillars documents](src/administration/Documents/ADPQ%20Experience%20Pillars.pdf). These documents were created and based on feedback we received from our initial consumer survey. We made adjustments to the design and system features following feedback from user testing and interviews. For further details on this process please refer to pages 39, 51-56. 64-68 of the [California RFI Process Documentation attached](src/administration/Documents/California-Prototype-2018.pdf)
+Our initial designs were based on [Key Experience Pillars documents](src/administration/Documents/ADPQ%20Experience%20Pillars.pdf). These documents were created and based on feedback we received from our initial consumer survey. We made adjustments to the design and system features following feedback from user testing and interviews. For further details on this process please refer to pages 39, 51-56. 64-68 of the [California RFI Process Documentation attached](https://s3-us-west-1.amazonaws.com/adpq-assets/buildAssets/California-Prototype-2018.pdf)
 
 ## k) Created a prototype that works on multiple devices, and presents a responsive design
 The prototype works across multiple devices (phones, tablets and PCs) and is supported by multiple browsers and is responsive to the specific device.
