@@ -631,8 +631,9 @@ div.kpi-lastupdate {
 .trending-right-column {
 	display: block;
 	float: left;
-	width: 150px;
+	width: 210px;
 	position: relative;
+	white-space:nowrap;
 	left: 50px;
 	top: 0px;
 }
@@ -820,7 +821,7 @@ table.dataTable.compact tbody td {
 	text-align: left;
 	padding: 7px 0 0 8px;
 }
-.tools-right-wrap { display: block; float: right; height: 27px; width: 150px; position: relative; top: 0px; right: 0px; }
+.tools-right-wrap { display: block; float: right; height: 27px; width: 210px; position: relative; top: 0px; right: 0px; }
 .tools-total-update, .tools-total-views, .tools-total-shares {
 	display: block;
 	float: left;
@@ -850,7 +851,7 @@ table.dataTable.compact tbody td {
 	height: 16px;
 	position: relative;
 	top:6px;
-	width: 30px; 
+	width: 70px; 
 }
 /*.mypublish-updated, .mypublish-views, .mypublish-shares { width: 83px; }*/
 .mypublish-updated { background-image: url(../img/updated-n.png);}
