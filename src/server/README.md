@@ -22,6 +22,8 @@ To keep our sensitive information secure we have bundled any important variables
 ```
 Please add the config.json we have supplied to the above directory before executing any scripts.
 
+We have also provided a [blank config.json template](src/example-config.json)
+
 ## Quick Start
 Add the supplied config.json to the following path:
 ```
@@ -32,7 +34,7 @@ Run the following command:
 npm install && 
 npm start
 ```
-The `npm start` command will run the API locally pointed toward the staging database.
+The `npm start` command will run the API locally pointed toward the staging database. For instructions on how to run a local environment please keep reading.
 
 ## Run Tests
 To run unit tests simply execute the following command from this directory:
@@ -44,16 +46,18 @@ npm test
 
 Running locally will create local instances of the API, website and a MongoDB instance. It is easiest to run against staging but if you wish to run a truely local environment please do the following:
 
-The `npm run start:local` command will build and deploy local containers of the website, api and database. Additional database setup WILL be required. Please use the `mongorestore` command to upload some initial "seed" data into the database. Database snapshots for staging and production can be found here. These can be used to setup an initial testing database for local use:
+The `npm run start:local` command will build and deploy local containers of the website, api and database. Additional database setup WILL be required. Please use the `mongorestore` command to upload some initial "seed" data into the database. [Database snapshots](../devops/utilities/database/snapshots) for staging and production are located in the devops utilities folder. These can be used to setup an initial testing database for local use:
 ```
 <project-root>/src/devops/utilities/database/snapshots
 ```
 Please ask one of our developers for any assistance in configuring a local database.
 
-Once ready execute the following command:
+Once ready navigate to the following folder and execute the npm run 
+start:local command:
 ```
 cd <project-root>/src/server
-
+```
+```
 npm run start:local
 ```
 
@@ -75,7 +79,7 @@ sh deployProduction.sh <version-number>
 ```
 NOTE - In order to deploy to production make sure you have the correct AWS credentials saved to the default configuration path specified by AWS. (Please speak with a team lead about production deployment) 
 
-### Additional Installation
+## Additional Installation
 For additional scripts, instructions and configuration of your development environment please refer to the following documentation:<br>
 - [Package.json](package.json)<br>
 - [API Docs](http://adpq-docs.hotbsoftware.com)<br>
