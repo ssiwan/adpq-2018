@@ -29,7 +29,7 @@ $(document).ready(function(){
         table = $('#articles').DataTable({
             "bDestroy": true,
             "pagingType": "full_numbers",
-            responsive: true,
+             responsive: true,
             "ajax": {
                 type: "GET",
                 url: url,

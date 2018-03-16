@@ -6,6 +6,10 @@ $(document).ready(function(){
     var url = "";
     //var APIKey = "";
 
+    // Create calendar
+		
+
+
     SetUrl();
     DatePicker();
     Load();
@@ -75,25 +79,27 @@ $(document).ready(function(){
               });
    }
 
+
     function DatePicker() {
+      
         var dateFormat = "yy-mm-dd",
         from = $("#from")
           .datepicker({
-            changeMonth: true,
+            /* changeMonth: true,
             numberOfMonths: 1,
             onSelect: function(selected) {
                 $("#to").datepicker("option","minDate", selected)
-            }
+            } */
           })
           .on("change", function() {
             to.datepicker("option", "minDate", getDate(this));
           }),
         to = $("#to").datepicker({
-          changeMonth: true,
+/*           changeMonth: true,
           numberOfMonths: 1,
           onSelect: function(selected) {
             $("#from").datepicker("option","maxDate", selected)
-         }
+         } */
         })
         .on("change", function() {
           from.datepicker("option", "maxDate", getDate(this));
@@ -101,6 +107,8 @@ $(document).ready(function(){
    
 
     }
+
+
 
     function getDate(element) {
         var date;
@@ -259,7 +267,9 @@ $(document).ready(function(){
 /* order = 1 Descending order
  order = -1 Ascending order */
 
+
     function ReloadTable(finalsearchfilter) {
+      
         $('#articles').DataTable({
             "bDestroy": true,
             "pagingType": "full_numbers",
@@ -312,4 +322,11 @@ $(document).ready(function(){
             ]
         }); 
     }
+
+    
+   
+
 });
+
+
+

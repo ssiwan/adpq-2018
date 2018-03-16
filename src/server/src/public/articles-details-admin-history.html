@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/adpq-styles.css">
 <link href="css/m.query.css" rel="stylesheet" type="text/css">	
 <script src="http://use.edgefonts.net/roboto:n2:default.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> 
 <title>ADPQ - Knowledge Articles - Article Details</title>
 </head>
 <body>
@@ -19,8 +20,8 @@
         <div class="button"></div>
         <div class="dash-view"></div>
         <ul class="dash-menu-admin">
-          <li><a href="dashboard-admin.html" class="adpq-dashboard-btn" Title="Dashboard"><p style="display: none">Dashboard</p></a></li>
-          <li><a href="#" class="adpq-profile-btn" Title="Profile"><p style="display: none">Profile</p></a>
+           <li><a href="dashboard-admin.html" class="adpq-dashboard-btn" Title="Dashboard"><p style="display: none">Dashboard</p></a></li>
+           <li><a href="#" class="adpq-profile-btn" Title="Profile"><p style="display: none">Profile</p></a>
             <ul class="under-menu">
               <li><a href="#" Title="My Profile" id="adminprofile">My Profile</a></li>
               <li><a href="#" Title="Logout" id="logoutadmin">Logout</a></li>
@@ -55,6 +56,11 @@
             </li>
          </ul>
       </nav>
+      <nav class="cssmenu" id="publiccssmenu" style="display:none">
+          <ul>
+              <li><a href="#" class="adpq-back-btn" title="back" onclick="goBack()"><p style="display: none">back</p></a></li>
+          </ul>
+        </nav>
     </header>
     <div class="artcles-details-view">
       <div class="details-title-wrap">

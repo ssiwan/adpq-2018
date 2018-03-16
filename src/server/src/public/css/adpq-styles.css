@@ -17,7 +17,7 @@ blockquote:before, blockquote:after, q:before, q:after { content: ''; content: n
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,700);*/
 html, body { font-family:  "Roboto", serif!important; }
 p { font-family: roboto; }
-footer { height: 25px; }
+footer { height: 175px; }
 a { color:#000; text-decoration: underline;}
 a:hover, a:focus { color:#046b99; text-decoration: underline;}
 /* required for the long description field on create and edit article pages*/
@@ -29,6 +29,8 @@ strong { font-weight:bold;}
 em { font-style:italic;}
 u {text-decoration: underline;}
 s { text-decoration: line-through;}
+ul { list-style-type: circle;}
+ol {list-style-type: decimal;}
 /*required for the long description field on create and edit article pages */
  section {
 	max-width:70%;
@@ -1803,9 +1805,11 @@ input:checked + .slider:before {
     display: block;
     float: left;
     height: 30px;
-    width: 96px;
+    width: 90px;
     position: relative;
 	font-size: 14px;
-    padding: 10px 0 3px 10px;
 	text-align: left;
 }
+
+.adpq-back-btn { background: url("../img/arrow-back-n.png") no-repeat;}
+.adpq-back-btn:hover { background: url("../img/arrow-back-h.png") no-repeat;}
