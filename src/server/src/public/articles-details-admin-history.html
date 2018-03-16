@@ -14,49 +14,31 @@
 <div class="main-wrapper-sm">
   <div class="adpq-container">
     <header class="adpq-headcontainer">
-      <nav class="cssmenu" id="admincssmenu" style="display:none">
-        <a href="index.html" title="Home"><div class="adpq-brand"><p style="display: none">Home</p></div></a>
-        <div id="head-mobile"></div>
-        <div class="button"></div>
-        <div class="dash-view"></div>
-        <ul class="dash-menu-admin">
-           <li><a href="dashboard-admin.html" class="adpq-dashboard-btn" Title="Dashboard"><p style="display: none">Dashboard</p></a></li>
-           <li><a href="#" class="adpq-profile-btn" Title="Profile"><p style="display: none">Profile</p></a>
-            <ul class="under-menu">
-              <li><a href="#" Title="My Profile" id="adminprofile">My Profile</a></li>
-              <li><a href="#" Title="Logout" id="logoutadmin">Logout</a></li>
+        <nav class="" id="staffcssmenu" style="display:none">
+            <a href="index.html" title="Home" tabindex="1">
+              <div class="adpq-brand"><p style="display:none">Home</p></div>
+            </a>
+            <ul>
+              <li><a href="dashboard-staff.html" title="Dashboard">Home</a></li>
+              <li><a href="edit-profile-staff.html" title="My Profile">My Profile</a></li>
+              <li><a href="articles-staff-list.html" title="Articles">Articles</a></li>
+              <li><a href="create-article.html" title="Create Article">Create Article</a></li>
+              <li><a href="#" id="logoutstaff" title="Logout">Logout</a></li>
             </ul>
-          </li>
-          <li><a href="#" class="adpq-settings-btn" Title="Settings"><p style="display: none">Settings</p></a>
-            <ul class="under-menu">
-              <li><a href="manage-user-admin.html" Title="Manage Users">Manage Users</a></li>
-            </ul>
-          </li>
-          <li><a href="#" class="adpq-plus-btn" title="Add Menu"><p style="display: none">Add Menu</p></a>
-            <ul class="under-menu">
-              <li><a href="add-user-admin.html" Title="Create User">Create User</a></li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-      <nav class="cssmenu" id="staffcssmenu" style="display:none">
-        <a href="index.html" title="Home" tabindex="1"><div class="adpq-brand"><p style="display: none">Home</p></div></a>
-         <div id="head-mobile"></div>
-         <div class="button"></div>
-         <div class="dash-view"></div>
-         <ul class="dash-menu-admin">
-            <li><a href="dashboard-staff.html" class="adpq-dashboard-btn" Title="Dashboard Staff"><p style="display: none">Dashboard Staff</p></a></li>
-            <li><a href="articles-staff-list.html" Title="Articles" class="adpq-listview-btn"><p style="display: none">Articles</p></a></li>
-            <li><a href="#" class="adpq-profile-btn" Title="profile button"><p style="display: none">Profile</p></a>
-               <ul class="under-menu">
-                  <li><a href="#" Title="My Profile" id="staffprofile">My Profile</a></li>
-                  <li><a href="create-article.html" Title="Create Article">Create Article</a></li>
-                  <li><a href="#" id="logoutstaff" Title="Logout">Logout</a></li>
-				</ul>
-            </li>
-         </ul>
-      </nav>
-      <nav class="cssmenu" id="publiccssmenu" style="display:none">
+        </nav>
+        <nav class="" id="admincssmenu" style="display:none">
+            <a href="index.html" title="Home" tabindex="1">
+                <div class="adpq-brand"><p style="display:none">Home</p></div>
+              </a>
+              <ul>
+                <li><a href="dashboard-admin.html" title="Dashboard">Home</a></li>
+                <li><a href="edit-profile-admin.html" title="My Profile">My Profile</a></li>
+                <li><a href="manage-user-admin.html" title="Manage Users">Manage Users</a></li>
+                <li><a href="add-user-admin.html" title="Create User">Create User</a></li>
+                <li><a href="#" id="logoutadmin" title="Logout">Logout</a></li>
+              </ul>
+        </nav>
+      <nav class="" id="publiccssmenu" style="display:none">
           <ul>
               <li><a href="#" class="adpq-back-btn" title="back" onclick="goBack()"><p style="display: none">back</p></a></li>
           </ul>
