@@ -32,3 +32,5 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
+    networks:
+      - adpq-network      
