@@ -17,7 +17,7 @@ blockquote:before, blockquote:after, q:before, q:after { content: ''; content: n
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,700);*/
 html, body { font-family:  "Roboto", serif!important; }
 p { font-family: roboto; }
-footer { 	background: url("../img/space.png"); height:200px }
+footer { height: 175px; }
 a { color:#000; text-decoration: underline;}
 a:hover, a:focus { color:#046b99; text-decoration: underline;}
 /* required for the long description field on create and edit article pages*/
@@ -98,6 +98,11 @@ header {
 	border-bottom: 1px solid #E9911B;
 	    top: 0px;
 }
+
+.adpq-headcontainer ul { display: inline-block; padding-top: 6px;}
+.adpq-headcontainer ul li { display: inline-block; text-align: right; }
+.adpq-headcontainer ul li a { text-decoration: none; display: inline-block; font-size: 14px; font-weight: 400; color: #fff; padding: 10px 4px; }
+
 .adpq-container {
 	margin: 0px auto;
 	height: auto;
@@ -106,7 +111,7 @@ header {
 	background: url("../img/adpq-mainbg.gif") repeat-x!important;
 }
 .adpq-brand {
-	background: url(../img/adpq-brand.png) no-repeat;
+	background: url(../img/adpq-brand62x50.png) no-repeat;
 	margin: 0px;
 	padding: 0px;
 	float: left;
