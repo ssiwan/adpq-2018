@@ -22,6 +22,8 @@ To keep our sensitive information secure we have bundled any important variables
 ```
 Please add the config.json we have supplied to the above directory before executing any scripts.
 
+We have also provided a [blank config.json template](src/example-config.json)
+
 ## Quick Start
 Add the supplied config.json to the following path:
 ```
