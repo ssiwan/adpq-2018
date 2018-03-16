@@ -40,7 +40,6 @@
         "description" : "This endpoint allows a user to sign in via email and password. Upon successful login you will receive a JWT token to be used for all subsequent requests as well as some basic information about the user.",
         "parameters" : [ ],
         "requestBody" : {
-          "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
           "content" : {
             "application/json" : {
               "schema" : {
@@ -63,7 +62,7 @@
         },
         "responses" : {
           "200" : {
-            "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
+            "description" : "Success",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -90,13 +89,37 @@
             }
           },
           "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -104,15 +127,15 @@
     "/user" : {
       "get" : {
         "tags" : [ "Users" ],
-        "summary" : "Get all users",
-        "description" : "insert description",
+        "summary" : "Get all users (admin)",
+        "description" : "To be used on admin manage users screen to view all users",
         "parameters" : [ ],
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "responses" : {
           "200" : {
-            "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
+            "description" : "insert description",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -179,13 +202,13 @@
       "post" : {
         "tags" : [ "Users" ],
         "summary" : "Create a user",
-        "description" : "insert description",
+        "description" : "To be used by admin to create a new user capable of article CRUD",
         "parameters" : [ ],
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "requestBody" : {
-          "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
+          "description" : "insert description",
           "content" : {
             "application/json" : {
               "schema" : {
@@ -228,7 +251,7 @@
         },
         "responses" : {
           "200" : {
-            "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
+            "description" : "Success",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -247,6 +270,163 @@
                 }
               }
             }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Users" ],
+        "summary" : "Edit user by user id",
+        "description" : "To be used by admin to update a single user according to parameters set",
+        "security" : [ {
+          "Authorization" : [ ]
+        } ],
+        "parameters" : [ ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "userId" : {
+                    "type" : "string",
+                    "example" : "5aa873a9c4657e001246affe"
+                  },
+                  "name" : {
+                    "type" : "string",
+                    "example" : "Jason Connolly"
+                  },
+                  "phone" : {
+                    "type" : "string",
+                    "example" : "1231231234"
+                  },
+                  "agencyName" : {
+                    "type" : "string",
+                    "example" : "Noel & Eric"
+                  },
+                  "agencyId" : {
+                    "type" : "string",
+                    "example" : "5a8bbea2a2d13ad4ba539190"
+                  },
+                  "allowUploads" : {
+                    "type" : "boolean",
+                    "example" : true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "insert description",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "token" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -255,7 +435,7 @@
       "get" : {
         "tags" : [ "Users" ],
         "summary" : "Get user details",
-        "description" : "insert description",
+        "description" : "To be used by to get all relevant details of a single user",
         "security" : [ {
           "Authorization" : [ ]
         } ],
@@ -271,7 +451,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
+            "description" : "Success",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -309,65 +489,13 @@
             }
           },
           "400" : {
-            "description" : "Bad Request"
-          },
-          "429" : {
-            "description" : "Too Many Requests"
-          }
-        }
-      },
-      "patch" : {
-        "tags" : [ "Users" ],
-        "summary" : "Edit user by user id",
-        "description" : "insert description",
-        "parameters" : [ ],
-        "requestBody" : {
-          "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "type" : "object",
-                "properties" : {
-                  "data" : {
-                    "type" : "object",
-                    "properties" : {
-                      "userId" : {
-                        "type" : "string"
-                      },
-                      "name" : {
-                        "type" : "string"
-                      },
-                      "email" : {
-                        "type" : "string"
-                      },
-                      "phone" : {
-                        "type" : "string"
-                      },
-                      "agencyName" : {
-                        "type" : "string"
-                      },
-                      "agencyId" : {
-                        "type" : "string"
-                      },
-                      "allowUploads" : {
-                        "type" : "boolean"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses" : {
-          "200" : {
-            "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
+            "description" : "Bad Request",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "type" : "object",
                   "properties" : {
-                    "token" : {
+                    "error" : {
                       "type" : "string"
                     }
                   }
@@ -375,18 +503,45 @@
               }
             }
           },
-          "400" : {
-            "description" : "Bad Request"
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
       "delete" : {
         "tags" : [ "Users" ],
         "summary" : "Delete user by user id",
-        "description" : "insert description",
+        "description" : "To be used by admin to archive a user from the ADPQ System",
         "security" : [ {
           "Authorization" : [ ]
         } ],
@@ -402,7 +557,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
+            "description" : "Success",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -417,10 +572,52 @@
             }
           },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -429,13 +626,12 @@
       "patch" : {
         "tags" : [ "Users" ],
         "summary" : "Get user details",
-        "description" : "insert description",
+        "description" : "To be used by user to edit their own profile according to parameters set",
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "parameters" : [ ],
         "requestBody" : {
-          "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
           "content" : {
             "application/json" : {
               "schema" : {
@@ -452,9 +648,9 @@
                   }
                 },
                 "example" : {
-                  "firstName" : "newFirstName",
-                  "lastName" : "newLastName",
-                  "password" : "asdf"
+                  "firstName" : "Jason",
+                  "lastName" : "Connolly",
+                  "password" : "Hotb&2018"
                 }
               }
             }
@@ -462,7 +658,7 @@
         },
         "responses" : {
           "200" : {
-            "description" : "A JWT to be used within the 'Authentication' header in subsequent API requests that require authentication.",
+            "description" : "Success",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -477,10 +673,52 @@
             }
           },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -489,19 +727,93 @@
       "get" : {
         "tags" : [ "Dashboard" ],
         "summary" : "Get dashboard analytics",
-        "description" : "insert description",
+        "description" : "To be used by user or admin to get either user-pertinent or site-wide statistics depending on role",
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "object",
+                      "properties" : {
+                        "publishCount" : {
+                          "type" : "integer"
+                        },
+                        "reviewCount" : {
+                          "type" : "integer"
+                        },
+                        "declineCount" : {
+                          "type" : "integer"
+                        },
+                        "viewCount" : {
+                          "type" : "integer"
+                        },
+                        "shareCount" : {
+                          "type" : "integer"
+                        },
+                        "userCount" : {
+                          "type" : "integer"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -510,19 +822,76 @@
       "get" : {
         "tags" : [ "Dashboard" ],
         "summary" : "Get trending articles",
-        "description" : "insert description",
+        "description" : "To be used by user to view top trending articles on dashboard, articles return are changed according to learning algorithm",
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#components/schemas/Article"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -531,19 +900,76 @@
       "get" : {
         "tags" : [ "Dashboard" ],
         "summary" : "Get your latest published articles",
-        "description" : "insert description",
+        "description" : "To be used by user to view user's latest published articles on dashboard",
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#components/schemas/Article"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -552,19 +978,76 @@
       "get" : {
         "tags" : [ "Dashboard" ],
         "summary" : "Get the latest articles with status updates",
-        "description" : "insert description",
+        "description" : "To be used by user to view the user's own unreviewed and declined articles on dashboard",
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#components/schemas/Article"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -573,19 +1056,76 @@
       "get" : {
         "tags" : [ "Dashboard" ],
         "summary" : "Get the latest articles with status updates",
-        "description" : "insert description",
+        "description" : "To be used by admin to view recent declined articles on dashboard",
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#components/schemas/Article"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -594,19 +1134,76 @@
       "get" : {
         "tags" : [ "Dashboard" ],
         "summary" : "Get the latest articles with status updates",
-        "description" : "insert description",
+        "description" : "To be used by admin to view recent approved articles on dashboard",
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#components/schemas/Article"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -615,19 +1212,76 @@
       "get" : {
         "tags" : [ "Dashboard" ],
         "summary" : "Get the latest articles with status updates",
-        "description" : "insert description",
+        "description" : "To be used by admin to view recent pending articles on dashboard",
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#components/schemas/Article"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -636,38 +1290,197 @@
       "get" : {
         "tags" : [ "Articles" ],
         "summary" : "Get all articles",
-        "description" : "insert description",
+        "description" : "To be used by admin or user to view a list of articles according to various filter parameters",
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#components/schemas/Article"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
       "post" : {
         "tags" : [ "Articles" ],
         "summary" : "Create an article",
-        "description" : "insert description",
+        "description" : "To be used by a staff member (only) to create a new article",
         "security" : [ {
           "Authorization" : [ ]
         } ],
+        "requestBody" : {
+          "description" : "insert description",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "title" : {
+                    "type" : "string"
+                  },
+                  "agencyId" : {
+                    "type" : "string"
+                  },
+                  "audience" : {
+                    "type" : "integer"
+                  },
+                  "shortDesc" : {
+                    "type" : "string"
+                  },
+                  "longDesc" : {
+                    "type" : "string"
+                  },
+                  "tags" : {
+                    "type" : "string"
+                  },
+                  "attachments" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "example" : {
+                  "title" : "Very interesting test article",
+                  "agencyId" : "5a8bbea2a2d13ad4ba539190",
+                  "audience" : 0,
+                  "shortDesc" : "This is a short description",
+                  "longDesc" : "This is a longer description......",
+                  "tags" : "one, panda, two, pandas, three, nopanda",
+                  "attachments" : [ "https://imgur.com/gallery/4dSv0jH" ]
+                }
+              }
+            }
+          }
+        },
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "status" : {
+                      "type" : "string"
+                    },
+                    "articleId" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -676,7 +1489,7 @@
       "get" : {
         "tags" : [ "Articles" ],
         "summary" : "Get details of an article",
-        "description" : "insert description",
+        "description" : "To be used by admin or user to view all relevant details of an article",
         "security" : [ {
           "Authorization" : [ ]
         } ],
@@ -686,18 +1499,235 @@
           "description" : "Id of the article to return",
           "required" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "5aaac0d8284aa23534a3fb60"
           }
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "$ref" : "#components/schemas/Article"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Articles" ],
+        "summary" : "Delete an article",
+        "description" : "To be used by an admin at any point to delete an article completely",
+        "security" : [ {
+          "Authorization" : [ ]
+        } ],
+        "parameters" : [ {
+          "name" : "articleId",
+          "in" : "path",
+          "description" : "Id of the article to return",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "5aab338d1323c8001935b9a0"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/staffArticles" : {
+      "get" : {
+        "tags" : [ "Articles" ],
+        "summary" : "Get all staff articles",
+        "description" : "Used to get all staff articles",
+        "security" : [ {
+          "Authorization" : [ ]
+        } ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#components/schemas/Article"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -706,40 +1736,121 @@
       "post" : {
         "tags" : [ "Articles" ],
         "summary" : "Edit an article",
-        "description" : "insert description",
+        "description" : "To be used by either author or admin to update article properties",
         "security" : [ {
           "Authorization" : [ ]
         } ],
-        "responses" : {
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "429" : {
-            "description" : "Too Many Requests"
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "articleId" : {
+                    "type" : "string"
+                  },
+                  "title" : {
+                    "type" : "string"
+                  },
+                  "agencyId" : {
+                    "type" : "string"
+                  },
+                  "audience" : {
+                    "type" : "integer"
+                  },
+                  "shortDesc" : {
+                    "type" : "string"
+                  },
+                  "longDesc" : {
+                    "type" : "string"
+                  },
+                  "tags" : {
+                    "type" : "string"
+                  },
+                  "attachments" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "example" : {
+                  "articleId" : "5aaad0f3de6908001933be54",
+                  "title" : "Edited interesting test article",
+                  "agencyId" : "5a8bbea2a2d13ad4ba539190",
+                  "audience" : 0,
+                  "shortDesc" : "This is a less short description",
+                  "longDesc" : "This is a much longer description......",
+                  "tags" : "one, panda, two, pandas, three",
+                  "attachments" : [ "https://imgur.com/gallery/4dSv0jH" ]
+                }
+              }
+            }
           }
-        }
-      }
-    },
-    "/searchArticles" : {
-      "get" : {
-        "tags" : [ "Articles" ],
-        "summary" : "Search for articles by keyword",
-        "description" : "insert description",
-        "security" : [ {
-          "Authorization" : [ ]
-        } ],
+        },
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -748,19 +1859,97 @@
       "post" : {
         "tags" : [ "Articles" ],
         "summary" : "Search for articles by keyword",
-        "description" : "insert description",
+        "description" : "To be used by any staff user or admin to post a comment onto a specific article",
         "security" : [ {
           "Authorization" : [ ]
         } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "articleId" : {
+                    "type" : "string"
+                  },
+                  "comment" : {
+                    "type" : "string"
+                  }
+                },
+                "example" : {
+                  "articleId" : "5aaad0f3de6908001933be54",
+                  "comment" : "Test Comment #1"
+                }
+              }
+            }
+          }
+        },
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "status" : {
+                      "type" : "string"
+                    },
+                    "articleId" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -768,29 +1957,79 @@
     "/incrementViews/{articleId}" : {
       "patch" : {
         "tags" : [ "Articles" ],
-        "summary" : "Increment the view count of an article",
-        "description" : "insert description",
+        "summary" : "Increment the view count of a published article",
+        "description" : "This endpoint will increment the view count of a published article (The article MUST be published to increment the count)",
         "security" : [ {
           "Authorization" : [ ]
         } ],
         "parameters" : [ {
           "name" : "articleId",
           "in" : "path",
-          "description" : "Id of the article to return",
+          "description" : "Id of the article to view",
           "required" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "5aaac0d8284aa23534a3fb60"
           }
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -799,7 +2038,7 @@
       "patch" : {
         "tags" : [ "Articles" ],
         "summary" : "Increment the share count of an article",
-        "description" : "insert description",
+        "description" : "This endpoint will increment the share count of a published article (The article MUST be published to increment the count)",
         "security" : [ {
           "Authorization" : [ ]
         } ],
@@ -809,18 +2048,68 @@
           "description" : "Id of the article to return",
           "required" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "5aaac0d8284aa23534a3fb60"
           }
         } ],
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -829,28 +2118,91 @@
       "post" : {
         "tags" : [ "Articles" ],
         "summary" : "Publish an article",
-        "description" : "insert description",
+        "description" : "To be used by admin to change the status of an article from 'pending' to 'published'",
         "security" : [ {
           "Authorization" : [ ]
         } ],
-        "parameters" : [ {
-          "name" : "articleId",
-          "in" : "path",
-          "description" : "Id of the article to return",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
+        "parameters" : [ ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "articleId" : {
+                    "type" : "string"
+                  }
+                },
+                "example" : {
+                  "articleId" : "5aab338d1323c8001935b9a0"
+                }
+              }
+            }
           }
-        } ],
+        },
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -858,59 +2210,92 @@
     "/declineArticle" : {
       "post" : {
         "tags" : [ "Articles" ],
-        "summary" : "Publish an article",
-        "description" : "insert description",
+        "summary" : "Decline an article",
+        "description" : "To be used by admin to change the status of an article from 'pending' to 'declined'",
         "security" : [ {
           "Authorization" : [ ]
         } ],
-        "parameters" : [ {
-          "name" : "articleId",
-          "in" : "path",
-          "description" : "Id of the article to return",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
+        "parameters" : [ ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "articleId" : {
+                    "type" : "string"
+                  }
+                },
+                "example" : {
+                  "articleId" : "5aab338d1323c8001935b9a0"
+                }
+              }
+            }
           }
-        } ],
+        },
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "status" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
-          }
-        }
-      }
-    },
-    "/deleteArticle" : {
-      "delete" : {
-        "tags" : [ "Articles" ],
-        "summary" : "Publish an article",
-        "description" : "insert description",
-        "security" : [ {
-          "Authorization" : [ ]
-        } ],
-        "parameters" : [ {
-          "name" : "articleId",
-          "in" : "path",
-          "description" : "Id of the article to return",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -918,29 +2303,94 @@
     "/deleteAttachment" : {
       "patch" : {
         "tags" : [ "Articles" ],
-        "summary" : "Publish an article",
-        "description" : "insert description",
+        "summary" : "Delete an attachment",
+        "description" : "To be used while editing an article, removes select attachment from an article",
         "security" : [ {
           "Authorization" : [ ]
         } ],
-        "parameters" : [ {
-          "name" : "articleId",
-          "in" : "path",
-          "description" : "Id of the article to return",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
+        "parameters" : [ ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "articleId" : {
+                    "type" : "string",
+                    "example" : "5aab3d5f1323c8001935baa7"
+                  },
+                  "attachmentUrl" : {
+                    "type" : "string",
+                    "example" : "https://s3-us-west-1.amazonaws.com/adpq-assets/1.jpg"
+                  }
+                }
+              }
+            }
           }
-        } ],
+        },
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "data" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -949,19 +2399,90 @@
       "post" : {
         "tags" : [ "Articles" ],
         "summary" : "Get a pre-signed url to use for uploading attachments",
-        "description" : "insert description",
+        "description" : "To be used by the front end to receive the url to prepend to attachments",
         "security" : [ {
           "Authorization" : [ ]
         } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "url" : {
+                      "type" : "string"
+                    },
+                    "fileKey" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401" : {
-            "description" : "Unauthorized"
+            "description" : "Unauthorized",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -970,7 +2491,7 @@
       "get" : {
         "tags" : [ "Miscellaneous" ],
         "summary" : "Get a list of all agencies",
-        "description" : "insert description",
+        "description" : "To be used by the front end to receive a list of agencies, sorted alphabetically",
         "responses" : {
           "200" : {
             "description" : "Success",
@@ -991,13 +2512,37 @@
             }
           },
           "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1006,7 +2551,7 @@
       "get" : {
         "tags" : [ "Miscellaneous" ],
         "summary" : "Get a list of all tags",
-        "description" : "insert description",
+        "description" : "To be used by the front end to receive a list of tags, sorted alphabetically",
         "responses" : {
           "200" : {
             "description" : "Success",
@@ -1027,13 +2572,37 @@
             }
           },
           "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1042,7 +2611,7 @@
       "get" : {
         "tags" : [ "Miscellaneous" ],
         "summary" : "Get suggested tags",
-        "description" : "insert description",
+        "description" : "To be used by the front end to receive a list of tags, sorted by trending algorithm",
         "responses" : {
           "200" : {
             "description" : "Success",
@@ -1063,13 +2632,37 @@
             }
           },
           "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429" : {
-            "description" : "Too Many Requests"
+            "description" : "Too Many Requests",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "error" : {
+                      "type" : "string"
+                    },
+                    "nextValidRequest" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1110,6 +2703,12 @@
           },
           "lastUpdatedAt" : {
             "type" : "string"
+          },
+          "views" : {
+            "type" : "integer"
+          },
+          "shares" : {
+            "type" : "integer"
           },
           "createdAt" : {
             "type" : "string"
@@ -1168,12 +2767,6 @@
             "items" : {
               "type" : "string"
             }
-          },
-          "views" : {
-            "type" : "integer"
-          },
-          "shares" : {
-            "type" : "integer"
           },
           "comments" : {
             "type" : "array",

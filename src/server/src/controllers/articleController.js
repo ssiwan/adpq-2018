@@ -428,7 +428,10 @@ exports.dashboardAnalytics = function(req, res) {
 
     //User Count - if admin
     if (!isStaff) {
-        var query6 = users.count(); 
+        var queryParams6 = {}; 
+        queryParams6.isDeleted = 0; 
+        queryParams6.role = 1; 
+        var query6 = users.count(queryParams6); 
         promiseArray.push(query6); 
     }   
 
