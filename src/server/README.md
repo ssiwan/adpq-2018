@@ -32,7 +32,7 @@ Run the following command:
 npm install && 
 npm start
 ```
-The `npm start:local` command will build and deploy local containers of the website, api and database. Once running your default browser will automatically open to the ADPQ Knowledge Base website.
+The `npm start` command will run the API locally pointed toward the staging database.
 
 ## Run Tests
 To run unit tests simply execute the following command from this directory:
@@ -44,9 +44,9 @@ npm test
 
 Running locally will create local instances of the API, website and a MongoDB instance. It is easiest to run against staging but if you wish to run a truely local environment please do the following:
 
-The `npm run start:local` command will build and deploy local containers of the website, api and database. Once running your default browser will automatically open to the ADPQ Knowledge Base website. Additional database setup WILL be required. Please use the `mongorestore` command to upload some initial "seed" data into the database. Data can be found here:
+The `npm run start:local` command will build and deploy local containers of the website, api and database. Additional database setup WILL be required. Please use the `mongorestore` command to upload some initial "seed" data into the database. Database snapshots for staging and production can be found here. These can be used to setup an initial testing database for local use:
 ```
-cd <project-root>/src/devops/utilities/database/backup
+<project-root>/src/devops/utilities/database/snapshots
 ```
 Please ask one of our developers for any assistance in configuring a local database.
 
