@@ -46,7 +46,7 @@ exports.search = function (req, res) {
                     articleobj['tags'] = tagNamesArray;
                     articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit 
                     articleobj['createdAt'] = art.createdAt;
-                    art.createdBy.hashedPassword = null; 
+                    art.createdBy.hashedPassword = undefined; 
                     articleobj['createdBy'] = art.createdBy; 
                     articleobj['agency'] = art.agency.value;
                     articleobj['status'] = art.status;
@@ -160,7 +160,8 @@ exports.getArticles = function(req, res, next) {
                 articleobj['tags'] = getTagNames(art.tags); 
                 articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
                 articleobj['createdAt'] = art.createdAt;
-                art.createdBy.hashedPassword = null; 
+                art.createdBy.hashedPassword = undefined; 
+
                 articleobj['createdBy'] = art.createdBy; 
                 articleobj['agency'] = art.agency.value;
                 articleobj['status'] = art.status;
@@ -169,6 +170,8 @@ exports.getArticles = function(req, res, next) {
                 articleobj['attachments'] = art.attachments;
                 articleobj['views'] = art.views;
                 articleobj['shares'] = art.shares; 
+
+                
 
                 returnlist.push(articleobj);   
             }
@@ -220,6 +223,7 @@ exports.getArticleDetails = function(req, res) {
                 articleobj['summary'] = art.summary;
                 articleobj['tags'] = getTagNames(art.tags);
                 articleobj['createdAt'] = art.createdAt;
+                art.createdBy.hashedPassword = undefined; 
                 articleobj['createdBy'] = art.createdBy; 
                 articleobj['agencyId'] = art.agency._id.toString();
                 articleobj['agencyName'] = art.agency.value;
@@ -245,10 +249,10 @@ exports.getArticleDetails = function(req, res) {
 exports.getStaffArticles = function(req, res) {
     
     var queryParams = {};
-    queryParams.role = 0;
+    queryParams.role = {"$lte": parseInt(req.userRole)};
     queryParams.status = 1;  
 
-    var query = article.find().or([queryParams, {createdBy: new ObjectId(req.userId)}])
+    var query = article.find(queryParams)
                             .populate('createdBy').populate('agency').populate('tags');
 
     query.exec().catch(function(err) {
@@ -266,7 +270,7 @@ exports.getStaffArticles = function(req, res) {
                 articleobj['summary'] = art.summary;
                 articleobj['tags'] = getTagNames(art.tags); 
                 articleobj['createdAt'] = art.createdAt;
-                art.createdBy.hashPassword = null; 
+                art.createdBy.hashedPassword = undefined; 
                 articleobj['createdBy'] = art.createdBy; 
                 articleobj['agency'] = art.agency.value;
                 articleobj['status'] = art.status;
@@ -479,7 +483,7 @@ exports.dashboardTrending = function(req, res) {
                     articleobj['tags'] = getTagNames(art.tags); 
                     articleobj['lastUpdatedAt'] = art.createdAt; //to be replaced after ArticleEdit
                     articleobj['createdAt'] = art.createdAt;
-                    art.createdBy.hashedPassword = null; 
+                    art.createdBy.hashedPassword = undefined;  
                     articleobj['createdBy'] = art.createdBy; 
                     articleobj['agency'] = art.agency.value;
                     articleobj['status'] = art.status;
@@ -534,7 +538,7 @@ exports.dashboardPublishedArticles = function(req, res) {
                     articleobj['summary'] = art.summary;
                     articleobj['tags'] = getTagNames(art.tags); 
                     articleobj['createdAt'] = art.createdAt;
-                    art.createdBy.hashedPassword = null; 
+                    art.createdBy.hashedPassword = undefined; 
                     articleobj['createdBy'] = art.createdBy; 
                     articleobj['agency'] = art.agency.value;
                     articleobj['status'] = art.status;
@@ -588,7 +592,7 @@ exports.dashboardWorkflow = function(req, res) {
                     articleobj['summary'] = art.summary;
                     articleobj['tags'] = getTagNames(art.tags); 
                     articleobj['createdAt'] = art.createdAt;
-                    art.createdBy.hashedPassword = null; 
+                    art.createdBy.hashedPassword = undefined; 
                     articleobj['createdBy'] = art.createdBy; 
                     articleobj['agency'] = art.agency.value;
                     articleobj['status'] = art.status;
@@ -645,7 +649,7 @@ exports.admindbdeclined = function(req, res) {
                     articleobj['summary'] = art.summary;
                     articleobj['tags'] = getTagNames(art.tags); 
                     articleobj['createdAt'] = art.createdAt;
-                    art.createdBy.hashedPassword = null; 
+                    art.createdBy.hashedPassword = undefined; 
                     articleobj['createdBy'] = art.createdBy; 
                     articleobj['agency'] = art.agency.value;
                     articleobj['status'] = art.status;
@@ -703,7 +707,7 @@ exports.admindbpending = function(req, res) {
                     articleobj['summary'] = art.summary;
                     articleobj['tags'] = getTagNames(art.tags); 
                     articleobj['createdAt'] = art.createdAt;
-                    art.createdBy.hashedPassword = null; 
+                    art.createdBy.hashedPassword = undefined; 
                     articleobj['createdBy'] = art.createdBy; 
                     articleobj['agency'] = art.agency.value;
                     articleobj['status'] = art.status;
@@ -761,7 +765,7 @@ exports.admindbapproved = function(req, res) {
                     articleobj['summary'] = art.summary;
                     articleobj['tags'] = getTagNames(art.tags); 
                     articleobj['createdAt'] = art.createdAt;
-                    art.createdBy.hashedPassword = null; 
+                    art.createdBy.hashedPassword = undefined; 
                     articleobj['createdBy'] = art.createdBy; 
                     articleobj['agency'] = art.agency.value;
                     articleobj['status'] = art.status;
