@@ -2,6 +2,14 @@
 
 This folder contains the python code used to run automated unit tests against local, staging and production environments. 
 
+# QA Documents
+
+The following are snapshots of the living documents we use for quickly listing bugs and listing regression tests
+
+[Bug List](../administration/Documents/QA-BugList.pdf)
+
+[Regression Tests List](../administration/Documents/ADPQ-QA-Regression.pdf)
+
 # Getting Started
 
 ## Requirements
@@ -13,7 +21,7 @@ This folder contains the python code used to run automated unit tests against lo
 
 # Installation Instructions
 
-Tests may be executed via python or docker. 
+Tests may be executed via python or docker.
 
 ## Docker Installation Instructions
 
